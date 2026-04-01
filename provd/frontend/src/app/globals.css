@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Layout + typography */
+  --radius: 14px;
+  --font-size-base: 16px;
+  --font-weight-bold: 700;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+
+  /* Default theme: dark */
+  --bg-base:        #07090E;
+  --bg-surface:     #0D1117;
+  --bg-elevated:    #161B22;
+  --bg-border:      #21262D;
+
+  --text-primary:   #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted:     #484F58;
+  --text-code:      #79C0FF;
+
+  --accent:         #00D4AA;
+  --accent-dim:     #00D4AA1A;
+  --accent-blue:    #2F81F7;
+  --risk-amber:     #D29922;
+  --risk-red:       #CF222E;
+}
+
+[data-theme="light"] {
+  --bg-base: 250 252 255;
+  --bg-surface: 245 247 252;
+  --bg-elevated: 236 240 247;
+  --bg-border: 214 222 235;
+
+  --text-primary: 10 14 20;
+  --text-secondary: 64 74 88;
+  --text-muted: 118 128 144;
+  --text-code: 0 102 255;
+
+  --accent-primary: 0 122 102;
+  --accent-secondary: 0 102 255;
+  --accent-warning: 245 158 11;
+  --accent-danger: 239 68 68;
+}
+
+body {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+}
+
+h1, .hero-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+}
+
+h2, .section-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+* {
+  scroll-margin-top: 88px;
+}
+
+::selection {
+  background: rgb(var(--accent-primary) / 0.25);
+}
+
+.prose {
+  color: rgb(var(--text-secondary));
+}
+.prose :where(h1, h2, h3, h4) {
+  color: rgb(var(--text-primary));
+}
+.prose :where(a) {
+  color: rgb(var(--accent-primary));
+}
+.prose :where(code) {
+  color: rgb(var(--text-code));
+}
+.prose :where(pre) {
+  background: rgb(var(--bg-surface));
+  border: 1px solid rgb(var(--bg-border));
+}
+
+.section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.card {
+  background: var(--bg-surface);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.12);
+  padding: 2.5rem;
+}
+
+.cta-btn {
+  background: var(--accent-primary);
+  color: var(--bg-base);
+  font-weight: var(--font-weight-bold);
+  padding: 1rem 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  transition: background 0.2s;
+}
+
+.cta-btn:hover {
+  background: #00b894;
+}
