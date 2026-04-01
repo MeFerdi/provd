@@ -1,0 +1,22 @@
+---
+title: API Reference
+description: Endpoints, fields, and responses.
+---
+
+## POST /v1/trust/score
+
+Returns a trust score and risk flags for a counterparty context.
+
+### Request fields
+
+- `wallet_address` (string)
+- `phone_hash` (string)
+- `chain` (string)
+- `context` (object)
+
+### Response fields
+
+- `trust_score` (number)
+- `risk_level` (string)
+- `risk_flags` (string[])
+
