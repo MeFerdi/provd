@@ -1,8 +1,7 @@
 {
-  "generatedAt": "2026-03-30T23:35:03.354Z",
+  "generatedAt": "2026-04-02T11:19:39.767Z",
   "records": [
     {
-      "id": "api-reference",
       "type": "docs",
       "url": "/docs/api-reference",
       "title": "API Reference",
@@ -17,7 +16,6 @@
       "body": "\n## POST /v1/trust/score\n\nReturns a trust score and risk flags for a counterparty context.\n\n### Request fields\n\n- `wallet_address` (string)\n- `phone_hash` (string)\n- `chain` (string)\n- `context` (object)\n\n### Response fields\n\n- `trust_score` (number)\n- `risk_level` (string)\n- `risk_flags` (string[])\n\n"
     },
     {
-      "id": "authentication",
       "type": "docs",
       "url": "/docs/authentication",
       "title": "Authentication",
@@ -31,7 +29,6 @@
       "body": "\n## API keys\n\nProvd uses bearer tokens for API authentication.\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n"
     },
     {
-      "id": "changelog",
       "type": "docs",
       "url": "/docs/changelog",
       "title": "Changelog",
@@ -44,7 +41,6 @@
       "body": "\n## 2026-03-31\n\n- Initial docs scaffolding.\n\n"
     },
     {
-      "id": "quickstart",
       "type": "docs",
       "url": "/docs/quickstart",
       "title": "Quickstart",
@@ -59,7 +55,6 @@
       "body": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A trust score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Minimal request\n\n \n\n## Next\n\n- Authentication: `/docs/authentication`\n- API Reference: `/docs/api-reference`\n\n"
     },
     {
-      "id": "introducing-provd",
       "type": "blog",
       "url": "/blog/introducing-provd",
       "title": "Introducing Provd",
