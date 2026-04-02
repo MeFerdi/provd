@@ -10,17 +10,17 @@ Not in smart contracts. Not in DeFi protocols. In the moment between "I'll send 
 
 Every major blockchain security tool in the world was built to solve a different problem — smart contract audits, DeFi exploit detection, on-chain AML. These tools are well-made and they work for the markets they were built for. They are simply not built for the African P2P context. A smart contract scanner cannot see a Telegram fraud network. A DeFi security protocol cannot flag a payment reversal pattern on MTN Mobile Money.
 
-The gap between the security infrastructure that exists and the security infrastructure that Africa's crypto markets actually need is the opportunity Provd was built to fill.
+The gap between the security tooling that exists and the fraud-intelligence layer Africa's crypto markets actually need is the opportunity Provd was built to fill.
 
 ---
 
 ## What we have built
 
-Provd is a B2B API that gives African crypto exchanges and wallet providers real-time counterparty risk intelligence. Before a P2P trade executes, an exchange queries Provd with the counterparty's identifiers — wallet address, hashed phone number, hashed bank account. Provd returns a trust score, risk flags, and a recommended action in under 200 milliseconds.
+Provd is a B2B fraud-intelligence API for African crypto exchanges, wallets, stablecoin apps, and OTC desks. Before a P2P trade executes, a partner queries Provd with the counterparty's identifiers — wallet address, hashed phone number, hashed bank account, and payment context. Provd returns a counterparty score, risk flags, and a recommended action in under 200 milliseconds.
 
-The score is powered by a federated fraud intelligence graph built on a GraphSAGE neural network. The graph models relationships between entities — wallets, phone numbers, bank accounts, devices — across every exchange in the Provd network. A fraudulent actor flagged on one platform is immediately visible to every other integrated platform. This is the network effect that makes Provd more valuable with every new participant.
+The score is powered by a federated fraud intelligence graph built on a GraphSAGE neural network. The graph models relationships between entities — wallets, phone numbers, bank accounts, devices, disputes, and payment rails — across every partner in the Provd network. A fraudulent actor flagged on one platform can inform risk decisions at every other integrated platform. This is the network effect that makes Provd more valuable with every new participant.
 
-We are not trying to replace exchange compliance teams. We are giving them the one thing they currently lack: intelligence that crosses platform boundaries.
+We are not trying to replace exchange compliance teams or become another escrow front end. We are giving risk teams the one thing they currently lack: intelligence that crosses platform boundaries.
 
 ---
 
@@ -30,7 +30,7 @@ Three things are converging that make this the right moment.
 
 Regulatory pressure is increasing. Kenya's Capital Markets Authority, Nigeria's Securities and Exchange Commission, and Ghana's Bank of Ghana are all actively developing user protection requirements for virtual asset service providers. Compliance infrastructure that would have been optional in 2023 is becoming mandatory.
 
-African crypto exchanges are maturing. The first generation of African crypto infrastructure was focused on acquisition and geographic expansion. The second generation — companies like Yellow Card, which have raised $88 million in total — is focused on sustainability, unit economics, and protecting the users they have acquired. Fraud losses that were tolerable at early stage become existential at scale.
+African crypto exchanges are maturing. The first generation of African crypto infrastructure was focused on acquisition and geographic expansion. The second generation is focused on sustainability, unit economics, and protecting the users they have acquired. Fraud losses that were tolerable at early stage become existential at scale.
 
 The technology is ready. Large-scale graph neural networks, fast inference serving, and pre-computed score caching have all reached a maturity point where real-time fraud scoring at API latency is practically achievable. This was not true three years ago at the same cost point.
 
@@ -52,7 +52,7 @@ The technology is ready. Large-scale graph neural networks, fast inference servi
 
 Provd was founded in Nairobi in 2026 by a team that has worked across African fintech, blockchain infrastructure, and machine learning. We are researchers, engineers, and operators who have spent years watching African crypto users get defrauded by patterns that existing security tools were never designed to catch.
 
-We are actively hiring across engineering, data science, and business development. If you believe African crypto users deserve security infrastructure as good as what exists for Western markets, [we want to hear from you](/careers).
+We are actively hiring across engineering, data science, and business development. If you believe African crypto users deserve fraud defenses as strong as what exists for Western onchain markets, [we want to hear from you](/careers).
 
 ---
 
