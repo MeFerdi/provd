@@ -13,8 +13,6 @@ export default function CookiePolicyPage() {
         <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">Legal</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-5">Cookie Policy</h1>
         <Markdown>{`
-# Cookie Policy
-
 **Provd Technologies Ltd.**
 **Effective date:** 1 April 2026
 **Last updated:** 1 April 2026

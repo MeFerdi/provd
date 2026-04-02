@@ -13,8 +13,6 @@ export default function TermsPage() {
         <div className="uppercase text-accent-primary font-mono text-xs mb-4" style={{ letterSpacing: "0.22em" }}>Legal</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-5">Terms of Service</h1>
             <Markdown>{[
-              '# Terms of Service',
-              '',
               '**Provd Technologies Ltd.**',
               '**Effective date:** 1 April 2026',
               '**Last updated:** 1 April 2026',
@@ -78,4 +76,3 @@ export default function TermsPage() {
     </Section>
   );
 }
-

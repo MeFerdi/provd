@@ -1,73 +1,61 @@
-
 "use client";
-import React, { useState } from "react";
 
 export default function WhitepaperPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    if (!name.trim() || !email.trim()) {
-      setError("Please enter your name and email.");
-      return;
-    }
-    // Here you would send the data to your backend or a service like Hubspot
-    setSubmitted(true);
-  };
-
   return (
-    <section className="min-h-[80vh] bg-bg-base py-24 px-4 flex items-center justify-center">
-      <div className="max-w-2xl w-full bg-bg-surface border border-bg-border rounded-2xl p-10 shadow-lg">
-        <h1 className="font-display text-[36px] md:text-[48px] text-text-primary mb-6">Provd Whitepaper</h1>
-        <p className="font-sans text-[16px] text-text-secondary mb-8">
-          Download the full Provd whitepaper to learn about our fraud-intelligence architecture, counterparty scoring models, and compliance design for African P2P crypto markets.
+    <section className="min-h-[80vh] bg-bg-base px-4 py-24">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-bg-border bg-bg-surface p-8 shadow-lg md:p-10">
+        <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-accent-primary">Technical Whitepaper</div>
+        <h1 className="mb-5 font-display text-[36px] text-text-primary md:text-[48px]">Provd Whitepaper</h1>
+        <p className="mb-8 max-w-2xl font-sans text-[16px] leading-relaxed text-text-secondary">
+          Provd is building fraud-intelligence infrastructure for African P2P crypto, stablecoin, and OTC workflows. The
+          whitepaper outlines the problem landscape, system architecture, scoring flow, privacy model, and operational role of
+          counterparty intelligence in approval and dispute processes.
         </p>
-        {submitted ? (
-          <div className="text-center">
-            <div className="font-sans text-[16px] text-accent mb-4">Thank you! Your download is starting...</div>
-            <a
-              href="/assets/home/provd-whitepaper.pdf"
-              className="font-mono text-[15px] text-accent underline hover:text-accent-blue"
-              download
-            >
-              Click here if your download does not start automatically
-            </a>
+
+        <div className="mb-8 rounded-2xl border border-bg-border bg-bg-base/60 p-5">
+          <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted">Overview</div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-bg-border bg-bg-surface/60 p-4">
+              <div className="font-sans text-[15px] font-semibold text-text-primary">What it covers</div>
+              <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                Problem definition, approval workflow placement, signal inputs, risk scoring, dispute intelligence, and
+                auditability.
+              </p>
+            </div>
+            <div className="rounded-xl border border-bg-border bg-bg-surface/60 p-4">
+              <div className="font-sans text-[15px] font-semibold text-text-primary">Who it is for</div>
+              <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                Exchanges, wallets, OTC desks, partners, and technical reviewers evaluating how Provd fits into fraud and
+                compliance operations.
+              </p>
+            </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div>
-              <label className="block font-sans text-[14px] text-text-primary mb-1">Name</label>
-              <input
-                type="text"
-                className="w-full bg-bg-base border border-bg-border rounded px-4 py-3 text-text-primary font-sans text-[15px] focus-visible:ring-2 focus-visible:ring-accent outline-none"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label className="block font-sans text-[14px] text-text-primary mb-1">Email</label>
-              <input
-                type="email"
-                className="w-full bg-bg-base border border-bg-border rounded px-4 py-3 text-text-primary font-sans text-[15px] focus-visible:ring-2 focus-visible:ring-accent outline-none"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            {error && <div className="text-risk-red font-sans text-[14px]">{error}</div>}
-            <button
-              type="submit"
-              className="bg-accent text-[#07090E] font-sans font-medium text-[15px] px-7 py-3 rounded-[4px] transition hover:brightness-110 hover:-translate-y-[1px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
-            >
-              Download Whitepaper
-            </button>
-          </form>
-        )}
+        </div>
+
+        <div className="mb-8 rounded-2xl border border-accent/20 bg-accent/5 p-5">
+          <div className="font-sans text-[15px] font-semibold text-text-primary">Review status</div>
+          <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+            The official whitepaper is still undergoing internal review. A public downloadable version will be made available
+            once the technical and legal review process is complete.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-bg-elevated px-7 py-3 font-sans text-[15px] font-medium text-text-muted opacity-80"
+          >
+            Download Whitepaper
+          </button>
+          <a
+            href="/docs"
+            className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-bg-border px-7 py-3 font-sans text-[15px] text-text-secondary transition hover:border-text-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            View documentation
+          </a>
+        </div>
       </div>
     </section>
   );
