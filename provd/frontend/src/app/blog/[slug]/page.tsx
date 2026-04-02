@@ -1,36 +1,41 @@
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/ui/container";
-import { blogPathForSlug, renderMdxFile } from "@/lib/content/mdx";
-import { fileExists } from "@/lib/content/fs";
+import Markdown from "@/components/ui/markdown";
+import { getGeneratedBlogRecords } from "@/lib/content/generated-content";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+export async function generateStaticParams() {
+  return getGeneratedBlogRecords().map((post) => ({ slug: post.slug }));
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const mdxPath = blogPathForSlug(slug);
+  const post = getGeneratedBlogRecords().find((record) => record.slug === slug);
 
-  if (!(await fileExists(mdxPath))) notFound();
-
-  const { frontmatter, content } = await renderMdxFile(mdxPath);
+  if (!post) notFound();
 
   return (
     <div className="py-10">
       <Container size="default">
         <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">Blog</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-4">
-          {frontmatter.title ?? slug}
+          {post.title ?? slug}
         </h1>
-        {frontmatter.description ? <p className="text-text-secondary mb-6">{frontmatter.description}</p> : null}
-        {frontmatter.date ? (
+        {post.description ? <p className="text-text-secondary mb-6">{post.description}</p> : null}
+        {post.date ? (
           <div className="text-xs font-mono tracking-[0.22em] uppercase text-text-muted mb-8">
-            {String(frontmatter.date)}
+            {String(post.date)}
           </div>
         ) : null}
 
-        <article className="prose prose-invert max-w-none">{content}</article>
+        <Markdown>{post.content}</Markdown>
       </Container>
     </div>
   );
