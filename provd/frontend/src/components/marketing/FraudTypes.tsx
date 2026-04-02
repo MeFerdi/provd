@@ -3,39 +3,39 @@ import Image from "next/image";
 
 const FRAUD_TYPES = [
   {
-    tag: "F1",
-    title: "Non-Delivery Fraud",
+    tag: "INPUT 01",
+    title: "Dispute history",
     icon: <Image src="/fraud-alert.png" alt="Non-Delivery Fraud" width={40} height={40} />,
-    body: "Scammer receives fiat via M-Pesa or bank transfer. Crypto is never sent.",
-    detection: "New account + zero trade history + isolated graph node"
+    body: "Past non-delivery, reversal, and operator-reviewed cases can be used as direct risk input.",
+    detection: "Case linkage, repeat outcomes, and dispute velocity"
   },
   {
-    tag: "F2",
-    title: "Payment Reversal",
+    tag: "INPUT 02",
+    title: "Payment rail context",
     icon: <Image src="/money.png" alt="Payment Reversal" width={40} height={40} />,
-    body: "Crypto delivered, then fiat reversed via bank chargeback days later.",
-    detection: "Temporal delay pattern + dispute velocity spike"
+    body: "Rail-specific patterns across bank transfers, mobile money, and payout behavior can affect the decision.",
+    detection: "Reversal patterns, rail mismatches, and timing anomalies"
   },
   {
-    tag: "F3",
-    title: "Platform Migration",
+    tag: "INPUT 03",
+    title: "Linked identifiers",
     icon: <Image src="/data-migration.png" alt="Platform Migration" width={40} height={40} />,
-    body: "Banned actor creates a new account on a different exchange with a clean slate.",
-    detection: "Cross-platform behavioral fingerprint matching"
+    body: "Wallets, hashed phone values, and other identifiers can be matched to prior outcomes without exposing raw PII.",
+    detection: "Hash reuse, wallet linkage, and identity graph joins"
   },
   {
-    tag: "F4",
-    title: "Coordinated Networks",
+    tag: "INPUT 04",
+    title: "Network relationships",
     icon: <Image src="/networking.png" alt="Coordinated Networks" width={40} height={40} />,
-    body: "Multiple accounts share devices or payment rails to defraud at scale.",
-    detection: "Graph cluster analysis reveals shared infrastructure"
+    body: "Connected entities can be evaluated together instead of as isolated accounts or addresses.",
+    detection: "Cluster analysis, shared infrastructure, and graph proximity"
   },
   {
-    tag: "F5",
-    title: "Social Engineering",
+    tag: "INPUT 05",
+    title: "Partner signals",
     icon: <Image src="/social-engineering.png" alt="Social Engineering" width={40} height={40} />,
-    body: "Victims recruited via WhatsApp, Telegram, or X before being directed to P2P.",
-    detection: "Community NLP pipeline + social signal integration"
+    body: "Connected desks and platforms can contribute signals that improve cross-platform visibility on repeat risk.",
+    detection: "Partner-fed outcomes and shared fraud indicators"
   }
 ];
 
@@ -44,10 +44,11 @@ export default function FraudTypes() {
     <section className="py-[120px] bg-bg-surface">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center">
-          <div className="font-mono text-[11px] text-accent tracking-[0.15em] mb-2">WHAT PROVD DETECTS</div>
-          <h2 className="font-display text-[48px] text-text-primary mt-4">Five fraud patterns. One API.</h2>
+          <div className="font-mono text-[11px] text-accent tracking-[0.15em] mb-2">SIGNAL COVERAGE</div>
+          <h2 className="font-display text-[48px] text-text-primary mt-4">Inputs used in counterparty evaluation.</h2>
           <p className="font-sans text-[18px] text-text-secondary mt-4 max-w-2xl mx-auto">
-            African P2P crypto fraud doesn&apos;t look like DeFi exploits. These are the five patterns Provd is built to catch.
+            Provd is designed to sit between trade intent and fund release. These are the main categories of signals the system
+            can evaluate as part of a single decision response.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
@@ -63,7 +64,7 @@ export default function FraudTypes() {
               <div className="font-sans font-medium text-[18px] text-text-primary mt-4">{ft.title}</div>
               <div className="font-sans text-[14px] text-text-secondary mt-2 leading-relaxed">{ft.body}</div>
               <div className="font-mono text-[12px] text-text-muted mt-4 border-t border-bg-border pt-4">
-                <span className="text-accent text-[10px] mr-2">DETECTION:</span> {ft.detection}
+                <span className="text-accent text-[10px] mr-2">EVALUATION:</span> {ft.detection}
               </div>
             </div>
           ))}
