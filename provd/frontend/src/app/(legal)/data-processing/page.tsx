@@ -8,9 +8,6 @@ export const metadata = {
 
 export default function DataProcessingPage() {
   const content = `
-**Provd Technologies Ltd.**
-**Effective date:** 1 April 2026
-
 This Data Processing Agreement ("DPA") forms part of and supplements the Terms of Service between Provd Technologies Ltd. ("Provd" or "Processor") and the Client ("Controller"). Capitalised terms not defined here have the meanings given in the Terms of Service.
 
 ---
@@ -73,6 +70,19 @@ Provd, as Processor, agrees to:
       <Container size="default">
         <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">Legal</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-5">Data Processing</h1>
+        <div className="mb-8 rounded-2xl border border-bg-border bg-bg-surface/50 px-5 py-4">
+          <div className="font-sans text-sm font-semibold text-text-primary">Provd Technologies Ltd.</div>
+          <div className="mt-2 grid gap-2 text-sm text-text-secondary sm:grid-cols-2">
+            <div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Effective date</span>
+              <div className="mt-1">1 April 2026</div>
+            </div>
+            <div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Document type</span>
+              <div className="mt-1">Data Processing Agreement</div>
+            </div>
+          </div>
+        </div>
         <Markdown>{content}</Markdown>
       </Container>
     </Section>
