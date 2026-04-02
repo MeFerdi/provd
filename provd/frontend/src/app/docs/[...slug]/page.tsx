@@ -1,33 +1,36 @@
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/ui/container";
-import { docsPathForSlug, renderMdxFile } from "@/lib/content/mdx";
-import { fileExists } from "@/lib/content/fs";
+import Markdown from "@/components/ui/markdown";
+import { getGeneratedDocsRecords } from "@/lib/content/generated-content";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
+export async function generateStaticParams() {
+  return getGeneratedDocsRecords().map((record) => ({ slug: record.slug.split("/") }));
+}
+
 export default async function DocSlugPage({ params }: Props) {
   const { slug } = await params;
-  const mdxPath = docsPathForSlug(slug);
+  const record = getGeneratedDocsRecords().find((entry) => entry.slug === slug.join("/"));
 
-  if (!(await fileExists(mdxPath))) notFound();
-
-  const { frontmatter, content } = await renderMdxFile(mdxPath);
+  if (!record) notFound();
 
   return (
     <Container size="default">
       <div className="pb-14">
         <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">Docs</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-4">
-          {frontmatter.title ?? slug[slug.length - 1]}
+          {record.title ?? slug[slug.length - 1]}
         </h1>
-        {frontmatter.description ? <p className="text-text-secondary mb-8">{frontmatter.description}</p> : null}
+        {record.description ? <p className="text-text-secondary mb-8">{record.description}</p> : null}
 
-        <article className="prose prose-invert max-w-none">
-          {content}
-        </article>
+        <Markdown>{record.content}</Markdown>
       </div>
     </Container>
   );
