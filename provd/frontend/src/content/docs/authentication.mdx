@@ -7,7 +7,22 @@ description: API keys and safe integration patterns.
 
 Provd uses bearer tokens for API authentication.
 
+```bash
+Authorization: Bearer <your_api_key>
+```
+
 ## Hashing
 
 When sending identifiers like phone numbers, hash them client-side or in your secure backend environment.
 
+## Recommended pattern
+
+1. Keep raw user identifiers out of browser logs and analytics tools.
+2. Hash phone numbers or bank-account-derived identifiers before transport.
+3. Send only the hashed identifier plus the trade context to Provd.
+4. Rotate API keys on a schedule and scope them by environment.
+
+## Related docs
+
+- [Quickstart](/docs/quickstart)
+- [API Reference](/docs/api-reference)
