@@ -4,19 +4,16 @@ import { Container } from "@/components/ui/container";
 import Markdown from "@/components/ui/markdown";
 import { getGeneratedBlogRecords } from "@/lib/content/generated-content";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 export async function generateStaticParams() {
   return getGeneratedBlogRecords().map((post) => ({ slug: post.slug }));
 }
 
-export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
+export default function BlogPostPage({ params }: Props) {
+  const { slug } = params;
   const post = getGeneratedBlogRecords().find((record) => record.slug === slug);
 
   if (!post) notFound();
@@ -40,4 +37,3 @@ export default async function BlogPostPage({ params }: Props) {
     </div>
   );
 }
-
