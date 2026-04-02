@@ -5,6 +5,9 @@
 :root {
   /* Layout + typography */
   --radius: 14px;
+  --font-display: Georgia, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-size-base: 16px;
   --font-weight-bold: 700;
   --font-weight-medium: 500;

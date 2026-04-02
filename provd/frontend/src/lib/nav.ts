@@ -1,12 +1,39 @@
 export type NavItem = {
   title: string;
   href: string;
+  description?: string;
+  category?: "Overview" | "Getting Started" | "Reference";
 };
 
 export const docsNav: NavItem[] = [
-  { title: "Quickstart", href: "/docs/quickstart" },
-  { title: "Authentication", href: "/docs/authentication" },
-  { title: "API Reference", href: "/docs/api-reference" },
-  { title: "Changelog", href: "/docs/changelog" },
+  {
+    title: "Overview",
+    href: "/docs",
+    description: "Documentation home, integration flow, and entry points.",
+    category: "Overview",
+  },
+  {
+    title: "Quickstart",
+    href: "/docs/quickstart",
+    description: "Add counterparty scoring to your approval flow.",
+    category: "Getting Started",
+  },
+  {
+    title: "Authentication",
+    href: "/docs/authentication",
+    description: "API keys, request signing patterns, and safe hashing.",
+    category: "Getting Started",
+  },
+  {
+    title: "API Reference",
+    href: "/docs/api-reference",
+    description: "Endpoints, fields, responses, and risk decisions.",
+    category: "Reference",
+  },
+  {
+    title: "Changelog",
+    href: "/docs/changelog",
+    description: "Product and API updates.",
+    category: "Reference",
+  },
 ];
-

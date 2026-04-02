@@ -3,40 +3,46 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="pt-32 pb-24 bg-bg-base border-b border-bg-border min-h-[80vh] flex items-center">
-      <div className="w-full max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-        {/* Left column: Security-focused content, flex-1 for 80% width usage */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-4">
+    <section className="border-b border-bg-border bg-bg-base pt-28 pb-18 sm:pb-20 lg:min-h-[80vh] lg:flex lg:items-center">
+      <div className="mx-auto grid w-full max-w-7xl gap-14 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(460px,1.1fr)] lg:items-center lg:gap-10">
+        <div className="min-w-0 max-w-2xl">
+          <div className="mb-4 flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-            <span className="font-mono text-[11px] text-accent tracking-[0.15em]">P2P SECURITY INFRASTRUCTURE</span>
+            <span className="font-mono text-[11px] text-accent tracking-[0.15em]">FRAUD INTELLIGENCE FOR AFRICAN P2P RAILS</span>
           </div>
-          <h1 className="font-display text-[44px] md:text-[60px] text-text-primary leading-[1.1] mb-6 max-w-2xl">
-            Secure every trade.<br />Protect every user.
+          <h1 className="mb-6 max-w-[11ch] font-display text-[40px] leading-[1.05] text-text-primary sm:text-[48px] lg:text-[60px]">
+            Know the counterparty<br />before the trade clears.
           </h1>
-          <p className="font-sans text-[18px] text-text-secondary leading-[1.7] max-w-xl mb-10">
-            Provd is the security backbone for African P2P crypto markets. Our AI-powered API delivers real-time counterparty risk scores, fraud detection, and compliance intelligence—before the transaction executes.
+          <p className="mb-10 max-w-xl font-sans text-[16px] leading-[1.7] text-text-secondary sm:text-[18px]">
+            Provd helps African exchanges, wallets, and OTC desks block repeat fraud before funds move. Query one API call and get network-backed counterparty risk, dispute signals, and recommended actions across P2P stablecoin flows.
           </p>
-          <div className="flex gap-4 mt-10">
-            <a href="#get-api-access" className="bg-accent text-[#07090E] font-sans font-medium text-[15px] px-7 py-3 rounded-[4px] transition hover:brightness-110 hover:-translate-y-[1px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none">Get API Access →</a>
-            <a href="/whitepaper" className="border border-bg-border text-text-secondary font-sans text-[15px] px-7 py-3 rounded-[4px] transition hover:border-text-muted hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none">Read the Whitepaper</a>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="/docs/quickstart" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-accent px-7 py-3 font-sans text-[15px] font-medium text-[#07090E] transition hover:-translate-y-[1px] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              Read Documentation
+            </a>
+            <a href="/docs/api-reference" className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-bg-border px-7 py-3 font-sans text-[15px] text-text-secondary transition hover:border-text-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              View API Reference
+            </a>
           </div>
         </div>
-        {/* Right column: Large security audit image asset, flex-1 for 80% width usage */}
-        <div className="flex-1 flex items-center justify-center min-w-0">
-          <div className="relative flex flex-col items-center gap-6">
+        <div className="min-w-0 w-full lg:flex lg:justify-end">
+          <div className="relative mx-auto flex min-h-[360px] w-full max-w-[460px] items-center justify-center sm:min-h-[430px] sm:max-w-[520px] lg:mx-0 lg:min-h-[560px] lg:w-[137.8%] lg:justify-end">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="rounded-2xl bg-accent/10 blur-2xl w-[340px] h-[340px]" style={{ zIndex: 0 }} />
+              <div className="h-[260px] w-[260px] rounded-full bg-accent/10 blur-3xl sm:h-[320px] sm:w-[320px] lg:h-[380px] lg:w-[380px]" />
+              <div className="absolute right-[8%] top-[14%] h-20 w-20 rounded-full bg-accent-blue/10 blur-3xl sm:h-24 sm:w-24 lg:right-[10%] lg:top-[12%] lg:h-28 lg:w-28" />
             </div>
-            <Image
-              src="/assets/home/3d-cryptocurrency-rendering-design-removebg-preview.png"
-              alt="Security Audit Badge"
-              width={620}
-              height={620}
-              className="relative z-10 drop-shadow-2xl rounded-2xl"
-              style={{ background: "transparent" }}
-              priority
-            />
+            <div className="relative z-10 w-full max-w-[460px] sm:max-w-[520px] lg:mr-[-196px]">
+              <div className="pointer-events-none absolute left-1/2 top-[88%] h-[58px] w-[260px] -translate-x-1/2 rounded-full bg-black/22 blur-2xl sm:h-[72px] sm:w-[320px] lg:h-[86px] lg:w-[380px]" />
+              <div className="pointer-events-none absolute left-1/2 top-[92%] h-[24px] w-[180px] -translate-x-1/2 rounded-full bg-black/16 blur-xl sm:h-[28px] sm:w-[220px] lg:h-[34px] lg:w-[280px]" />
+              <Image
+                src="/two-factor-authentication-confirmation-removebg-preview.png"
+                alt="Two-factor approval illustration representing secure verification"
+                width={1200}
+                height={1200}
+                className="relative z-10 h-auto w-full object-contain"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>

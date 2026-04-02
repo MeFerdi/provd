@@ -1,25 +1,37 @@
 ---
 title: Quickstart
-description: Get your first trust score in minutes.
+description: Add counterparty scoring to your approval flow in minutes.
 ---
 
 ## Overview
 
 Integrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:
 
-- A trust score
+- A counterparty score
 - A risk level
 - A list of flags
 - Suggested actions for your flow
 
+## Integration flow
+
+1. Collect the trade context before release.
+2. Hash sensitive user identifiers in your trusted environment.
+3. Call the scoring endpoint with wallet, rail, and trade metadata.
+4. Use the returned `risk_level` and flags to allow, review, or block the trade.
+
 ## Minimal request
 
 ```bash
-POST /v1/trust/score
+POST /v1/counterparties/score
 ```
 
-## Next
+## Typical decisioning
 
-- Authentication: `/docs/authentication`
-- API Reference: `/docs/api-reference`
+- `low`: approve the trade automatically
+- `medium`: send the trade to review or request stronger evidence
+- `high`: stop release and escalate to your fraud workflow
 
+## Next steps
+
+- [Authentication](/docs/authentication)
+- [API Reference](/docs/api-reference)

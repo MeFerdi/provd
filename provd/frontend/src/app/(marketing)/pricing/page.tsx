@@ -16,10 +16,10 @@ export default function PricingPage() {
             <h1 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.05] mb-5">
               Clear pricing for
               <br />
-              real-time risk.
+              counterparty intelligence.
             </h1>
             <p className="text-text-secondary text-lg">
-              Start with scoring and flags, then add dispute intelligence and partner signals as your P2P volume grows.
+              Start with one approval workflow, then add dispute intelligence and partner signals as your African P2P volume grows.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button size="lg" href="/docs/quickstart">
@@ -40,17 +40,17 @@ export default function PricingPage() {
               <div>
                 <div className="font-sans font-semibold text-text-primary mb-1">Starter</div>
                 <div className="font-mono text-accent-primary text-2xl">$500/mo</div>
-                <div className="text-sm text-text-secondary mt-2">For early-stage P2P products.</div>
+                <div className="text-sm text-text-secondary mt-2">For a single desk, corridor, or launch market.</div>
               </div>
               <div>
                 <div className="font-sans font-semibold text-text-primary mb-1">Growth</div>
                 <div className="font-mono text-accent-primary text-2xl">$2,500/mo</div>
-                <div className="text-sm text-text-secondary mt-2">For exchanges with meaningful volume.</div>
+                <div className="text-sm text-text-secondary mt-2">For exchanges with active dispute and review queues.</div>
               </div>
               <div>
                 <div className="font-sans font-semibold text-text-primary mb-1">Enterprise</div>
                 <div className="font-mono text-accent-primary text-2xl">Custom</div>
-                <div className="text-sm text-text-secondary mt-2">For large platforms and bespoke coverage.</div>
+                <div className="text-sm text-text-secondary mt-2">For multi-country platforms and partner-fed intelligence networks.</div>
               </div>
             </div>
           </div>
@@ -59,4 +59,3 @@ export default function PricingPage() {
     </>
   );
 }
-

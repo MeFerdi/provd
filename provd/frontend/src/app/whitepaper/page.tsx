@@ -24,7 +24,7 @@ export default function WhitepaperPage() {
       <div className="max-w-2xl w-full bg-bg-surface border border-bg-border rounded-2xl p-10 shadow-lg">
         <h1 className="font-display text-[36px] md:text-[48px] text-text-primary mb-6">Provd Whitepaper</h1>
         <p className="font-sans text-[16px] text-text-secondary mb-8">
-          Download the full Provd whitepaper to learn about our security infrastructure, risk scoring models, and compliance architecture for African P2P crypto markets.
+          Download the full Provd whitepaper to learn about our fraud-intelligence architecture, counterparty scoring models, and compliance design for African P2P crypto markets.
         </p>
         {submitted ? (
           <div className="text-center">

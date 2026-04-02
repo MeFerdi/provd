@@ -4,19 +4,16 @@ import { Container } from "@/components/ui/container";
 import Markdown from "@/components/ui/markdown";
 import { getGeneratedDocsRecords } from "@/lib/content/generated-content";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 type Props = {
-  params: Promise<{ slug: string[] }>;
+  params: { slug: string[] };
 };
 
 export async function generateStaticParams() {
   return getGeneratedDocsRecords().map((record) => ({ slug: record.slug.split("/") }));
 }
 
-export default async function DocSlugPage({ params }: Props) {
-  const { slug } = await params;
+export default function DocSlugPage({ params }: Props) {
+  const { slug } = params;
   const record = getGeneratedDocsRecords().find((entry) => entry.slug === slug.join("/"));
 
   if (!record) notFound();
@@ -35,4 +32,3 @@ export default async function DocSlugPage({ params }: Props) {
     </Container>
   );
 }
-
