@@ -13,6 +13,12 @@ export const docsNav: NavItem[] = [
     category: "Overview",
   },
   {
+    title: "API Access",
+    href: "/docs/api-access",
+    description: "Platform status, development roadmap, and beta access expectations.",
+    category: "Getting Started",
+  },
+  {
     title: "Quickstart",
     href: "/docs/quickstart",
     description: "Add counterparty scoring to your approval flow.",
