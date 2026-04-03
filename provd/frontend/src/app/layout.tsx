@@ -7,10 +7,16 @@ import Footer from "@/components/marketing/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://provd.io"),
-  title: "Provd — Fraud Intelligence Infrastructure for African P2P Crypto",
+  applicationName: "Provd",
+  title: "Provd",
   description: "Counterparty risk scoring and dispute intelligence for African P2P crypto, stablecoin, and OTC platforms.",
+  icons: {
+    icon: [{ url: "/provd.svg", type: "image/svg+xml" }],
+    shortcut: ["/provd.svg"],
+    apple: ["/provd.svg"],
+  },
   openGraph: {
-    title: "Provd — Fraud Intelligence Infrastructure for African P2P Crypto",
+    title: "Provd",
     description: "Counterparty risk scoring and dispute intelligence for African P2P crypto, stablecoin, and OTC platforms.",
     images: ["/og-image.png"],
   },
