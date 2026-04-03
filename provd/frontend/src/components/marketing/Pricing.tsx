@@ -25,12 +25,14 @@ export default function Pricing() {
           <AnimatedCard index={0}>
             <Card className="h-full bg-bg-surface">
               <CardContent className="p-8">
-                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">API Layer</div>
-                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-3">Counterparty scoring</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">Pilot / Early Access</div>
+                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-1">Early implementation</div>
+                <div className="font-mono text-accent-primary text-2xl mb-4">Free or low-cost</div>
                 <ul className="text-text-secondary text-sm md:text-base mb-8 space-y-2">
-                  <li>Score counterparties before release</li>
-                  <li>Return risk level and reason flags</li>
-                  <li>Integrate directly into existing approval logic</li>
+                  <li>Limited-volume access for design partners or early evaluators</li>
+                  <li>Initial approval-check integration in one workflow</li>
+                  <li>Best for teams validating fit before broader rollout</li>
+                  <li>Available only when the platform opens for beta access</li>
                 </ul>
                 <Button className="w-full" size="lg" variant="secondary" href="/docs/quickstart">
                   Read quickstart
@@ -42,12 +44,14 @@ export default function Pricing() {
           <AnimatedCard index={1}>
             <Card className="h-full bg-bg-surface border-accent-primary/40">
               <CardContent className="p-8">
-                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">Operations</div>
-                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-3">Review and dispute workflows</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">Starter</div>
+                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-1">Counterparty scoring</div>
+                <div className="font-mono text-accent-primary text-2xl mb-4">$199-$399/mo</div>
                 <ul className="text-text-secondary text-sm md:text-base mb-8 space-y-2">
-                  <li>Use flags in operator review queues</li>
-                  <li>Attach dispute evidence and case context</li>
-                  <li>Support analysts handling higher-risk trades</li>
+                  <li>Single API request before crypto or fiat release</li>
+                  <li>Response fields for score, risk level, flags, and recommended action</li>
+                  <li>Designed for one approval flow, one desk, or one operating corridor</li>
+                  <li>Best suited for smaller operators moving from pilot into live usage</li>
                 </ul>
                 <Button className="w-full" size="lg" href="/docs/api-reference">
                   View API reference
@@ -59,15 +63,17 @@ export default function Pricing() {
           <AnimatedCard index={2}>
             <Card className="h-full bg-bg-surface">
               <CardContent className="p-8">
-                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">Network</div>
-                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-3">Partner and corridor intelligence</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-3">Growth / Enterprise</div>
+                <div className="font-sans font-semibold text-lg md:text-xl text-text-primary mb-1">Operations and network intelligence</div>
+                <div className="font-mono text-accent-primary text-2xl mb-4">$999-$1,500/mo · Custom</div>
                 <ul className="text-text-secondary text-sm md:text-base mb-8 space-y-2">
-                  <li>Share signals across partner systems</li>
-                  <li>Expand coverage across rails and regions</li>
-                  <li>Support governance, audit, and reporting needs</li>
+                  <li>Review and dispute workflow support for active operations teams</li>
+                  <li>Broader coverage across desks, rails, or markets</li>
+                  <li>Partner and network-intelligence planning for larger operators</li>
+                  <li>Enterprise rollout support, governance alignment, and custom commercial terms</li>
                 </ul>
-                <Button className="w-full" size="lg" variant="outline" href="/about">
-                  Learn more
+                <Button className="w-full" size="lg" variant="outline" href="mailto:hello@provd.tech">
+                  Talk to sales
                 </Button>
               </CardContent>
             </Card>
