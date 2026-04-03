@@ -77,14 +77,15 @@ export default function Navbar() {
             Sign In
           </Link> */}
           <Link
-            href="/docs/quickstart"
+            href="/docs/api-access"
             className={`h-9 px-4 rounded-[4px] font-sans text-[14px] font-medium hover:-translate-y-[1px] transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none ${
               scrolled
                 ? "bg-white text-[#07090E] hover:bg-white/90"
                 : "bg-accent text-[#07090E] hover:brightness-110"
             }`}
+            title="Platform under development. Beta access will be announced through the communications channel."
           >
-            Get API Access
+            API Access Soon
           </Link>
         </div>
 
@@ -152,11 +153,12 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  href="/docs/quickstart"
+                  href="/docs/api-access"
                   className="mt-5 flex h-12 w-full items-center justify-center rounded-xl font-sans text-[16px] font-medium bg-accent text-[#07090E] hover:brightness-110 transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
+                  title="Platform under development. Beta access will be announced through the communications channel."
                   onClick={() => setMobileOpen(false)}
                 >
-                  Get API Access
+                  API Access Soon
                 </Link>
               </div>
             </div>
