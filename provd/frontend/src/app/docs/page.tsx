@@ -28,12 +28,12 @@ export default function DocsLandingPage() {
             </p>
             <div className="mt-8 grid gap-4 rounded-2xl border border-bg-border bg-bg-surface/50 p-6 md:grid-cols-3">
               <div>
-                <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-text-muted mb-2">Start Here</div>
-                <div className="font-sans font-semibold text-text-primary">Quickstart</div>
-                <div className="mt-2 text-sm text-text-secondary">Get your first score request into an approval flow.</div>
+                <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-text-muted mb-2">Status</div>
+                <div className="font-sans font-semibold text-text-primary">API Access</div>
+                <div className="mt-2 text-sm text-text-secondary">Understand current platform status and beta access timing.</div>
               </div>
               <div>
-                <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-text-muted mb-2">Secure Access</div>
+                <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-text-muted mb-2">Architecture</div>
                 <div className="font-sans font-semibold text-text-primary">Authentication</div>
                 <div className="mt-2 text-sm text-text-secondary">Set up API keys and safe client-side hashing patterns.</div>
               </div>
@@ -46,9 +46,9 @@ export default function DocsLandingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 className="inline-flex items-center justify-center rounded-xl bg-accent-primary px-5 py-3 font-sans font-semibold text-bg-base transition hover:opacity-90"
-                href="/docs/quickstart"
+                href="/docs/api-access"
               >
-                Read quickstart
+                View platform status
               </Link>
               <Link
                 className="inline-flex items-center justify-center rounded-xl border border-bg-border px-5 py-3 font-sans font-semibold text-text-primary transition hover:bg-bg-surface"
@@ -102,9 +102,9 @@ export default function DocsLandingPage() {
               <div className="rounded-2xl border border-bg-border bg-bg-surface/50 p-6">
                 <div className="mb-3 text-[11px] font-mono uppercase tracking-[0.18em] text-text-muted">Integration Flow</div>
                 <ol className="space-y-3 text-sm text-text-secondary">
-                  <li>1. Read the quickstart to understand where Provd fits in your approval path.</li>
-                  <li>2. Configure authentication and hash any sensitive identifiers before sending them.</li>
-                  <li>3. Use the API reference to wire scoring, flags, and decisions into production flows.</li>
+                  <li>1. Read the API access page to understand current development status and beta expectations.</li>
+                  <li>2. Review the quickstart and authentication docs to understand the intended integration model.</li>
+                  <li>3. Use the API reference to evaluate the planned request and response shape.</li>
                 </ol>
               </div>
             </div>
