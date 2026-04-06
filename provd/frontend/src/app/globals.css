@@ -56,6 +56,29 @@ body {
   font-family: var(--font-sans, 'DM Sans', sans-serif);
 }
 
+.logo-marquee {
+  animation: logo-marquee 34s linear infinite;
+}
+
+.group:hover .logo-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    animation: none;
+  }
+}
+
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 h1, .hero-title {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
