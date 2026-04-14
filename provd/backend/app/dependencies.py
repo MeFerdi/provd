@@ -48,14 +48,20 @@ async def get_auth_context(
 		except JWTError as exc:
 			raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid bearer token") from exc
 
-		scopes = payload.get("scopes", [])
-		if isinstance(scopes, str):
-			scopes = [scopes]
+		raw_scopes = payload.get("scopes", [])
+		if raw_scopes is None:
+			scopes: list[str] = []
+		elif isinstance(raw_scopes, str):
+			scopes = [raw_scopes]
+		elif isinstance(raw_scopes, list):
+			scopes = [str(scope) for scope in raw_scopes]
+		else:
+			raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid scopes claim in token")
 
 		return AuthContext(
 			principal_id=str(payload.get("sub", "unknown")),
 			auth_type="bearer",
-			scopes=[str(scope) for scope in scopes],
+			scopes=scopes,
 			role=str(payload.get("role", "user")),
 		)
 
