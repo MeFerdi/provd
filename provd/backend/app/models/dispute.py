@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Float, JSON, String
+from sqlalchemy import CheckConstraint, DateTime, Float, Index, JSON, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -8,6 +8,11 @@ from app.db.base import Base
 
 class Dispute(Base):
 	__tablename__ = "disputes"
+	__table_args__ = (
+		CheckConstraint("amount >= 0", name="ck_disputes_amount_nonnegative"),
+		CheckConstraint("confidence >= 0 AND confidence <= 1", name="ck_disputes_confidence_range"),
+		Index("ix_disputes_counterparty_created_at", "counterparty_id", "created_at"),
+	)
 
 	id: Mapped[str] = mapped_column(String(36), primary_key=True)
 	trade_id: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
