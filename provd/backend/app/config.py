@@ -13,11 +13,14 @@ class Settings(BaseSettings):
     secret_key: str = Field(default="change-me", alias="SECRET_KEY")
     access_token_expire_minutes: int = Field(default=60)
 
+    database_url: str = Field(default="postgresql+asyncpg://provd:provd@postgres:5432/provd")
+    redis_url: str = Field(default="redis://redis:6379/0")
+
     dev_client_id: str = Field(default="provd-dev-client")
     dev_client_secret: str = Field(default="provd-dev-secret")
 
-    celery_broker_url: str = Field(default="redis://localhost:6379/0")
-    celery_result_backend: str = Field(default="redis://localhost:6379/1")
+    celery_broker_url: str = Field(default="redis://redis:6379/0")
+    celery_result_backend: str = Field(default="redis://redis:6379/1")
 
     cors_origins: list[str] = Field(default_factory=lambda: ["*"])
 
