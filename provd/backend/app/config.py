@@ -3,7 +3,6 @@ from functools import lru_cache
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
@@ -16,6 +15,9 @@ class Settings(BaseSettings):
 
     dev_client_id: str = Field(default="provd-dev-client")
     dev_client_secret: str = Field(default="provd-dev-secret")
+
+    celery_broker_url: str = Field(default="redis://localhost:6379/0")
+    celery_result_backend: str = Field(default="redis://localhost:6379/1")
 
     cors_origins: list[str] = Field(default_factory=lambda: ["*"])
 

@@ -36,9 +36,53 @@ This is the Next.js 14 (App Router) frontend for Provd — an AI-powered counter
 ## Scripts
 - `npm run dev` — Start development server
 - `npm run build` — Build for production
+- `npm run pages:build` — Build for Cloudflare Pages (Next.js adapter)
+- `npm run pages:deploy` — Deploy prebuilt output to Cloudflare Pages (Wrangler)
 - `npm run start` — Start production server
 - `npm run lint` — Lint code
 - `npm run type-check` — TypeScript type check
+
+## Deploy on Cloudflare Pages
+
+### 1) Install dependencies
+```bash
+npm install
+```
+
+### 2) Create a Pages project
+In Cloudflare Dashboard:
+- Go to Workers & Pages → Create application → Pages → Connect to Git.
+- Select this frontend repository/folder.
+
+### 3) Build settings
+Use these settings:
+- Framework preset: `None`
+- Build command: `npm run pages:build`
+- Build output directory: `out`
+- Node.js version: `20`
+
+### 4) Compatibility settings
+For the static export documented above (`Build output directory: out`), no Pages Functions runtime compatibility settings are required.
+
+Only enable the following if you intentionally switch this deployment to use Pages Functions or another Node runtime on Cloudflare:
+- Compatibility flag: `nodejs_compat`
+- Set a recent compatibility date.
+
+### 5) Environment variables
+Add the same variables used in local `.env.local` to Cloudflare Pages:
+- Production environment variables
+- Preview environment variables
+
+### 6) Deploy
+Push to your production branch (for automatic deploys), or deploy manually:
+```bash
+npm run pages:build
+npm run pages:deploy -- --project-name <your-pages-project>
+```
+
+### Notes
+- If you use NextAuth, ensure callback URLs and trusted origins match your Cloudflare Pages domain.
+- Keep secrets only in Cloudflare environment variables (never in repo).
 
 ## Environment Variables
 See `.env.local.example` for all required variables.
