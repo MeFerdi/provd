@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = Field(default=60, validation_alias=AliasChoices("JWT_EXPIRE_MINUTES"))
 
     database_url: str = Field(default="postgresql+asyncpg://provd:provd@postgres:5432/provd")
+    neo4j_uri: str = Field(default="bolt://neo4j:7687", validation_alias=AliasChoices("NEO4J_URI"))
+    neo4j_user: str = Field(default="neo4j", validation_alias=AliasChoices("NEO4J_USER"))
+    neo4j_password: str = Field(default="", validation_alias=AliasChoices("NEO4J_PASSWORD"))
     redis_url: str = Field(default="redis://redis:6379/0")
 
     dev_client_id: str = Field(default="provd-dev-client")
