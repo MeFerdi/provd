@@ -22,7 +22,7 @@ export default async function BlogIndexPage() {
               and security.
             </h1>
             <p className="text-text-secondary text-lg">
-              Updates on fraud patterns, integrations, and how we build trust infrastructure for African markets.
+              Updates on fraud patterns, approval workflows, and how we build fraud-intelligence infrastructure for African markets.
             </p>
           </div>
         </Container>
@@ -51,4 +51,3 @@ export default async function BlogIndexPage() {
     </>
   );
 }
-

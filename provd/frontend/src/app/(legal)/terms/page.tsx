@@ -12,13 +12,20 @@ export default function TermsPage() {
       <Container size="default">
         <div className="uppercase text-accent-primary font-mono text-xs mb-4" style={{ letterSpacing: "0.22em" }}>Legal</div>
         <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-5">Terms of Service</h1>
-            <Markdown>{[
-              '# Terms of Service',
-              '',
-              '**Provd Technologies Ltd.**',
-              '**Effective date:** 1 April 2026',
-              '**Last updated:** 1 April 2026',
-              '',
+        <div className="mb-8 rounded-2xl border border-bg-border bg-bg-surface/50 px-5 py-4">
+          <div className="font-sans text-sm font-semibold text-text-primary">Provd Technologies Ltd.</div>
+          <div className="mt-2 grid gap-2 text-sm text-text-secondary sm:grid-cols-2">
+            <div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Effective date</span>
+              <div className="mt-1">1 April 2026</div>
+            </div>
+            <div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Last updated</span>
+              <div className="mt-1">1 April 2026</div>
+            </div>
+          </div>
+        </div>
+        <Markdown>{[
               '---',
               '',
               '## 1. Agreement',
@@ -78,4 +85,3 @@ export default function TermsPage() {
     </Section>
   );
 }
-

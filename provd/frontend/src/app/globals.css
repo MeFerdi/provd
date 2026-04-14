@@ -5,6 +5,9 @@
 :root {
   /* Layout + typography */
   --radius: 14px;
+  --font-display: Georgia, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-size-base: 16px;
   --font-weight-bold: 700;
   --font-weight-medium: 500;
@@ -51,6 +54,29 @@ body {
   background: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-sans, 'DM Sans', sans-serif);
+}
+
+.logo-marquee {
+  animation: logo-marquee 34s linear infinite;
+}
+
+.group:hover .logo-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    animation: none;
+  }
+}
+
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 h1, .hero-title {

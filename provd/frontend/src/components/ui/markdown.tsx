@@ -1,6 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { marked } from "marked";
 
 interface MarkdownProps {
   children: string;
@@ -8,9 +7,15 @@ interface MarkdownProps {
 }
 
 export default function Markdown({ children, className }: MarkdownProps) {
+  const html = marked.parse(children, {
+    gfm: true,
+    breaks: false,
+  });
+
   return (
-    <div className={className || "prose prose-invert max-w-none"}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{children}</ReactMarkdown>
-    </div>
+    <div
+      className={className || "prose prose-invert max-w-none"}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }

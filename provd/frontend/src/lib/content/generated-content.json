@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-04-02T19:22:20.381Z",
+  "records": [
+    {
+      "type": "docs",
+      "url": "/docs/api-reference",
+      "slug": "api-reference",
+      "title": "API Reference",
+      "description": "Endpoints, fields, and responses.",
+      "date": "",
+      "tags": [],
+      "content": "\n## POST /v1/trust/score\n\nReturns a counterparty risk score and reason flags for a trade context.\n\n### Request fields\n\n- `wallet_address` (string)\n- `phone_hash` (string)\n- `chain` (string)\n- `context` (object)\n\n### Response fields\n\n- `trust_score` (number)\n- `risk_level` (string)\n- `risk_flags` (string[])\n"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/authentication",
+      "slug": "authentication",
+      "title": "Authentication",
+      "description": "API keys and safe integration patterns.",
+      "date": "",
+      "tags": [],
+      "content": "\n## API keys\n\nProvd uses bearer tokens for API authentication.\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/changelog",
+      "slug": "changelog",
+      "title": "Changelog",
+      "description": "Product and API updates.",
+      "date": "",
+      "tags": [],
+      "content": "\n## 2026-03-31\n\n- Initial docs scaffolding.\n\n"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/quickstart",
+      "slug": "quickstart",
+      "title": "Quickstart",
+      "description": "Add counterparty scoring to your approval flow in minutes.",
+      "date": "",
+      "tags": [],
+      "content": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A counterparty score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Minimal request\n\n```bash\nPOST /v1/counterparties/score\n```\n\n## Next\n\n- Authentication: `/docs/authentication`\n- API Reference: `/docs/api-reference`\n"
+    },
+    {
+      "type": "blog",
+      "url": "/blog/introducing-provd",
+      "slug": "introducing-provd",
+      "title": "Introducing Provd",
+      "description": "Fraud-intelligence infrastructure for African P2P crypto markets.",
+      "date": "2026-03-31T00:00:00.000Z",
+      "tags": [
+        "product",
+        "security"
+      ],
+      "content": "\nProvd helps platforms score counterparties before releasing funds.\n\n## What we’re building\n\n- Counterparty scoring before approval\n- Actionable reason codes and flags\n- Partner-fed fraud intelligence\n"
+    }
+  ]
+}

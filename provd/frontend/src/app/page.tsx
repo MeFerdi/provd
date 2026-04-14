@@ -1,5 +1,6 @@
 import Hero from "../components/marketing/Hero";
 import Stats from "../components/marketing/Stats";
+import PartnerCarousel from "../components/marketing/PartnerCarousel";
 import HowItWorks from "../components/marketing/HowItWorks";
 import FraudTypes from "../components/marketing/FraudTypes";
 import ApiSnippet from "../components/marketing/ApiSnippet";
@@ -12,6 +13,7 @@ export default function HomePage() {
     <main className="bg-bg-base">
       <Hero />
       <Stats />
+      <PartnerCarousel />
       <HowItWorks />
       <FraudTypes />
       <ApiSnippet />

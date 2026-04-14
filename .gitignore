@@ -1,1 +1,28 @@
+.codex
 node_modules
+
+# Frontend build and local state
+provd/frontend/node_modules
+provd/frontend/node_modules.broken
+provd/frontend/.next
+provd/frontend/out
+provd/frontend/.vercel/output
+provd/frontend/tsconfig.tsbuildinfo
+
+# Local environment files
+.env
+.env.*
+!.env.example
+!provd/.env.example
+!provd/backend/.env.example
+!provd/frontend/.env.local.example
+!provd/ml/.env.example
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/

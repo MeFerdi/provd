@@ -3,9 +3,9 @@ title: API Reference
 description: Endpoints, fields, and responses.
 ---
 
-## POST /v1/trust/score
+## POST /v1/counterparties/score
 
-Returns a trust score and risk flags for a counterparty context.
+Returns a counterparty risk score and reason flags for a trade context.
 
 ### Request fields
 
@@ -14,9 +14,43 @@ Returns a trust score and risk flags for a counterparty context.
 - `chain` (string)
 - `context` (object)
 
+### Example request
+
+```json
+{
+  "wallet_address": "9xQeWvG816bUx9EPfEZnJr7s7d4H4JgP1d8t7A1kY2zN",
+  "phone_hash": "3f5ab2d1...",
+  "chain": "solana",
+  "context": {
+    "rail": "mpesa",
+    "fiat_currency": "KES",
+    "asset": "USDT",
+    "amount": 250,
+    "side": "buy"
+  }
+}
+```
+
 ### Response fields
 
-- `trust_score` (number)
+- `counterparty_score` (number)
 - `risk_level` (string)
 - `risk_flags` (string[])
+- `recommended_action` (string)
 
+### Example response
+
+```json
+{
+  "counterparty_score": 82,
+  "risk_level": "low",
+  "risk_flags": [],
+  "recommended_action": "approve"
+}
+```
+
+## Notes
+
+- Call this endpoint before releasing crypto or fiat.
+- Treat `risk_flags` as operator-facing reasons, not just UI labels.
+- Pair this endpoint with your internal review and dispute workflows.

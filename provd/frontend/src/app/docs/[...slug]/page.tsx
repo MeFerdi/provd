@@ -1,15 +1,26 @@
 import { notFound } from "next/navigation";
+import path from "node:path";
 
 import { Container } from "@/components/ui/container";
+import { fileExists, listFilesRecursive } from "@/lib/content/fs";
 import { docsPathForSlug, renderMdxFile } from "@/lib/content/mdx";
-import { fileExists } from "@/lib/content/fs";
 
 type Props = {
-  params: Promise<{ slug: string[] }>;
+  params: { slug: string[] };
 };
 
+export async function generateStaticParams() {
+  const docsRoot = path.join(process.cwd(), "src", "content", "docs");
+  const files = await listFilesRecursive(docsRoot, [".mdx"]);
+
+  return files.map((file) => {
+    const relative = path.relative(docsRoot, file).replace(/\\/g, "/").replace(/\.mdx$/, "");
+    return { slug: relative.split("/") };
+  });
+}
+
 export default async function DocSlugPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const mdxPath = docsPathForSlug(slug);
 
   if (!(await fileExists(mdxPath))) notFound();
@@ -25,11 +36,8 @@ export default async function DocSlugPage({ params }: Props) {
         </h1>
         {frontmatter.description ? <p className="text-text-secondary mb-8">{frontmatter.description}</p> : null}
 
-        <article className="prose prose-invert max-w-none">
-          {content}
-        </article>
+        <article className="prose prose-invert max-w-none">{content}</article>
       </div>
     </Container>
   );
 }
-

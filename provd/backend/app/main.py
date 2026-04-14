@@ -1,5 +1,34 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.api.v1.router import router as api_v1_router
+from app.config import get_settings
 
-# ...routers, CORS, middleware will be added here
+
+def create_app() -> FastAPI:
+	settings = get_settings()
+	app = FastAPI(
+		title=settings.app_name,
+		version=settings.app_version,
+		openapi_url=f"{settings.api_v1_prefix}/openapi.json",
+		docs_url="/docs",
+		redoc_url="/redoc",
+	)
+
+	app.add_middleware(
+		CORSMiddleware,
+		allow_origins=settings.cors_origins,
+		allow_credentials=True,
+		allow_methods=["*"],
+		allow_headers=["*"],
+	)
+
+	app.include_router(api_v1_router, prefix=settings.api_v1_prefix)
+
+	@app.get("/", tags=["meta"])
+	def root() -> dict[str, str]:
+		return {"service": settings.app_name, "version": settings.app_version, "status": "ok"}
+
+	return app
+
+app = create_app()
