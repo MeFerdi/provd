@@ -1,29 +1,23 @@
 # Provd
 
-AI-powered counterparty trust infrastructure for African P2P cryptocurrency markets.
+Provd is organized as a clean multi-service repository with the product code split by responsibility.
 
-## Monorepo Structure
+## Structure
 
-See the full project structure and setup instructions in this README.
-
-- **frontend/** — Next.js 14 App Router (marketing, dashboard)
-- **backend/** — FastAPI API (core scoring, dispute, auth)
-- **ml/** — ML pipeline (PyTorch, PyG, TorchServe)
-- **infra/** — Infrastructure as code (Terraform, Nginx)
-- **docs/** — Developer documentation
-
-## Getting Started
-
-1. Copy `.env.example` to `.env` and fill in required variables.
-2. Run `docker-compose up` to start all services.
-3. Access:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - ML Service: http://localhost:8001
-   - Flower (Celery): http://localhost:5555
-   - MLflow: http://localhost:5050
+- `frontend/`: Next.js marketing site and product UI
+- `backend/`: FastAPI API and core application services
+- `ml/`: model training and inference utilities
+- `infra/`: deployment and infrastructure configuration
+- `docs/`: source content for product and developer documentation
 
 ## Development
 
-- All config is via environment variables. No secrets in code.
-- See `/docs` for API reference and authentication details.
+- Run frontend work from `provd/frontend`
+- Run backend work from `provd/backend`
+- Keep generated artifacts like `.next`, `out`, local `node_modules`, and local env files out of version control
+
+## Local Setup
+
+1. Copy the relevant `.env.example` file for the service you are working on.
+2. Install dependencies inside the service directory only.
+3. Start the service from its own directory.
