@@ -62,7 +62,9 @@ Use these settings:
 - Node.js version: `20`
 
 ### 4) Compatibility settings
-In Pages project settings (Functions/Runtime):
+For the static export documented above (`Build output directory: out`), no Pages Functions runtime compatibility settings are required.
+
+Only enable the following if you intentionally switch this deployment to use Pages Functions or another Node runtime on Cloudflare:
 - Compatibility flag: `nodejs_compat`
 - Set a recent compatibility date.
 
