@@ -6,6 +6,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
+    app_env: str = Field(default="development", validation_alias=AliasChoices("APP_ENV", "ENVIRONMENT"))
+
     app_name: str = "Provd API"
     app_version: str = "0.1.0"
     api_v1_prefix: str = "/api/v1"
@@ -19,8 +21,8 @@ class Settings(BaseSettings):
 
     dev_client_id: str = Field(default="provd-dev-client")
     dev_client_secret: str = Field(default="provd-dev-secret")
-    dev_client_role: str = Field(default="admin")
-    dev_client_scopes: list[str] = Field(default_factory=lambda: ["keys:read", "keys:write", "trust:read", "dispute:analyze"])
+    dev_client_role: str = Field(default="service")
+    dev_client_scopes: list[str] = Field(default_factory=lambda: ["trust:read"])
 
     celery_broker_url: str = Field(default="redis://redis:6379/0")
     celery_result_backend: str = Field(default="redis://redis:6379/1")
