@@ -14,7 +14,11 @@ async def get_cached(key: str) -> Any | None:
 	value = await _redis_client.get(key)
 	if value is None:
 		return None
-	return json.loads(value)
+	try:
+		return json.loads(value)
+	except json.JSONDecodeError:
+		_redis_client.delete(key)
+		return None
 
 
 async def set_cached(key: str, value: Any, ttl_seconds: int = 300) -> None:
