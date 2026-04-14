@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     secret_key: str = Field(default="change-me", alias="SECRET_KEY")
     access_token_expire_minutes: int = Field(default=60)
 
+    database_url: str = Field(default="postgresql+asyncpg://postgres:postgres@localhost:5432/provd")
+    redis_url: str = Field(default="redis://localhost:6379/2")
+
     dev_client_id: str = Field(default="provd-dev-client")
     dev_client_secret: str = Field(default="provd-dev-secret")
 
