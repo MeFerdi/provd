@@ -1,19 +1,32 @@
 import asyncio
 from datetime import datetime, timezone
 
+from celery.utils.log import get_task_logger
+
+from app.config import get_settings
 from app.schemas.trust import TrustScoreRequest
 from app.services.cache import set_cached
 from app.services.scoring import compute_trust_score
 from app.tasks.celery_app import celery_app
+
+settings = get_settings()
+logger = get_task_logger(__name__)
 
 
 async def _refresh_cache(cache_key: str, payload: dict, ttl_seconds: int) -> None:
     await set_cached(cache_key, payload, ttl_seconds=ttl_seconds)
 
 
-@celery_app.task(name="score.refresh")
-def refresh_scores(entities: list[dict], ttl_seconds: int = 300) -> dict:
+@celery_app.task(
+    name="score.refresh",
+    bind=True,
+    autoretry_for=(Exception,),
+    retry_backoff=settings.celery_task_retry_backoff,
+    retry_kwargs={"max_retries": settings.celery_task_max_retries},
+)
+def refresh_scores(self, entities: list[dict], ttl_seconds: int = 300) -> dict:
     """Recompute trust scores for a list of entities and refresh cache."""
+    logger.info("Starting score refresh", extra={"task_id": self.request.id, "entity_count": len(entities)})
     processed = 0
     results: list[dict] = []
     cache_jobs: list[tuple[str, dict]] = []
@@ -50,9 +63,11 @@ def refresh_scores(entities: list[dict], ttl_seconds: int = 300) -> dict:
 
         asyncio.run(_run_cache_jobs())
 
-    return {
+    result = {
         "processed": processed,
         "ttl_seconds": ttl_seconds,
         "refreshed_at": datetime.now(timezone.utc).isoformat(),
         "results": results,
     }
+    logger.info("Completed score refresh", extra={"task_id": self.request.id, "processed": processed})
+    return result
