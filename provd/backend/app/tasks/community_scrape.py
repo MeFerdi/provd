@@ -1,8 +1,13 @@
 from datetime import datetime, timezone
 
 import httpx
+from celery.utils.log import get_task_logger
 
+from app.config import get_settings
 from app.tasks.celery_app import celery_app
+
+settings = get_settings()
+logger = get_task_logger(__name__)
 
 _RISK_KEYWORDS = [
     "scam",
@@ -28,9 +33,16 @@ def _keyword_score(text: str) -> tuple[int, list[str]]:
     return len(hits), hits
 
 
-@celery_app.task(name="community.scrape")
-def scrape_community(urls: list[str], timeout_seconds: int = 8) -> dict:
+@celery_app.task(
+    name="community.scrape",
+    bind=True,
+    autoretry_for=(httpx.HTTPError,),
+    retry_backoff=settings.celery_task_retry_backoff,
+    retry_kwargs={"max_retries": settings.celery_task_max_retries},
+)
+def scrape_community(self, urls: list[str], timeout_seconds: int = 8) -> dict:
     """Scrape community sources and return lightweight risk signals."""
+    logger.info("Starting community scrape", extra={"task_id": self.request.id, "url_count": len(urls)})
     records: list[dict] = []
     failed: list[dict] = []
 
@@ -61,6 +73,10 @@ def scrape_community(urls: list[str], timeout_seconds: int = 8) -> dict:
                 failed.append({"source": url, "error": str(exc)})
 
     total_score = sum(item["score"] for item in records)
+    logger.info(
+        "Completed community scrape",
+        extra={"task_id": self.request.id, "processed_records": len(records), "failed_sources": len(failed)},
+    )
     return {
         "scanned_sources": len(urls),
         "processed_records": len(records),
