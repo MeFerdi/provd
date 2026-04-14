@@ -57,7 +57,7 @@ def scrape_community(urls: list[str], timeout_seconds: int = 8) -> dict:
                     text = response.text.lower()[:5000]
                     score, keywords = _keyword_score(text)
                     records.append({"source": url, "score": score, "keywords": keywords})
-            except Exception as exc:  # noqa: BLE001
+            except (httpx.HTTPError, ValueError) as exc:
                 failed.append({"source": url, "error": str(exc)})
 
     total_score = sum(item["score"] for item in records)
