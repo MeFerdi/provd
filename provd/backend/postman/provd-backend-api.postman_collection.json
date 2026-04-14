@@ -12,6 +12,14 @@
     {
       "key": "keyId",
       "value": ""
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
     }
   ],
   "item": [
@@ -88,6 +96,7 @@
               "pm.test('Response includes access_token', function () {",
               "  const body = pm.response.json();",
               "  pm.expect(body).to.have.property('access_token');",
+              "  pm.collectionVariables.set('bearerToken', body.access_token);",
               "  pm.expect(body.token_type).to.eql('bearer');",
               "});"
             ]
@@ -101,13 +110,17 @@
         "method": "POST",
         "header": [
           {
+            "key": "Authorization",
+            "value": "Bearer {{bearerToken}}"
+          },
+          {
             "key": "Content-Type",
             "value": "application/json"
           }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"postman-key\",\n  \"scopes\": [\"trust:read\"]\n}"
+          "raw": "{\n  \"name\": \"postman-key\",\n  \"scopes\": [\"trust:read\", \"dispute:analyze\"]\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/keys",
@@ -134,6 +147,7 @@
               "  const body = pm.response.json();",
               "  pm.expect(body).to.have.property('id');",
               "  pm.collectionVariables.set('keyId', body.id);",
+              "  pm.collectionVariables.set('apiKey', body.api_key);",
               "});"
             ]
           }
@@ -144,6 +158,12 @@
       "name": "Keys - List",
       "request": {
         "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{bearerToken}}"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/api/v1/keys",
           "host": [
@@ -179,6 +199,10 @@
       "request": {
         "method": "POST",
         "header": [
+          {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          },
           {
             "key": "Content-Type",
             "value": "application/json"
@@ -228,6 +252,10 @@
         "method": "POST",
         "header": [
           {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          },
+          {
             "key": "Content-Type",
             "value": "application/json"
           }
@@ -273,6 +301,10 @@
         "method": "POST",
         "header": [
           {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          },
+          {
             "key": "Content-Type",
             "value": "application/json"
           }
@@ -317,6 +349,12 @@
       "name": "Keys - Deactivate",
       "request": {
         "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{bearerToken}}"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/api/v1/keys/{{keyId}}",
           "host": [
