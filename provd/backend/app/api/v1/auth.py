@@ -12,6 +12,16 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/token", response_model=TokenResponse, summary="Issue bearer token")
 def issue_token(payload: TokenRequest, settings: Settings = Depends(get_app_settings)) -> TokenResponse:
+	insecure_defaults = (
+		settings.dev_client_id == "provd-dev-client"
+		and settings.dev_client_secret == "provd-dev-secret"
+	)
+	if insecure_defaults and settings.app_env.lower() not in {"dev", "development", "local", "test", "testing"}:
+		raise HTTPException(
+			status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+			detail="Unsafe default dev credentials are disabled outside development environments",
+		)
+
 	if payload.client_id != settings.dev_client_id or payload.client_secret != settings.dev_client_secret:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
