@@ -18,7 +18,7 @@ async def score_counterparty(
 	db: AsyncSession = Depends(get_postgres_session),
 ) -> TrustScoreResponse:
 	cache_key = f"trust:{payload.entity_id}:{payload.amount}:{payload.currency}"
-	cached_result = get_cached(cache_key)
+	cached_result = await get_cached(cache_key)
 	if cached_result:
 		return TrustScoreResponse(**cached_result, cached=True)
 
@@ -30,7 +30,7 @@ async def score_counterparty(
 		signals=signals,
 		cached=False,
 	)
-	set_cached(cache_key, response.model_dump(exclude={"cached"}), ttl_seconds=300)
+	await set_cached(cache_key, response.model_dump(exclude={"cached"}), ttl_seconds=300)
 	score_log = ScoreLog(
 		id=str(uuid4()),
 		entity_id=payload.entity_id,
