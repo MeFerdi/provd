@@ -1,0 +1,348 @@
+{
+  "info": {
+    "name": "Provd Backend API",
+    "description": "Collection for testing Provd backend endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8010"
+    },
+    {
+      "key": "keyId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Health status is ok', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.status).to.eql('ok');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Get Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_id\": \"provd-dev-client\",\n  \"client_secret\": \"provd-dev-secret\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response includes access_token', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('access_token');",
+              "  pm.expect(body.token_type).to.eql('bearer');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Keys - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"postman-key\",\n  \"scopes\": [\"trust:read\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/keys",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "keys"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "pm.test('Store key id for later requests', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('id');",
+              "  pm.collectionVariables.set('keyId', body.id);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Keys - List",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/keys",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "keys"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response is an array', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trust - Score (1st call)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entity_id\": \"pm-entity-1\",\n  \"amount\": 100,\n  \"currency\": \"USDT\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/trust/score",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "trust",
+            "score"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Trust score response shape is valid', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('entity_id');",
+              "  pm.expect(body).to.have.property('score');",
+              "  pm.expect(body).to.have.property('risk_level');",
+              "  pm.expect(body).to.have.property('signals');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trust - Score (2nd call, cached)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entity_id\": \"pm-entity-1\",\n  \"amount\": 100,\n  \"currency\": \"USDT\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/trust/score",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "trust",
+            "score"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Second trust call is cached', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.cached).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dispute - Analyze",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trade_id\": \"PM-TRADE-1\",\n  \"counterparty_id\": \"pm-entity-1\",\n  \"amount\": 100,\n  \"evidence\": [\"receipt\", \"chat\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/dispute/analyze",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "dispute",
+            "analyze"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Dispute response contains recommendation', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('recommendation');",
+              "  pm.expect(body).to.have.property('confidence');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Keys - Deactivate",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/keys/{{keyId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "keys",
+            "{{keyId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 204', function () {",
+              "  pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
