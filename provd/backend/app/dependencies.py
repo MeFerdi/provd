@@ -3,10 +3,12 @@ from uuid import uuid4
 from fastapi import Depends, Header, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
+from neo4j import AsyncDriver
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import Settings, get_settings
+from app.db.neo4j import get_neo4j_driver
 from app.db.postgres import get_postgres_session
 from app.models.api_key import ApiKey
 from app.schemas.auth import AuthContext
@@ -23,6 +25,14 @@ def get_request_id(x_request_id: str | None = Header(default=None)) -> str:
 	return x_request_id or str(uuid4())
 
 
+async def get_db_session(db: AsyncSession = Depends(get_postgres_session)) -> AsyncSession:
+	return db
+
+
+async def get_graph_driver(driver: AsyncDriver = Depends(get_neo4j_driver)) -> AsyncDriver:
+	return driver
+
+
 def _scope_match(required: str, granted: list[str]) -> bool:
 	if "*" in granted or required in granted:
 		return True
@@ -37,7 +47,7 @@ async def get_auth_context(
 	credentials: HTTPAuthorizationCredentials | None = Depends(_bearer_scheme),
 	x_api_key: str | None = Header(default=None, alias="X-API-Key"),
 	settings: Settings = Depends(get_app_settings),
-	db: AsyncSession = Depends(get_postgres_session),
+	db: AsyncSession = Depends(get_db_session),
 ) -> AuthContext:
 	if credentials is not None:
 		if credentials.scheme.lower() != "bearer":
