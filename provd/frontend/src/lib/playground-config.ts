@@ -14,12 +14,17 @@ export type ScoreRequest = {
   };
 };
 
+export type TrustSignal = {
+  name: string;
+  value: string | number | boolean | null;
+};
+
 export type TrustResponse = {
+  entity_id: string;
   score: number;
   risk_level: "low" | "medium" | "high";
-  flags: string[];
-  recommended_action: "approve" | "review" | "block";
-  scenario: string;
+  signals: TrustSignal[];
+  cached: boolean;
 };
 
 export type ValidationErrors = Partial<Record<"wallet_address" | "phone_hash" | "rail" | "fiat_currency" | "asset" | "amount", string>>;
