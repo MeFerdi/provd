@@ -1,9 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeScript } from "@/components/theme/ThemeScript";
-import { SiteShell } from "@/components/shell/SiteShell";
-import Navbar from "@/components/marketing/Navbar";
-import Footer from "@/components/marketing/Footer";
+import { RootChrome } from "@/components/shell/RootChrome";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://provd.io"),
@@ -29,9 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
       </head>
       <body className="bg-bg-base text-text-primary font-sans min-h-screen">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <RootChrome>{children}</RootChrome>
       </body>
     </html>
   );
