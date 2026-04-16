@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { API_BASE_URL } from "@/lib/api";
 import { getStoredSession, type AuthSession } from "@/lib/auth";
+import { createJsonHeaders, requestErrorMessage } from "@/lib/http";
 import {
   CHAIN_OPTIONS,
   DEFAULT_REQUEST,
@@ -14,10 +15,10 @@ import {
   SCORE_PATH,
   getMockBaseUrl,
   getSandboxApiKey,
+  normalizeTrustResponse,
   runMockScore,
   type Chain,
   type ScoreRequest,
-  type TradeSide,
   type TrustResponse,
   type ValidationErrors,
   validateScoreRequest,
@@ -106,34 +107,45 @@ export default function PlaygroundPage() {
     if (accessMode === "live") {
       try {
         const headers: Record<string, string> = {
-          "Content-Type": "application/json",
           "X-API-Key": apiKey || sandboxApiKey || "",
         };
-        if (session?.accessToken) {
-          headers.Authorization = `Bearer ${session.accessToken}`;
-        }
+        const requestHeaders = createJsonHeaders({
+          existingHeaders: headers,
+          accessToken: session?.accessToken,
+        });
 
         const liveResponse = await fetch(`${API_BASE_URL}${SCORE_PATH}`, {
           method: "POST",
-          headers,
+          headers: requestHeaders,
           body: JSON.stringify(request),
         });
 
         if (liveResponse.ok) {
-          const payload = (await liveResponse.json()) as Partial<TrustResponse>;
-          const normalized: TrustResponse = {
-            score: Number(payload.score ?? 0),
-            risk_level: (payload.risk_level as TrustResponse["risk_level"]) ?? "medium",
-            flags: Array.isArray(payload.flags) ? payload.flags : [],
-            recommended_action: (payload.recommended_action as TrustResponse["recommended_action"]) ?? "review",
-            scenario: payload.scenario ?? "live_response",
-          };
+          const payload = (await liveResponse.json()) as TrustResponse;
+          const normalized = normalizeTrustResponse(payload);
           setResponse(normalized);
           setStatus("Live request completed.");
           return;
         }
+
+        const detail = await requestErrorMessage(liveResponse, `Request failed with status ${liveResponse.status}`);
+        if (liveResponse.status >= 400 && liveResponse.status < 500) {
+          setResponse(null);
+          setStatus(`Live request failed (${liveResponse.status}): ${detail}`);
+          return;
+        }
+
+        if (liveResponse.status >= 500) {
+          const scored = runMockScore(request);
+          setResponse(scored);
+          setStatus(`Live endpoint returned ${liveResponse.status}; fallback mock used (${detail || scored.scenario}).`);
+          return;
+        }
       } catch {
-        // fall through to mock response to keep the playground usable in pre-live environments
+        const scored = runMockScore(request);
+        setResponse(scored);
+        setStatus(`Live endpoint unavailable; fallback mock used (${scored.scenario}).`);
+        return;
       }
     }
 
@@ -369,8 +381,8 @@ export default function PlaygroundPage() {
 
                   <Field label="context.side">
                     <select
-                      value={request.context.side}
-                      onChange={(event) => updateContext("side", event.target.value as TradeSide)}
+                        value={request.context.side}
+                        onChange={(event) => updateContext("side", event.target.value as ScoreRequest["context"]["side"])}
                       className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
                     >
                       <option value="buy">buy</option>
