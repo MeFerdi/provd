@@ -134,48 +134,64 @@ export function runMockScore(request: ScoreRequest): TrustResponse {
       entity_id: request.entity_id,
       score: 19,
       risk_level: "high",
-      signals: [
-        { name: "watchlist_match", value: 0.98, weight: 0.5 },
-        { name: "chargeback_cluster", value: 0.82, weight: 0.3 },
-        { name: "velocity_spike", value: 0.76, weight: 0.2 },
-      ],
-      cached: false,
-    };
+function buildMockTrustResponse(
+  request: ScoreRequest,
+  response: Pick<TrustResponse, "score" | "risk_level" | "recommended_action" | "scenario"> & { flags: string[] },
+): TrustResponse {
+  return {
+    entity_id: request.wallet_address,
+    score: response.score,
+    risk_level: response.risk_level,
+    signals: response.flags,
+    flags: response.flags,
+    recommended_action: response.recommended_action,
+    scenario: response.scenario,
+    cached: false,
+  };
+}
+
+export function runMockScore(request: ScoreRequest): TrustResponse {
+  const wallet = request.wallet_address.toLowerCase();
+  const hash = request.phone_hash.toLowerCase();
+  const { amount, rail } = request.context;
+
+  if (wallet.includes("watchlist") || hash.startsWith("ffff") || amount >= 10000) {
+    return buildMockTrustResponse(request, {
+      score: 19,
+      risk_level: "high",
+      flags: ["wallet_watchlist_match", "linked_chargeback_cluster", "velocity_spike_detected"],
+      recommended_action: "block",
+      scenario: "blocked_wallet",
+    });
   }
 
   if (amount > 5000 || rail === "otc") {
-    return {
-      entity_id: request.entity_id,
+    return buildMockTrustResponse(request, {
       score: 58,
       risk_level: "medium",
-      signals: [
-        { name: "high_value_trade", value: 0.72, weight: 0.5 },
-        { name: "manual_review_bias", value: 0.61, weight: 0.5 },
-      ],
-      cached: false,
-    };
+      flags: ["high_value_trade", "counterparty_needs_manual_review"],
+      recommended_action: "review",
+      scenario: "high_value_review",
+    });
   }
 
-  if (entity.includes("08b1") || entity.includes("flagged")) {
-    return {
-      entity_id: request.entity_id,
+  if (wallet.includes("08b1") || hash.endsWith("b3dd")) {
+    return buildMockTrustResponse(request, {
       score: 67,
       risk_level: "medium",
-      signals: [
-        { name: "minor_dispute_history", value: 0.62, weight: 0.6 },
-        { name: "cross_rail_activity", value: 0.57, weight: 0.4 },
-      ],
-      cached: false,
-    };
+      flags: ["minor_dispute_history", "cross-rail_activity"],
+      recommended_action: "review",
+      scenario: "flagged_counterparty",
+    });
   }
 
-  return {
-    entity_id: request.entity_id,
+  return buildMockTrustResponse(request, {
     score: 86,
     risk_level: "low",
-    signals: [{ name: "stable_trade_pattern", value: 0.88, weight: 1 }],
-    cached: false,
-  };
+    flags: ["stable_trade_pattern"],
+    recommended_action: "approve",
+    scenario: "low_risk_trade",
+  });
 }
 
 export function normalizeTrustResponse(payload: LiveTrustPayload): TrustResponse {
