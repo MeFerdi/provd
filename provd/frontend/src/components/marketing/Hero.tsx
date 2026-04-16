@@ -17,6 +17,9 @@ export default function Hero() {
             Provd helps African exchanges, wallets, and OTC desks block repeat fraud before funds move. Query one API call and get network-backed counterparty risk, dispute signals, and recommended actions across P2P stablecoin flows.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="/playground" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-bg-surface px-7 py-3 font-sans text-[15px] font-medium text-text-primary transition hover:-translate-y-[1px] hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              Try playground
+            </a>
             <a href="/docs/quickstart" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-accent px-7 py-3 font-sans text-[15px] font-medium text-[#07090E] transition hover:-translate-y-[1px] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
               Read Documentation
             </a>
