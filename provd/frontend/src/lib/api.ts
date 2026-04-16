@@ -10,6 +10,23 @@ export type LoginResponse = {
   role: string;
 };
 
+async function readResponseDetail(response: Response): Promise<string> {
+  const text = await response.text();
+  if (!text) {
+    return response.statusText;
+  }
+
+  try {
+    const body = JSON.parse(text) as { detail?: unknown };
+    if (typeof body.detail === "string" && body.detail.trim()) {
+      return body.detail;
+    }
+    return JSON.stringify(body);
+  } catch {
+    return text;
+  }
+}
+
 async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth = true): Promise<T> {
   const session = getStoredSession();
   const headers = new Headers(init.headers);
@@ -26,14 +43,7 @@ async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth 
   });
 
   if (!response.ok) {
-    let detail = response.statusText;
-    try {
-      const body = await response.json();
-      detail = body.detail ?? JSON.stringify(body);
-    } catch {
-      const text = await response.text();
-      if (text) detail = text;
-    }
+    const detail = await readResponseDetail(response);
     throw new Error(detail || `Request failed with status ${response.status}`);
   }
 
@@ -62,14 +72,7 @@ export async function loginWithCredentials(clientId: string, clientSecret: strin
   });
 
   if (!response.ok) {
-    let detail = response.statusText;
-    try {
-      const body = await response.json();
-      detail = body.detail ?? JSON.stringify(body);
-    } catch {
-      const text = await response.text();
-      if (text) detail = text;
-    }
+    const detail = await readResponseDetail(response);
     throw new Error(detail || `Login failed with status ${response.status}`);
   }
 
