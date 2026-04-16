@@ -9,10 +9,17 @@ import { getStoredSession, type AuthSession } from "@/lib/auth";
 import { apiRequest } from "@/lib/api";
 
 type RuntimeConfig = {
+  app_name: string;
   broker_url: string;
   result_backend: string;
-  task_default_queue: string;
-  beat_schedule_size: number;
+  default_queue: string | null;
+  task_time_limit: number | null;
+  task_soft_time_limit: number | null;
+  task_track_started: boolean;
+  task_acks_late: boolean;
+  task_reject_on_worker_lost: boolean;
+  worker_prefetch_multiplier: number;
+  beat_schedule: Record<string, { task: string | null; schedule: string; args: unknown[] }>;
 };
 
 export default function AdminDashboardPage() {
@@ -74,8 +81,8 @@ export default function AdminDashboardPage() {
               <div className="grid gap-3 sm:grid-cols-2">
                 <Stat label="Broker" value={config.broker_url} />
                 <Stat label="Backend" value={config.result_backend} />
-                <Stat label="Queue" value={config.task_default_queue} />
-                <Stat label="Beat jobs" value={String(config.beat_schedule_size)} />
+                <Stat label="Queue" value={config.default_queue ?? "-"} />
+                <Stat label="Beat jobs" value={String(Object.keys(config.beat_schedule).length)} />
               </div>
             ) : (
               <p className="text-sm text-text-secondary">Loading runtime configuration…</p>
