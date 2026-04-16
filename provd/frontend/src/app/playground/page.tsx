@@ -10,8 +10,9 @@ import { getStoredSession, type AuthSession } from "@/lib/auth";
 import { createJsonHeaders, requestErrorMessage } from "@/lib/http";
 import {
   DEFAULT_REQUEST,
+  LIVE_SCORE_PATH,
   PLAYGROUND_PRESETS,
-  SCORE_PATH,
+  SANDBOX_SCORE_PATH,
   getMockBaseUrl,
   getRecommendedAction,
   getSandboxApiKey,
@@ -49,6 +50,7 @@ export default function PlaygroundPage() {
   }, []);
 
   const liveEnabled = Boolean(session);
+  const scorePath = accessMode === "live" ? LIVE_SCORE_PATH : SANDBOX_SCORE_PATH;
   const endpointBaseUrl = accessMode === "live" ? API_BASE_URL : mockBaseUrl;
 
   const requestJson = useMemo(() => JSON.stringify(request, null, 2), [request]);
@@ -56,14 +58,14 @@ export default function PlaygroundPage() {
 
   const nodeSnippet = useMemo(
     () =>
-      `const response = await fetch("${endpointBaseUrl}${SCORE_PATH}", {\n  method: "POST",\n  headers: {\n    "Content-Type": "application/json",\n    "X-API-Key": "${apiKey || sandboxApiKey || "<your_api_key>"}"${accessMode === "live" ? ',\\n    "Authorization": "Bearer <access_token>"' : ""}\n  },\n  body: JSON.stringify(${requestJson})\n});\n\nconst data = await response.json();\nconsole.log(data);`,
-    [accessMode, apiKey, endpointBaseUrl, requestJson, sandboxApiKey]
+      `const response = await fetch("${endpointBaseUrl}${scorePath}", {\n  method: "POST",\n  headers: {\n    "Content-Type": "application/json",\n    "X-API-Key": "${apiKey || sandboxApiKey || "<your_api_key>"}"${accessMode === "live" ? ',\\n    "Authorization": "Bearer <access_token>"' : ""}\n  },\n  body: JSON.stringify(${requestJson})\n});\n\nconst data = await response.json();\nconsole.log(data);`,
+    [accessMode, apiKey, endpointBaseUrl, requestJson, sandboxApiKey, scorePath]
   );
 
   const pythonSnippet = useMemo(
     () =>
-      `import requests\n\npayload = ${requestJson}\n\nresponse = requests.post(\n    "${endpointBaseUrl}${SCORE_PATH}",\n    headers={\n        "Content-Type": "application/json",\n        "X-API-Key": "${apiKey || sandboxApiKey || "<your_api_key>"}",${accessMode === "live" ? '\n        "Authorization": "Bearer <access_token>",' : ""}\n    },\n    json=payload,\n)\n\nprint(response.json())`,
-    [accessMode, apiKey, endpointBaseUrl, requestJson, sandboxApiKey]
+      `import requests\n\npayload = ${requestJson}\n\nresponse = requests.post(\n    "${endpointBaseUrl}${scorePath}",\n    headers={\n        "Content-Type": "application/json",\n        "X-API-Key": "${apiKey || sandboxApiKey || "<your_api_key>"}",${accessMode === "live" ? '\n        "Authorization": "Bearer <access_token>",' : ""}\n    },\n    json=payload,\n)\n\nprint(response.json())`,
+    [accessMode, apiKey, endpointBaseUrl, requestJson, sandboxApiKey, scorePath]
   );
 
   const riskBadgeClass =
@@ -116,7 +118,7 @@ export default function PlaygroundPage() {
           accessToken: session?.accessToken,
         });
 
-        const liveResponse = await fetch(`${API_BASE_URL}${SCORE_PATH}`, {
+        const liveResponse = await fetch(`${API_BASE_URL}${LIVE_SCORE_PATH}`, {
           method: "POST",
           headers: requestHeaders,
           body: JSON.stringify(request),
@@ -131,6 +133,13 @@ export default function PlaygroundPage() {
         }
 
         const detail = await requestErrorMessage(liveResponse, `Request failed with status ${liveResponse.status}`);
+        if (liveResponse.status === 404 || liveResponse.status === 405) {
+          const scored = runMockScore(request);
+          setResponse(scored);
+          setStatus(`Live route not found (${liveResponse.status}); fallback mock used.`);
+          return;
+        }
+
         if (liveResponse.status >= 400 && liveResponse.status < 500) {
           setResponse(null);
           setStatus(`Live request failed (${liveResponse.status}): ${detail}`);
@@ -186,12 +195,12 @@ export default function PlaygroundPage() {
             Simulate a real score request without writing any code.
           </h1>
           <p className="max-w-3xl text-lg text-text-secondary">
-            This standalone page maps 1:1 to {SCORE_PATH} fields and returns realistic mock responses for fast partner evaluation.
+            This standalone page maps 1:1 to the trust score fields and returns realistic mock responses for fast partner evaluation.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-bg-border bg-bg-surface/60 px-4 py-3 text-sm">
             <span className="rounded-md border border-bg-border bg-bg-base px-2 py-1 text-xs text-text-secondary">POST</span>
-            <span className="font-mono text-text-primary">{SCORE_PATH}</span>
+            <span className="font-mono text-text-primary">{scorePath}</span>
             <span className="ml-auto rounded-md border border-bg-border bg-bg-base px-2 py-1 text-xs text-text-secondary">
               Mode: {accessMode === "live" ? "Live Account" : "Mock Sandbox"}
             </span>
@@ -301,7 +310,7 @@ export default function PlaygroundPage() {
             <Card>
               <CardHeader>
                 <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Request builder</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">{SCORE_PATH}</h2>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">{scorePath}</h2>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-xl border border-bg-border bg-bg-base/80 p-4 text-xs text-text-secondary">
@@ -468,7 +477,7 @@ export default function PlaygroundPage() {
               <CardContent className="space-y-4">
                 <CodeBlock title="application/json" body={requestJson} />
                 <div className="rounded-xl border border-bg-border bg-bg-base p-4 text-sm text-text-secondary">
-                  <p>Active endpoint: {endpointBaseUrl}{SCORE_PATH}</p>
+                  <p>Active endpoint: {endpointBaseUrl}{scorePath}</p>
                   <p className="mt-1">Model remains the same across sandbox and live modes.</p>
                 </div>
               </CardContent>
