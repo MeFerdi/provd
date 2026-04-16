@@ -17,17 +17,18 @@ export type ScoreRequest = {
 };
 
 export type TrustSignal = {
-  name: string;
-  value: number;
-  weight: number;
+export type TrustFlag = {
+  label: string;
+  severity: "low" | "medium" | "high";
+  detail?: string;
 };
 
 export type TrustResponse = {
-  entity_id: string;
   score: number;
   risk_level: "low" | "medium" | "high";
-  signals: TrustSignal[];
-  cached: boolean;
+  flags: TrustFlag[];
+  recommended_action: string;
+  scenario?: string;
 };
 
 export type LiveTrustPayload = Partial<TrustResponse> & {
