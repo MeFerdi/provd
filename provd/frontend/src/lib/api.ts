@@ -1,6 +1,8 @@
 import { clearSession, getStoredSession, saveSession, type AuthSession } from "@/lib/auth";
+import { createJsonHeaders, requestErrorMessage } from "@/lib/http";
+import { getApiBaseUrl } from "@/lib/env";
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+export const API_BASE_URL = getApiBaseUrl();
 
 export type LoginResponse = {
   access_token: string;
@@ -10,32 +12,13 @@ export type LoginResponse = {
   role: string;
 };
 
-async function readResponseDetail(response: Response): Promise<string> {
-  const text = await response.text();
-  if (!text) {
-    return response.statusText;
-  }
-
-  try {
-    const body = JSON.parse(text) as { detail?: unknown };
-    if (typeof body.detail === "string" && body.detail.trim()) {
-      return body.detail;
-    }
-    return JSON.stringify(body);
-  } catch {
-    return text;
-  }
-}
-
 async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth = true): Promise<T> {
   const session = getStoredSession();
-  const headers = new Headers(init.headers);
-
-  headers.set("Content-Type", headers.get("Content-Type") ?? "application/json");
-
-  if (includeAuth && session?.accessToken) {
-    headers.set("Authorization", `Bearer ${session.accessToken}`);
-  }
+  const headers = createJsonHeaders({
+    existingHeaders: init.headers,
+    accessToken: session?.accessToken,
+    includeAuth,
+  });
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
@@ -43,7 +26,7 @@ async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth 
   });
 
   if (!response.ok) {
-    const detail = await readResponseDetail(response);
+    const detail = await requestErrorMessage(response, `Request failed with status ${response.status}`);
     throw new Error(detail || `Request failed with status ${response.status}`);
   }
 
@@ -72,7 +55,7 @@ export async function loginWithCredentials(clientId: string, clientSecret: strin
   });
 
   if (!response.ok) {
-    const detail = await readResponseDetail(response);
+    const detail = await requestErrorMessage(response, `Login failed with status ${response.status}`);
     throw new Error(detail || `Login failed with status ${response.status}`);
   }
 
