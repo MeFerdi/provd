@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getDashboardPath, getStoredSession, saveSession } from "@/lib/auth";
+import { getDashboardPath, getStoredSession } from "@/lib/auth";
 import { loginWithCredentials } from "@/lib/api";
 
 export default function LoginPage() {
@@ -30,7 +30,6 @@ export default function LoginPage() {
 
     try {
       const session = await loginWithCredentials(clientId, clientSecret);
-      saveSession(session);
       router.push(getDashboardPath(session.role));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to sign in");
