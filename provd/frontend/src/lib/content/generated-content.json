@@ -1,6 +1,16 @@
 {
-  "generatedAt": "2026-04-02T19:22:20.381Z",
+  "generatedAt": "2026-04-16T04:45:05.042Z",
   "records": [
+    {
+      "type": "docs",
+      "url": "/docs/api-access",
+      "slug": "api-access",
+      "title": "API Access",
+      "description": "Platform status, development roadmap, and beta access expectations.",
+      "date": "",
+      "tags": [],
+      "content": "\n## Current status\n\nProvd is still under active development. Public API access is not open yet, and the platform is not currently available for general beta testing or production use.\n\nThe current website and documentation outline the intended product direction, integration model, and system design so partners and early supporters can understand where the platform is heading.\n\n## What is being built\n\nThe Provd API is being designed as a fraud-intelligence layer for African P2P crypto, stablecoin, and OTC workflows. The intended surface area includes:\n\n- Counterparty risk scoring before release\n- Risk flags and decision support for operator workflows\n- Dispute and outcome intelligence\n- Audit-oriented response data for review teams\n\n## What to expect before beta\n\nBefore beta access opens, the public site will focus on:\n\n- Product direction\n- Technical documentation and integration intent\n- Policy and legal documentation\n- Architecture and workflow communication\n\nThis means some API details may continue to evolve while the platform is still being built.\n\n## Beta notifications\n\nOnce Provd is ready for beta testing and early usage, updates will be shared through the project communications channel.\n\nThat channel will be used to announce:\n\n- beta availability\n- onboarding timing\n- access criteria\n- implementation updates\n\n## Recommended next step\n\nIf you are evaluating the product now, the best place to start is the broader documentation set:\n\n- [Documentation overview](/docs)\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n- [Technical Whitepaper](/whitepaper)\n"
+    },
     {
       "type": "docs",
       "url": "/docs/api-reference",
@@ -9,17 +19,17 @@
       "description": "Endpoints, fields, and responses.",
       "date": "",
       "tags": [],
-      "content": "\n## POST /v1/trust/score\n\nReturns a counterparty risk score and reason flags for a trade context.\n\n### Request fields\n\n- `wallet_address` (string)\n- `phone_hash` (string)\n- `chain` (string)\n- `context` (object)\n\n### Response fields\n\n- `trust_score` (number)\n- `risk_level` (string)\n- `risk_flags` (string[])\n"
+      "content": "\nBase path: `/api/v1`\n\n## Authentication\n\nProtected endpoints accept either:\n\n- `Authorization: Bearer <jwt_token>`\n- `X-API-Key: <api_key>`\n\n## POST /api/v1/trust/score\n\nRequired scope: `trust:read`\n\nReturns a counterparty risk score and reason flags for a trade context.\n\n### Request fields\n\n- `entity_id` (string)\n- `amount` (number)\n- `currency` (string)\n- `context` (object)\n\n### Example request\n\n```json\n{\n  \"entity_id\": \"entity-123\",\n  \"amount\": 250,\n  \"currency\": \"USDT\",\n  \"context\": {}\n}\n```\n\n### Response fields\n\n- `score` (number)\n- `risk_level` (string)\n- `signals` (array)\n- `cached` (boolean)\n\n### Example response\n\n```json\n{\n  \"entity_id\": \"entity-123\",\n  \"score\": 0.82,\n  \"risk_level\": \"low\",\n  \"signals\": [\n    { \"name\": \"trade_consistency\", \"value\": 0.88, \"weight\": 0.4 }\n  ],\n  \"cached\": false\n}\n```\n\n## POST /api/v1/dispute/analyze\n\nRequired scope: `dispute:analyze`\n\nReturns a recommendation and confidence score for a dispute case.\n\n## Key management endpoints\n\n- `GET /api/v1/keys` (scope: `keys:read`)\n- `POST /api/v1/keys` (scope: `keys:write`)\n- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)\n\n## Notes\n\n- Call this endpoint before releasing crypto or fiat.\n- Treat `risk_flags` as operator-facing reasons, not just UI labels.\n- Pair this endpoint with your internal review and dispute workflows.\n"
     },
     {
       "type": "docs",
       "url": "/docs/authentication",
       "slug": "authentication",
       "title": "Authentication",
-      "description": "API keys and safe integration patterns.",
+      "description": "JWT bearer tokens, API keys, and scope-based access control.",
       "date": "",
       "tags": [],
-      "content": "\n## API keys\n\nProvd uses bearer tokens for API authentication.\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n"
+      "content": "\n## Authentication methods\n\nProvd supports two auth methods:\n\n1. **Bearer JWT** (recommended for operator/admin clients)\n2. **API key via `X-API-Key`** (recommended for service-to-service calls)\n\n## Get a bearer token\n\nRequest:\n\n```bash\nPOST /api/v1/auth/token\nContent-Type: application/json\n\n{\n\t\"client_id\": \"provd-dev-client\",\n\t\"client_secret\": \"provd-dev-secret\"\n}\n```\n\nResponse includes:\n\n- `access_token`\n- `token_type`\n- `expires_in`\n- `scopes`\n- `role`\n\nUse it in requests:\n\n```bash\nAuthorization: Bearer <access_token>\n```\n\n## API keys\n\nCreate and manage API keys through `/api/v1/keys` (requires key management permissions).\n\nUse them in requests:\n\n```bash\nX-API-Key: <your_api_key>\n```\n\n## Authorization model\n\nAccess is controlled by **scopes** (and optionally role).\n\nCurrent protected scopes:\n\n- `keys:read` — list keys\n- `keys:write` — create/deactivate keys\n- `trust:read` — call trust scoring endpoint\n- `dispute:analyze` — call dispute analysis endpoint\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n## Recommended pattern\n\n1. Keep raw user identifiers out of browser logs and analytics tools.\n2. Hash phone numbers or bank-account-derived identifiers before transport.\n3. Send only the hashed identifier plus the trade context to Provd.\n4. Rotate API keys on a schedule and scope them by environment.\n\n## Related docs\n\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n"
     },
     {
       "type": "docs",
@@ -29,7 +39,7 @@
       "description": "Product and API updates.",
       "date": "",
       "tags": [],
-      "content": "\n## 2026-03-31\n\n- Initial docs scaffolding.\n\n"
+      "content": "\n## 2026-04-02\n\n- Reframed the product around fraud-intelligence infrastructure for African P2P and stablecoin flows.\n- Updated docs navigation and landing pages to support a more standard documentation experience.\n- Standardized the scoring endpoint reference around `/v1/counterparties/score`.\n\n## 2026-03-31\n\n- Initial docs scaffolding.\n"
     },
     {
       "type": "docs",
@@ -39,7 +49,7 @@
       "description": "Add counterparty scoring to your approval flow in minutes.",
       "date": "",
       "tags": [],
-      "content": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A counterparty score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Minimal request\n\n```bash\nPOST /v1/counterparties/score\n```\n\n## Next\n\n- Authentication: `/docs/authentication`\n- API Reference: `/docs/api-reference`\n"
+      "content": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A counterparty score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Integration flow\n\n1. Collect the trade context before release.\n2. Hash sensitive user identifiers in your trusted environment.\n3. Call the scoring endpoint with wallet, rail, and trade metadata.\n4. Use the returned `risk_level` and flags to allow, review, or block the trade.\n\n## Minimal request\n\n```bash\nPOST /v1/counterparties/score\n```\n\n## Typical decisioning\n\n- `low`: approve the trade automatically\n- `medium`: send the trade to review or request stronger evidence\n- `high`: stop release and escalate to your fraud workflow\n\n## Next steps\n\n- [Authentication](/docs/authentication)\n- [API Reference](/docs/api-reference)\n"
     },
     {
       "type": "blog",
