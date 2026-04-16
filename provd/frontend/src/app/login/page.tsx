@@ -10,8 +10,9 @@ import { loginWithCredentials } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [clientId, setClientId] = useState("provd-dev-client");
-  const [clientSecret, setClientSecret] = useState("provd-dev-secret");
+  const defaultClientId = process.env.NEXT_PUBLIC_CLIENT_ID ?? "";
+  const [clientId, setClientId] = useState(defaultClientId);
+  const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
