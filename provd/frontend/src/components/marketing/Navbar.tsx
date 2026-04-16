@@ -1,21 +1,30 @@
 "use client";
-import Link from "next/link";
+
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+
+import { AuthCta } from "@/components/auth/AuthCta";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 8);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navLinks = [
+    { href: "/playground", label: "Playground" },
+    { href: "/docs", label: "Docs" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/blog", label: "Blog" },
+    { href: "/whitepaper", label: "Whitepaper" },
+  ];
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -30,12 +39,7 @@ export default function Navbar() {
         className="h-[60px] flex items-center px-4 md:px-8 border-b border-transparent"
         style={{ borderBottomColor: scrolled || mobileOpen ? "var(--bg-border)" : "transparent" }}
       >
-        {/* Left: Wordmark */}
-        <Link
-          href="/"
-          className="flex flex-col justify-center mr-8 group"
-          aria-label="Provd homepage"
-        >
+        <Link href="/" className="flex flex-col justify-center mr-8 group" aria-label="Provd homepage">
           <span className="flex items-center">
             <Image
               src="/provd.svg"
@@ -48,14 +52,8 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center: Nav links (desktop) */}
         <nav className="hidden md:flex gap-8 flex-1 justify-center">
-          {[
-            { href: "/docs", label: "Docs" },
-            { href: "/pricing", label: "Pricing" },
-            { href: "/blog", label: "Blog" },
-            { href: "/whitepaper", label: "Whitepaper" },
-          ].map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -68,28 +66,10 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Right: Auth buttons (desktop) */}
         <div className="hidden md:flex items-center gap-3">
-          {/* <Link
-            href="/signin"
-            className="h-9 px-4 rounded-[4px] font-sans text-[14px] text-text-secondary border border-transparent hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
-          >
-            Sign In
-          </Link> */}
-          <Link
-            href="/docs/api-access"
-            className={`h-9 px-4 rounded-[4px] font-sans text-[14px] font-medium hover:-translate-y-[1px] transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none ${
-              scrolled
-                ? "bg-white text-[#07090E] hover:bg-white/90"
-                : "bg-accent text-[#07090E] hover:brightness-110"
-            }`}
-            title="Platform under development. Beta access will be announced through the communications channel."
-          >
-            API Access Soon
-          </Link>
+          <AuthCta />
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className={`md:hidden ml-auto flex items-center justify-center h-9 w-9 rounded focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none ${
             scrolled || mobileOpen ? "text-white" : "text-text-primary"
@@ -97,7 +77,7 @@ export default function Navbar() {
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <AnimatePresence initial={false}>
+          <AnimatePresence initial={false} mode="wait">
             {mobileOpen ? (
               <motion.span key="close" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <X size={28} />
@@ -111,7 +91,6 @@ export default function Navbar() {
         </button>
       </motion.div>
 
-      {/* Mobile overlay menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.nav
@@ -135,12 +114,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  {[
-                    { href: "/docs", label: "Docs" },
-                    { href: "/pricing", label: "Pricing" },
-                    { href: "/blog", label: "Blog" },
-                    { href: "/whitepaper", label: "Whitepaper" },
-                  ].map((link) => (
+                  {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
@@ -152,14 +126,9 @@ export default function Navbar() {
                   ))}
                 </div>
 
-                <Link
-                  href="/docs/api-access"
-                  className="mt-5 flex h-12 w-full items-center justify-center rounded-xl font-sans text-[16px] font-medium bg-accent text-[#07090E] hover:brightness-110 transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
-                  title="Platform under development. Beta access will be announced through the communications channel."
-                  onClick={() => setMobileOpen(false)}
-                >
-                  API Access Soon
-                </Link>
+                <div className="mt-5" onClick={() => setMobileOpen(false)}>
+                  <AuthCta />
+                </div>
               </div>
             </div>
           </motion.nav>

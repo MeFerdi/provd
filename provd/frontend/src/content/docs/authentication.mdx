@@ -1,15 +1,63 @@
 ---
 title: Authentication
-description: API keys and safe integration patterns.
+description: JWT bearer tokens, API keys, and scope-based access control.
 ---
+
+## Authentication methods
+
+Provd supports two auth methods:
+
+1. **Bearer JWT** (recommended for operator/admin clients)
+2. **API key via `X-API-Key`** (recommended for service-to-service calls)
+
+## Get a bearer token
+
+Request:
+
+```bash
+POST /api/v1/auth/token
+Content-Type: application/json
+
+{
+	"client_id": "provd-dev-client",
+	"client_secret": "provd-dev-secret"
+}
+```
+
+Response includes:
+
+- `access_token`
+- `token_type`
+- `expires_in`
+- `scopes`
+- `role`
+
+Use it in requests:
+
+```bash
+Authorization: Bearer <access_token>
+```
 
 ## API keys
 
-Provd uses bearer tokens for API authentication.
+Create and manage API keys through `/api/v1/keys` (requires key management permissions).
+
+Use them in requests:
 
 ```bash
-Authorization: Bearer <your_api_key>
+X-API-Key: <your_api_key>
 ```
+
+## Authorization model
+
+Access is controlled by **scopes** (and optionally role).
+
+Current protected scopes:
+
+- `keys:read` — list keys
+- `keys:write` — create/deactivate keys
+- `trust:read` — call trust scoring endpoint
+- `dispute:analyze` — call dispute analysis endpoint
 
 ## Hashing
 

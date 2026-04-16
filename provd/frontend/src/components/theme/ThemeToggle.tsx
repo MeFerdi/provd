@@ -4,20 +4,22 @@ import { Moon, Sun } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/cn";
+import { THEME_STORAGE_KEY } from "@/lib/storage-keys";
+import { readStorageItem, writeStorageItem } from "@/lib/storage";
 
 type Theme = "dark" | "light";
 
 function setTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
-  try {
-    localStorage.setItem("provd.theme", theme);
-  } catch {}
+  writeStorageItem(THEME_STORAGE_KEY, theme);
 }
 
 function getInitialTheme(): Theme {
   if (typeof document === "undefined") return "dark";
   const t = document.documentElement.dataset.theme;
-  return t === "light" ? "light" : "dark";
+  if (t === "light" || t === "dark") return t;
+
+  return readStorageItem(THEME_STORAGE_KEY) === "light" ? "light" : "dark";
 }
 
 export function ThemeToggle({ className }: { className?: string }) {
