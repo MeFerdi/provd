@@ -25,6 +25,10 @@ async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth 
     headers,
   });
 
+  if (response.status === 401) {
+    clearSession();
+  }
+
   if (!response.ok) {
     const detail = await requestErrorMessage(response, `Request failed with status ${response.status}`);
     throw new Error(detail || `Request failed with status ${response.status}`);
