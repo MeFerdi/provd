@@ -1,3 +1,5 @@
+import { getMockBaseUrl as getSharedMockBaseUrl, getSandboxApiKey as getSharedSandboxApiKey } from "@/lib/env";
+
 export type Chain = "solana" | "celo" | "ethereum";
 export type TradeSide = "buy" | "sell";
 
@@ -26,6 +28,8 @@ export type TrustResponse = {
   signals: TrustSignal[];
   cached: boolean;
 };
+
+export type LiveTrustPayload = Partial<TrustResponse> & { score?: unknown; flags?: unknown };
 
 export type ValidationErrors = Partial<Record<"wallet_address" | "phone_hash" | "rail" | "fiat_currency" | "asset" | "amount", string>>;
 
@@ -98,11 +102,11 @@ export const PLAYGROUND_PRESETS: PlaygroundPreset[] = [
 const SHA256_REGEX = /^[a-f0-9]{64}$/i;
 
 export function getSandboxApiKey(): string {
-  return process.env.NEXT_PUBLIC_PROVD_SANDBOX_API_KEY ?? "";
+  return getSharedSandboxApiKey();
 }
 
 export function getMockBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_PROVD_MOCK_BASE_URL ?? "https://sandbox.provd.network/mock";
+  return getSharedMockBaseUrl();
 }
 
 export function validateScoreRequest(request: ScoreRequest): ValidationErrors {
@@ -157,5 +161,21 @@ export function runMockScore(request: ScoreRequest): TrustResponse {
     flags: ["stable_trade_pattern"],
     recommended_action: "approve",
     scenario: "low_risk_trade",
+  };
+}
+
+export function normalizeTrustResponse(payload: LiveTrustPayload): TrustResponse {
+  return {
+    score: typeof payload.score === "number" && Number.isFinite(payload.score) ? payload.score : 0,
+    risk_level:
+      payload.risk_level === "low" || payload.risk_level === "medium" || payload.risk_level === "high"
+        ? payload.risk_level
+        : "medium",
+    flags: Array.isArray(payload.flags) ? payload.flags.filter((flag): flag is string => typeof flag === "string") : [],
+    recommended_action:
+      payload.recommended_action === "approve" || payload.recommended_action === "review" || payload.recommended_action === "block"
+        ? payload.recommended_action
+        : "review",
+    scenario: typeof payload.scenario === "string" && payload.scenario.trim() ? payload.scenario : "live_response",
   };
 }
