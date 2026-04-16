@@ -17,7 +17,7 @@ export function RootChrome({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <div>{children}</div>
       <Footer />
     </>
   );
