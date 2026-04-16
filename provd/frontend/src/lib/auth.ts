@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-export type AuthRole = "admin" | "service" | "user" | string;
+export type AuthRole = "admin" | "service" | "user" | (string & {});
 
 export type AuthSession = {
   accessToken: string;
