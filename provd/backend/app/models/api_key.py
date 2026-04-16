@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, JSON, String, Text
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Index, JSON, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -8,8 +8,14 @@ from app.db.base import Base
 
 class ApiKey(Base):
 	__tablename__ = "api_keys"
+	__table_args__ = (
+		CheckConstraint("char_length(prefix) >= 4", name="ck_api_keys_prefix_length"),
+		Index("ix_api_keys_active_created_at", "active", "created_at"),
+		Index("ix_api_keys_client_active", "client_id", "active"),
+	)
 
 	id: Mapped[str] = mapped_column(String(36), primary_key=True)
+	client_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("clients.id", ondelete="SET NULL"), nullable=True)
 	name: Mapped[str] = mapped_column(String(100), nullable=False)
 	prefix: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
 	key_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)

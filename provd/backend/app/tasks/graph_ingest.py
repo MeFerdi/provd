@@ -1,7 +1,13 @@
 from datetime import datetime, timezone
 
+from celery.utils.log import get_task_logger
+
+from app.config import get_settings
 from app.services.hasher import sha256_hex
 from app.tasks.celery_app import celery_app
+
+settings = get_settings()
+logger = get_task_logger(__name__)
 
 
 def _normalize_edge(edge: dict) -> tuple[str, str, str]:
@@ -11,8 +17,14 @@ def _normalize_edge(edge: dict) -> tuple[str, str, str]:
     return source, target, rel
 
 
-@celery_app.task(name="graph.ingest")
-def ingest_graph_data(payload: dict) -> dict:
+@celery_app.task(
+    name="graph.ingest",
+    bind=True,
+    autoretry_for=(Exception,),
+    retry_backoff=settings.celery_task_retry_backoff,
+    retry_kwargs={"max_retries": settings.celery_task_max_retries},
+)
+def ingest_graph_data(self, payload: dict) -> dict:
     """Ingest graph payload and return ingestion stats.
 
     Expected payload shape:
@@ -23,6 +35,10 @@ def ingest_graph_data(payload: dict) -> dict:
     """
     nodes = payload.get("nodes", [])
     edges = payload.get("edges", [])
+    logger.info(
+        "Starting graph ingest",
+        extra={"task_id": self.request.id, "nodes": len(nodes), "edges": len(edges)},
+    )
 
     node_ids = {
         str(node.get("id", "")).strip()
@@ -48,10 +64,12 @@ def ingest_graph_data(payload: dict) -> dict:
         "|".join(sorted(node_ids)) + "::" + "|".join(sorted(f"{s}>{r}>{t}" for s, t, r in unique_edges))
     )
 
-    return {
+    result = {
         "nodes_ingested": len(node_ids),
         "edges_ingested": len(unique_edges),
         "edges_rejected": rejected_edges,
         "graph_fingerprint": fingerprint,
         "ingested_at": datetime.now(timezone.utc).isoformat(),
     }
+    logger.info("Completed graph ingest", extra={"task_id": self.request.id, **result})
+    return result

@@ -16,6 +16,10 @@ _engine = create_async_engine(
 _session_factory = async_sessionmaker(_engine, expire_on_commit=False)
 
 
+def get_postgres_engine():
+    return _engine
+
+
 async def get_postgres_session() -> AsyncGenerator[AsyncSession, None]:
     async with _session_factory() as session:
         yield session
@@ -25,3 +29,7 @@ async def init_postgres() -> None:
     """Create tables for local/dev usage when migrations are not applied yet."""
     async with _engine.begin() as connection:
         await connection.run_sync(Base.metadata.create_all)
+
+
+async def close_postgres() -> None:
+    await _engine.dispose()

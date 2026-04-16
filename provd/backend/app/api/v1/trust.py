@@ -3,8 +3,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.dependencies import require_permissions
-from app.db.postgres import get_postgres_session
+from app.dependencies import get_db_session, require_permissions
 from app.models.score_log import ScoreLog
 from app.schemas.auth import AuthContext
 from app.schemas.trust import TrustScoreRequest, TrustScoreResponse
@@ -17,7 +16,7 @@ router = APIRouter(prefix="/trust", tags=["trust"])
 @router.post("/score", response_model=TrustScoreResponse, summary="Compute trust score")
 async def score_counterparty(
 	payload: TrustScoreRequest,
-	db: AsyncSession = Depends(get_postgres_session),
+	db: AsyncSession = Depends(get_db_session),
 	_: AuthContext = Depends(require_permissions(["trust:read"], allowed_roles=["admin"])),
 ) -> TrustScoreResponse:
 	cache_key = f"trust:{payload.entity_id}:{payload.amount}:{payload.currency}"
