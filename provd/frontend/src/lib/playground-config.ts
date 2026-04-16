@@ -22,14 +22,21 @@ export type TrustSignal = {
 };
 
 export type TrustResponse = {
-  entity_id: string;
   score: number;
   risk_level: "low" | "medium" | "high";
-  signals: TrustSignal[];
-  cached: boolean;
+  flags: string[];
+  recommended_action: "approve" | "review" | "block";
+  scenario: string;
+  entity_id?: string;
+  signals?: TrustSignal[];
+  cached?: boolean;
 };
 
-export type LiveTrustPayload = Partial<TrustResponse> & { score?: unknown; flags?: unknown };
+export type LiveTrustPayload = Partial<TrustResponse> & {
+  score?: unknown;
+  flags?: unknown;
+  signals?: unknown;
+};
 
 export type ValidationErrors = Partial<Record<"wallet_address" | "phone_hash" | "rail" | "fiat_currency" | "asset" | "amount", string>>;
 
@@ -165,17 +172,38 @@ export function runMockScore(request: ScoreRequest): TrustResponse {
 }
 
 export function normalizeTrustResponse(payload: LiveTrustPayload): TrustResponse {
+  const normalizedFlags = Array.isArray(payload.flags)
+    ? payload.flags.filter((flag): flag is string => typeof flag === "string")
+    : Array.isArray(payload.signals)
+      ? payload.signals
+          .filter((signal): signal is TrustSignal => typeof signal === "object" && signal !== null && "name" in signal)
+          .map((signal) => String(signal.name))
+      : [];
+
+  const normalizedRiskLevel: TrustResponse["risk_level"] =
+    payload.risk_level === "low" || payload.risk_level === "medium" || payload.risk_level === "high"
+      ? payload.risk_level
+      : "medium";
+
+  const normalizedRecommendedAction: TrustResponse["recommended_action"] =
+    payload.recommended_action === "approve" || payload.recommended_action === "review" || payload.recommended_action === "block"
+      ? payload.recommended_action
+      : normalizedRiskLevel === "high"
+        ? "block"
+        : normalizedRiskLevel === "medium"
+          ? "review"
+          : "approve";
+
   return {
     score: typeof payload.score === "number" && Number.isFinite(payload.score) ? payload.score : 0,
-    risk_level:
-      payload.risk_level === "low" || payload.risk_level === "medium" || payload.risk_level === "high"
-        ? payload.risk_level
-        : "medium",
-    flags: Array.isArray(payload.flags) ? payload.flags.filter((flag): flag is string => typeof flag === "string") : [],
-    recommended_action:
-      payload.recommended_action === "approve" || payload.recommended_action === "review" || payload.recommended_action === "block"
-        ? payload.recommended_action
-        : "review",
+    risk_level: normalizedRiskLevel,
+    flags: normalizedFlags,
+    recommended_action: normalizedRecommendedAction,
     scenario: typeof payload.scenario === "string" && payload.scenario.trim() ? payload.scenario : "live_response",
+    entity_id: typeof payload.entity_id === "string" ? payload.entity_id : undefined,
+    signals: Array.isArray(payload.signals)
+      ? payload.signals.filter((signal): signal is TrustSignal => typeof signal === "object" && signal !== null && "name" in signal)
+      : undefined,
+    cached: typeof payload.cached === "boolean" ? payload.cached : undefined,
   };
 }
