@@ -25,7 +25,7 @@ def _mask_url(value: str) -> str:
 
 @router.get("/celery/runtime", summary="Inspect Celery runtime configuration")
 def get_celery_runtime(
-	_: AuthContext = Depends(require_permissions(["trust:read"], allowed_roles=["admin", "service"])),
+	_: AuthContext = Depends(require_permissions(["trust:read"], allowed_roles=["admin"])),
 ) -> dict:
 	conf = celery_app.conf
 	beat_schedule = conf.get("beat_schedule", {}) or {}
