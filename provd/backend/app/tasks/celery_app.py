@@ -68,8 +68,8 @@ def _on_task_failure(task_id, exception, sender, args, kwargs, traceback, einfo,
 		extra={
 			"task_id": task_id,
 			"task_name": getattr(sender, "name", "unknown"),
-			"args": args,
-			"kwargs": kwargs,
+			"task_args": args,
+			"task_kwargs": kwargs,
 			"exception": str(exception),
 		},
 	)
