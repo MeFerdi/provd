@@ -6,7 +6,11 @@ from app.config import get_settings
 
 settings = get_settings()
 
-_auth = (settings.neo4j_user, settings.neo4j_password) if settings.neo4j_user else None
+_auth = (
+    (settings.neo4j_user, settings.neo4j_password)
+    if settings.neo4j_user and settings.neo4j_password
+    else None
+)
 _driver: AsyncDriver = AsyncGraphDatabase.driver(settings.neo4j_uri, auth=_auth)
 
 
