@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { getApiBaseUrl } from "@/lib/env";
+import { SESSION_STORAGE_KEY } from "@/lib/storage-keys";
+import { readStorageItem, removeStorageItem, writeStorageItem } from "@/lib/storage";
 
 export type AuthRole = "admin" | "service" | "user" | (string & {});
 
@@ -15,29 +18,24 @@ export type AuthSession = {
   apiKey?: string;
 };
 
-const SESSION_KEY = "provd.session";
-
 export function getStoredSession(): AuthSession | null {
-  if (typeof window === "undefined") return null;
-  const raw = window.localStorage.getItem(SESSION_KEY);
+  const raw = readStorageItem(SESSION_STORAGE_KEY);
   if (!raw) return null;
 
   try {
     return JSON.parse(raw) as AuthSession;
   } catch {
-    window.localStorage.removeItem(SESSION_KEY);
+    removeStorageItem(SESSION_STORAGE_KEY);
     return null;
   }
 }
 
 export function saveSession(session: AuthSession): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  writeStorageItem(SESSION_STORAGE_KEY, JSON.stringify(session));
 }
 
 export function clearSession(): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.removeItem(SESSION_KEY);
+  removeStorageItem(SESSION_STORAGE_KEY);
 }
 
 export function isAdminRole(role?: string): boolean {
@@ -55,7 +53,7 @@ export function useAuthSession() {
     setSession(getStoredSession());
   }, []);
 
-  const apiBaseUrl = useMemo(() => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000", []);
+  const apiBaseUrl = useMemo(() => getApiBaseUrl(), []);
 
   return { session, setSession, apiBaseUrl };
 }
