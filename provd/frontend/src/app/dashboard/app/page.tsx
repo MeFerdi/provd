@@ -27,8 +27,10 @@ export default function ApiUserDashboardPage() {
       router.replace("/login");
       return;
     }
-    if (stored.role === "admin") {
-      router.replace("/dashboard/admin");
+
+    const dashboardPath = getDashboardPath(stored.role);
+    if (dashboardPath === "/dashboard/admin") {
+      router.replace(dashboardPath);
       return;
     }
     setSession(stored);
