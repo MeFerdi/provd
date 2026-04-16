@@ -9,15 +9,15 @@ import { API_BASE_URL } from "@/lib/api";
 import { getStoredSession, type AuthSession } from "@/lib/auth";
 import { createJsonHeaders, requestErrorMessage } from "@/lib/http";
 import {
-  CHAIN_OPTIONS,
   DEFAULT_REQUEST,
   PLAYGROUND_PRESETS,
   SCORE_PATH,
   getMockBaseUrl,
+  getRecommendedAction,
   getSandboxApiKey,
   normalizeTrustResponse,
   runMockScore,
-  type Chain,
+  type LiveTrustPayload,
   type ScoreRequest,
   type TrustResponse,
   type ValidationErrors,
@@ -74,11 +74,13 @@ export default function PlaygroundPage() {
         : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
 
   const actionBadgeClass =
-    response?.recommended_action === "block"
+    getRecommendedAction(response?.risk_level) === "block"
       ? "bg-red-500/15 text-red-300 border-red-500/30"
-      : response?.recommended_action === "review"
+      : getRecommendedAction(response?.risk_level) === "review"
         ? "bg-yellow-500/15 text-yellow-300 border-yellow-500/30"
         : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
+
+  const signalNames = response?.signals.map((signal) => signal.name) ?? [];
 
   function applyPreset(index: number) {
     setRequest(PLAYGROUND_PRESETS[index].payload);
@@ -121,7 +123,7 @@ export default function PlaygroundPage() {
         });
 
         if (liveResponse.ok) {
-          const payload = (await liveResponse.json()) as TrustResponse;
+          const payload = (await liveResponse.json()) as LiveTrustPayload;
           const normalized = normalizeTrustResponse(payload);
           setResponse(normalized);
           setStatus("Live request completed.");
@@ -138,24 +140,20 @@ export default function PlaygroundPage() {
         if (liveResponse.status >= 500) {
           const scored = runMockScore(request);
           setResponse(scored);
-          setStatus(`Live endpoint returned ${liveResponse.status}; fallback mock used (${detail || scored.scenario}).`);
+          setStatus(`Live endpoint returned ${liveResponse.status}; fallback mock used (${detail || "sandbox response"}).`);
           return;
         }
       } catch {
         const scored = runMockScore(request);
         setResponse(scored);
-        setStatus(`Live endpoint unavailable; fallback mock used (${scored.scenario}).`);
+        setStatus("Live endpoint unavailable; fallback mock used.");
         return;
       }
     }
 
     const scored = runMockScore(request);
     setResponse(scored);
-    setStatus(
-      accessMode === "live"
-        ? `Live endpoint unavailable, fallback mock returned (${scored.scenario}).`
-        : `Completed. Scenario: ${scored.scenario}.`
-    );
+    setStatus(accessMode === "live" ? "Live endpoint unavailable, fallback mock returned." : "Completed in sandbox mode.");
   }
 
   function resetToDefault() {
@@ -307,38 +305,45 @@ export default function PlaygroundPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-xl border border-bg-border bg-bg-base/80 p-4 text-xs text-text-secondary">
-                  Required: wallet_address, phone_hash, chain, context.rail, context.fiat_currency, context.asset, context.amount, context.side
+                  Required: entity_id, amount, currency, plus context fields for integration metadata.
                 </div>
-                <Field label="wallet_address" error={errors.wallet_address}>
+                <Field label="entity_id" error={errors.entity_id}>
                   <input
-                    value={request.wallet_address}
-                    onChange={(event) => setRequest((prev) => ({ ...prev, wallet_address: event.target.value }))}
+                    value={request.entity_id}
+                    onChange={(event) => setRequest((prev) => ({ ...prev, entity_id: event.target.value }))}
                     className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                    placeholder="chain-specific wallet address"
+                    placeholder="counterparty unique identifier"
                   />
                 </Field>
 
-                <Field label="phone_hash (sha256)" error={errors.phone_hash}>
-                  <input
-                    value={request.phone_hash}
-                    onChange={(event) => setRequest((prev) => ({ ...prev, phone_hash: event.target.value }))}
-                    className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                    placeholder="64-char sha256 hex"
-                  />
-                </Field>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="amount" error={errors.amount}>
+                    <input
+                      type="number"
+                      value={request.amount}
+                      onChange={(event) => setRequest((prev) => ({ ...prev, amount: Number(event.target.value) }))}
+                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      placeholder="100"
+                    />
+                  </Field>
 
-                <Field label="chain">
-                  <select
-                    value={request.chain}
-                    onChange={(event) => setRequest((prev) => ({ ...prev, chain: event.target.value as Chain }))}
+                  <Field label="currency" error={errors.currency}>
+                    <input
+                      value={request.currency}
+                      onChange={(event) => setRequest((prev) => ({ ...prev, currency: event.target.value.toUpperCase() }))}
+                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      placeholder="USDT"
+                    />
+                  </Field>
+                </div>
+
+                <Field label="context.channel">
+                  <input
+                    value={request.context.channel ?? ""}
+                    onChange={(event) => updateContext("channel", event.target.value)}
                     className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                  >
-                    {CHAIN_OPTIONS.map((chain) => (
-                      <option key={chain} value={chain}>
-                        {chain}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="playground"
+                  />
                 </Field>
 
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -369,20 +374,10 @@ export default function PlaygroundPage() {
                     />
                   </Field>
 
-                  <Field label="context.amount" error={errors.amount}>
-                    <input
-                      type="number"
-                      value={request.context.amount}
-                      onChange={(event) => updateContext("amount", Number(event.target.value))}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                      placeholder="1000"
-                    />
-                  </Field>
-
-                  <Field label="context.side">
+                  <Field label="context.side" error={errors.side}>
                     <select
-                        value={request.context.side}
-                        onChange={(event) => updateContext("side", event.target.value as ScoreRequest["context"]["side"])}
+                      value={request.context.side}
+                      onChange={(event) => updateContext("side", event.target.value as ScoreRequest["context"]["side"])}
                       className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
                     >
                       <option value="buy">buy</option>
@@ -438,16 +433,16 @@ export default function PlaygroundPage() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <SummaryItem label="Score" value={response ? String(response.score) : "-"} />
                   <SummaryItem label="Risk level" value={response ? response.risk_level : "-"} badgeClass={riskBadgeClass} />
-                  <SummaryItem label="Recommended action" value={response ? response.recommended_action : "-"} badgeClass={actionBadgeClass} />
-                  <SummaryItem label="Flags" value={response ? String(response.flags.length) : "-"} />
+                  <SummaryItem label="Recommended action" value={response ? getRecommendedAction(response.risk_level) : "-"} badgeClass={actionBadgeClass} />
+                  <SummaryItem label="Signals" value={response ? String(response.signals.length) : "-"} />
                 </div>
 
                 {response ? (
                   <div className="mt-4 rounded-xl border border-bg-border bg-bg-base p-4">
-                    <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Flags</div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Signals</div>
                     <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-text-primary">
-                      {response.flags.map((flag) => (
-                        <li key={flag}>{flag}</li>
+                      {signalNames.map((signalName) => (
+                        <li key={signalName}>{signalName}</li>
                       ))}
                     </ul>
                   </div>
