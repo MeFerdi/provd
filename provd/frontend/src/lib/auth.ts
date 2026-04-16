@@ -5,9 +5,7 @@ import { getApiBaseUrl } from "@/lib/env";
 import { SESSION_STORAGE_KEY } from "@/lib/storage-keys";
 import {
   readSessionStorageItem,
-  readStorageItem,
   removeSessionStorageItem,
-  removeStorageItem,
   writeSessionStorageItem,
 } from "@/lib/storage";
 
@@ -64,30 +62,15 @@ function parseSession(raw: string): AuthSession | null {
 
 export function getStoredSession(): AuthSession | null {
   const sessionRaw = readSessionStorageItem(SESSION_STORAGE_KEY);
+  if (!sessionRaw) return null;
 
-  if (sessionRaw) {
-    const session = parseSession(sessionRaw);
-    if (!session || isSessionExpired(session)) {
-      clearSession();
-      return null;
-    }
-    return session;
-  }
-
-  // Legacy fallback: migrate old localStorage session to sessionStorage.
-  const legacyRaw = readStorageItem(SESSION_STORAGE_KEY);
-  if (!legacyRaw) return null;
-
-  const legacySession = parseSession(legacyRaw);
-  removeStorageItem(SESSION_STORAGE_KEY);
-
-  if (!legacySession || isSessionExpired(legacySession)) {
-    removeSessionStorageItem(SESSION_STORAGE_KEY);
+  const session = parseSession(sessionRaw);
+  if (!session || isSessionExpired(session)) {
+    clearSession();
     return null;
   }
 
-  writeSessionStorageItem(SESSION_STORAGE_KEY, JSON.stringify(legacySession));
-  return legacySession;
+  return session;
 }
 
 export function saveSession(session: AuthSession): void {
@@ -100,14 +83,10 @@ export function saveSession(session: AuthSession): void {
   };
 
   writeSessionStorageItem(SESSION_STORAGE_KEY, JSON.stringify(normalizedSession));
-  // Remove any stale legacy value if present.
-  removeStorageItem(SESSION_STORAGE_KEY);
 }
 
 export function clearSession(): void {
   removeSessionStorageItem(SESSION_STORAGE_KEY);
-  // Backward-compat cleanup for older builds.
-  removeStorageItem(SESSION_STORAGE_KEY);
 }
 
 export function isAdminRole(role?: string): boolean {
