@@ -3,51 +3,71 @@ title: API Reference
 description: Endpoints, fields, and responses.
 ---
 
-## POST /v1/counterparties/score
+Base path: `/api/v1`
+
+## Authentication
+
+Protected endpoints accept either:
+
+- `Authorization: Bearer <jwt_token>`
+- `X-API-Key: <api_key>`
+
+## POST /api/v1/trust/score
+
+Required scope: `trust:read`
 
 Returns a counterparty risk score and reason flags for a trade context.
 
 ### Request fields
 
-- `wallet_address` (string)
-- `phone_hash` (string)
-- `chain` (string)
+- `entity_id` (string)
+- `amount` (number)
+- `currency` (string)
 - `context` (object)
 
 ### Example request
 
 ```json
 {
-  "wallet_address": "9xQeWvG816bUx9EPfEZnJr7s7d4H4JgP1d8t7A1kY2zN",
-  "phone_hash": "3f5ab2d1...",
-  "chain": "solana",
-  "context": {
-    "rail": "mpesa",
-    "fiat_currency": "KES",
-    "asset": "USDT",
-    "amount": 250,
-    "side": "buy"
-  }
+  "entity_id": "entity-123",
+  "amount": 250,
+  "currency": "USDT",
+  "context": {}
 }
 ```
 
 ### Response fields
 
-- `counterparty_score` (number)
+- `score` (number)
 - `risk_level` (string)
-- `risk_flags` (string[])
-- `recommended_action` (string)
+- `signals` (array)
+- `cached` (boolean)
 
 ### Example response
 
 ```json
 {
-  "counterparty_score": 82,
+  "entity_id": "entity-123",
+  "score": 0.82,
   "risk_level": "low",
-  "risk_flags": [],
-  "recommended_action": "approve"
+  "signals": [
+    { "name": "trade_consistency", "value": 0.88, "weight": 0.4 }
+  ],
+  "cached": false
 }
 ```
+
+## POST /api/v1/dispute/analyze
+
+Required scope: `dispute:analyze`
+
+Returns a recommendation and confidence score for a dispute case.
+
+## Key management endpoints
+
+- `GET /api/v1/keys` (scope: `keys:read`)
+- `POST /api/v1/keys` (scope: `keys:write`)
+- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)
 
 ## Notes
 
