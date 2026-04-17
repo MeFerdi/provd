@@ -46,7 +46,7 @@ export default function LoginPage() {
             <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Sign in</div>
             <h1 className="mt-3 text-3xl font-semibold text-text-primary">Access your dashboard</h1>
             <p className="mt-2 text-text-secondary">
-              Use your bearer credentials to sign in. Your token role determines whether you land in the admin or API-user dashboard.
+              Enter your client credentials to sign in.
             </p>
           </CardHeader>
           <CardContent>
