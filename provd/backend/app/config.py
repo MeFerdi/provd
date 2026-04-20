@@ -38,6 +38,10 @@ class Settings(BaseSettings):
     community_scrape_seed_urls: str = Field(default="", validation_alias=AliasChoices("COMMUNITY_SCRAPE_SEED_URLS"))
     sentry_dsn: str = Field(default="", validation_alias=AliasChoices("SENTRY_DSN"))
 
+    ml_inference_enabled: bool = Field(default=False, validation_alias=AliasChoices("ML_INFERENCE_ENABLED"))
+    ml_service_url: str = Field(default="http://127.0.0.1:8085", validation_alias=AliasChoices("ML_SERVICE_URL", "ML_INFERENCE_URL"))
+    ml_inference_timeout_seconds: float = Field(default=2.0, validation_alias=AliasChoices("ML_INFERENCE_TIMEOUT_SECONDS"))
+
     cors_origins: list[str] = Field(default_factory=lambda: ["*"])
 
 

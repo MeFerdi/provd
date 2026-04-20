@@ -7,6 +7,7 @@ from app.api.v1.router import router as api_v1_router
 from app.config import get_settings
 from app.db.neo4j import close_neo4j, verify_neo4j
 from app.db.postgres import close_postgres
+from app.observability import configure_logging, configure_sentry, request_context_middleware
 
 
 @asynccontextmanager
@@ -21,6 +22,8 @@ async def lifespan(_: FastAPI):
 
 def create_app() -> FastAPI:
 	settings = get_settings()
+	configure_logging()
+	configure_sentry(settings)
 	app = FastAPI(
 		title=settings.app_name,
 		version=settings.app_version,
@@ -37,6 +40,8 @@ def create_app() -> FastAPI:
 		allow_methods=["*"],
 		allow_headers=["*"],
 	)
+
+	app.middleware("http")(request_context_middleware)
 
 	app.include_router(api_v1_router, prefix=settings.api_v1_prefix)
 
