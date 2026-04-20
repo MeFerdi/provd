@@ -1,23 +1,24 @@
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+
 from app.api.v1.auth import router as auth_router
 from app.api.v1.dispute import router as dispute_router
 from app.api.v1.keys import router as keys_router
 from app.api.v1.trust import router as trust_router
-from app.config import get_settings
+from app.config import Settings
 from app.dependencies import get_app_settings
 from tests.conftest import FakeAsyncSession, build_client
 
 
 def test_auth_token_issued_for_dev_credentials():
-    client, app = build_client(auth_router)
-
-    settings = get_settings()
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
 
     def _settings_override():
-        settings.app_env = "development"
-        settings.secret_key = "test-secret"
-        return settings
+        return Settings(app_env="development", secret_key="test-secret")
 
     app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
         json={"client_id": "provd-dev-client", "client_secret": "provd-dev-secret"},
