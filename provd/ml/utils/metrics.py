@@ -5,15 +5,7 @@ from typing import Iterable
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error, r2_score, root_mean_squared_error
 
-
-def _risk_level(score: float) -> str:
-    if score >= 0.8:
-        return "low"
-    if score >= 0.5:
-        return "medium"
-    return "high"
-
-
+from ml.models.ensemble import score_to_risk_level as _risk_level
 def compute_metrics(y_true: Iterable[float], y_pred: Iterable[float]) -> dict[str, float]:
     y_true_arr = np.asarray(list(y_true), dtype="float64")
     y_pred_arr = np.asarray(list(y_pred), dtype="float64")
