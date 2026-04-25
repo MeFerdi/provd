@@ -4,38 +4,38 @@ import Image from "next/image";
 const FRAUD_TYPES = [
   {
     tag: "INPUT 01",
-    title: "Dispute history",
+    title: "Dispute and fraud history",
     icon: <Image src="/fraud-alert.png" alt="Non-Delivery Fraud" width={40} height={40} />,
-    body: "Past non-delivery, reversal, and operator-reviewed cases can be used as direct risk input.",
+    body: "Prior non-delivery, reversals, and operator-reviewed cases from across the network feed directly into the score.",
     detection: "Case linkage, repeat outcomes, and dispute velocity"
   },
   {
     tag: "INPUT 02",
-    title: "Payment rail context",
+    title: "Payment rail behavior",
     icon: <Image src="/money.png" alt="Payment Reversal" width={40} height={40} />,
-    body: "Rail-specific patterns across bank transfers, mobile money, and payout behavior can affect the decision.",
+    body: "Rail-specific patterns across M-Pesa, bank transfers, and stablecoin payouts reveal timing anomalies and reversal habits invisible to a single platform.",
     detection: "Reversal patterns, rail mismatches, and timing anomalies"
   },
   {
     tag: "INPUT 03",
-    title: "Linked identifiers",
+    title: "Cross-platform identity linkage",
     icon: <Image src="/data-migration.png" alt="Platform Migration" width={40} height={40} />,
-    body: "Wallets, hashed phone values, and other identifiers can be matched to prior outcomes without exposing raw PII.",
+    body: "Wallets, hashed phone values, and other identifiers are matched to prior outcomes across partners, without ever exposing raw PII.",
     detection: "Hash reuse, wallet linkage, and identity graph joins"
   },
   {
     tag: "INPUT 04",
-    title: "Network relationships",
+    title: "Entity network graph",
     icon: <Image src="/networking.png" alt="Coordinated Networks" width={40} height={40} />,
-    body: "Connected entities can be evaluated together instead of as isolated accounts or addresses.",
+    body: "Connected accounts and wallets are evaluated together. A counterparty with clean history but fraudulent neighbours gets flagged, not approved.",
     detection: "Cluster analysis, shared infrastructure, and graph proximity"
   },
   {
     tag: "INPUT 05",
-    title: "Partner signals",
+    title: "Shared partner intelligence",
     icon: <Image src="/social-engineering.png" alt="Social Engineering" width={40} height={40} />,
-    body: "Connected desks and platforms can contribute signals that improve cross-platform visibility on repeat risk.",
-    detection: "Partner-fed outcomes and shared fraud indicators"
+    body: "Every connected platform contributes signals back to the network. The more partners, the harder it becomes for bad actors to move between desks undetected.",
+    detection: "Partner-fed outcomes and cross-platform fraud indicators"
   }
 ];
 
@@ -45,10 +45,9 @@ export default function FraudTypes() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center">
           <div className="font-mono text-[11px] text-accent tracking-[0.15em] mb-2">SIGNAL COVERAGE</div>
-          <h2 className="font-display text-[48px] text-text-primary mt-4">Inputs used in counterparty evaluation.</h2>
+          <h2 className="font-display text-[48px] text-text-primary mt-4">Signals that separate good counterparties from bad ones.</h2>
           <p className="font-sans text-[18px] text-text-secondary mt-4 max-w-2xl mx-auto">
-            Provd is designed to sit between trade intent and fund release. These are the main categories of signals the system
-            can evaluate as part of a single decision response.
+            Provd sits between trade intent and fund release. Each signal category contributes to a score that tells your platform not just whether a counterparty is risky, but how confident you can be approving them.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
