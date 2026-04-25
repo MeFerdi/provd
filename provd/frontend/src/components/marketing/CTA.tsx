@@ -10,10 +10,10 @@ export default function CTA() {
         <AnimatedCard index={0}>
           <div className="rounded-lg border border-bg-border bg-bg-surface px-6 py-12 md:px-12 md:py-16 text-center">
           <h2 className="font-display text-4xl md:text-6xl text-text-primary mb-5 leading-[1.06]">
-            Start with the documentation.
+            See what your current thresholds are missing.
           </h2>
           <p className="font-sans text-lg md:text-xl text-text-secondary mb-9 max-w-2xl mx-auto leading-relaxed">
-            Review the quickstart, authentication guide, and API reference, or open the playground to see the product in a few clicks.
+            Open the playground to run a live counterparty score, or read the quickstart to integrate Provd into your first approval workflow in under an hour.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button size="lg" variant="secondary" href="/playground">

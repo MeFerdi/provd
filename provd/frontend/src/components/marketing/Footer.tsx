@@ -11,10 +11,10 @@ export default function Footer() {
               <Image src="/provd.svg" alt="Provd logo" width={480} height={240} className="h-32 w-auto" priority />
               </span>
           </div>
-          <div className="text-xs font-mono text-accent-primary mb-3 tracking-[0.22em] uppercase">Fraud Intelligence Infrastructure</div>
+          <div className="text-xs font-mono text-accent-primary mb-3 tracking-[0.22em] uppercase">Counterparty Intelligence for African P2P</div>
           <div className="text-sm">contact@provd.io</div>
           <div className="mt-4 text-xs text-text-muted max-w-xs">
-            Counterparty risk scoring and dispute intelligence for African P2P, stablecoin, and OTC platforms.
+            Precision scoring that tells African exchanges, wallets, and OTC desks which counterparties to trust, and which trades they have been leaving on the table.
           </div>
         </div>
 

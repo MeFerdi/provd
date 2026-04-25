@@ -30,7 +30,7 @@ This Data Processing Agreement ("DPA") forms part of and supplements the Terms o
 
 ## 2. Scope and purpose
 
-This DPA applies to the processing of Personal Data by Provd as Processor acting on the instructions of the Controller in connection with the provision of the Provd fraud intelligence service.
+This DPA applies to the processing of Personal Data by Provd as Processor acting on the instructions of the Controller in connection with the provision of the Provd counterparty intelligence service.
 
 The nature and purpose of processing, the types of personal data, and the categories of data subjects are set out in **Schedule 1** to this DPA.
 

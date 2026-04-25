@@ -13,7 +13,7 @@ export default function HowItWorks() {
 					REQUEST LIFECYCLE
 				</div>
 				<h2 className="font-display text-[36px] md:text-[48px] text-text-primary mb-12">
-					How Provd fits into an approval path.
+					How a single API call changes your approval decision.
 				</h2>
 				<div className="flex flex-col md:flex-row gap-0 divide-y md:divide-y-0 md:divide-x divide-bg-border">
 					<div className="flex-1 px-8 py-10">
@@ -25,8 +25,7 @@ export default function HowItWorks() {
 							Ingest
 						</div>
 						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Your application sends wallet, hashed identifier, payment rail, and
-							trade context before a release decision is made.
+							Before a trade releases, your platform sends counterparty identifiers, wallet address, hashed phone, payment rail, and trade context. Nothing raw leaves your environment.
 						</div>
 					</div>
 					<div className="flex-1 px-8 py-10">
@@ -38,8 +37,7 @@ export default function HowItWorks() {
 							Evaluate
 						</div>
 						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Provd evaluates the request against dispute history, linked identifiers,
-							payment-risk patterns, and partner-fed fraud signals.
+							Provd scores the counterparty against network-wide dispute history, linked identifiers, and cross-platform fraud signals, intelligence your platform alone could never generate.
 						</div>
 					</div>
 					<div className="flex-1 px-8 py-10">
@@ -51,8 +49,7 @@ export default function HowItWorks() {
 							Respond
 						</div>
 						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Your platform receives a score, flags, and recommended action to
-							approve, review, or block the trade.
+							Your platform receives a precision score, reason flags, and a recommended action, so you approve the trades you should, and only hold the ones that warrant it.
 						</div>
 					</div>
 				</div>
