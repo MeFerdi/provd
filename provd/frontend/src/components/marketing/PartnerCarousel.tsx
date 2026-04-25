@@ -40,7 +40,7 @@ export default function PartnerCarousel() {
               Designed for partners
             </div>
             <h2 className="font-display text-[30px] leading-[1.05] text-text-primary sm:text-[38px]">
-              Built for the companies moving African P2P flows.
+              The infrastructure layer connecting Africa&apos;s P2P ecosystem.
             </h2>
           </div>
         </div>
