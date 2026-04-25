@@ -7,7 +7,7 @@ export default function WhitepaperPage() {
         <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-accent-primary">Technical Whitepaper</div>
         <h1 className="mb-5 font-display text-[36px] text-text-primary md:text-[48px]">Provd Whitepaper</h1>
         <p className="mb-8 max-w-2xl font-sans text-[16px] leading-relaxed text-text-secondary">
-          Provd is building fraud-intelligence infrastructure for African P2P crypto, stablecoin, and OTC workflows. The
+          Provd is building counterparty intelligence infrastructure for African P2P crypto, stablecoin, and OTC workflows. The
           whitepaper outlines the problem landscape, system architecture, scoring flow, privacy model, and operational role of
           counterparty intelligence in approval and dispute processes.
         </p>
