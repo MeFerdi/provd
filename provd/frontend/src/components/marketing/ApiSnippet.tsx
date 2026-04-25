@@ -9,7 +9,7 @@ export default function ApiSnippet() {
         <div className="grid items-end gap-10 md:grid-cols-2">
           <div>
             <div className="uppercase text-accent-primary font-mono text-[0.7rem] sm:text-xs tracking-[0.22em] mb-3">API</div>
-            <h2 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.06]">Request and response shape</h2>
+            <h2 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.06]">One call. Precision you couldn&apos;t build alone.</h2>
           </div>
           <p className="text-text-secondary text-lg md:text-xl max-w-xl md:justify-self-end leading-relaxed">
             The API is designed for synchronous approval checks. Send trade context before release and use the response in your
@@ -18,6 +18,9 @@ export default function ApiSnippet() {
         </div>
 
         <div className="mt-10">
+          <p className="text-text-secondary text-lg md:text-xl max-w-xl leading-relaxed mb-6">
+            Your platform sends trade context. Provd returns a score, flags, and a recommended action, letting you approve confidently, not conservatively.
+          </p>
           <Card className="overflow-hidden">
             <CardHeader className="flex items-center justify-between gap-4 border-b border-bg-border bg-bg-elevated p-4">
               <div className="font-mono text-xs text-text-secondary tracking-[0.18em] uppercase">Python</div>
