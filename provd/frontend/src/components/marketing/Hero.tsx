@@ -8,13 +8,13 @@ export default function Hero() {
         <div className="min-w-0 max-w-2xl">
           <div className="mb-4 flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-            <span className="font-mono text-[11px] text-accent tracking-[0.15em]">FRAUD INTELLIGENCE FOR AFRICAN P2P RAILS</span>
+            <span className="font-mono text-[11px] text-accent tracking-[0.15em]">COUNTERPARTY INTELLIGENCE FOR AFRICAN P2P PLATFORMS</span>
           </div>
           <h1 className="mb-6 max-w-[11ch] font-display text-[40px] leading-[1.05] text-text-primary sm:text-[48px] lg:text-[60px]">
-            Know the counterparty<br />before the trade clears.
+            Blunt risk models approve the wrong trades. And block the right ones.
           </h1>
           <p className="mb-10 max-w-xl font-sans text-[16px] leading-[1.7] text-text-secondary sm:text-[18px]">
-            Provd helps African exchanges, wallets, and OTC desks block repeat fraud before funds move. Query one API call and get network-backed counterparty risk, dispute signals, and recommended actions across P2P stablecoin flows.
+            African P2P platforms lose volume twice: once to fraud and once to the legitimate traders they turn away out of caution. Provd gives exchanges, wallets, and OTC desks network-backed counterparty scores so they can confidently approve more good trades, and precisely reject the bad ones. One API call. Decisions backed by signals no single platform can generate alone.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a href="/playground" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-bg-surface px-7 py-3 font-sans text-[15px] font-medium text-text-primary transition hover:-translate-y-[1px] hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
