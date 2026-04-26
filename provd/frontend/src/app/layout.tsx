@@ -22,11 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
-      <body className="bg-bg-base text-text-primary font-sans min-h-screen">
+      <body suppressHydrationWarning className="bg-bg-base text-text-primary font-sans min-h-screen">
         <RootChrome>{children}</RootChrome>
       </body>
     </html>
