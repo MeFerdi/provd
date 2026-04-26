@@ -15,7 +15,7 @@ def test_auth_token_issued_for_dev_credentials():
     app.include_router(auth_router, prefix="/api/v1")
 
     def _settings_override():
-        return Settings(app_env="development", secret_key="test-secret")
+        return Settings(app_env="development", secret_key="test-secret", enable_test_auth=True)
 
     app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
     client = TestClient(app)
@@ -28,6 +28,56 @@ def test_auth_token_issued_for_dev_credentials():
     body = response.json()
     assert "access_token" in body
     assert body["token_type"] == "bearer"
+
+
+def test_auth_token_issued_for_bootstrap_admin_credentials():
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
+
+    def _settings_override():
+        return Settings(
+            app_env="production",
+            secret_key="test-secret",
+            bootstrap_admin_client_id="staging-admin",
+            bootstrap_admin_client_secret="staging-admin-secret",
+        )
+
+    app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    client = TestClient(app)
+    response = client.post(
+        "/api/v1/auth/token",
+        json={"client_id": "staging-admin", "client_secret": "staging-admin-secret"},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["role"] == "admin"
+    assert "keys:write" in body["scopes"]
+
+
+def test_auth_token_issued_for_bootstrap_client_credentials():
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
+
+    def _settings_override():
+        return Settings(
+            app_env="production",
+            secret_key="test-secret",
+            bootstrap_client_client_id="partner-client",
+            bootstrap_client_client_secret="partner-client-secret",
+        )
+
+    app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    client = TestClient(app)
+    response = client.post(
+        "/api/v1/auth/token",
+        json={"client_id": "partner-client", "client_secret": "partner-client-secret"},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["role"] == "client"
+    assert body["scopes"] == ["trust:read"]
 
 
 def test_keys_crud_flow():
