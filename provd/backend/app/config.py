@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -12,9 +12,10 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     api_v1_prefix: str = "/api/v1"
 
-    secret_key: str = Field(default="change-me", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
+    secret_key: str = Field(default="", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
     jwt_algorithm: str = Field(default="HS256", validation_alias=AliasChoices("JWT_ALGORITHM"))
     access_token_expire_minutes: int = Field(default=60, validation_alias=AliasChoices("JWT_EXPIRE_MINUTES"))
+    enable_test_auth: bool = Field(default=False, validation_alias=AliasChoices("ENABLE_TEST_AUTH"))
 
     database_url: str = Field(default="postgresql+asyncpg://provd:provd@postgres:5432/provd")
     neo4j_uri: str = Field(default="bolt://neo4j:7687", validation_alias=AliasChoices("NEO4J_URI"))
@@ -22,10 +23,24 @@ class Settings(BaseSettings):
     neo4j_password: str = Field(default="", validation_alias=AliasChoices("NEO4J_PASSWORD"))
     redis_url: str = Field(default="redis://redis:6379/0")
 
-    dev_client_id: str = Field(default="provd-dev-client")
-    dev_client_secret: str = Field(default="provd-dev-secret")
+    dev_client_id: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_ID"))
+    dev_client_secret: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_SECRET"))
     dev_client_role: str = Field(default="service")
     dev_client_scopes: list[str] = Field(default_factory=lambda: ["trust:read"])
+    bootstrap_admin_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_ID"))
+    bootstrap_admin_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_SECRET"))
+    bootstrap_admin_role: str = Field(default="admin", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_ROLE"))
+    bootstrap_admin_scopes_raw: str = Field(
+        default="keys:read,keys:write,trust:read,dispute:analyze",
+        validation_alias=AliasChoices("BOOTSTRAP_ADMIN_SCOPES"),
+    )
+    bootstrap_client_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_ID"))
+    bootstrap_client_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_SECRET"))
+    bootstrap_client_role: str = Field(default="client", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_ROLE"))
+    bootstrap_client_scopes_raw: str = Field(
+        default="trust:read",
+        validation_alias=AliasChoices("BOOTSTRAP_CLIENT_SCOPES"),
+    )
 
     celery_broker_url: str = Field(default="redis://redis:6379/0", validation_alias=AliasChoices("CELERY_BROKER_URL"))
     celery_result_backend: str = Field(default="redis://redis:6379/1", validation_alias=AliasChoices("CELERY_RESULT_BACKEND"))
@@ -43,6 +58,37 @@ class Settings(BaseSettings):
     ml_inference_timeout_seconds: float = Field(default=2.0, validation_alias=AliasChoices("ML_INFERENCE_TIMEOUT_SECONDS"))
 
     cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+
+    @property
+    def bootstrap_admin_scopes(self) -> list[str]:
+        return [scope.strip() for scope in self.bootstrap_admin_scopes_raw.split(",") if scope.strip()]
+
+    @property
+    def bootstrap_client_scopes(self) -> list[str]:
+        return [scope.strip() for scope in self.bootstrap_client_scopes_raw.split(",") if scope.strip()]
+
+    @property
+    def is_non_production(self) -> bool:
+        return self.app_env.lower() in {"dev", "development", "local", "test", "testing"}
+
+    @model_validator(mode="after")
+    def validate_security_posture(self) -> "Settings":
+        if not self.secret_key or len(self.secret_key) < 32:
+            raise ValueError("JWT secret key must be configured with at least 32 characters")
+
+        if self.enable_test_auth:
+            if not self.is_non_production:
+                raise ValueError("ENABLE_TEST_AUTH may only be enabled in non-production environments")
+            if not self.dev_client_id or not self.dev_client_secret:
+                raise ValueError("DEV_CLIENT_ID and DEV_CLIENT_SECRET must be set when ENABLE_TEST_AUTH=true")
+
+        if not self.is_non_production:
+            if not self.bootstrap_admin_client_id or not self.bootstrap_admin_client_secret:
+                raise ValueError("Bootstrap admin credentials must be configured outside non-production environments")
+            if not self.bootstrap_client_client_id or not self.bootstrap_client_client_secret:
+                raise ValueError("Bootstrap client credentials must be configured outside non-production environments")
+
+        return self
 
 
 @lru_cache(maxsize=1)

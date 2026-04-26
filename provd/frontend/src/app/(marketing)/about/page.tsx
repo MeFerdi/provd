@@ -9,7 +9,7 @@ export const metadata = {
 const companyFacts = [
   {
     label: "Category",
-    value: "Fraud-intelligence infrastructure",
+    value: "Counterparty intelligence infrastructure",
   },
   {
     label: "Primary users",
@@ -44,7 +44,7 @@ const principles = [
   {
     title: "Local context is the product edge",
     body:
-      "African P2P fraud patterns are shaped by payment rails, messaging channels, and regional trading behavior. We build for that operating reality directly, not as an afterthought.",
+      "African P2P counterparty risk patterns are shaped by payment rails, messaging channels, and regional trading behavior. We build for that operating reality directly, not as an afterthought.",
   },
 ];
 
@@ -59,13 +59,13 @@ export default function AboutPage() {
                 Company
               </div>
               <h1 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.02] mb-6">
-                Provd builds the fraud-intelligence layer African P2P markets actually need.
+                Provd builds the counterparty intelligence layer African P2P markets actually need.
               </h1>
               <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl">
                 Most crypto security products were built for smart contracts, DeFi exploits, and
-                onchain risk. Provd is built for the messier layer where African P2P fraud actually
-                happens: payment reversals, repeat offenders, desk-to-desk migration, and offchain
-                coordination before funds move.
+                onchain risk. Provd is built for the messier layer where African P2P counterparty
+                risk actually emerges: payment reversals, repeat offenders, desk-to-desk migration,
+                and offchain coordination before funds move.
               </p>
             </div>
 
@@ -95,11 +95,11 @@ export default function AboutPage() {
                 The Problem
               </div>
               <h2 className="font-display text-3xl md:text-5xl text-text-primary leading-[1.05] mb-5">
-                African P2P fraud is a pre-chain problem.
+                African P2P counterparty risk is a pre-chain problem.
               </h2>
               <div className="space-y-5 text-text-secondary text-base md:text-lg leading-relaxed">
                 <p>
-                  The highest-impact fraud patterns in African crypto markets often happen before a
+                  The highest-impact counterparty risk patterns in African crypto markets often happen before a
                   blockchain transaction is ever broadcast. Deals are coordinated in Telegram,
                   WhatsApp, and OTC channels, then settled through bank transfers or mobile money.
                 </p>
@@ -109,8 +109,8 @@ export default function AboutPage() {
                   was banned on one desk last week and resurfaced elsewhere today.
                 </p>
                 <p>
-                  This is the gap Provd is built to close: turning fragmented fraud signals into one
-                  reusable counterparty decision layer.
+                  This is the gap Provd is built to close: turning fragmented counterparty signals into one
+                  reusable decision layer.
                 </p>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function AboutPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Fraud Pattern 01
+                    Risk Pattern 01
                   </div>
                   <div className="text-xl text-text-primary mb-2">Payment reversal after release</div>
                   <div className="text-text-secondary leading-relaxed">
@@ -131,7 +131,7 @@ export default function AboutPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Fraud Pattern 02
+                    Risk Pattern 02
                   </div>
                   <div className="text-xl text-text-primary mb-2">Serial migration across platforms</div>
                   <div className="text-text-secondary leading-relaxed">
@@ -143,7 +143,7 @@ export default function AboutPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Fraud Pattern 03
+                    Risk Pattern 03
                   </div>
                   <div className="text-xl text-text-primary mb-2">Coordinated offchain networks</div>
                   <div className="text-text-secondary leading-relaxed">
@@ -191,7 +191,7 @@ export default function AboutPage() {
                   <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-3">
                     Intelligence layer
                   </div>
-                  <div className="text-lg text-text-primary mb-2">Federated fraud graph</div>
+                  <div className="text-lg text-text-primary mb-2">Federated intelligence graph</div>
                   <div className="text-sm text-text-secondary leading-relaxed">
                     Linked disputes, repeat-offender history, partner-fed outcomes, and payment-rail
                     patterns.
@@ -263,8 +263,8 @@ export default function AboutPage() {
                 </p>
                 <p>
                   We are hiring across engineering, data science, and business development. If you
-                  want to help build serious fraud infrastructure for African crypto markets, we
-                  would love to hear from you.
+                  want to help build serious counterparty intelligence infrastructure for African
+                  crypto markets, we would love to hear from you.
                 </p>
               </div>
             </div>

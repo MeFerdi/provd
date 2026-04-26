@@ -12,3 +12,7 @@ export function getSandboxApiKey(): string {
 export function getMockBaseUrl(): string {
   return process.env.NEXT_PUBLIC_PROVD_MOCK_BASE_URL ?? DEFAULT_MOCK_BASE_URL;
 }
+
+export function isTestAuthEnabled(): boolean {
+  return (process.env.NEXT_PUBLIC_ENABLE_TEST_AUTH ?? "").toLowerCase() === "true";
+}

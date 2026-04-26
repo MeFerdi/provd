@@ -9,7 +9,7 @@ import {
   writeSessionStorageItem,
 } from "@/lib/storage";
 
-export type AuthRole = "admin" | "service" | "user" | (string & {});
+export type AuthRole = "admin" | "platform_admin" | "service" | "user" | "client" | "platform_client" | (string & {});
 
 export type AuthSession = {
   accessToken: string;

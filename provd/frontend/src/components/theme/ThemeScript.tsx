@@ -1,8 +1,18 @@
+"use client";
+
+import { useEffect } from "react";
 import { THEME_STORAGE_KEY } from "@/lib/storage-keys";
 
 export function ThemeScript() {
-  const code = `(function(){try{var t=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});var theme=t==="light"?"light":"dark";document.documentElement.dataset.theme=theme;}catch(e){document.documentElement.dataset.theme="dark";}})();`;
+  useEffect(() => {
+    try {
+      const theme = localStorage.getItem(THEME_STORAGE_KEY) === "light" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+    } catch {
+      document.documentElement.dataset.theme = "dark";
+    }
+  }, []);
 
-  return <script dangerouslySetInnerHTML={{ __html: code }} />;
+  return null;
 }
 
