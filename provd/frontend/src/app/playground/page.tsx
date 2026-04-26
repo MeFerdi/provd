@@ -192,146 +192,105 @@ export default function PlaygroundPage() {
             Counterparty Scoring Playground
           </div>
           <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-text-primary sm:text-5xl">
-            Simulate a real score request without writing any code.
+            Test the API without writing code
           </h1>
           <p className="max-w-3xl text-lg text-text-secondary">
-            This standalone page maps 1:1 to the trust score fields and returns realistic mock responses for fast partner evaluation.
+            Simulate real trust score requests with mock data. Switch to live mode to test with your actual API credentials.
           </p>
-
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-bg-border bg-bg-surface/60 px-4 py-3 text-sm">
-            <span className="rounded-md border border-bg-border bg-bg-base px-2 py-1 text-xs text-text-secondary">POST</span>
-            <span className="font-mono text-text-primary">{scorePath}</span>
-            <span className="ml-auto rounded-md border border-bg-border bg-bg-base px-2 py-1 text-xs text-text-secondary">
-              Mode: {accessMode === "live" ? "Live Account" : "Mock Sandbox"}
-            </span>
-          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Access mode</div>
-            <h2 className="mt-3 text-2xl font-semibold text-text-primary">One playground, two modes</h2>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => switchMode("sandbox")}
-                className={`rounded-xl border p-4 text-left transition ${
-                  accessMode === "sandbox"
-                    ? "border-accent-primary/60 bg-accent-primary/10"
-                    : "border-bg-border bg-bg-base hover:bg-bg-elevated"
-                }`}
-              >
-                <div className="text-sm font-semibold text-text-primary">Sandbox (public)</div>
-                <div className="mt-1 text-xs text-text-secondary">Mock scoring, preset scenarios, no account required.</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => switchMode("live")}
-                className={`rounded-xl border p-4 text-left transition ${
-                  accessMode === "live"
-                    ? "border-accent-primary/60 bg-accent-primary/10"
-                    : "border-bg-border bg-bg-base hover:bg-bg-elevated"
-                }`}
-              >
-                <div className="text-sm font-semibold text-text-primary">Live (account)</div>
-                <div className="mt-1 text-xs text-text-secondary">Real endpoint attempt with auth, fallback to mock if unavailable.</div>
-              </button>
-            </div>
-            {!liveEnabled ? (
-              <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-bg-border bg-bg-base p-3 text-sm text-text-secondary">
-                <span>Live mode is locked until sign-in.</span>
-                <Link href="/login" className="rounded-md border border-bg-border px-3 py-1.5 text-text-primary hover:bg-bg-elevated">
-                  Sign in
-                </Link>
-              </div>
-            ) : null}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Authentication</div>
-            <h2 className="mt-3 text-2xl font-semibold text-text-primary">API credentials</h2>
-          </CardHeader>
-          <CardContent>
-            <Field label="X-API-Key">
-              <input
-                value={apiKey}
-                onChange={(event) => setApiKey(event.target.value)}
-                className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                placeholder={sandboxApiKey || "Enter your API key"}
-              />
-            </Field>
-            <div className="mt-3 flex items-center justify-between gap-3 text-xs text-text-secondary">
-              <span>
-                {accessMode === "live"
-                  ? "Using account mode. Keep a valid API key selected for live execution."
-                  : "Sandbox mode uses test key flows and mock scoring."}
-              </span>
-              <button
-                type="button"
-                onClick={() => setApiKey(sandboxApiKey)}
-                className="rounded-md border border-bg-border px-2 py-1 hover:bg-bg-elevated"
-              >
-                Reset key
-              </button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Request Configuration */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Scenario presets</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Choose an example</h2>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Configuration</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Set up your request</h2>
               </CardHeader>
-              <CardContent className="grid gap-3 sm:grid-cols-2">
-                {PLAYGROUND_PRESETS.map((preset, index) => (
-                  <button
-                    key={preset.label}
-                    type="button"
-                    onClick={() => applyPreset(index)}
-                    className={`rounded-xl border p-4 text-left transition ${
-                      activePreset === index
-                        ? "border-accent-primary/60 bg-accent-primary/10"
-                        : "border-bg-border bg-bg-base hover:bg-bg-elevated"
-                    }`}
-                  >
-                    <div className="text-sm font-semibold text-text-primary">{preset.label}</div>
-                    <div className="mt-1 text-xs text-text-secondary">{preset.description}</div>
-                  </button>
-                ))}
+              <CardContent className="space-y-6">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <div className="text-sm font-medium text-text-primary mb-2">Mode</div>
+                    <div className="grid gap-2">
+                      <button
+                        type="button"
+                        onClick={() => switchMode("sandbox")}
+                        className={`rounded-lg border p-3 text-left transition ${
+                          accessMode === "sandbox"
+                            ? "border-accent-primary/60 bg-accent-primary/10"
+                            : "border-bg-border bg-bg-base hover:bg-bg-elevated"
+                        }`}
+                      >
+                        <div className="text-sm font-medium text-text-primary">Sandbox</div>
+                        <div className="text-xs text-text-secondary">Mock responses, no auth required</div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => switchMode("live")}
+                        className={`rounded-lg border p-3 text-left transition ${
+                          accessMode === "live"
+                            ? "border-accent-primary/60 bg-accent-primary/10"
+                            : "border-bg-border bg-bg-base hover:bg-bg-elevated"
+                        }`}
+                      >
+                        <div className="text-sm font-medium text-text-primary">Live</div>
+                        <div className="text-xs text-text-secondary">Real API calls with authentication</div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-sm font-medium text-text-primary mb-2">API Key</div>
+                    <input
+                      value={apiKey}
+                      onChange={(event) => setApiKey(event.target.value)}
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
+                      placeholder={sandboxApiKey || "Enter your API key"}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setApiKey(sandboxApiKey)}
+                      className="mt-2 text-xs text-text-secondary hover:text-text-primary"
+                    >
+                      Reset to default
+                    </button>
+                  </div>
+                </div>
+
+                {!liveEnabled && (
+                  <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3 text-sm text-red-300">
+                    Live mode requires authentication. <Link href="/login" className="font-medium text-text-primary underline">Sign in</Link> to unlock it.
+                  </div>
+                )}
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Request builder</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">{scorePath}</h2>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Parameters</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Request payload</h2>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-xl border border-bg-border bg-bg-base/80 p-4 text-xs text-text-secondary">
-                  Required: entity_id, amount, currency, plus context fields for integration metadata.
+                <div className="rounded-lg border border-bg-border bg-bg-base/80 p-3 text-sm text-text-secondary">
+                  Required: entity_id, amount, currency. Context fields provide additional metadata.
                 </div>
-                <Field label="entity_id" error={errors.entity_id}>
-                  <input
-                    value={request.entity_id}
-                    onChange={(event) => setRequest((prev) => ({ ...prev, entity_id: event.target.value }))}
-                    className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                    placeholder="counterparty unique identifier"
-                  />
-                </Field>
 
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="entity_id" error={errors.entity_id}>
+                    <input
+                      value={request.entity_id}
+                      onChange={(event) => setRequest((prev) => ({ ...prev, entity_id: event.target.value }))}
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
+                      placeholder="counterparty identifier"
+                    />
+                  </Field>
+
                   <Field label="amount" error={errors.amount}>
                     <input
                       type="number"
                       value={request.amount}
                       onChange={(event) => setRequest((prev) => ({ ...prev, amount: Number(event.target.value) }))}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
                       placeholder="100"
                     />
                   </Field>
@@ -340,27 +299,27 @@ export default function PlaygroundPage() {
                     <input
                       value={request.currency}
                       onChange={(event) => setRequest((prev) => ({ ...prev, currency: event.target.value.toUpperCase() }))}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
                       placeholder="USDT"
+                    />
+                  </Field>
+
+                  <Field label="context.channel">
+                    <input
+                      value={request.context.channel ?? ""}
+                      onChange={(event) => updateContext("channel", event.target.value)}
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
+                      placeholder="playground"
                     />
                   </Field>
                 </div>
 
-                <Field label="context.channel">
-                  <input
-                    value={request.context.channel ?? ""}
-                    onChange={(event) => updateContext("channel", event.target.value)}
-                    className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                    placeholder="playground"
-                  />
-                </Field>
-
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-3">
                   <Field label="context.rail" error={errors.rail}>
                     <input
                       value={request.context.rail}
                       onChange={(event) => updateContext("rail", event.target.value)}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
                       placeholder="p2p"
                     />
                   </Field>
@@ -369,7 +328,7 @@ export default function PlaygroundPage() {
                     <input
                       value={request.context.fiat_currency}
                       onChange={(event) => updateContext("fiat_currency", event.target.value.toUpperCase())}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
                       placeholder="NGN"
                     />
                   </Field>
@@ -378,25 +337,25 @@ export default function PlaygroundPage() {
                     <input
                       value={request.context.asset}
                       onChange={(event) => updateContext("asset", event.target.value.toUpperCase())}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
+                      className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
                       placeholder="USDT"
                     />
                   </Field>
-
-                  <Field label="context.side" error={errors.side}>
-                    <select
-                      value={request.context.side}
-                      onChange={(event) => updateContext("side", event.target.value as ScoreRequest["context"]["side"])}
-                      className="w-full rounded-xl border border-bg-border bg-bg-base px-4 py-3 text-text-primary outline-none focus:border-accent-primary"
-                    >
-                      <option value="buy">buy</option>
-                      <option value="sell">sell</option>
-                    </select>
-                  </Field>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3">
-                  <Button onClick={runSimulation}>Run simulation</Button>
+                <Field label="context.side" error={errors.side}>
+                  <select
+                    value={request.context.side}
+                    onChange={(event) => updateContext("side", event.target.value as ScoreRequest["context"]["side"])}
+                    className="w-full rounded-lg border border-bg-border bg-bg-base px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-primary"
+                  >
+                    <option value="buy">buy</option>
+                    <option value="sell">sell</option>
+                  </select>
+                </Field>
+
+                <div className="flex flex-wrap gap-3">
+                  <Button onClick={runSimulation}>Send Request</Button>
                   <Button onClick={resetToDefault} variant="secondary">
                     Reset
                   </Button>
@@ -407,22 +366,110 @@ export default function PlaygroundPage() {
 
             <Card>
               <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Generated code</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Node.js + Python</h2>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Examples</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Preset scenarios</h2>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {PLAYGROUND_PRESETS.map((preset, index) => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => applyPreset(index)}
+                      className={`rounded-lg border p-3 text-left transition ${
+                        activePreset === index
+                          ? "border-accent-primary/60 bg-accent-primary/10"
+                          : "border-bg-border bg-bg-base hover:bg-bg-elevated"
+                      }`}
+                    >
+                      <div className="text-sm font-medium text-text-primary">{preset.label}</div>
+                      <div className="mt-1 text-xs text-text-secondary">{preset.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Response Panel */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Results</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">API Response</h2>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {response ? (
+                  <>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-lg border border-bg-border bg-bg-base p-4">
+                        <div className="text-xs uppercase tracking-[0.18em] text-text-muted">Score</div>
+                        <div className="mt-2 text-2xl font-semibold text-text-primary">{response.score}</div>
+                      </div>
+                      <div className="rounded-lg border border-bg-border bg-bg-base p-4">
+                        <div className="text-xs uppercase tracking-[0.18em] text-text-muted">Risk Level</div>
+                        <div className="mt-2 text-sm font-medium text-text-primary">{response.risk_level}</div>
+                        <div className="mt-1 text-xs text-text-secondary">{getRecommendedAction(response.risk_level)}</div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg border border-bg-border bg-bg-base p-4">
+                      <div className="text-xs uppercase tracking-[0.18em] text-text-muted">Signals ({response.signals.length})</div>
+                      <ul className="mt-2 flex flex-wrap gap-2">
+                        {signalNames.map((signalName) => (
+                          <li key={signalName} className="rounded-full border border-bg-border bg-bg-surface px-2 py-1 text-xs text-text-primary">
+                            {signalName}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : (
+                  <div className="rounded-lg border border-bg-border bg-bg-base p-8 text-center text-text-secondary">
+                    <div className="text-sm">No response yet</div>
+                    <div className="mt-1 text-xs">Configure your request and click &quot;Send Request&quot;</div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Raw Data</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">JSON Payloads</h2>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="inline-flex rounded-lg border border-bg-border bg-bg-base p-1">
+                <div>
+                  <div className="text-sm font-medium text-text-primary mb-2">Request</div>
+                  <CodeBlock title="application/json" body={requestJson} />
+                </div>
+                {response && (
+                  <div>
+                    <div className="text-sm font-medium text-text-primary mb-2">Response</div>
+                    <CodeBlock title="application/json" body={responseJson} />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Code Samples</div>
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Implementation</h2>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="inline-flex overflow-hidden rounded-lg border border-bg-border bg-bg-base">
                   <button
                     type="button"
                     onClick={() => setActiveCodeTab("node")}
-                    className={`rounded-md px-3 py-1.5 text-xs ${activeCodeTab === "node" ? "bg-bg-elevated text-text-primary" : "text-text-secondary"}`}
+                    className={`px-3 py-2 text-xs ${activeCodeTab === "node" ? "bg-bg-elevated text-text-primary" : "text-text-secondary"}`}
                   >
                     Node.js
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveCodeTab("python")}
-                    className={`rounded-md px-3 py-1.5 text-xs ${activeCodeTab === "python" ? "bg-bg-elevated text-text-primary" : "text-text-secondary"}`}
+                    className={`px-3 py-2 text-xs ${activeCodeTab === "python" ? "bg-bg-elevated text-text-primary" : "text-text-secondary"}`}
                   >
                     Python
                   </button>
@@ -431,58 +478,6 @@ export default function PlaygroundPage() {
               </CardContent>
             </Card>
           </div>
-
-          <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-            <Card>
-              <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Response summary</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Decision output</h2>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <SummaryItem label="Score" value={response ? String(response.score) : "-"} />
-                  <SummaryItem label="Risk level" value={response ? response.risk_level : "-"} badgeClass={riskBadgeClass} />
-                  <SummaryItem label="Recommended action" value={response ? getRecommendedAction(response.risk_level) : "-"} badgeClass={actionBadgeClass} />
-                  <SummaryItem label="Signals" value={response ? String(response.signals.length) : "-"} />
-                </div>
-
-                {response ? (
-                  <div className="mt-4 rounded-xl border border-bg-border bg-bg-base p-4">
-                    <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Signals</div>
-                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-text-primary">
-                      {signalNames.map((signalName) => (
-                        <li key={signalName}>{signalName}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Response JSON</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Raw payload</h2>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock title="application/json" body={responseJson} />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Request JSON</div>
-                <h2 className="mt-3 text-2xl font-semibold text-text-primary">Current body</h2>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <CodeBlock title="application/json" body={requestJson} />
-                <div className="rounded-xl border border-bg-border bg-bg-base p-4 text-sm text-text-secondary">
-                  <p>Active endpoint: {endpointBaseUrl}{scorePath}</p>
-                  <p className="mt-1">Model remains the same across sandbox and live modes.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </aside>
         </div>
       </section>
     </main>
