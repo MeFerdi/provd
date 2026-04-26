@@ -69,7 +69,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"client_id\": \"provd-dev-client\",\n  \"client_secret\": \"provd-dev-secret\"\n}"
+          "raw": "{\n  \"client_id\": \"<bootstrap_client_id>\",\n  \"client_secret\": \"<bootstrap_client_secret>\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/auth/token",

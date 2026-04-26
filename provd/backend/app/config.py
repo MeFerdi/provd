@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     api_v1_prefix: str = "/api/v1"
 
-    secret_key: str = Field(default="change-me", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
+    secret_key: str = Field(default="", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
     jwt_algorithm: str = Field(default="HS256", validation_alias=AliasChoices("JWT_ALGORITHM"))
     access_token_expire_minutes: int = Field(default=60, validation_alias=AliasChoices("JWT_EXPIRE_MINUTES"))
     enable_test_auth: bool = Field(default=False, validation_alias=AliasChoices("ENABLE_TEST_AUTH"))
@@ -23,8 +23,8 @@ class Settings(BaseSettings):
     neo4j_password: str = Field(default="", validation_alias=AliasChoices("NEO4J_PASSWORD"))
     redis_url: str = Field(default="redis://redis:6379/0")
 
-    dev_client_id: str = Field(default="provd-dev-client")
-    dev_client_secret: str = Field(default="provd-dev-secret")
+    dev_client_id: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_ID"))
+    dev_client_secret: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_SECRET"))
     dev_client_role: str = Field(default="service")
     dev_client_scopes: list[str] = Field(default_factory=lambda: ["trust:read"])
     bootstrap_admin_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_ID"))
@@ -66,6 +66,29 @@ class Settings(BaseSettings):
     @property
     def bootstrap_client_scopes(self) -> list[str]:
         return [scope.strip() for scope in self.bootstrap_client_scopes_raw.split(",") if scope.strip()]
+
+    @property
+    def is_non_production(self) -> bool:
+        return self.app_env.lower() in {"dev", "development", "local", "test", "testing"}
+
+    @model_validator(mode="after")
+    def validate_security_posture(self) -> "Settings":
+        if not self.secret_key or len(self.secret_key) < 32:
+            raise ValueError("JWT secret key must be configured with at least 32 characters")
+
+        if self.enable_test_auth:
+            if not self.is_non_production:
+                raise ValueError("ENABLE_TEST_AUTH may only be enabled in non-production environments")
+            if not self.dev_client_id or not self.dev_client_secret:
+                raise ValueError("DEV_CLIENT_ID and DEV_CLIENT_SECRET must be set when ENABLE_TEST_AUTH=true")
+
+        if not self.is_non_production:
+            if not self.bootstrap_admin_client_id or not self.bootstrap_admin_client_secret:
+                raise ValueError("Bootstrap admin credentials must be configured outside non-production environments")
+            if not self.bootstrap_client_client_id or not self.bootstrap_client_client_secret:
+                raise ValueError("Bootstrap client credentials must be configured outside non-production environments")
+
+        return self
 
 
 @lru_cache(maxsize=1)

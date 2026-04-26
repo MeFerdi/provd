@@ -1,6 +1,6 @@
 import { clearSession, getStoredSession, saveSession, type AuthSession } from "@/lib/auth";
 import { createJsonHeaders, requestErrorMessage } from "@/lib/http";
-import { getApiBaseUrl, isTestAuthEnabled } from "@/lib/env";
+import { getApiBaseUrl } from "@/lib/env";
 
 export const API_BASE_URL = getApiBaseUrl();
 
@@ -144,52 +144,6 @@ export type LoginResponse = {
   role: string;
 };
 
-function createMockSession(params: {
-  accessTokenPrefix: string;
-  role: AuthSession["role"];
-  scopes: string[];
-}): AuthSession {
-  return {
-    accessToken: `${params.accessTokenPrefix}-${Date.now()}`,
-    tokenType: "bearer",
-    role: params.role,
-    scopes: params.scopes,
-    expiresIn: 3600,
-  };
-}
-
-function getMockLoginSession(clientId: string, clientSecret: string): AuthSession | null {
-  if (!isTestAuthEnabled()) {
-    return null;
-  }
-
-  if (clientId === "admin-client-id" && clientSecret === "admin-secret") {
-    return createMockSession({
-      accessTokenPrefix: "mock-token-admin",
-      role: "admin",
-      scopes: ["read", "write", "admin"],
-    });
-  }
-
-  if (clientId === "client-user-id" && clientSecret === "client-secret") {
-    return createMockSession({
-      accessTokenPrefix: "mock-token-client",
-      role: "client",
-      scopes: ["read", "write"],
-    });
-  }
-
-  if (clientId === "provd-dev-client" && clientSecret === "provd-dev-secret") {
-    return createMockSession({
-      accessTokenPrefix: "mock-token-service",
-      role: "service",
-      scopes: ["trust:read"],
-    });
-  }
-
-  return null;
-}
-
 async function requestJson<T>(path: string, init: RequestInit = {}, includeAuth = true): Promise<T> {
   const session = getStoredSession();
   const headers = createJsonHeaders({
@@ -236,12 +190,6 @@ export async function publicApiRequest<T>(path: string, init: RequestInit = {}):
 }
 
 export async function loginWithCredentials(clientId: string, clientSecret: string): Promise<AuthSession> {
-  const mockSession = getMockLoginSession(clientId, clientSecret);
-  if (mockSession) {
-    saveSession(mockSession);
-    return mockSession;
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/auth/token`, {
       method: "POST",
@@ -270,7 +218,7 @@ export async function loginWithCredentials(clientId: string, clientSecret: strin
     return session;
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error(`Unable to reach the API at ${API_BASE_URL}. Start the backend or use the local mock credentials.`);
+      throw new Error(`Unable to reach the API at ${API_BASE_URL}. Start the backend and verify your environment configuration.`);
     }
 
     throw error;

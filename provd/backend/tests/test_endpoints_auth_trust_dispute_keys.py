@@ -1,3 +1,5 @@
+from secrets import token_urlsafe
+
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -13,15 +15,24 @@ from tests.conftest import FakeAsyncSession, build_client
 def test_auth_token_issued_for_dev_credentials():
     app = FastAPI()
     app.include_router(auth_router, prefix="/api/v1")
+    dev_client_id = "dev-client"
+    dev_client_secret = token_urlsafe(24)
+    jwt_secret = token_urlsafe(32)
 
     def _settings_override():
-        return Settings(app_env="development", secret_key="test-secret", enable_test_auth=True)
+        return Settings(
+            app_env="development",
+            secret_key=jwt_secret,
+            enable_test_auth=True,
+            dev_client_id=dev_client_id,
+            dev_client_secret=dev_client_secret,
+        )
 
     app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
-        json={"client_id": "provd-dev-client", "client_secret": "provd-dev-secret"},
+        json={"client_id": dev_client_id, "client_secret": dev_client_secret},
     )
 
     assert response.status_code == 200
@@ -33,20 +44,23 @@ def test_auth_token_issued_for_dev_credentials():
 def test_auth_token_issued_for_bootstrap_admin_credentials():
     app = FastAPI()
     app.include_router(auth_router, prefix="/api/v1")
+    admin_client_id = "staging-admin"
+    admin_client_secret = token_urlsafe(24)
+    jwt_secret = token_urlsafe(32)
 
     def _settings_override():
         return Settings(
             app_env="production",
-            secret_key="test-secret",
-            bootstrap_admin_client_id="staging-admin",
-            bootstrap_admin_client_secret="staging-admin-secret",
+            secret_key=jwt_secret,
+            bootstrap_admin_client_id=admin_client_id,
+            bootstrap_admin_client_secret=admin_client_secret,
         )
 
     app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
-        json={"client_id": "staging-admin", "client_secret": "staging-admin-secret"},
+        json={"client_id": admin_client_id, "client_secret": admin_client_secret},
     )
 
     assert response.status_code == 200
@@ -58,20 +72,23 @@ def test_auth_token_issued_for_bootstrap_admin_credentials():
 def test_auth_token_issued_for_bootstrap_client_credentials():
     app = FastAPI()
     app.include_router(auth_router, prefix="/api/v1")
+    client_id = "partner-client"
+    client_secret = token_urlsafe(24)
+    jwt_secret = token_urlsafe(32)
 
     def _settings_override():
         return Settings(
             app_env="production",
-            secret_key="test-secret",
-            bootstrap_client_client_id="partner-client",
-            bootstrap_client_client_secret="partner-client-secret",
+            secret_key=jwt_secret,
+            bootstrap_client_client_id=client_id,
+            bootstrap_client_client_secret=client_secret,
         )
 
     app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
-        json={"client_id": "partner-client", "client_secret": "partner-client-secret"},
+        json={"client_id": client_id, "client_secret": client_secret},
     )
 
     assert response.status_code == 200

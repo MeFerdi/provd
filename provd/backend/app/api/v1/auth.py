@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from hmac import compare_digest
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from jose import jwt
@@ -14,23 +15,28 @@ def resolve_client_credentials(payload: TokenRequest, settings: Settings) -> tup
 	if (
 		settings.bootstrap_admin_client_id
 		and settings.bootstrap_admin_client_secret
-		and payload.client_id == settings.bootstrap_admin_client_id
-		and payload.client_secret == settings.bootstrap_admin_client_secret
+		and compare_digest(payload.client_id, settings.bootstrap_admin_client_id)
+		and compare_digest(payload.client_secret, settings.bootstrap_admin_client_secret)
 	):
 		return settings.bootstrap_admin_role, settings.bootstrap_admin_scopes
 
 	if (
 		settings.bootstrap_client_client_id
 		and settings.bootstrap_client_client_secret
-		and payload.client_id == settings.bootstrap_client_client_id
-		and payload.client_secret == settings.bootstrap_client_client_secret
+		and compare_digest(payload.client_id, settings.bootstrap_client_client_id)
+		and compare_digest(payload.client_secret, settings.bootstrap_client_client_secret)
 	):
 		return settings.bootstrap_client_role, settings.bootstrap_client_scopes
 
 	if not settings.enable_test_auth:
 		return None
 
-	if payload.client_id == settings.dev_client_id and payload.client_secret == settings.dev_client_secret:
+	if (
+		settings.dev_client_id
+		and settings.dev_client_secret
+		and compare_digest(payload.client_id, settings.dev_client_id)
+		and compare_digest(payload.client_secret, settings.dev_client_secret)
+	):
 		return settings.dev_client_role, settings.dev_client_scopes
 
 	return None
@@ -38,13 +44,6 @@ def resolve_client_credentials(payload: TokenRequest, settings: Settings) -> tup
 
 @router.post("/token", response_model=TokenResponse, summary="Issue bearer token")
 def issue_token(payload: TokenRequest, settings: Settings = Depends(get_app_settings)) -> TokenResponse:
-	insecure_defaults = settings.dev_client_id == "provd-dev-client" and settings.dev_client_secret == "provd-dev-secret"
-	if settings.enable_test_auth and insecure_defaults and settings.app_env.lower() not in {"dev", "development", "local", "test", "testing"}:
-		raise HTTPException(
-			status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-			detail="Unsafe default dev credentials are disabled outside development environments",
-		)
-
 	matched_principal = resolve_client_credentials(payload, settings)
 	if matched_principal is None:
 		raise HTTPException(

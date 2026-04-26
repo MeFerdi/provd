@@ -7,17 +7,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { saveSession, type AuthSession } from "@/lib/auth";
 import { isTestAuthEnabled } from "@/lib/env";
 
-// Mock users for testing
 const MOCK_USERS = {
   admin: {
-    clientId: "admin-client-id",
-    clientSecret: "admin-secret",
     role: "admin",
     description: "Admin Dashboard - Full system access"
   },
   client: {
-    clientId: "client-user-id",
-    clientSecret: "client-secret",
     role: "client",
     description: "Client Dashboard - API user access"
   }
@@ -77,10 +72,6 @@ export default function TestAuthPage() {
                 <p className="text-sm text-text-secondary mb-4">
                   {MOCK_USERS.admin.description}
                 </p>
-                <div className="space-y-2 mb-4">
-                  <div className="text-xs text-text-muted">Client ID: {MOCK_USERS.admin.clientId}</div>
-                  <div className="text-xs text-text-muted">Secret: {MOCK_USERS.admin.clientSecret}</div>
-                </div>
                 <Button
                   onClick={() => handleLogin("admin")}
                   className="w-full"
@@ -94,10 +85,6 @@ export default function TestAuthPage() {
                 <p className="text-sm text-text-secondary mb-4">
                   {MOCK_USERS.client.description}
                 </p>
-                <div className="space-y-2 mb-4">
-                  <div className="text-xs text-text-muted">Client ID: {MOCK_USERS.client.clientId}</div>
-                  <div className="text-xs text-text-muted">Secret: {MOCK_USERS.client.clientSecret}</div>
-                </div>
                 <Button
                   onClick={() => handleLogin("client")}
                   className="w-full"
@@ -110,9 +97,9 @@ export default function TestAuthPage() {
             <div className="rounded-xl border border-bg-border bg-bg-surface p-4">
               <h4 className="text-sm font-medium text-text-primary mb-2">How to use:</h4>
               <ol className="text-sm text-text-secondary space-y-1 list-decimal list-inside">
-                <li>Click &quot;Login as Admin&quot; or &quot;Login as Client&quot;</li>
-                <li>You&apos;ll be redirected to the appropriate dashboard</li>
-                <li>Use the regular login page with these credentials for real authentication</li>
+                <li>Use this page only for internal UI validation.</li>
+                <li>Choose an internal role simulation and you&apos;ll be redirected to the matching dashboard.</li>
+                <li>Use the regular login page with backend-issued credentials for staging and production authentication.</li>
               </ol>
             </div>
           </CardContent>
