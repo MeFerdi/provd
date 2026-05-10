@@ -23,7 +23,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - neo4j
       - ml
     networks:
       - provd_network
@@ -51,18 +50,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - provd_network
-  neo4j:
-    image: neo4j:5
-    restart: always
-    environment:
-      NEO4J_AUTH: neo4j/
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    volumes:
-      - neo4jdata:/data
-    networks:
-      - provd_network
   redis:
     image: redis:7
     restart: always
@@ -74,44 +61,13 @@ services:
     build: ./backend
     command: celery -A app.tasks.celery_app worker --loglevel=info
     depends_on:
-      - backend
       - redis
     env_file:
       - ./backend/.env.example
-    networks:
-      - provd_network
-  celery_beat:
-    build: ./backend
-    command: celery -A app.tasks.celery_app beat --loglevel=info
-    depends_on:
-      - backend
-      - redis
-    env_file:
-      - ./backend/.env.example
-    networks:
-      - provd_network
-  flower:
-    image: mher/flower
-    command: flower --port=5555 --broker=redis://redis:6379/0
-    ports:
-      - "5555:5555"
-    depends_on:
-      - redis
-    networks:
-      - provd_network
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.11.3
-    command: mlflow server --host 0.0.0.0 --port 5050 --backend-store-uri /mlflow
-    ports:
-      - "5050:5050"
-    volumes:
-      - mlflowdata:/mlflow
     networks:
       - provd_network
 volumes:
   pgdata:
-  neo4jdata:
-  mlflowdata:
 networks:
   provd_network:
     driver: bridge
