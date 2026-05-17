@@ -5,18 +5,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import router as api_v1_router
 from app.config import get_settings
-from app.db.neo4j import close_neo4j, verify_neo4j
 from app.db.postgres import close_postgres
 from app.observability import configure_logging, configure_sentry, request_context_middleware
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-	await verify_neo4j()
 	try:
 		yield
 	finally:
-		await close_neo4j()
 		await close_postgres()
 
 

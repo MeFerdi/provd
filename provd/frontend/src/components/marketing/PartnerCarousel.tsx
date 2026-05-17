@@ -1,34 +1,34 @@
 import Image from "next/image";
 
-const partnerBrands = [
-  {
-    label: "Busha",
-    src: "/assets/partners/busha.svg",
-    alt: "Busha logo",
-  },
-  {
-    label: "Quidax",
-    src: "/assets/partners/quidax.png",
-    alt: "Quidax logo",
-  },
-  {
-    label: "Kotani Pay",
-    src: "/assets/partners/kotani.svg",
-    alt: "Kotani Pay logo",
-  },
-  {
-    label: "Bitnob",
-    src: "/assets/partners/bitnob.svg",
-    alt: "Bitnob logo",
-  },
-  {
-    label: "Lopeer",
-    src: "/assets/partners/lopeer.png",
-    alt: "Lopeer logo",
-  },
-];
+// const partnerBrands = [
+//   {
+//     label: "Busha",
+//     src: "/assets/partners/busha.svg",
+//     alt: "Busha logo",
+//   },
+//   {
+//     label: "Quidax",
+//     src: "/assets/partners/quidax.png",
+//     alt: "Quidax logo",
+//   },
+//   {
+//     label: "Kotani Pay",
+//     src: "/assets/partners/kotani.svg",
+//     alt: "Kotani Pay logo",
+//   },
+//   {
+//     label: "Bitnob",
+//     src: "/assets/partners/bitnob.svg",
+//     alt: "Bitnob logo",
+//   },
+//   {
+//     label: "Lopeer",
+//     src: "/assets/partners/lopeer.png",
+//     alt: "Lopeer logo",
+//   },
+// ];
 
-const logos = [...partnerBrands, ...partnerBrands];
+// const logos = [...partnerBrands, ...partnerBrands];
 
 export default function PartnerCarousel() {
   return (
@@ -49,7 +49,7 @@ export default function PartnerCarousel() {
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-base via-bg-base/85 to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-base via-bg-base/85 to-transparent" />
 
-          <div className="logo-marquee flex w-max items-stretch gap-4 pr-4">
+          {/* <div className="logo-marquee flex w-max items-stretch gap-4 pr-4">
             {logos.map((item, index) => (
               <div
                 key={`${item.label}-${index}`}
@@ -70,7 +70,7 @@ export default function PartnerCarousel() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

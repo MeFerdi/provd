@@ -4,9 +4,9 @@ This is the backend service for Provd, a B2B fraud intelligence platform for Afr
 
 ## Features
 - FastAPI-based REST API
-- Neo4j and PostgreSQL database integration
-- Celery-powered background tasks
-- Modular service architecture (scoring, dispute analysis, graph, caching)
+- PostgreSQL for persistence
+- Celery worker for optional background tasks (on-demand; no beat scheduler in default config)
+- Modular services (scoring, dispute analysis, caching)
 - JWT-based authentication and API key management
 - Alembic migrations for database schema
 - Dockerized for local and production deployments
@@ -21,7 +21,7 @@ backend/
 │   ├── api/                # API route definitions
 │   │   └── v1/             # Versioned API endpoints
 │   ├── config.py           # App configuration
-│   ├── db/                 # Database connectors (Neo4j, Postgres)
+│   ├── db/                 # Database (Postgres)
 │   ├── dependencies.py     # FastAPI dependencies
 │   ├── main.py             # FastAPI app entrypoint
 │   ├── models/             # SQLAlchemy/ORM models
@@ -37,7 +37,6 @@ backend/
 - Python 3.10+
 - Docker & Docker Compose
 - PostgreSQL (if not using Docker)
-- Neo4j (if not using Docker)
 
 ### Local Development
 
@@ -82,7 +81,7 @@ backend/
    ```bash
    docker-compose up --build
    ```
-   This will launch the API, PostgreSQL, Neo4j, and Celery worker.
+   This will launch the API, PostgreSQL, Redis, optional ML service, and Celery worker.
 
 2. **Access the API:**
    - Default: http://localhost:8000
@@ -91,7 +90,7 @@ backend/
 ## Key Endpoints
 - `/api/v1/trust/score` — Get risk score for a counterparty
 - `/api/v1/dispute/analyze` — Analyze a trade dispute
-- `/api/v1/auth/login` — Obtain JWT token
+- `/api/v1/auth/token` — Obtain JWT token
 - `/api/v1/health` — Health check
 
 ## Migrations
@@ -110,9 +109,11 @@ backend/
 
 ## Environment Variables
 - `DATABASE_URL` — PostgreSQL connection string
-- `NEO4J_URI` — Neo4j connection string
-- `SECRET_KEY` — JWT secret
+- `SECRET_KEY` / `JWT_SECRET_KEY` — JWT secret (32+ characters)
 - `CELERY_BROKER_URL` — Celery broker (e.g., Redis)
+- `BOOTSTRAP_ADMIN_CLIENT_ID` / `BOOTSTRAP_ADMIN_CLIENT_SECRET` — initial admin credential pair
+- `BOOTSTRAP_CLIENT_CLIENT_ID` / `BOOTSTRAP_CLIENT_CLIENT_SECRET` — initial client credential pair
+- `ENABLE_TEST_AUTH` — enables internal dev/test credentials only
 - See `.env.example` for all options
 
 ## Deployment
