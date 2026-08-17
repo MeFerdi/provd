@@ -12,23 +12,30 @@ from app.dependencies import get_app_settings
 from tests.conftest import FakeAsyncSession, build_client
 
 
-def test_auth_token_issued_for_dev_credentials():
-    app = FastAPI()
-    app.include_router(auth_router, prefix="/api/v1")
+def test_auth_token_issued_for_dev_credentials(monkeypatch):
     dev_client_id = "dev-client"
     dev_client_secret = token_urlsafe(24)
     jwt_secret = token_urlsafe(32)
 
-    def _settings_override():
-        return Settings(
-            app_env="development",
-            secret_key=jwt_secret,
-            enable_test_auth=True,
-            dev_client_id=dev_client_id,
-            dev_client_secret=dev_client_secret,
-        )
+    # pydantic-settings v2 gives env vars higher priority than init kwargs,
+    # so we inject via env and let Settings() read from there.
+    monkeypatch.setenv("APP_ENV", "development")
+    monkeypatch.setenv("SECRET_KEY", jwt_secret)
+    monkeypatch.setenv("ENABLE_TEST_AUTH", "true")
+    monkeypatch.setenv("DEV_CLIENT_ID", dev_client_id)
+    monkeypatch.setenv("DEV_CLIENT_SECRET", dev_client_secret)
+    monkeypatch.delenv("BOOTSTRAP_ADMIN_CLIENT_ID", raising=False)
+    monkeypatch.delenv("BOOTSTRAP_ADMIN_CLIENT_SECRET", raising=False)
+    monkeypatch.delenv("BOOTSTRAP_CLIENT_CLIENT_ID", raising=False)
+    monkeypatch.delenv("BOOTSTRAP_CLIENT_CLIENT_SECRET", raising=False)
 
-    app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
+
+    def _settings_override():
+        return Settings()
+
+    app.dependency_overrides[get_app_settings] = _settings_override  # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
@@ -41,22 +48,30 @@ def test_auth_token_issued_for_dev_credentials():
     assert body["token_type"] == "bearer"
 
 
-def test_auth_token_issued_for_bootstrap_admin_credentials():
-    app = FastAPI()
-    app.include_router(auth_router, prefix="/api/v1")
+def test_auth_token_issued_for_bootstrap_admin_credentials(monkeypatch):
     admin_client_id = "staging-admin"
     admin_client_secret = token_urlsafe(24)
+    client_client_id = "staging-client"
+    client_client_secret = token_urlsafe(24)
     jwt_secret = token_urlsafe(32)
 
-    def _settings_override():
-        return Settings(
-            app_env="production",
-            secret_key=jwt_secret,
-            bootstrap_admin_client_id=admin_client_id,
-            bootstrap_admin_client_secret=admin_client_secret,
-        )
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("SECRET_KEY", jwt_secret)
+    monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_ID", admin_client_id)
+    monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_SECRET", admin_client_secret)
+    monkeypatch.setenv("BOOTSTRAP_CLIENT_CLIENT_ID", client_client_id)
+    monkeypatch.setenv("BOOTSTRAP_CLIENT_CLIENT_SECRET", client_client_secret)
+    monkeypatch.delenv("ENABLE_TEST_AUTH", raising=False)
+    monkeypatch.delenv("DEV_CLIENT_ID", raising=False)
+    monkeypatch.delenv("DEV_CLIENT_SECRET", raising=False)
 
-    app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
+
+    def _settings_override():
+        return Settings()
+
+    app.dependency_overrides[get_app_settings] = _settings_override  # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
@@ -69,22 +84,30 @@ def test_auth_token_issued_for_bootstrap_admin_credentials():
     assert "keys:write" in body["scopes"]
 
 
-def test_auth_token_issued_for_bootstrap_client_credentials():
-    app = FastAPI()
-    app.include_router(auth_router, prefix="/api/v1")
+def test_auth_token_issued_for_bootstrap_client_credentials(monkeypatch):
+    admin_client_id = "staging-admin"
+    admin_client_secret = token_urlsafe(24)
     client_id = "partner-client"
     client_secret = token_urlsafe(24)
     jwt_secret = token_urlsafe(32)
 
-    def _settings_override():
-        return Settings(
-            app_env="production",
-            secret_key=jwt_secret,
-            bootstrap_client_client_id=client_id,
-            bootstrap_client_client_secret=client_secret,
-        )
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("SECRET_KEY", jwt_secret)
+    monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_ID", admin_client_id)
+    monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_SECRET", admin_client_secret)
+    monkeypatch.setenv("BOOTSTRAP_CLIENT_CLIENT_ID", client_id)
+    monkeypatch.setenv("BOOTSTRAP_CLIENT_CLIENT_SECRET", client_secret)
+    monkeypatch.delenv("ENABLE_TEST_AUTH", raising=False)
+    monkeypatch.delenv("DEV_CLIENT_ID", raising=False)
+    monkeypatch.delenv("DEV_CLIENT_SECRET", raising=False)
 
-    app.dependency_overrides[get_app_settings] = _settings_override # type: ignore
+    app = FastAPI()
+    app.include_router(auth_router, prefix="/api/v1")
+
+    def _settings_override():
+        return Settings()
+
+    app.dependency_overrides[get_app_settings] = _settings_override  # type: ignore
     client = TestClient(app)
     response = client.post(
         "/api/v1/auth/token",
@@ -139,7 +162,7 @@ def test_trust_score_endpoint_logs_score(monkeypatch):
 
 
 def test_dispute_endpoint_returns_recommendation():
-    client, _ = build_client(dispute_router)
+    client, db = build_client(dispute_router, db=FakeAsyncSession())
 
     response = client.post(
         "/api/v1/dispute/analyze",
@@ -151,8 +174,10 @@ def test_dispute_endpoint_returns_recommendation():
         },
     )
 
-    assert response.status_code == 200
+    # endpoint now returns 201 Created and persists the dispute
+    assert response.status_code == 201
     body = response.json()
     assert body["trade_id"] == "T-001"
     assert "recommendation" in body
     assert 0 <= body["confidence"] <= 1
+    assert len(db.disputes) == 1

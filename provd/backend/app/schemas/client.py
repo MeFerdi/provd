@@ -3,10 +3,16 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
+class ClientCreateRequest(BaseModel):
+	name: str = Field(min_length=2, max_length=150)
+
+
 class ClientResponse(BaseModel):
 	id: str
 	name: str
-	active: bool = True
+	active: bool
+	created_at: datetime
+	updated_at: datetime
 
 
 class ApiKeyCreateRequest(BaseModel):
@@ -25,3 +31,4 @@ class ApiKeyResponse(BaseModel):
 
 class ApiKeyCreateResponse(ApiKeyResponse):
 	api_key: str
+
