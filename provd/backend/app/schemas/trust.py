@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -22,3 +23,20 @@ class TrustScoreResponse(BaseModel):
 	risk_level: str
 	signals: list[TrustSignal]
 	cached: bool = False
+
+
+class ScoreHistoryItem(BaseModel):
+	id: str
+	entity_id: str
+	score: float = Field(ge=0, le=1)
+	risk_level: str
+	signals: list[TrustSignal]
+	cached: bool
+	created_at: datetime
+
+
+class ScoreHistoryResponse(BaseModel):
+	entity_id: str
+	total: int
+	items: list[ScoreHistoryItem]
+

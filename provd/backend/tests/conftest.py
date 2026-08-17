@@ -30,8 +30,10 @@ class _ExecResult:
 
 class FakeAsyncSession:
     def __init__(self):
-        self.api_keys = []
-        self.score_logs = []
+        self.api_keys: list = []
+        self.score_logs: list = []
+        self.disputes: list = []
+        self.clients: list = []
 
     async def execute(self, statement):
         query = str(statement).lower()
@@ -41,7 +43,7 @@ class FakeAsyncSession:
             if not params:
                 return _ExecResult(list(reversed(self.api_keys)))
 
-            key_id = next((v for k, v in params.items() if "id" in k), None)
+            key_id = next((v for k, v in params.items() if k == "id_1"), None)
             if key_id is not None:
                 item = next((x for x in self.api_keys if x.id == key_id), None)
                 return _ExecResult([item] if item else [])
@@ -53,16 +55,46 @@ class FakeAsyncSession:
 
             return _ExecResult([])
 
+        if "from disputes" in query:
+            dispute_id = next((v for k, v in params.items() if "id" in k), None)
+            if dispute_id is not None:
+                item = next((x for x in self.disputes if x.id == dispute_id), None)
+                return _ExecResult([item] if item else [])
+            return _ExecResult(list(self.disputes))
+
+        if "from clients" in query:
+            client_name = next((v for k, v in params.items() if "name" in k), None)
+            if client_name is not None:
+                item = next((x for x in self.clients if x.name == client_name), None)
+                return _ExecResult([item] if item else [])
+            client_id = next((v for k, v in params.items() if "id" in k), None)
+            if client_id is not None:
+                item = next((x for x in self.clients if x.id == client_id), None)
+                return _ExecResult([item] if item else [])
+            return _ExecResult(list(reversed(self.clients)))
+
+        if "from score_logs" in query:
+            entity_id = next((v for k, v in params.items() if "entity_id" in k), None)
+            logs = self.score_logs
+            if entity_id is not None:
+                logs = [x for x in logs if x.entity_id == entity_id]
+            return _ExecResult(list(reversed(logs)))
+
         return _ExecResult([])
 
     def add(self, item):
-        if item.__class__.__name__ == "ApiKey":
-            if getattr(item, "created_at", None) is None:
-                item.created_at = datetime.now(timezone.utc)
+        cls = item.__class__.__name__
+        if getattr(item, "created_at", None) is None:
+            item.created_at = datetime.now(timezone.utc)
+        if cls == "ApiKey":
             self.api_keys.append(item)
+        elif cls == "Dispute":
+            self.disputes.append(item)
+        elif cls == "Client":
+            if not hasattr(item, "updated_at") or item.updated_at is None:
+                item.updated_at = item.created_at
+            self.clients.append(item)
         else:
-            if getattr(item, "created_at", None) is None:
-                item.created_at = datetime.now(timezone.utc)
             self.score_logs.append(item)
 
     async def commit(self):
@@ -87,3 +119,4 @@ def build_client(router, db: FakeAsyncSession | None = None) -> tuple[TestClient
     app.dependency_overrides[get_db_session] = _db_override
     app.dependency_overrides[get_auth_context] = _auth_override
     return TestClient(app), db_session
+

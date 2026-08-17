@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -9,7 +11,20 @@ class DisputeRequest(BaseModel):
 
 
 class DisputeResponse(BaseModel):
+	"""Lightweight response — kept for backward compatibility."""
 	trade_id: str
 	recommendation: str
 	confidence: float = Field(ge=0, le=1)
 	rationale: list[str]
+
+
+class DisputeRecord(BaseModel):
+	"""Full persisted dispute record returned after analysis."""
+	id: str
+	trade_id: str
+	counterparty_id: str
+	amount: float
+	recommendation: str
+	confidence: float = Field(ge=0, le=1)
+	rationale: list[str]
+	created_at: datetime
