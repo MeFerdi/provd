@@ -10,6 +10,28 @@ const MUTED = "#6B6B6B";
 const LINE = "#E7E5E4";
 const OK = "#16A34A";
 
+/** A milled coin edge: a circle with evenly spaced notches (outer radius r, notch depth d). */
+function milledEdge(cx: number, cy: number, r: number, d: number, teeth: number): string {
+  const pts: string[] = [];
+  for (let i = 0; i < teeth * 2; i++) {
+    const a = (Math.PI * i) / teeth;
+    const rr = i % 2 === 0 ? r : r - d;
+    pts.push(`${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`);
+  }
+  return `M${pts.join(" L")} Z`;
+}
+
+/** Fine reeding lines across the rim, between radius r1 and r2. */
+function reeding(cx: number, cy: number, r1: number, r2: number, count: number): string {
+  let d = "";
+  for (let i = 0; i < count; i++) {
+    const a = (2 * Math.PI * i) / count;
+    const c = Math.cos(a), sn = Math.sin(a);
+    d += `M${(cx + r1 * c).toFixed(2)} ${(cy + r1 * sn).toFixed(2)} L${(cx + r2 * c).toFixed(2)} ${(cy + r2 * sn).toFixed(2)} `;
+  }
+  return d;
+}
+
 function Tick({ x, y }: { x: number; y: number }) {
   return (
     <g>
@@ -165,8 +187,9 @@ export default function HeroMascot() {
 
       {/* the coin, drawn last so the hand is fully hidden behind it */}
       <g>
-        <circle cx="384" cy="297" r="44" fill="#156B52" />
-        <circle cx="380" cy="292" r="44" fill="url(#coinRim)" />
+        <path d={milledEdge(384, 297, 44.5, 1.3, 140)} fill="#156B52" />
+        <path d={milledEdge(380, 292, 44.5, 1.3, 140)} fill="url(#coinRim)" />
+        <path d={reeding(380, 292, 38.5, 43, 140)} stroke="#0F5A44" strokeOpacity="0.35" strokeWidth="0.9" />
         <circle cx="380" cy="292" r="36.5" fill="url(#coinFace)" />
         <circle cx="380" cy="292" r="36.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.28" strokeWidth="1.2" />
         <g transform="translate(346.4 258.4) scale(2.1)" opacity="0.22">
