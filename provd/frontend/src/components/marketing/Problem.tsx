@@ -20,8 +20,8 @@ const LOSSES = [
 export default function Problem() {
   return (
     <section className="border-b border-bg-border bg-bg-surface py-20 sm:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-14">
-        <figure className="order-last min-w-0 lg:order-none">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-stretch lg:gap-14">
+        <figure className="order-last flex min-w-0 flex-col lg:order-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/home/mobile-money-withdrawal-uganda.jpg"
@@ -30,7 +30,7 @@ export default function Problem() {
             height={683}
             loading="lazy"
             decoding="async"
-            className="block h-auto w-full rounded-md border border-bg-border object-cover"
+            className="block aspect-[4/3] w-full rounded-md border border-bg-border object-cover object-[38%_50%] lg:aspect-auto lg:min-h-0 lg:flex-1"
           />
           <figcaption className="mt-2 text-xs text-text-muted">
             Photo:{" "}

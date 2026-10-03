@@ -4,7 +4,7 @@ import { FREE_MONTHLY_CHECKS } from "@/lib/pricing";
 export default function Hero() {
   return (
     <section className="border-b border-bg-border bg-white pt-28 lg:pt-24">
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
+      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center lg:gap-14">
         <div className="min-w-0 max-w-2xl lg:py-16">
           <h1 className="mb-6 font-display text-[40px] leading-[1.05] text-text-primary sm:text-[52px] lg:text-[60px]">
             Score money movement before it&apos;s released.
@@ -24,7 +24,7 @@ export default function Hero() {
           </div>
           <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
-        <figure className="min-w-0 pb-14 lg:py-16">
+        <figure className="min-w-0 pb-14 lg:py-14">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/home/mpesa-menu-smartphone-kenya.jpg"
@@ -32,7 +32,7 @@ export default function Hero() {
             width={1024}
             height={683}
             fetchPriority="high"
-            className="block h-auto w-full rounded-md border border-bg-border object-cover"
+            className="block aspect-[4/3] w-full rounded-md border border-bg-border object-cover object-[45%_50%]"
           />
           <figcaption className="mt-2 text-xs text-text-muted">
             Photo:{" "}
