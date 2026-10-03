@@ -16,7 +16,7 @@ KNOWN_INTENT_TYPES = {
 	"swap", "deposit", "payment", "asset_verify", "venue_assess",
 }
 SCORED_CHAINS = {"tron"}
-SCORED_INTENT_TYPES = {"p2p_trade", "ramp_conversion"}
+SCORED_INTENT_TYPES = {"p2p_trade", "ramp_conversion", "payout", "otc_settlement"}
 
 RiskLevel = Literal["low", "medium", "high", "critical"]
 RecommendedAction = Literal["release", "hold", "reject", "manual_review", "not_yet_supported"]
@@ -40,6 +40,20 @@ class Amounts(BaseModel):
 	crypto: Decimal | None = Field(default=None, ge=0)
 
 
+class AccountSignals(BaseModel):
+	"""Account-takeover inputs from your device-trust or telco provider (Provd doesn't detect these itself).
+
+	Send what you have; every field is optional. Timestamps are when the event happened.
+	"""
+
+	provider: str | None = Field(default=None, max_length=64, description="Who supplied these signals, e.g. your SIM-swap API vendor")
+	sim_swap_at: datetime | None = Field(default=None, description="Most recent SIM swap / port on the counterparty's number")
+	device_changed_at: datetime | None = Field(default=None, description="Most recent new device for the counterparty's account")
+	credentials_changed_at: datetime | None = Field(default=None, description="Most recent password/PIN/email change")
+	payout_destination_added_at: datetime | None = Field(default=None, description="When the destination receiving these funds was added to the account")
+	account_created_at: datetime | None = None
+
+
 class ActionIntent(BaseModel):
 	intent_id: str | None = Field(default=None, max_length=64, description="Your id; generated if omitted")
 	chain: str
@@ -47,6 +61,8 @@ class ActionIntent(BaseModel):
 	counterparty: Counterparty
 	rails: Rails = Field(default_factory=Rails)
 	amounts: Amounts = Field(default_factory=Amounts)
+	account_signals: AccountSignals | None = None
+	float_available: Decimal | None = Field(default=None, ge=0, description="Your available float for this rail, in amounts.fiat_currency (payout/OTC)")
 	venue: dict | None = None
 	asset: dict | None = None
 	context: dict = Field(default_factory=dict)

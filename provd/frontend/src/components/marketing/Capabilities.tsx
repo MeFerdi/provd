@@ -1,4 +1,8 @@
-const CAPABILITIES = [
+import Link from "next/link";
+
+type Capability = { title: string; body: string; link?: { href: string; label: string } };
+
+const CAPABILITIES: Capability[] = [
   {
     title: "Pre-release scoring",
     body: "Score a transaction before funds move, with a signal-by-signal explanation of what raised or lowered the risk.",
@@ -14,6 +18,7 @@ const CAPABILITIES = [
   {
     title: "Decision records",
     body: "Every check is hashed, signed and timestamped on Bitcoin, so you can prove to an auditor or regulator what was checked and when — without trusting us.",
+    link: { href: "/verify", label: "Verify a decision" },
   },
   {
     title: "Pay as you go",
@@ -36,10 +41,15 @@ export default function Capabilities() {
           What you get.
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {CAPABILITIES.map(({ title, body }) => (
+          {CAPABILITIES.map(({ title, body, link }) => (
             <div key={title} className="rounded-md border border-bg-border bg-white p-6">
               <h3 className="font-sans text-lg font-semibold text-text-primary">{title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-text-secondary">{body}</p>
+              {link ? (
+                <Link href={link.href} className="mt-3 inline-block text-[15px] text-accent-secondary hover:underline">
+                  {link.label} →
+                </Link>
+              ) : null}
             </div>
           ))}
           <div className="rounded-md border border-bg-border bg-bg-surface p-6">

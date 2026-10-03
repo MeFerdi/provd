@@ -1,29 +1,44 @@
 /**
- * Public pricing, mirrored from the backend's `GET /v1/pricing`.
- * Kept static so the site can be exported without calling the API at build time.
- * Update both places together.
+ * Public pricing, read from src/data/pricing.json — the same price list the backend serves at
+ * `GET /v1/pricing`, exported by `python -m app.export_contract ../frontend/src/data`.
+ * Don't edit numbers here: regenerate the JSON instead. Only display labels live in this file.
  */
-export const FREE_DAILY_CHECKS = 100;
+import pricing from "@/data/pricing.json";
 
-export type BundleId = "10k" | "100k" | "1m";
+type RawBundle = { checks: number; price_usd: number; price_kes?: number; per_check_usd?: number };
+type RawPricing = { free_daily_checks: number; bundles: Record<string, RawBundle>; payment_methods: string[] };
+
+const raw = pricing as RawPricing;
+
+export const FREE_DAILY_CHECKS: number = raw.free_daily_checks;
 
 export type Bundle = {
-  id: BundleId;
+  id: string;
   checks: number;
   priceUsd: number;
+  priceKes?: number;
   perCheckUsd: number;
 };
 
-export const BUNDLES: Bundle[] = [
-  { id: "10k", checks: 10_000, priceUsd: 150, perCheckUsd: 0.015 },
-  { id: "100k", checks: 100_000, priceUsd: 1_000, perCheckUsd: 0.01 },
-  { id: "1m", checks: 1_000_000, priceUsd: 7_000, perCheckUsd: 0.007 },
-];
+export const BUNDLES: Bundle[] = Object.entries(raw.bundles)
+  .map(([id, b]) => ({
+    id,
+    checks: b.checks,
+    priceUsd: b.price_usd,
+    priceKes: b.price_kes,
+    perCheckUsd: b.per_check_usd ?? b.price_usd / b.checks,
+  }))
+  .sort((a, b) => a.checks - b.checks);
 
-export const PAYMENT_METHODS = [
-  { id: "usdt_tron", label: "USDT (TRC-20)" },
-  { id: "mpesa", label: "M-Pesa" },
-] as const;
+const PAYMENT_METHOD_LABELS: Record<string, string> = {
+  usdt_tron: "USDT (TRC-20)",
+  mpesa: "M-Pesa",
+};
+
+export const PAYMENT_METHODS: { id: string; label: string }[] = raw.payment_methods.map((id) => ({
+  id,
+  label: PAYMENT_METHOD_LABELS[id] ?? id.replace(/_/g, " "),
+}));
 
 export function formatUsd(value: number, fractionDigits = 0): string {
   return new Intl.NumberFormat("en-US", {
@@ -32,4 +47,8 @@ export function formatUsd(value: number, fractionDigits = 0): string {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   }).format(value);
+}
+
+export function formatKes(value: number): string {
+  return `KES ${value.toLocaleString("en-US")}`;
 }

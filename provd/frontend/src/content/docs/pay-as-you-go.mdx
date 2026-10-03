@@ -3,7 +3,7 @@ title: Pay as you go
 description: Free daily checks, prepaid bundles and top-ups with USDT or M-Pesa. No monthly plan.
 ---
 
-Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term.
+Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term. (Global payout platforms can ask for a monthly plan instead; see the end of this page.)
 
 ## 1. Free quota
 
@@ -11,7 +11,7 @@ Every account gets **100 free checks a day**, reset at 00:00 UTC. Free checks ar
 
 A scored `POST /v1/actions/evaluate` uses one check. These don't use any:
 
-- Requests that return `recommended_action: "not_yet_supported"` (for example `chain: "stellar"` or `intent_type: "payout"`).
+- Requests that return `recommended_action: "not_yet_supported"` (for example `chain: "stellar"` or `intent_type: "swap"`).
 - Retries with the same `Idempotency-Key`.
 - `GET /v1/decisions/...`, `POST /v1/outcomes`, `GET /v1/usage` and the public counterparty check.
 
@@ -77,3 +77,7 @@ The response tells you exactly what to pay and where:
 The top-up stays `pending` until the payment is confirmed, then your balance is credited. List your top-ups with `GET /v1/topups`.
 
 Auto top-up (refill when your balance drops below a threshold) is coming.
+
+## Monthly plans for global platforms
+
+Payout platforms with steady volume can have a monthly plan instead: a set number of included checks per billing month, and a choice of what happens after they're used — draw from a prepaid balance, invoice the overage, or stop with `402`. `GET /v1/usage` then returns `billing_model: "subscription"` and a `plan` block with checks used and remaining this period. Plans are set up by us; [contact us](mailto:hello@provd.tech?subject=Provd%20monthly%20plan).

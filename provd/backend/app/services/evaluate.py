@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.base import InvalidAddress
 from app.engine.scoring import Evaluation, canonical_json, engine_config, evaluate, record_hash, signals_for
-from app.engine.signals import OutcomeView, SignalContext
+from app.engine.signals import AmountView, OutcomeView, SignalContext
 from app.models.rails import Decision, Outcome
 from app.proof.signing import signer
 from app.schemas.actions import SCORED_CHAINS, SCORED_INTENT_TYPES, ActionIntent, ActionScore, Explanation, RiskFlag
@@ -34,6 +34,13 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 			raise IntentRejected(str(exc)) from exc
 
 	ctx = SignalContext(intent_type=intent.intent_type, wallet=wallet, now=now)
+	ctx.amount, ctx.amount_unit = normalized_amount(intent)
+	if intent.float_available is not None:
+		ctx.float_available = float(intent.float_available)
+	if intent.account_signals:
+		signals = intent.account_signals.model_dump(exclude={"provider"}, exclude_none=True)
+		ctx.account_signals = {k: _aware(v) for k, v in signals.items()}
+		ctx.account_signal_provider = intent.account_signals.provider
 	if wallet:
 		ctx.history, ctx.history_error = await chain_data.history(db, intent.chain, wallet)
 	peers = ctx.history.counterparties if ctx.history else set()
@@ -55,6 +62,7 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 			)
 		)
 		ctx.platform_flagged = {w for (w,) in flagged.all()} - ({wallet} if wallet else set())
+		await _load_baselines(db, account_id, intent, wallet, ctx)
 		if wallet:
 			ctx.recent_decisions_24h = (
 				await db.execute(
@@ -70,6 +78,45 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		if ctx.asset is None:
 			ctx.token_report, ctx.token_error = await chain_data.token_security(intent.chain, intent.rails.crypto_asset)
 	return ctx
+
+
+def normalized_amount(intent: ActionIntent) -> tuple[float | None, str | None]:
+	"""One comparable amount per decision: the crypto amount when given (USDT ~ USD), else the fiat amount."""
+	if intent.amounts.crypto is not None:
+		return float(intent.amounts.crypto), (intent.rails.crypto_asset or "CRYPTO").upper()
+	if intent.amounts.fiat is not None:
+		return float(intent.amounts.fiat), (intent.amounts.fiat_currency or "FIAT").upper()
+	return None, None
+
+
+async def _load_baselines(db: AsyncSession, account_id: str, intent: ActionIntent, wallet: str | None, ctx: SignalContext) -> None:
+	since = ctx.now - timedelta(days=90)
+	if ctx.amount is not None:
+		rows = await db.execute(
+			select(Decision.amount).where(
+				Decision.account_id == account_id, Decision.intent_type == intent.intent_type,
+				Decision.amount_unit == ctx.amount_unit, Decision.amount.is_not(None), Decision.created_at >= since,
+			).limit(5000)
+		)
+		ctx.platform_amounts = [a for (a,) in rows.all()]
+		identity = [c for c in (
+			Decision.wallet_address == wallet if wallet else None,
+			Decision.phone_hash == intent.counterparty.phone_hash.lower() if intent.counterparty.phone_hash else None,
+		) if c is not None]
+		if identity:
+			rows = await db.execute(
+				select(Decision.amount, Decision.amount_unit, Decision.created_at).where(
+					Decision.account_id == account_id, Decision.amount_unit == ctx.amount_unit,
+					Decision.amount.is_not(None), Decision.created_at >= since, or_(*identity),
+				)
+			)
+			ctx.counterparty_amounts = [AmountView(a, u, _aware(t)) for a, u, t in rows.all()]
+	hours = await db.execute(
+		select(Decision.created_at).where(Decision.account_id == account_id, Decision.created_at >= since).limit(20000)
+	)
+	for (created,) in hours.all():
+		hour = _aware(created).hour
+		ctx.platform_hours[hour] = ctx.platform_hours.get(hour, 0) + 1
 
 
 def _aware(value: datetime) -> datetime:
@@ -178,6 +225,8 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 			phone_hash=(intent.counterparty.phone_hash or "").lower() or None,
 			score=score.score,
 			risk_level=score.risk_level,
+			amount=normalized_amount(intent)[0],
+			amount_unit=normalized_amount(intent)[1],
 			recommended_action=score.recommended_action,
 			engine_version=score.engine_version,
 			record=_jsonable(stored),

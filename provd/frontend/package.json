@@ -10,12 +10,15 @@
     "pages:deploy": "wrangler pages deploy out",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "check:verify": "node scripts/check-verify.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
     "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-checkbox": "latest",
     "@radix-ui/react-dialog": "latest",

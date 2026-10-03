@@ -104,8 +104,8 @@ def test_token_safety_runs_for_ramp_only_and_degrades():
 
 def test_planned_signals_are_reported_as_not_implemented():
 	e = evaluate(ctx(history=None))
-	assert e.coverage["amount_pattern"] == "not_implemented"
 	assert e.coverage["asset_backing"] == "not_implemented"
+	assert e.coverage["venue_risk"] == "not_implemented"
 
 
 def test_canonical_hash_is_order_independent():
@@ -123,3 +123,41 @@ def test_tron_address_codec():
 	for bad in ("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6x", "0x123", "hello"):
 		with pytest.raises(InvalidAddress):
 			validate_tron_address(bad)
+
+
+from app.engine.signals import AmountView  # noqa: E402
+
+
+def test_amount_spike_platform_outlier_and_structuring():
+	small = [AmountView(100, "USDT_TRC20", NOW - timedelta(days=d)) for d in (3, 4, 5)]
+	spike = evaluate(ctx(history=None, amount=3000, amount_unit="USDT_TRC20", counterparty_amounts=small))
+	assert "AMOUNT_SPIKE" in codes(spike) and spike.risk_level == "high"  # 30x -> high
+	outlier = evaluate(ctx(history=None, amount=5000, amount_unit="KES", platform_amounts=[float(i) for i in range(100, 140)]))
+	assert "AMOUNT_ABOVE_PLATFORM_P99" in codes(outlier)
+	near = [AmountView(950, "USDT_TRC20", NOW - timedelta(hours=h)) for h in (2, 5)]
+	structuring = evaluate(ctx(history=None, amount=980, amount_unit="USDT_TRC20", counterparty_amounts=near))
+	assert "AMOUNT_STRUCTURING" in codes(structuring)
+	no_baseline = evaluate(ctx(history=None, amount=10, amount_unit="KES"))
+	assert no_baseline.coverage["amount_pattern"] == "partial" and "AMOUNT_SPIKE" not in codes(no_baseline)
+
+
+def test_rapid_pass_through_float_strain_and_off_hours():
+	arrived = NormalizedHistory("tron", ME, [NormalizedTransfer("tron", "tx-in", NOW - timedelta(minutes=12), "SRC", ME, "USDT_TRC20", Decimal("900"))])
+	payout = evaluate(ctx(intent_type="payout", history=arrived, amount=1000, amount_unit="USDT_TRC20", float_available=1500,
+	                      platform_hours={h: 100 for h in range(24) if h != NOW.hour}))
+	assert {"RAPID_PASS_THROUGH", "FLOAT_STRAIN", "OFF_HOURS"} <= set(codes(payout))
+	assert payout.recommended_action == "hold"
+	old = NormalizedHistory("tron", ME, [NormalizedTransfer("tron", "tx-old", NOW - timedelta(days=2), "SRC", ME, "USDT_TRC20", Decimal("900"))])
+	assert "RAPID_PASS_THROUGH" not in codes(evaluate(ctx(intent_type="payout", history=old, amount=1000, amount_unit="USDT_TRC20")))
+
+
+def test_account_takeover_signals():
+	critical = evaluate(ctx(history=None, account_signals={"sim_swap_at": NOW - timedelta(hours=3), "payout_destination_added_at": NOW - timedelta(hours=1)}))
+	assert "SIM_SWAP_RECENT" in codes(critical) and critical.recommended_action == "reject"
+	high = evaluate(ctx(history=None, account_signals={"sim_swap_at": NOW - timedelta(hours=40)}))
+	assert high.recommended_action == "hold"
+	device = evaluate(ctx(history=None, account_signals={"device_changed_at": NOW - timedelta(hours=2), "credentials_changed_at": NOW - timedelta(hours=1)}))
+	assert "DEVICE_CHANGE_WITH_ACCOUNT_CHANGE" in codes(device)
+	quiet = evaluate(ctx(history=None, account_signals={"sim_swap_at": NOW - timedelta(days=30)}))
+	assert quiet.coverage["account_takeover_proxies"] == "full" and not [c for c in codes(quiet) if c.startswith("SIM")]
+	assert evaluate(ctx(history=None)).coverage["account_takeover_proxies"] == "none"

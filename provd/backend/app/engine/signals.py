@@ -20,10 +20,25 @@ class OutcomeView:
 
 
 @dataclass
+class AmountView:
+	value: float
+	unit: str
+	created_at: datetime
+
+
+@dataclass
 class SignalContext:
 	intent_type: str
 	wallet: str | None
 	now: datetime
+	amount: float | None = None
+	amount_unit: str | None = None
+	platform_amounts: list[float] = field(default_factory=list)  # this platform, same intent type + unit, 90 days
+	counterparty_amounts: list[AmountView] = field(default_factory=list)  # this platform, this counterparty, same unit
+	platform_hours: dict[int, int] = field(default_factory=dict)  # this platform's decisions by UTC hour, 90 days
+	account_signals: dict[str, datetime] = field(default_factory=dict)
+	account_signal_provider: str | None = None
+	float_available: float | None = None
 	history: NormalizedHistory | None = None
 	history_error: str | None = None
 	public_flags: dict[str, str] = field(default_factory=dict)  # address -> source, for the wallet + its counterparties
@@ -211,6 +226,132 @@ def token_safety(ctx: SignalContext) -> SignalResult:
 	return result
 
 
+STRUCTURING_THRESHOLDS = {"USD": [1000, 10000], "USDT": [1000, 10000], "USDT_TRC20": [1000, 10000], "KES": [100000, 1000000], "NGN": [1000000, 5000000]}
+
+
+def _percentile(values: list[float], q: float) -> float:
+	ordered = sorted(values)
+	index = min(len(ordered) - 1, max(0, round(q * (len(ordered) - 1))))
+	return ordered[index]
+
+
+def amount_pattern(ctx: SignalContext) -> SignalResult:
+	result = SignalResult(name="amount_pattern", coverage="full")
+	if ctx.amount is None:
+		result.coverage = "none"
+		result.reason = "No amount supplied."
+		return result
+	unit = ctx.amount_unit or ""
+	points, reasons = 0, []
+	previous = [a.value for a in ctx.counterparty_amounts]
+	if len(previous) >= 3 and ctx.amount > 5 * max(previous):
+		ratio = ctx.amount / max(previous)
+		severity = "high" if ratio >= 20 else "medium"
+		points += 400 if severity == "high" else 220
+		msg = f"{ctx.amount:,.2f} {unit} is {ratio:.0f}x this counterparty's largest previous amount with you ({max(previous):,.2f})."
+		reasons.append(msg)
+		result.flags.append(Flag("AMOUNT_SPIKE", severity, msg))
+	if len(ctx.platform_amounts) >= 30:
+		p99 = _percentile(ctx.platform_amounts, 0.99)
+		if ctx.amount > p99:
+			points += 150
+			msg = f"Larger than 99% of your {ctx.intent_type.replace('_', ' ')}s in {unit} over 90 days (p99 {p99:,.2f})."
+			reasons.append(msg)
+			result.flags.append(Flag("AMOUNT_ABOVE_PLATFORM_P99", "medium", msg))
+	else:
+		result.coverage = "partial"
+	recent = [a for a in ctx.counterparty_amounts if (ctx.now - a.created_at).total_seconds() <= 86400] + [AmountView(ctx.amount, unit, ctx.now)]
+	for threshold in STRUCTURING_THRESHOLDS.get(unit.upper(), []):
+		near = [a for a in recent if 0.9 * threshold <= a.value < threshold]
+		if len(near) >= 3:
+			points += 450
+			msg = f"{len(near)} amounts just under {threshold:,} {unit} for this counterparty in 24 hours (possible structuring)."
+			reasons.append(msg)
+			result.flags.append(Flag("AMOUNT_STRUCTURING", "high", msg))
+			break
+	result.contribution = min(points, 1000)
+	result.value = ctx.amount
+	result.reason = " ".join(reasons) or (
+		"Amount is in line with this counterparty's history and your usual amounts."
+		if result.coverage == "full" else "Amount checked against this counterparty's history; your platform baseline needs 30+ decisions."
+	)
+	return result
+
+
+def float_and_timing(ctx: SignalContext) -> SignalResult:
+	result = SignalResult(name="float_and_timing", coverage="full")
+	points, reasons = 0, []
+	if ctx.history and ctx.wallet and ctx.amount:
+		window = [t for t in ctx.history.transfers if t.to_address == ctx.wallet and timedelta(0) <= ctx.now - t.timestamp <= timedelta(hours=1)]
+		arrived = float(sum((t.amount for t in window), 0))
+		if arrived and arrived >= 0.8 * ctx.amount:
+			points += 300
+			minutes = max(1, int(min((ctx.now - t.timestamp).total_seconds() for t in window) // 60))
+			msg = f"{arrived:,.2f} USDT arrived in this wallet in the last hour (latest {minutes} min ago) and covers this amount — possible pass-through."
+			reasons.append(msg)
+			result.flags.append(Flag("RAPID_PASS_THROUGH", "high", msg))
+			result.source_refs += [t.tx_hash for t in window[:5]]
+	elif ctx.history is None:
+		result.coverage = "partial"
+	total = sum(ctx.platform_hours.values())
+	if total >= 200:
+		share = ctx.platform_hours.get(ctx.now.hour, 0) / total
+		if share < 0.02:
+			points += 80
+			msg = f"Unusual time: only {share:.1%} of your checks happen at {ctx.now.hour:02d}:00 UTC."
+			reasons.append(msg)
+			result.flags.append(Flag("OFF_HOURS", "low", msg))
+	if ctx.float_available is not None and ctx.amount is not None and ctx.float_available > 0 and ctx.amount > 0.5 * ctx.float_available:
+		points += 150
+		msg = f"This would use {ctx.amount / ctx.float_available:.0%} of your available float."
+		reasons.append(msg)
+		result.flags.append(Flag("FLOAT_STRAIN", "medium", msg))
+	result.contribution = min(points, 1000)
+	result.reason = " ".join(reasons) or "No timing or float concerns."
+	return result
+
+
+def account_takeover_proxies(ctx: SignalContext) -> SignalResult:
+	result = SignalResult(name="account_takeover_proxies", coverage="full" if ctx.account_signals else "none")
+	if not ctx.account_signals:
+		result.reason = "No account signals supplied (send account_signals from your device or SIM-swap provider)."
+		return result
+
+	def age(field_name: str) -> timedelta | None:
+		at = ctx.account_signals.get(field_name)
+		return ctx.now - at if at else None
+
+	points, reasons = 0, []
+	sim, device, creds, dest, created = (age(f) for f in ("sim_swap_at", "device_changed_at", "credentials_changed_at", "payout_destination_added_at", "account_created_at"))
+	new_destination = dest is not None and dest <= timedelta(hours=72)
+	if sim is not None and sim <= timedelta(hours=72):
+		severity = "critical" if sim <= timedelta(hours=24) and new_destination else "high"
+		points += 900 if severity == "critical" else 450
+		msg = f"SIM swap {int(sim.total_seconds() // 3600)}h ago" + (" and a new payout destination" if new_destination else "") + "."
+		reasons.append(msg)
+		result.flags.append(Flag("SIM_SWAP_RECENT", severity, msg))
+	if device is not None and device <= timedelta(hours=24) and (new_destination or (creds is not None and creds <= timedelta(hours=24))):
+		points += 400
+		msg = "New device in the last 24h together with a new payout destination or credential change."
+		reasons.append(msg)
+		result.flags.append(Flag("DEVICE_CHANGE_WITH_ACCOUNT_CHANGE", "high", msg))
+	elif new_destination and not reasons:
+		points += 120
+		msg = f"Payout destination added {int(dest.total_seconds() // 3600)}h ago."
+		reasons.append(msg)
+		result.flags.append(Flag("NEW_PAYOUT_DESTINATION", "low", msg))
+	if created is not None and created <= timedelta(days=1):
+		points += 150
+		msg = "Account opened in the last 24 hours."
+		reasons.append(msg)
+		result.flags.append(Flag("NEW_ACCOUNT", "medium", msg))
+	result.contribution = min(points, 1000)
+	result.reason = " ".join(reasons) or "No recent SIM swap, device or account changes."
+	if ctx.account_signal_provider:
+		result.source_refs.append(f"provider:{ctx.account_signal_provider}")
+	return result
+
+
 def not_implemented(name: str):
 	def _signal(_ctx: SignalContext) -> SignalResult:
 		return SignalResult(name=name, coverage="not_implemented")
@@ -222,9 +363,9 @@ REGISTRY = {
 	"counterparty_graph": counterparty_graph,
 	"reversal_behavior": reversal_behavior,
 	"token_safety": token_safety,
-	"account_takeover_proxies": not_implemented("account_takeover_proxies"),
-	"float_and_timing": not_implemented("float_and_timing"),
-	"amount_pattern": not_implemented("amount_pattern"),
+	"account_takeover_proxies": account_takeover_proxies,
+	"float_and_timing": float_and_timing,
+	"amount_pattern": amount_pattern,
 	"asset_backing": not_implemented("asset_backing"),
 	"venue_risk": not_implemented("venue_risk"),
 }

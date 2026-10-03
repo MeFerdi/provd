@@ -55,7 +55,9 @@ You can only fetch decisions made with your own keys.
 
 ## Verify a record yourself
 
-Download the verifier ([verify_decision.py](/tools/verify_decision.py)) and run it on a saved decision:
+The quickest way is in the browser: paste the JSON into [Verify a decision](/verify). It recomputes the hash, checks the signature and folds the Merkle proof on your device; nothing is sent to Provd.
+
+For scripts and CI, download the verifier ([verify_decision.py](/tools/verify_decision.py)) and run it on a saved decision:
 
 ```bash
 curl -s https://api.provd.tech/v1/decisions/order-48213 -H "X-API-Key: $PROVD_API_KEY" > decision.json

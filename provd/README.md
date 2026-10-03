@@ -16,16 +16,21 @@ indexer ──► freeze events, USDT top-up matching
 ```
 
 ## What's in the MVP (Phase A)
-- `POST /v1/actions/evaluate` for `p2p_trade` and `ramp_conversion` on **Tron (USDT-TRC20)**. Other chains and
-  intent types are accepted and return `not_yet_supported` (not charged).
+- `POST /v1/actions/evaluate` for `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on **Tron
+  (USDT-TRC20)**. Other chains and intent types are accepted and return `not_yet_supported` (not charged).
 - Signals: `counterparty_graph` (frozen-address list + direct exposure, weighted by volume share; exposure to
   wallets the platform confirmed as fraud), `reversal_behavior` (the platform's own reversals/fraud reports and
-  check velocity), `token_safety` (ramp intents; GoPlus, degrades with a coverage flag). Five more signals are
-  registered as stubs.
+  check velocity), `token_safety` (ramp intents; GoPlus, degrades with a coverage flag), and since Phase C:
+  `amount_pattern` (spikes vs the counterparty's history, platform p99 outliers, structuring under thresholds),
+  `float_and_timing` (rapid pass-through, off-hours, float strain) and `account_takeover_proxies` (SIM swap /
+  device / credential / new-destination timestamps supplied by the platform's provider in `account_signals`).
+  `asset_backing` and `venue_risk` are registered stubs (Phase E).
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
   bundled as a seed fixture.
 - Pay-as-you-go: daily free quota → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
-  M-Pesa top-ups confirmed by an admin; exact usage ledger.
+  M-Pesa top-ups confirmed by an admin; exact usage ledger recording what paid for each check.
+- Subscriptions (global platforms, Phase C): monthly included checks with overage on prepaid balance, invoice,
+  or block; `PUT /v1/admin/accounts/{id}/billing` and a monthly statement for invoicing.
 - Proof layer (Phase B): every decision record is hashed (SHA-256, canonical JSON), **signed** (secp256k1,
   key published at `GET /v1/proof/keys`), sealed into a **Merkle batch** every `BATCH_INTERVAL_SECONDS`, and the
   batch root is **timestamped on Bitcoin via OpenTimestamps** (free, no wallet). `GET /v1/decisions/{id}` returns
@@ -33,8 +38,8 @@ indexer ──► freeze events, USDT top-up matching
   proof. `backend/tools/verify_decision.py` (also on the site at `/tools/verify_decision.py`) verifies a record
   without trusting Provd.
 - Public scanner backend: `GET /v1/counterparties/tron/{address}` (no key, rate-limited).
-- Not yet: Stellar adapter (stub), auto-top-up from float, payout/OTC scoring (Phase C). Tron-memo anchoring is
-  a documented stub (`ANCHOR_METHOD=tron_memo`) for when a funded wallet is available.
+- Not yet: Stellar adapter (stub), auto-top-up from float, Solana/EVM (Phase D), asset verification (Phase E).
+  Tron-memo anchoring is a documented stub (`ANCHOR_METHOD=tron_memo`) for when a funded wallet is available.
 
 ## Run locally
 ```bash
@@ -66,7 +71,8 @@ curl -s localhost:8000/v1/outcomes -H "X-API-Key: $KEY" -H 'content-type: applic
 | `app/adapters/base.py` | `ChainAdapter` protocol + normalized types; Stellar/Solana/EVM stubs in `stubs.py` |
 | `app/engine/config.json` | Signal registry: weights, cost units, intents, enabled/planned |
 | `app/engine/pricing.json` | Bundle prices (**placeholders** — set real prices before launch) |
-| `accounts.billing_model` | `payg` today; `subscription` is rejected until Phase C |
+| `accounts.billing_model` | `payg` or `subscription` (plan, included checks, overage mode) |
+| `app/export_contract.py` | Writes the OpenAPI spec + price list into the frontend — re-run after API changes |
 | `tests/test_import_boundaries.py` | Fails if the engine imports chain-specific code |
 | `app/proof/anchors.py` | `AnchorAdapter`: OpenTimestamps (default), none, Tron memo (stub) |
 

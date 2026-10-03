@@ -1,94 +1,52 @@
 ---
 title: API Reference
-description: Endpoints, request and response fields, risk scale, flag codes and errors.
+description: Every public endpoint, generated from the OpenAPI spec, plus the risk scale, flag codes and errors.
 ---
 
-Base URL: `https://api.provd.tech/v1` (placeholder during early access). Local: `http://localhost:8000/v1`.
+## Base URL
 
-All requests and responses are JSON. Timestamps are ISO 8601 in UTC. Authenticated endpoints take your key in the `X-API-Key` header.
+| Environment | Base URL |
+|---|---|
+| Production | `https://api.provd.tech/v1` (placeholder during early access) |
+| Local | `http://localhost:8000/v1` |
 
-## Endpoints
+All requests and responses are JSON. Timestamps are ISO 8601 in UTC.
 
-| Method | Path | Auth | What it does |
-|---|---|---|---|
-| `POST` | `/v1/actions/evaluate` | key | Score a money movement before release. |
-| `GET` | `/v1/decisions/{intent_id}` | key | The decision record behind a score. |
-| `POST` | `/v1/outcomes` | key | Report what happened after a decision. |
-| `GET` | `/v1/counterparties/tron/{address}` | none, rate-limited | Public counterparty report for a Tron wallet. |
-| `GET` | `/v1/usage` | key | Free quota, balance and recent usage. |
-| `GET` | `/v1/pricing` | none | Public price list. |
-| `POST` | `/v1/topups` | key | Start a top-up (buy a bundle). |
-| `GET` | `/v1/topups` | key | Your top-ups. |
-| `GET` | `/v1/health` | none | Service status, engine version and risk-list freshness. |
+## Authentication
 
-## `POST /v1/actions/evaluate`
+Endpoints marked **API key** take your key in the `X-API-Key` header. Public endpoints need no key and are rate-limited per IP.
 
-Headers:
-
-| Header | Required | Notes |
-|---|---|---|
-| `X-API-Key` | yes | Your API key. |
-| `Idempotency-Key` | no | Retries with the same key return the original decision and are not charged again. |
-| `X-Platform-Context` | no | Free-form context (up to 4,096 characters). Stored with the decision, not scored today. |
-
-Body:
-
-```json
-{
-  "intent_id": "order-48213",
-  "chain": "tron",
-  "intent_type": "p2p_trade",
-  "counterparty": {
-    "wallet_address": "T…",
-    "phone_hash": "hex HMAC-SHA256 or SHA-256 of the phone number"
-  },
-  "rails": { "fiat_rail": "mpesa", "crypto_asset": "USDT_TRC20" },
-  "amounts": { "fiat": 65000, "fiat_currency": "KES", "crypto": 500 },
-  "context": {}
-}
+```bash
+curl -s https://api.provd.tech/v1/actions/evaluate \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"chain":"tron","intent_type":"p2p_trade","counterparty":{"wallet_address":"T…"},"rails":{"fiat_rail":"mpesa","crypto_asset":"USDT_TRC20"},"amounts":{"fiat":65000,"fiat_currency":"KES","crypto":500}}'
 ```
 
-| Field | Required | Notes |
+Send an `Idempotency-Key` header on evaluate: retries with the same key return the original decision and are not charged again.
+
+## Errors
+
+| Status | When |
+|---|---|
+| `401` / `403` | Missing, invalid or inactive API key. |
+| `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |
+| `404` | Decision or `intent_id` not found for your account. |
+| `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
+| `429` | Too many requests. Wait a minute and retry. |
+| `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
+
+Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron`. Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
+
+## Optional inputs that sharpen a score
+
+| Field | Used by | What to send |
 |---|---|---|
-| `intent_id` | no | Your reference, up to 64 characters. Generated if omitted. Must be unique per account: reusing one without the same `Idempotency-Key` returns `422`. |
-| `chain` | yes | `tron` is scored today. |
-| `intent_type` | yes | `p2p_trade` or `ramp_conversion` are scored today. |
-| `counterparty.wallet_address` | no | The wallet you are about to release to (or receive from). |
-| `counterparty.phone_hash` | no | Hex hash of the counterparty's phone number, 32–128 characters. Raw numbers are rejected. |
-| `rails.fiat_rail` | no | `mpesa` or `bank`. |
-| `rails.crypto_asset` | no | `USDT_TRC20`. |
-| `amounts.fiat`, `amounts.fiat_currency`, `amounts.crypto` | no | Trade amounts. |
-| `context` | no | Any extra fields you want kept with the decision. |
+| `amounts.crypto` or `amounts.fiat` + `fiat_currency` | `amount_pattern` | The amount. Provd learns your own baselines from it: per counterparty, and your 90-day p99 per intent type. |
+| `float_available` | `float_and_timing` | Your available float on this rail, in `amounts.fiat_currency` (payouts, OTC). |
+| `account_signals` | `account_takeover_proxies` | Timestamps from your SIM-swap, device-trust or KYC provider: `sim_swap_at`, `device_changed_at`, `credentials_changed_at`, `payout_destination_added_at`, `account_created_at`, plus `provider`. Provd doesn't detect these itself; send what you have. |
 
-Other known chains and intent types (`stellar`, `solana`, `evm`; `payout`, `otc_settlement`, `swap`, `deposit`, `payment`…) are accepted but return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag, and are not charged.
-
-Response:
-
-| Field | Type | Notes |
-|---|---|---|
-| `intent_id` | string | Yours, or the generated one. |
-| `score` | integer | 0–1000. Higher is riskier. |
-| `risk_level` | string | `low`, `medium`, `high` or `critical`. |
-| `risk_flags` | array | `{code, severity, reason}`. Severity is `info`, `low`, `medium`, `high` or `critical`. |
-| `recommended_action` | string | `release`, `manual_review`, `hold`, `reject` or `not_yet_supported`. |
-| `explainability` | array | `{signal, value, contribution, reason, source_refs}` for each signal that ran. `source_refs` are list names or Tron transaction hashes. |
-| `signal_coverage` | object | Signal name to `full`, `partial` or `none`. |
-| `decision_record_hash` | string | SHA-256 of the decision record. See [decision records](/docs/decisions). |
-| `engine_version` | string | Scoring engine version. |
-| `latency_ms` | integer | Time spent scoring. |
-| `created_at` | string | When the decision was made. |
-
-`402 Payment Required` when the free quota is used and there is no balance:
-
-```json
-{
-  "detail": "Free daily checks used and no prepaid balance. Buy a bundle to continue.",
-  "balance": 0,
-  "units_required": 1,
-  "purchase_url": "https://provd.tech/pricing",
-  "topup_endpoint": "/v1/topups"
-}
-```
+Signals with nothing to work on report `none` in `signal_coverage` and add no risk.
 
 ## Risk scale
 
@@ -112,75 +70,20 @@ Response:
 | `OWN_FRAUD_HISTORY` | critical | You reported confirmed fraud or a fake payment confirmation from this counterparty in the last 180 days. |
 | `OWN_REVERSAL_HISTORY` | medium or high | You reported reversals, refunds or chargebacks from this counterparty in the last 180 days. |
 | `VELOCITY_SPIKE` | medium | Unusually many checks for this counterparty in the last 24 hours. |
+| `AMOUNT_SPIKE` | medium or high | Much larger (5x+, 20x+ for high) than this counterparty's largest previous amount with you. |
+| `AMOUNT_ABOVE_PLATFORM_P99` | medium | Larger than 99% of your amounts for this intent type over 90 days (needs 30+ decisions). |
+| `AMOUNT_STRUCTURING` | high | Three or more amounts just under a reporting threshold for this counterparty in 24 hours. |
+| `RAPID_PASS_THROUGH` | high | Funds covering this amount arrived in the wallet within the last hour. |
+| `FLOAT_STRAIN` | medium | The amount uses more than half of your available float. |
+| `OFF_HOURS` | low | Fewer than 2% of your checks happen at this UTC hour. |
+| `SIM_SWAP_RECENT` | high or critical | SIM swap in the last 72 hours; critical within 24 hours together with a new payout destination. |
+| `DEVICE_CHANGE_WITH_ACCOUNT_CHANGE` | high | New device in the last 24 hours plus a new payout destination or credential change. |
+| `NEW_PAYOUT_DESTINATION` | low | Payout destination added in the last 72 hours. |
+| `NEW_ACCOUNT` | medium | Account opened in the last 24 hours. |
 | `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |
 | `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |
 | `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |
 
-## `GET /v1/decisions/{intent_id}`
+## Decision records
 
-Returns `{intent_id, record, record_hash, hash_algorithm, signature, merkle, batch, proof_status, verify}`. `merkle` and `batch` are `null` until the record is sealed into a batch (within minutes). See [decision records](/docs/decisions).
-
-### Proof
-
-- `GET /v1/proof/keys` — public keys that sign decision records.
-- `GET /v1/proof/batches/{batch_id}` — Merkle root, leaf count and anchor status.
-- `GET /v1/proof/batches/{batch_id}/ots` — OpenTimestamps proof for the root (`ots verify -d <root> batch.ots`).
-
-## `POST /v1/outcomes`
-
-```json
-{ "intent_id": "order-48213", "outcome": "reversed", "occurred_at": "2026-10-03T15:00:00Z" }
-```
-
-Identify the counterparty with one of `intent_id`, `wallet_address` or `phone_hash`. `outcome` is one of `completed`, `reversed`, `refunded`, `chargeback`, `fraud_confirmed`, `fake_confirmation`. `occurred_at` defaults to now. Returns `201` with `{id, recorded: true}`.
-
-Outcomes are used only for your own checks and are never pooled with other platforms.
-
-## `GET /v1/counterparties/tron/{address}`
-
-No key. Rate-limited per IP. Returns:
-
-```json
-{
-  "chain": "tron",
-  "address": "T…",
-  "score": 0,
-  "risk_level": "low",
-  "risk_flags": [],
-  "explainability": [],
-  "activity": {
-    "transfers_read": 0,
-    "most_recent_only": false,
-    "first_seen": null,
-    "last_seen": null,
-    "usdt_in": "0",
-    "usdt_out": "0",
-    "distinct_counterparties": 0
-  },
-  "signal_coverage": { "counterparty_graph": "full" },
-  "engine_version": "2026.10.0",
-  "checked_at": "2026-10-03T13:11:16Z"
-}
-```
-
-Public data only. `most_recent_only` is `true` for busy wallets where only the latest transfers were read.
-
-## Billing endpoints
-
-- `GET /v1/usage`: `{free_daily_checks, free_used_today, free_remaining_today, balance_checks, paid_checks_30d, paid_units_30d}`.
-- `GET /v1/pricing`: `{free_daily_checks, bundles, payment_methods}`.
-- `POST /v1/topups` with `{"bundle": "10k" | "100k" | "1m", "method": "usdt_tron" | "mpesa"}`: returns the top-up with `amount_due`, `currency`, `pay_to`, `instructions` and `status: "pending"`.
-- `GET /v1/topups`: your 50 most recent top-ups.
-
-See [pay as you go](/docs/pay-as-you-go).
-
-## Errors
-
-| Status | When |
-|---|---|
-| `401` / `403` | Missing, invalid or inactive API key. |
-| `402` | Free quota used and no balance. |
-| `404` | Decision or `intent_id` not found for your account. |
-| `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
-| `429` | Too many requests. Wait a minute and retry. |
-| `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
+`GET /v1/decisions/{intent_id}` returns the signed record behind a score, with its Merkle proof and Bitcoin anchor once sealed. `merkle` and `batch` are `null` until the record joins a batch (within minutes). See [decision records](/docs/decisions), or paste a record into [Verify a decision](/verify).

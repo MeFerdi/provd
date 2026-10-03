@@ -31,9 +31,15 @@ export const docsNav: NavItem[] = [
     category: "Getting Started",
   },
   {
+    title: "Verify a decision",
+    href: "/verify",
+    description: "Check a decision record's hash, signature and Merkle proof in your browser.",
+    category: "Getting Started",
+  },
+  {
     title: "API Reference",
     href: "/docs/api-reference",
-    description: "Endpoints, fields, risk scale, flag codes and errors.",
+    description: "Every public endpoint, generated from the OpenAPI spec, plus risk scale, flag codes and errors.",
     category: "Reference",
   },
   {

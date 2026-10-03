@@ -196,7 +196,7 @@ def test_idempotency_and_duplicate_intent_ids(env):
 
 def test_not_yet_supported_is_free_and_structured(env):
 	client, *_ = env
-	for body in (intent("GABC", chain="stellar"), intent(CLEAN, intent_type="payout"), intent(CLEAN, intent_type="asset_verify")):
+	for body in (intent("GABC", chain="stellar"), intent(CLEAN, intent_type="swap"), intent(CLEAN, intent_type="asset_verify")):
 		response = client.post("/v1/actions/evaluate", json=body).json()
 		assert response["recommended_action"] == "not_yet_supported"
 		assert response["risk_flags"][0]["code"] == "NOT_YET_SUPPORTED"
@@ -258,7 +258,8 @@ def test_health_reports_engine_and_risk_list(env):
 	client, *_ = env
 	health = client.get("/v1/health").json()
 	assert health["engine_version"] and health["dependencies"]["risk_list"]["active_flagged_addresses"] == 1
-	assert health["signals"]["amount_pattern"].startswith("planned")
+	assert health["signals"]["amount_pattern"] == "enabled"
+	assert health["signals"]["asset_backing"].startswith("planned")
 
 
 def _run(portal, fn, *args, **kwargs):
@@ -336,3 +337,64 @@ def test_unsigned_legacy_decisions_are_signed_when_batched(env):
 	_run(portal, seal_batch, force=True)
 	bundle = client.get(f"/v1/decisions/{decision['intent_id']}").json()
 	assert bundle["signature"]["value"] and bundle["merkle"]["proof"] == []
+
+
+def test_payout_scoring_with_account_signals_and_learned_baselines(env, monkeypatch):
+	from app.config import get_settings
+
+	client, *_ = env
+	monkeypatch.setenv("FREE_DAILY_CHECKS", "50")
+	get_settings.cache_clear()
+	for _ in range(3):
+		client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout", amounts={"crypto": 50}, rails={"crypto_asset": "USDT_TRC20"}))
+	spike = client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout", amounts={"crypto": 2000}, rails={"crypto_asset": "USDT_TRC20"})).json()
+	assert any(f["code"] == "AMOUNT_SPIKE" for f in spike["risk_flags"]) and spike["recommended_action"] == "hold"
+	signals = [e["signal"] for e in spike["explainability"]]
+	assert {"counterparty_graph", "reversal_behavior", "amount_pattern", "float_and_timing", "account_takeover_proxies"} <= set(signals)
+
+	takeover = client.post("/v1/actions/evaluate", json=intent(
+		CLEAN, intent_type="payout", amounts={"fiat": 20000, "fiat_currency": "KES"},
+		account_signals={"provider": "simswap-vendor", "sim_swap_at": (NOW - timedelta(hours=2)).isoformat(), "payout_destination_added_at": (NOW - timedelta(hours=1)).isoformat()},
+	)).json()
+	assert takeover["recommended_action"] == "reject"
+	ato = next(e for e in takeover["explainability"] if e["signal"] == "account_takeover_proxies")
+	assert "provider:simswap-vendor" in ato["source_refs"]
+	otc = client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="otc_settlement", amounts={"fiat": 9_000_000, "fiat_currency": "KES"}, float_available=10_000_000)).json()
+	assert any(f["code"] == "FLOAT_STRAIN" for f in otc["risk_flags"])
+
+
+def test_subscription_plan_overage_modes_and_statement(env):
+	client, tron, who, *_ = env
+	who["client"] = "admin"
+	assert client.put("/v1/admin/accounts/global-co/billing", json={"billing_model": "subscription"}).status_code == 422
+	client.put("/v1/admin/accounts/global-co/billing", json={"billing_model": "subscription", "plan_name": "Payouts 2", "monthly_included_checks": 2, "overage": "invoice"})
+	who["client"] = "global-co"
+	for _ in range(3):
+		assert client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout")).status_code == 200
+	usage = client.get("/v1/usage").json()
+	assert usage["billing_model"] == "subscription" and usage["plan"]["used_this_period"] == 2 and usage["plan"]["remaining_this_period"] == 0
+	assert usage["last_30_days"]["overage"]["checks"] == 1
+
+	who["client"] = "admin"
+	client.put("/v1/admin/accounts/global-co/billing", json={"billing_model": "subscription", "monthly_included_checks": 2, "overage": "block"})
+	who["client"] = "global-co"
+	blocked = client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout"))
+	assert blocked.status_code == 402 and "plan" in blocked.json()["detail"].lower()
+
+	who["client"] = "admin"
+	client.put("/v1/admin/accounts/global-co/billing", json={"billing_model": "subscription", "monthly_included_checks": 2, "overage": "prepaid"})
+	who["client"] = "global-co"
+	assert client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout")).status_code == 402  # no balance yet
+	topup = client.post("/v1/topups", json={"bundle": "10k", "method": "mpesa"}).json()
+	who["client"] = "admin"
+	client.post(f"/v1/admin/topups/{topup['id']}/confirm", json={"reference": "QX1234ABCD"})
+	who["client"] = "global-co"
+	assert client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout")).status_code == 200
+	assert client.get("/v1/usage").json()["balance_checks"] == 9999
+
+	who["client"] = "admin"
+	month = datetime.now(timezone.utc).strftime("%Y-%m")
+	statement = client.get(f"/v1/admin/accounts/global-co/statement?month={month}").json()
+	assert statement["by_source"] == {"plan": {"checks": 2, "units": 2}, "overage": {"checks": 1, "units": 1}, "prepaid": {"checks": 1, "units": 1}}
+	who["client"] = "global-co"
+	assert client.get(f"/v1/admin/accounts/global-co/statement?month={month}").status_code == 403

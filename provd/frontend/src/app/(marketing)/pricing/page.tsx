@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import ContactSection from "@/components/marketing/ContactSection";
 import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/env";
-import { BUNDLES, FREE_DAILY_CHECKS, PAYMENT_METHODS, formatUsd } from "@/lib/pricing";
+import { BUNDLES, FREE_DAILY_CHECKS, PAYMENT_METHODS, formatKes, formatUsd } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing — Provd",
-  description: `Pay as you go. ${FREE_DAILY_CHECKS} free checks a day, then buy check bundles and top up with USDT or M-Pesa.`,
+  description: `Pay as you go. ${FREE_DAILY_CHECKS} free checks a day, then buy check bundles and top up with ${PAYMENT_METHODS.map((m) => m.label).join(" or ")}.`,
   alternates: { canonical: "/pricing" },
 };
 
@@ -69,7 +69,10 @@ export default function PricingPage() {
                       <th scope="row" className="px-5 py-4 font-medium text-text-primary sm:px-6">
                         {b.checks.toLocaleString("en-US")} checks
                       </th>
-                      <td className="px-5 py-4 text-text-primary sm:px-6">{formatUsd(b.priceUsd)}</td>
+                      <td className="px-5 py-4 text-text-primary sm:px-6">
+                        {formatUsd(b.priceUsd)}
+                        {b.priceKes ? <span className="block text-sm text-text-muted">{formatKes(b.priceKes)}</span> : null}
+                      </td>
                       <td className="px-5 py-4 text-text-secondary sm:px-6">{formatUsd(b.perCheckUsd, 3)}</td>
                     </tr>
                   ))}
@@ -100,7 +103,10 @@ export default function PricingPage() {
           <div className="flex flex-col gap-4 rounded-md border border-bg-border bg-bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="font-sans text-base font-semibold text-text-primary">Global platforms (payouts)</h2>
-              <p className="mt-1 text-[15px] text-text-secondary">Plans for payout platforms are coming. Contact us.</p>
+              <p className="mt-1 text-[15px] text-text-secondary">
+                Payout and OTC checks are live. Steady-volume platforms can take a monthly plan with included checks and
+                invoiced overage. Contact us.
+              </p>
             </div>
             <a
               href={PAYOUTS_MAILTO}

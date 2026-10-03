@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Literal
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, Header, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
@@ -60,16 +60,13 @@ async def evaluate_action(
 		return JSONResponse(
 			status_code=status.HTTP_402_PAYMENT_REQUIRED,
 			content={
-				"detail": "Free daily checks used and no prepaid balance. Buy a bundle to continue.",
+				"detail": exc.detail,
 				"balance": exc.balance,
 				"units_required": exc.units,
 				"purchase_url": _purchase_url(),
 				"topup_endpoint": "/v1/topups",
 			},
 		)
-	except PermissionError as exc:
-		await db.rollback()
-		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
 	except IntentRejected as exc:
 		await db.rollback()
 		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
@@ -166,28 +163,76 @@ async def asset_report(chain: str, ref: str) -> dict:
 	raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset verification is not available yet")
 
 
-@router.get("/usage", summary="Free quota, prepaid balance and recent usage")
+@router.get("/usage", summary="Quota, plan, prepaid balance and recent usage")
 async def usage(db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	account_id = _account(ctx)
-	await billing.ensure_account(db, account_id)
-	since = datetime.now(timezone.utc) - timedelta(days=30)
+	account = await billing.ensure_account(db, account_id)
+	now = datetime.now(timezone.utc)
 	rows = await db.execute(
-		select(func.count(UsageEvent.id), func.coalesce(func.sum(UsageEvent.units), 0)).where(
-			UsageEvent.account_id == account_id, UsageEvent.created_at >= since, UsageEvent.free.is_(False)
-		)
+		select(UsageEvent.source, func.count(UsageEvent.id), func.coalesce(func.sum(UsageEvent.units), 0))
+		.where(UsageEvent.account_id == account_id, UsageEvent.created_at >= now - timedelta(days=30))
+		.group_by(UsageEvent.source)
 	)
-	paid_checks, paid_units = rows.one()
-	free_used = await billing.free_used_today(db, account_id)
-	result = {
-		"free_daily_checks": get_settings().free_daily_checks,
-		"free_used_today": free_used,
-		"free_remaining_today": max(0, get_settings().free_daily_checks - free_used),
-		"balance_checks": await billing.balance(db, account_id),
-		"paid_checks_30d": paid_checks,
-		"paid_units_30d": int(paid_units),
-	}
+	by_source = {source: {"checks": count, "units": int(units)} for source, count, units in rows.all()}
+	result = {"billing_model": account.billing_model, "balance_checks": await billing.balance(db, account_id), "last_30_days": by_source}
+	if account.billing_model == "subscription":
+		used = await billing.plan_used(db, account, now)
+		result["plan"] = {
+			"name": account.plan_name,
+			"monthly_included_checks": account.monthly_included_checks,
+			"used_this_period": used,
+			"remaining_this_period": max(0, (account.monthly_included_checks or 0) - used),
+			"period_start": billing.period_start(account, now).isoformat(),
+			"overage": account.overage,
+		}
+	else:
+		free_used = await billing.free_used_today(db, account_id)
+		prepaid = by_source.get("prepaid", {"checks": 0, "units": 0})
+		result.update({
+			"free_daily_checks": get_settings().free_daily_checks,
+			"free_used_today": free_used,
+			"free_remaining_today": max(0, get_settings().free_daily_checks - free_used),
+			"paid_checks_30d": prepaid["checks"],
+			"paid_units_30d": prepaid["units"],
+		})
 	await db.commit()
 	return result
+
+
+class BillingUpdate(BaseModel):
+	billing_model: Literal["payg", "subscription"]
+	plan_name: str | None = Field(default=None, max_length=64)
+	monthly_included_checks: int | None = Field(default=None, ge=0)
+	overage: Literal["prepaid", "invoice", "block"] | None = None
+	period_anchor_day: int | None = Field(default=None, ge=1, le=28)
+
+
+@router.put("/admin/accounts/{account_id}/billing", summary="Admin: set an account's billing model or plan")
+async def set_billing(account_id: str, body: BillingUpdate, db: AsyncSession = Depends(get_db_session), _: AuthContext = Depends(_billing_admin)) -> dict:
+	if body.billing_model == "subscription" and (body.monthly_included_checks is None or body.overage is None):
+		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Subscriptions need monthly_included_checks and overage")
+	account = await billing.ensure_account(db, account_id)
+	account.billing_model = body.billing_model
+	account.plan_name = body.plan_name if body.billing_model == "subscription" else None
+	account.monthly_included_checks = body.monthly_included_checks if body.billing_model == "subscription" else None
+	account.overage = body.overage if body.billing_model == "subscription" else None
+	account.period_anchor_day = body.period_anchor_day or 1
+	await db.commit()
+	return {"account_id": account.id, "billing_model": account.billing_model, "plan_name": account.plan_name,
+	        "monthly_included_checks": account.monthly_included_checks, "overage": account.overage, "period_anchor_day": account.period_anchor_day}
+
+
+@router.get("/admin/accounts/{account_id}/statement", summary="Admin: usage by source for a calendar month (for invoicing)")
+async def statement(account_id: str, month: str = Query(pattern=r"^\d{4}-\d{2}$"), db: AsyncSession = Depends(get_db_session), _: AuthContext = Depends(_billing_admin)) -> dict:
+	year, mon = (int(x) for x in month.split("-"))
+	start = datetime(year, mon, 1, tzinfo=timezone.utc)
+	end = datetime(year + (mon == 12), mon % 12 + 1, 1, tzinfo=timezone.utc)
+	rows = await db.execute(
+		select(UsageEvent.source, func.count(UsageEvent.id), func.coalesce(func.sum(UsageEvent.units), 0))
+		.where(UsageEvent.account_id == account_id, UsageEvent.created_at >= start, UsageEvent.created_at < end)
+		.group_by(UsageEvent.source)
+	)
+	return {"account_id": account_id, "month": month, "by_source": {s: {"checks": c, "units": int(u)} for s, c, u in rows.all()}}
 
 
 @router.get("/pricing", summary="Public price list")

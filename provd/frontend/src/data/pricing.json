@@ -1,0 +1,27 @@
+{
+ "free_daily_checks": 100,
+ "bundles": {
+  "10k": {
+   "checks": 10000,
+   "price_usd": 150,
+   "price_kes": 19500,
+   "per_check_usd": 0.015
+  },
+  "100k": {
+   "checks": 100000,
+   "price_usd": 1000,
+   "price_kes": 130000,
+   "per_check_usd": 0.01
+  },
+  "1m": {
+   "checks": 1000000,
+   "price_usd": 7000,
+   "price_kes": 910000,
+   "per_check_usd": 0.007
+  }
+ },
+ "payment_methods": [
+  "usdt_tron",
+  "mpesa"
+ ]
+}

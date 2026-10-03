@@ -13,10 +13,16 @@ export async function generateStaticParams() {
   const docsRoot = path.join(process.cwd(), "src", "content", "docs");
   const files = await listFilesRecursive(docsRoot, [".mdx"]);
 
-  return files.map((file) => {
-    const relative = path.relative(docsRoot, file).replace(/\\/g, "/").replace(/\.mdx$/, "");
-    return { slug: relative.split("/") };
-  });
+  const appDocsRoot = path.join(process.cwd(), "src", "app", "docs");
+  const params = await Promise.all(
+    files.map(async (file) => {
+      const relative = path.relative(docsRoot, file).replace(/\\/g, "/").replace(/\.mdx$/, "");
+      // Pages with their own route (e.g. the generated API reference) must not be overwritten here.
+      const dedicated = await fileExists(path.join(appDocsRoot, relative, "page.tsx"));
+      return dedicated ? null : { slug: relative.split("/") };
+    })
+  );
+  return params.filter((p): p is { slug: string[] } => p !== null);
 }
 
 export default async function DocSlugPage({ params }: Props) {

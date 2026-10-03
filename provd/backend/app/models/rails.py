@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Index, Integer, JSON, LargeBinary, String, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Float, Index, Integer, JSON, LargeBinary, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -29,6 +29,9 @@ class Decision(Base):
 	score: Mapped[int] = mapped_column(Integer, nullable=False)
 	risk_level: Mapped[str] = mapped_column(String(16), nullable=False)
 	recommended_action: Mapped[str] = mapped_column(String(24), nullable=False)
+	# For baselines only (amount_pattern); the exact amounts live in `record`.
+	amount: Mapped[float | None] = mapped_column(Float, nullable=True)
+	amount_unit: Mapped[str | None] = mapped_column(String(16), nullable=True)
 	engine_version: Mapped[str] = mapped_column(String(32), nullable=False)
 	record: Mapped[dict] = mapped_column(JSON, nullable=False)
 	record_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
@@ -110,12 +113,16 @@ class Checkpoint(Base):
 
 
 class Account(Base):
-	"""Billing account for a client (platform). Pay-as-you-go by default."""
+	"""Billing account for a client (platform). Pay-as-you-go by default; subscription for global platforms."""
 
 	__tablename__ = "accounts"
 
 	id: Mapped[str] = mapped_column(String(36), primary_key=True)  # == clients.id
-	billing_model: Mapped[str] = mapped_column(String(16), nullable=False, default="payg")
+	billing_model: Mapped[str] = mapped_column(String(16), nullable=False, default="payg")  # payg | subscription
+	plan_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
+	monthly_included_checks: Mapped[int | None] = mapped_column(Integer, nullable=True)
+	overage: Mapped[str | None] = mapped_column(String(16), nullable=True)  # prepaid | invoice | block
+	period_anchor_day: Mapped[int | None] = mapped_column(Integer, nullable=True)  # 1-28, billing period start
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
 
 
@@ -145,6 +152,7 @@ class UsageEvent(Base):
 	intent_id: Mapped[str] = mapped_column(String(64), nullable=False)
 	units: Mapped[int] = mapped_column(Integer, nullable=False)
 	free: Mapped[bool] = mapped_column(Boolean, nullable=False)
+	source: Mapped[str] = mapped_column(String(16), nullable=False, default="free")  # free | prepaid | plan | overage
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
 
 

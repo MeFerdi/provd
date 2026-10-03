@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Check, Copy, ExternalLink, Loader2 } from "lucide-react";
+import { Check, Copy, ExternalLink, History, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { LEVEL_TEXT, RiskBadge } from "@/components/check/RiskBadge";
@@ -16,6 +16,20 @@ import {
   tronscanAddress,
   tronscanTx,
 } from "@/lib/counterparty";
+import { type RecentCheck, clearRecentChecks, readRecentChecks, rememberCheck } from "@/lib/recent-checks";
+
+const EXAMPLES = [
+  {
+    address: "TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9",
+    label: "A frozen wallet",
+    note: "On Tether's frozen list itself.",
+  },
+  {
+    address: "TAhQxLpYMyUdxFqePrQpWJe4tydcC1Ysi4",
+    label: "An exposed wallet",
+    note: "Traded directly with frozen wallets.",
+  },
+];
 
 type State =
   | { kind: "idle" }
@@ -35,6 +49,11 @@ export function CheckClient() {
   const [input, setInput] = React.useState(queryAddress);
   const [state, setState] = React.useState<State>({ kind: "idle" });
   const [attempt, setAttempt] = React.useState(0);
+  const [recent, setRecent] = React.useState<RecentCheck[]>([]);
+
+  React.useEffect(() => {
+    setRecent(readRecentChecks());
+  }, []);
 
   React.useEffect(() => {
     setInput(queryAddress);
@@ -45,7 +64,17 @@ export function CheckClient() {
     const controller = new AbortController();
     setState({ kind: "loading", address: queryAddress });
     fetchTronCounterparty(queryAddress, controller.signal)
-      .then((report) => setState({ kind: "done", report }))
+      .then((report) => {
+        setState({ kind: "done", report });
+        setRecent(
+          rememberCheck({
+            address: report.address,
+            score: report.score,
+            risk_level: report.risk_level,
+            checked_at: report.checked_at,
+          })
+        );
+      })
       .catch((err: unknown) => {
         if (controller.signal.aborted) return;
         const message = err instanceof CheckError ? err.message : "Couldn't reach the chain right now, try again.";
@@ -54,15 +83,20 @@ export function CheckClient() {
     return () => controller.abort();
   }, [queryAddress, attempt]);
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const address = input.trim();
+  function check(raw: string) {
+    const address = raw.trim();
     if (!address) return;
+    setInput(address);
     if (address === queryAddress) {
       setAttempt((n) => n + 1);
       return;
     }
     router.replace(`${pathname}?address=${encodeURIComponent(address)}`, { scroll: false });
+  }
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    check(input);
   }
 
   return (
@@ -99,7 +133,22 @@ export function CheckClient() {
       </p>
 
       <div className="mt-10" aria-live="polite">
-        {state.kind === "idle" ? <EmptyState /> : null}
+        {state.kind === "idle" ? (
+          <div className="space-y-6">
+            <Examples onPick={check} />
+            {recent.length ? (
+              <RecentChecks
+                items={recent}
+                onPick={check}
+                onClear={() => {
+                  clearRecentChecks();
+                  setRecent([]);
+                }}
+              />
+            ) : null}
+            <EmptyState />
+          </div>
+        ) : null}
         {state.kind === "loading" ? (
           <div className="rounded-md border border-bg-border bg-white p-6 text-text-secondary">
             Reading recent USDT transfers for <span className="break-all font-mono text-text-primary">{state.address}</span>…
@@ -115,8 +164,97 @@ export function CheckClient() {
           </div>
         ) : null}
         {state.kind === "done" ? <Report report={state.report} /> : null}
+        {state.kind !== "idle" && recent.length > 1 ? (
+          <div className="mt-10">
+            <RecentChecks
+              items={recent}
+              current={queryAddress}
+              onPick={check}
+              onClear={() => {
+                clearRecentChecks();
+                setRecent([]);
+              }}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
+  );
+}
+
+function Examples({ onPick }: { onPick: (address: string) => void }) {
+  return (
+    <div>
+      <h2 className="font-sans text-base font-semibold text-text-primary">Try an example</h2>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {EXAMPLES.map((ex) => (
+          <button
+            key={ex.address}
+            type="button"
+            onClick={() => onPick(ex.address)}
+            className="min-w-0 rounded-md border border-bg-border bg-white p-4 text-left transition-colors hover:border-text-muted hover:bg-bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary"
+          >
+            <span className="block font-medium text-text-primary">{ex.label}</span>
+            <span className="mt-0.5 block text-sm text-text-secondary">{ex.note}</span>
+            <span className="mt-2 block break-all font-mono text-[13px] text-text-muted">{ex.address}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RecentChecks({
+  items,
+  current,
+  onPick,
+  onClear,
+}: {
+  items: RecentCheck[];
+  current?: string;
+  onPick: (address: string) => void;
+  onClear: () => void;
+}) {
+  return (
+    <section className="rounded-md border border-bg-border bg-white">
+      <div className="flex items-center justify-between gap-3 border-b border-bg-border px-5 py-3 sm:px-6">
+        <h2 className="inline-flex items-center gap-2 font-sans text-base font-semibold text-text-primary">
+          <History className="h-4 w-4 text-text-muted" aria-hidden="true" />
+          Recent checks
+        </h2>
+        <button
+          type="button"
+          onClick={onClear}
+          className="rounded-md px-2 py-1 text-sm text-text-secondary hover:bg-bg-surface hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary"
+        >
+          Clear
+        </button>
+      </div>
+      <ul className="divide-y divide-bg-border">
+        {items.map((c) => (
+          <li key={c.address}>
+            <button
+              type="button"
+              onClick={() => onPick(c.address)}
+              aria-current={c.address === current ? "true" : undefined}
+              className="flex w-full min-w-0 items-center gap-3 px-5 py-3 text-left transition-colors hover:bg-bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-secondary sm:px-6"
+            >
+              <span className="min-w-0 flex-1">
+                <span className={`block truncate font-mono text-[13px] sm:text-sm ${c.address === current ? "font-semibold text-text-primary" : "text-text-primary"}`}>
+                  {c.address}
+                </span>
+                <span className="mt-0.5 block text-xs text-text-muted">{fmtDate(c.checked_at)}</span>
+              </span>
+              <span className={`shrink-0 font-mono text-sm ${LEVEL_TEXT[c.risk_level]}`}>{c.score}</span>
+              <RiskBadge level={c.risk_level} className="shrink-0" />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <p className="border-t border-bg-border px-5 py-2.5 text-xs text-text-muted sm:px-6">
+        Saved in this browser only. Click one to check it again.
+      </p>
+    </section>
   );
 }
 
