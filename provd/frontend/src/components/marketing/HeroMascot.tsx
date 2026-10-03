@@ -123,9 +123,9 @@ export default function HeroMascot() {
         <OpenHand />
       </g>
 
-      {/* coin arm: mirrors the waving arm (starts behind the board, rises to the same height); the hand sits behind the coin */}
-      <path d="M298 214 Q 338 202 350 152" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
-      <ellipse cx="351" cy="144" rx="15" ry="14" fill="url(#skin)" />
+      {/* coin arm: starts behind the board and hangs down at the side; the hand, at hip level, sits behind the coin */}
+      <path d="M298 214 Q 340 244 350 306" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
+      <ellipse cx="352" cy="316" rx="15" ry="14" fill="url(#skin)" />
 
       {/* clipboard */}
       <g transform="rotate(-3 210 210)" filter="url(#soft)">
@@ -182,9 +182,9 @@ export default function HeroMascot() {
         ))}
       </g>
 
-      {/* the coin, held up at the waving hand's height; drawn last so the hand is fully hidden behind it.
+      {/* the coin, carried low in the hanging hand; drawn last so the hand is fully hidden behind it.
           Coin geometry is authored around (380, 292) and moved into place. */}
-      <g transform="translate(-28 -154)">
+      <g transform="translate(-22 36)">
         {/* thickness: the coin's side, with reeding visible only where it shows below/right of the face */}
         <circle cx="384.5" cy="297.5" r="44" fill="#145F49" />
         <path d={reeding(384.5, 297.5, 40, 44, 120)} stroke="#0B3F30" strokeOpacity="0.55" strokeWidth="0.9" />
