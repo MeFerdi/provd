@@ -1,0 +1,72 @@
+---
+title: Decision records
+description: What Provd records for every check, and how to verify a record hasn't changed.
+---
+
+Every call to `POST /v1/actions/evaluate` writes a decision record: what you asked, which signals ran, what they found and what Provd recommended. The response carries the record's hash as `decision_record_hash`, so you can store it next to the trade in your own system.
+
+When a dispute, an auditor or a regulator asks why a release went ahead, you can show the record and prove it is the one produced at the time.
+
+## What's in a record
+
+| Field | Contents |
+|---|---|
+| `intent_id` | Your reference for the trade. |
+| `intent` | The intent as you sent it: chain, intent type, counterparty (wallet address, phone hash), rails, amounts, context. |
+| `signals` | Each signal that ran, its value, its contribution to the score, the reason and source references. |
+| `signal_coverage` | For each signal, whether it ran on `full`, `partial` or `none` of its data. |
+| `decision` | Score, risk level, recommended action and flags. |
+| `engine_version` | The scoring engine version that made the decision. |
+| `created_at` | When the decision was made (UTC). |
+
+Records hold hashed phone identifiers only, never raw numbers.
+
+## Fetch a record
+
+```bash
+curl -s https://api.provd.tech/v1/decisions/order-48213 \
+  -H "X-API-Key: $PROVD_API_KEY"
+```
+
+```json
+{
+  "intent_id": "order-48213",
+  "record": { "intent_id": "order-48213", "intent": { "…": "…" }, "signals": [], "signal_coverage": {}, "decision": {}, "engine_version": "2026.10.0", "created_at": "2026-10-03T13:11:16.891600+00:00" },
+  "record_hash": "5b0f…",
+  "hash_algorithm": "sha256 over canonical JSON (sorted keys, no whitespace)",
+  "signature": null,
+  "anchor": null,
+  "proof_status": "hashed — signed and on-chain anchored records are coming soon"
+}
+```
+
+You can only fetch decisions made with your own keys.
+
+## Verify a record
+
+The hash is SHA-256 over the record serialized as canonical JSON: keys sorted, no whitespace, UTF-8. If you recompute it from `record` and it equals `record_hash` (and the `decision_record_hash` you stored at the time), the record hasn't changed.
+
+```python
+import hashlib, json, requests
+
+resp = requests.get(
+    "https://api.provd.tech/v1/decisions/order-48213",
+    headers={"X-API-Key": API_KEY},
+).json()
+
+canonical = json.dumps(resp["record"], sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+assert digest == resp["record_hash"]
+```
+
+Use a JSON serializer that keeps numbers exactly as received. Some languages rewrite numbers such as `1.0` as `1`, which changes the hash.
+
+## Coming
+
+Today records are hashed. Two things are on the way:
+
+- **Signing**: each record signed with a Provd key, so you can prove Provd produced it. It will appear in `signature`.
+- **Anchoring**: record hashes anchored on a public chain, so you can prove when a record existed. It will appear in `anchor`.
+
+Both fields are `null` until then.

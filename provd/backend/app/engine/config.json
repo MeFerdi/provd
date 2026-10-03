@@ -1,0 +1,16 @@
+{
+  "engine_version": "2026.10.0",
+  "thresholds": {"medium": 250, "high": 500, "critical": 750},
+  "actions": {"low": "release", "medium": "manual_review", "high": "hold", "critical": "reject"},
+  "severity_floor": {"critical": 750, "high": 500},
+  "signals": {
+    "counterparty_graph":       {"enabled": true,  "weight": 1.0, "cost_units": 1, "intents": ["p2p_trade", "ramp_conversion"]},
+    "reversal_behavior":        {"enabled": true,  "weight": 1.0, "cost_units": 0, "intents": ["p2p_trade", "ramp_conversion"]},
+    "token_safety":             {"enabled": true,  "weight": 1.0, "cost_units": 0, "intents": ["ramp_conversion"]},
+    "account_takeover_proxies": {"enabled": false, "weight": 1.0, "cost_units": 0, "intents": [], "phase": "C"},
+    "float_and_timing":         {"enabled": false, "weight": 1.0, "cost_units": 0, "intents": [], "phase": "C"},
+    "amount_pattern":           {"enabled": false, "weight": 1.0, "cost_units": 0, "intents": [], "phase": "C"},
+    "asset_backing":            {"enabled": false, "weight": 1.0, "cost_units": 0, "intents": [], "phase": "E"},
+    "venue_risk":               {"enabled": false, "weight": 1.0, "cost_units": 0, "intents": [], "phase": "E"}
+  }
+}

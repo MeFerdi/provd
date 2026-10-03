@@ -1,0 +1,20 @@
+{
+  "_note": "PLACEHOLDER prices for validation \u2014 the founder sets real prices. Per-check: 10k $0.015, 100k $0.010, 1m $0.007.",
+  "bundles": {
+    "10k": {
+      "checks": 10000,
+      "price_usd": 150,
+      "price_kes": 19500
+    },
+    "100k": {
+      "checks": 100000,
+      "price_usd": 1000,
+      "price_kes": 130000
+    },
+    "1m": {
+      "checks": 1000000,
+      "price_usd": 7000,
+      "price_kes": 910000
+    }
+  }
+}

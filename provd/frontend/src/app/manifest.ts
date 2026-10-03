@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Provd — Security posture monitoring",
+    name: "Provd — risk checks for African money movement",
     short_name: "Provd",
     description: SITE_DESCRIPTION,
     start_url: "/",

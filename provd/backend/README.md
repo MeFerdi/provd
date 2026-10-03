@@ -1,39 +1,18 @@
 # Provd backend
 
-FastAPI service that reads, rates and monitors the security configuration of LayerZero V2 OApps.
-Product overview, local setup and the publication workflow are in the [root README](../README.md).
-
-## Layout
+FastAPI service for pre-release transaction risk checks. Product overview and local setup: [root README](../README.md).
 
 ```
 app/
-├── api/v1/posture.py      # /protocols, /protocols/{slug}, /scan, /early-access
-├── api/v1/{auth,keys,clients}.py   # admin credentials and API keys
-├── chains/evm.py          # batched JSON-RPC client with endpoint fallback
-├── posture/layerzero.py   # collector: peers, libraries, ULN configs, owner/delegate
-├── posture/rules.py       # findings + grade (documented on the site's /methodology)
-├── posture/diff.py        # change events between two snapshots
-├── services/posture.py    # scan, record snapshot, list/detail views
-├── services/alerts.py     # webhook / Telegram delivery
-├── cli.py                 # seed, refresh, monitor, publish, export-snapshot
-└── data/                  # protocols to monitor, LayerZero eid names, DVN registry snapshot
+├── schemas/actions.py   # ActionIntent / ActionScore contract (open enums)
+├── adapters/            # base.py (protocol + normalized types), tron.py, stubs.py
+├── engine/              # signals.py, scoring.py, config.json (weights), pricing.json
+├── services/            # evaluate.py, chain_data.py (cache, risk list, GoPlus), billing.py (quota, ledger)
+├── api/v1/actions.py    # evaluate, decisions, outcomes, scanner, usage, pricing, top-ups
+├── indexer.py           # freeze-event sync, USDT top-up matching, seed/snapshot
+└── seed/                # tron_usdt_frozen.json fixture
 ```
 
-## Commands
+Commands: `alembic upgrade head` · `python -m app.indexer seed|run [--once]|snapshot` · `python app/main.py` · `python -m pytest`
 
-```bash
-alembic upgrade head
-uvicorn app.main:app --reload
-python -m app.cli seed | refresh [--slug S] | monitor | publish S.. | unpublish S..
-python -m app.cli export-snapshot --out PATH [--include-unpublished]
-python -m pytest
-```
-
-## Configuration
-
-See `.env.example`. Chain endpoints come only from `ETHEREUM_RPC_URLS`; nothing is hardcoded.
-Refresh the LayerZero reference data (`app/data/layerzero_*.json`) from
-`https://metadata.layerzero-api.com/v1/metadata` when new chains or DVNs launch.
-
-Legacy tables `score_logs` and `disputes` from the earlier product remain in the schema (migrations
-0001–0002) but are no longer used by any endpoint.
+Legacy tables `score_logs` and `disputes` (migrations 0001–0002) remain but are unused.

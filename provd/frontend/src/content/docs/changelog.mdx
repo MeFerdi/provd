@@ -3,9 +3,10 @@ title: Changelog
 description: Product and API updates.
 ---
 
-## 2026-10-02
+## 2026-10-03
 
-- Provd is now security-posture monitoring for cross-chain protocols. First coverage: LayerZero V2 OApps and OFTs on Ethereum.
-- New public API: `GET /api/v1/protocols`, `GET /api/v1/protocols/{slug}`, `POST /api/v1/scan`, `POST /api/v1/early-access`.
-- Published the rating [methodology](/methodology) and our first research note, [Kelp DAO: the exploited route ran on one verifier for 381 days](/blog/kelp-dao-381-days).
-- Previous APIs and documentation have been retired.
+- Provd now scores money movement on African rails before funds are released. First coverage: USDT on Tron, with M-Pesa and bank rails as fiat context.
+- New API under `/v1`: `POST /v1/actions/evaluate`, `GET /v1/decisions/{intent_id}`, `POST /v1/outcomes`, `GET /v1/counterparties/tron/{address}`, `GET /v1/usage`, `GET /v1/pricing`, `POST /v1/topups`, `GET /v1/topups`.
+- Pay as you go: 100 free checks a day, then prepaid bundles topped up with USDT (TRC-20) or M-Pesa.
+- Public [counterparty check](/check) on the website.
+- Earlier APIs under `/api/v1` and their documentation have been retired.

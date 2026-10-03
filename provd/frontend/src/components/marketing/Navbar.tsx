@@ -9,12 +9,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
 const NAV_LINKS = [
-  { href: "/ratings", label: "Ratings" },
-  { href: "/scan", label: "Scan" },
-  { href: "/blog", label: "Research" },
-  { href: "/methodology", label: "Methodology" },
+  { href: "/check", label: "Check" },
   { href: "/pricing", label: "Pricing" },
   { href: "/docs", label: "Docs" },
+  { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
@@ -53,7 +51,7 @@ export default function Navbar() {
 
         <div className="ml-auto hidden lg:block">
           <Button href="/early-access" variant="secondary">
-            Request access
+            Get an API key
           </Button>
         </div>
 
@@ -86,7 +84,7 @@ export default function Navbar() {
           </ul>
           <div className="mx-auto max-w-7xl px-4 pb-5 pt-2 sm:px-6" onClick={() => setMobileOpen(false)}>
             <Button href="/early-access" variant="secondary" size="lg" className="w-full">
-              Request access
+              Get an API key
             </Button>
           </div>
         </nav>

@@ -115,13 +115,13 @@ def test_auth_token_issued_for_bootstrap_client_credentials(monkeypatch):
     assert response.status_code == 200
     body = response.json()
     assert body["role"] == "client"
-    assert body["scopes"] == ["ratings:read"]
+    assert body["scopes"] == ["actions:evaluate"]
 
 
 def test_keys_crud_flow():
     client, db = build_client(keys_router, db=FakeAsyncSession())
 
-    create = client.post("/api/v1/keys", json={"name": "k1", "scopes": ["ratings:read"]})
+    create = client.post("/api/v1/keys", json={"name": "k1", "scopes": ["actions:evaluate"]})
     assert create.status_code == 201
     key_id = create.json()["id"]
 

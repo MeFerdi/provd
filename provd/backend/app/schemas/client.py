@@ -17,7 +17,8 @@ class ClientResponse(BaseModel):
 
 class ApiKeyCreateRequest(BaseModel):
 	name: str = Field(min_length=2, max_length=100)
-	scopes: list[str] = Field(default_factory=lambda: ["ratings:read"])
+	scopes: list[str] = Field(default_factory=lambda: ["actions:evaluate"])
+	client_id: str | None = Field(default=None, max_length=36, description="Platform this key belongs to; usage is metered per client")
 
 
 class ApiKeyResponse(BaseModel):

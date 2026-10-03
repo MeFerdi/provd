@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     app_name: str = "Provd API"
     app_version: str = "0.1.0"
-    api_v1_prefix: str = "/api/v1"
+    api_v1_prefix: str = "/v1"
 
     secret_key: str = Field(default="", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
     jwt_algorithm: str = Field(default="HS256", validation_alias=AliasChoices("JWT_ALGORITHM"))
@@ -27,19 +27,19 @@ class Settings(BaseSettings):
     dev_client_id: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_ID"))
     dev_client_secret: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_SECRET"))
     dev_client_role: str = Field(default="service")
-    dev_client_scopes: list[str] = Field(default_factory=lambda: ["ratings:read"])
+    dev_client_scopes: list[str] = Field(default_factory=lambda: ["actions:evaluate"])
     bootstrap_admin_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_ID"))
     bootstrap_admin_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_SECRET"))
     bootstrap_admin_role: str = Field(default="admin", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_ROLE"))
     bootstrap_admin_scopes_raw: str = Field(
-        default="keys:read,keys:write,ratings:read,alerts:manage",
+        default="keys:read,keys:write,actions:evaluate,billing:admin",
         validation_alias=AliasChoices("BOOTSTRAP_ADMIN_SCOPES"),
     )
     bootstrap_client_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_ID"))
     bootstrap_client_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_SECRET"))
     bootstrap_client_role: str = Field(default="client", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_ROLE"))
     bootstrap_client_scopes_raw: str = Field(
-        default="ratings:read",
+        default="actions:evaluate",
         validation_alias=AliasChoices("BOOTSTRAP_CLIENT_SCOPES"),
     )
 
@@ -54,26 +54,26 @@ class Settings(BaseSettings):
     rate_limit_backend: str = Field(default="memory", validation_alias=AliasChoices("RATE_LIMIT_BACKEND"))
     trust_proxy_headers: bool = Field(default=False, validation_alias=AliasChoices("TRUST_PROXY_HEADERS"))
 
-    scan_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("SCAN_RATE_LIMIT_PER_MINUTE"))
-    early_access_rate_limit_per_hour: int = Field(default=5, validation_alias=AliasChoices("EARLY_ACCESS_RATE_LIMIT_PER_HOUR"))
+    scanner_rate_limit_per_minute: int = Field(default=20, validation_alias=AliasChoices("SCANNER_RATE_LIMIT_PER_MINUTE"))
 
-    # Comma-separated JSON-RPC URLs per chain, tried in order. No chain endpoint is hardcoded in code.
-    ethereum_rpc_urls_raw: str = Field(
-        default="https://ethereum-rpc.publicnode.com,https://eth.drpc.org,https://eth.merkle.io",
-        validation_alias=AliasChoices("ETHEREUM_RPC_URLS"),
-    )
-    rpc_timeout_seconds: float = Field(default=20.0, validation_alias=AliasChoices("RPC_TIMEOUT_SECONDS"))
-    monitor_interval_seconds: int = Field(default=900, validation_alias=AliasChoices("MONITOR_INTERVAL_SECONDS"))
+    # Tron access (TronGrid). The API key is optional; without one TronGrid rate-limits hard.
+    trongrid_url: str = Field(default="https://api.trongrid.io", validation_alias=AliasChoices("TRONGRID_URL"))
+    trongrid_api_key: str = Field(default="", validation_alias=AliasChoices("TRONGRID_API_KEY"))
+    usdt_trc20_contract: str = Field(default="TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", validation_alias=AliasChoices("USDT_TRC20_CONTRACT"))
+    http_timeout_seconds: float = Field(default=10.0, validation_alias=AliasChoices("HTTP_TIMEOUT_SECONDS"))
+    history_cache_seconds: int = Field(default=600, validation_alias=AliasChoices("HISTORY_CACHE_SECONDS"))
 
-    # Where change alerts go. Both optional; with neither set, alerts are only logged and stored.
-    alert_webhook_url: str = Field(default="", validation_alias=AliasChoices("ALERT_WEBHOOK_URL"))
-    telegram_bot_token: str = Field(default="", validation_alias=AliasChoices("TELEGRAM_BOT_TOKEN"))
-    telegram_alert_chat_id: str = Field(default="", validation_alias=AliasChoices("TELEGRAM_ALERT_CHAT_ID"))
+    # Token safety (GoPlus). Optional; on outage or missing key the signal degrades with a coverage flag.
+    goplus_url: str = Field(default="https://api.gopluslabs.io", validation_alias=AliasChoices("GOPLUS_URL"))
+    goplus_api_key: str = Field(default="", validation_alias=AliasChoices("GOPLUS_API_KEY"))
+
+    # Pay-as-you-go
+    free_daily_checks: int = Field(default=100, validation_alias=AliasChoices("FREE_DAILY_CHECKS"))
+    usdt_deposit_address: str = Field(default="", validation_alias=AliasChoices("USDT_DEPOSIT_ADDRESS"))
+    mpesa_paybill: str = Field(default="", validation_alias=AliasChoices("MPESA_PAYBILL"))
     public_site_url: str = Field(default="https://provd.tech", validation_alias=AliasChoices("PUBLIC_SITE_URL"))
 
-    @property
-    def ethereum_rpc_urls(self) -> list[str]:
-        return [url.strip() for url in self.ethereum_rpc_urls_raw.split(",") if url.strip()]
+    indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
 
     @property
     def bootstrap_admin_scopes(self) -> list[str]:

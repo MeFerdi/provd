@@ -16,7 +16,7 @@ export default function CareersPage() {
         <div className="max-w-2xl">
           <h1 className="mb-5 font-display text-4xl leading-[1.05] text-text-primary md:text-6xl">We&apos;re not hiring yet.</h1>
           <p className="text-lg text-text-secondary">
-            If you work on cross-chain security and want to talk, say hello at{" "}
+            If you work on payments risk, fraud or African payment rails and want to talk, say hello at{" "}
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-secondary hover:underline">
               {CONTACT_EMAIL}
             </a>

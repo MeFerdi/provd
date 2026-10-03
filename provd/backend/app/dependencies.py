@@ -81,6 +81,7 @@ async def get_auth_context(
 			auth_type="api_key",
 			scopes=api_key.scopes or [],
 			role="service",
+			client_id=api_key.client_id,
 		)
 
 	raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication required")

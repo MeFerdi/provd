@@ -4,15 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/ensure-preview-snapshot.mjs && node scripts/generate-search-index.mjs",
+    "prebuild": "node scripts/generate-search-index.mjs",
     "build": "next build",
     "pages:build": "npm run build",
     "pages:deploy": "wrangler pages deploy out",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "predev": "node scripts/ensure-preview-snapshot.mjs",
-    "pretype-check": "node scripts/ensure-preview-snapshot.mjs"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",

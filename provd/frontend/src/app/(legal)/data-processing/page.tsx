@@ -8,13 +8,15 @@ export const metadata = {
 const content = `
 ## What Provd processes
 
-Provd's ratings and monitoring are built from **public blockchain data**: contract configuration, verifier sets, and the accounts that can change them. We do not need customers to send us personal data to use the Service.
+Provd scores transactions that API customers send us before they release funds. Customers send counterparty wallet addresses (public blockchain data), rails and amounts, and may send **hashed** phone identifiers (HMAC or SHA-256). We do not accept raw phone numbers.
 
-The personal data we do handle is limited to account and contact details (for example, the email address used to request early access) and technical logs. See the [Privacy Policy](/privacy-policy) for details.
+Outcomes a customer reports, such as reversals or confirmed fraud, are processed on that customer's behalf and used only for that customer's checks. They are never pooled across customers.
 
-## Customers on paid plans
+We also handle account and contact details and technical logs. See the [Privacy Policy](/privacy-policy) for details.
 
-When paid plans become available, customers who need a data processing agreement (DPA) can request one. It will cover the contact and account data we process on their behalf, security measures, sub-processors and deletion on termination.
+## Data processing agreements
+
+Customers who need a data processing agreement (DPA) can request one. It covers the identifiers and outcomes we process on their behalf, security measures, sub-processors and deletion on termination.
 
 ## Security
 

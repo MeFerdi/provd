@@ -1,159 +1,180 @@
 ---
 title: API Reference
-description: Endpoints, response shapes and errors for the Provd API.
+description: Endpoints, request and response fields, risk scale, flag codes and errors.
 ---
 
-All endpoints live under `/api/v1` and return JSON. Timestamps are ISO 8601 in UTC. Addresses are 0x-prefixed hex.
+Base URL: `https://api.provd.tech/v1` (placeholder during early access). Local: `http://localhost:8000/v1`.
+
+All requests and responses are JSON. Timestamps are ISO 8601 in UTC. Authenticated endpoints take your key in the `X-API-Key` header.
 
 ## Endpoints
 
-| Method | Path | Returns |
+| Method | Path | Auth | What it does |
+|---|---|---|---|
+| `POST` | `/v1/actions/evaluate` | key | Score a money movement before release. |
+| `GET` | `/v1/decisions/{intent_id}` | key | The decision record behind a score. |
+| `POST` | `/v1/outcomes` | key | Report what happened after a decision. |
+| `GET` | `/v1/counterparties/tron/{address}` | none, rate-limited | Public counterparty report for a Tron wallet. |
+| `GET` | `/v1/usage` | key | Free quota, balance and recent usage. |
+| `GET` | `/v1/pricing` | none | Public price list. |
+| `POST` | `/v1/topups` | key | Start a top-up (buy a bundle). |
+| `GET` | `/v1/topups` | key | Your top-ups. |
+| `GET` | `/v1/health` | none | Service status, engine version and risk-list freshness. |
+
+## `POST /v1/actions/evaluate`
+
+Headers:
+
+| Header | Required | Notes |
 |---|---|---|
-| `GET` | `/api/v1/protocols` | `ProtocolList` |
-| `GET` | `/api/v1/protocols/{slug}` | `ProtocolDetail` |
-| `POST` | `/api/v1/scan` | `Posture` |
-| `POST` | `/api/v1/early-access` | `201` with `{"ok": true}` |
+| `X-API-Key` | yes | Your API key. |
+| `Idempotency-Key` | no | Retries with the same key return the original decision and are not charged again. |
+| `X-Platform-Context` | no | Free-form context (up to 4,096 characters). Stored with the decision, not scored today. |
 
-### POST /scan
-
-Request body:
-
-```json
-{ "chain": "ethereum", "address": "0x…40 hex characters" }
-```
-
-`chain` is `ethereum` today.
-
-### POST /early-access
-
-Request body:
+Body:
 
 ```json
 {
-  "email": "you@example.com",
-  "organization": "optional",
-  "role": "curator | insurer | protocol | fund | researcher | other",
-  "message": "optional"
+  "intent_id": "order-48213",
+  "chain": "tron",
+  "intent_type": "p2p_trade",
+  "counterparty": {
+    "wallet_address": "T…",
+    "phone_hash": "hex HMAC-SHA256 or SHA-256 of the phone number"
+  },
+  "rails": { "fiat_rail": "mpesa", "crypto_asset": "USDT_TRC20" },
+  "amounts": { "fiat": 65000, "fiat_currency": "KES", "crypto": 500 },
+  "context": {}
 }
 ```
+
+| Field | Required | Notes |
+|---|---|---|
+| `intent_id` | no | Your reference, up to 64 characters. Generated if omitted. Must be unique per account: reusing one without the same `Idempotency-Key` returns `422`. |
+| `chain` | yes | `tron` is scored today. |
+| `intent_type` | yes | `p2p_trade` or `ramp_conversion` are scored today. |
+| `counterparty.wallet_address` | no | The wallet you are about to release to (or receive from). |
+| `counterparty.phone_hash` | no | Hex hash of the counterparty's phone number, 32–128 characters. Raw numbers are rejected. |
+| `rails.fiat_rail` | no | `mpesa` or `bank`. |
+| `rails.crypto_asset` | no | `USDT_TRC20`. |
+| `amounts.fiat`, `amounts.fiat_currency`, `amounts.crypto` | no | Trade amounts. |
+| `context` | no | Any extra fields you want kept with the decision. |
+
+Other known chains and intent types (`stellar`, `solana`, `evm`; `payout`, `otc_settlement`, `swap`, `deposit`, `payment`…) are accepted but return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag, and are not charged.
+
+Response:
+
+| Field | Type | Notes |
+|---|---|---|
+| `intent_id` | string | Yours, or the generated one. |
+| `score` | integer | 0–1000. Higher is riskier. |
+| `risk_level` | string | `low`, `medium`, `high` or `critical`. |
+| `risk_flags` | array | `{code, severity, reason}`. Severity is `info`, `low`, `medium`, `high` or `critical`. |
+| `recommended_action` | string | `release`, `manual_review`, `hold`, `reject` or `not_yet_supported`. |
+| `explainability` | array | `{signal, value, contribution, reason, source_refs}` for each signal that ran. `source_refs` are list names or Tron transaction hashes. |
+| `signal_coverage` | object | Signal name to `full`, `partial` or `none`. |
+| `decision_record_hash` | string | SHA-256 of the decision record. See [decision records](/docs/decisions). |
+| `engine_version` | string | Scoring engine version. |
+| `latency_ms` | integer | Time spent scoring. |
+| `created_at` | string | When the decision was made. |
+
+`402 Payment Required` when the free quota is used and there is no balance:
+
+```json
+{
+  "detail": "Free daily checks used and no prepaid balance. Buy a bundle to continue.",
+  "balance": 0,
+  "units_required": 1,
+  "purchase_url": "https://provd.tech/pricing",
+  "topup_endpoint": "/v1/topups"
+}
+```
+
+## Risk scale
+
+| Score | `risk_level` | `recommended_action` |
+|---|---|---|
+| 0–249 | `low` | `release` |
+| 250–499 | `medium` | `manual_review` |
+| 500–749 | `high` | `hold` |
+| 750–1000 | `critical` | `reject` |
+
+## Flag codes
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `CP_ADDRESS_FROZEN` | critical | The counterparty wallet is itself on a public risk list (for example, frozen by Tether). |
+| `CP_FLAGGED_EXPOSURE` | high | The wallet transacted directly with wallets on a public risk list. |
+| `CP_INCIDENTAL_EXPOSURE` | medium | Exposure to listed wallets is a small share of volume across many counterparties, as with exchanges. |
+| `CP_PLATFORM_FLAGGED_EXPOSURE` | high | The wallet transacted with wallets you confirmed as fraudulent. |
+| `CP_NEW_WALLET` | low | First USDT activity in the last 7 days, with few transfers. |
+| `CP_NO_HISTORY` | low | No USDT transfers found for this wallet. |
+| `OWN_FRAUD_HISTORY` | critical | You reported confirmed fraud or a fake payment confirmation from this counterparty in the last 180 days. |
+| `OWN_REVERSAL_HISTORY` | medium or high | You reported reversals, refunds or chargebacks from this counterparty in the last 180 days. |
+| `VELOCITY_SPIKE` | medium | Unusually many checks for this counterparty in the last 24 hours. |
+| `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |
+| `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |
+| `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |
+
+## `GET /v1/decisions/{intent_id}`
+
+Returns `{intent_id, record, record_hash, hash_algorithm, signature, anchor, proof_status}`. `signature` and `anchor` are `null` until signing and anchoring ship. See [decision records](/docs/decisions).
+
+## `POST /v1/outcomes`
+
+```json
+{ "intent_id": "order-48213", "outcome": "reversed", "occurred_at": "2026-10-03T15:00:00Z" }
+```
+
+Identify the counterparty with one of `intent_id`, `wallet_address` or `phone_hash`. `outcome` is one of `completed`, `reversed`, `refunded`, `chargeback`, `fraud_confirmed`, `fake_confirmation`. `occurred_at` defaults to now. Returns `201` with `{id, recorded: true}`.
+
+Outcomes are used only for your own checks and are never pooled with other platforms.
+
+## `GET /v1/counterparties/tron/{address}`
+
+No key. Rate-limited per IP. Returns:
+
+```json
+{
+  "chain": "tron",
+  "address": "T…",
+  "score": 0,
+  "risk_level": "low",
+  "risk_flags": [],
+  "explainability": [],
+  "activity": {
+    "transfers_read": 0,
+    "most_recent_only": false,
+    "first_seen": null,
+    "last_seen": null,
+    "usdt_in": "0",
+    "usdt_out": "0",
+    "distinct_counterparties": 0
+  },
+  "signal_coverage": { "counterparty_graph": "full" },
+  "engine_version": "2026.10.0",
+  "checked_at": "2026-10-03T13:11:16Z"
+}
+```
+
+Public data only. `most_recent_only` is `true` for busy wallets where only the latest transfers were read.
+
+## Billing endpoints
+
+- `GET /v1/usage`: `{free_daily_checks, free_used_today, free_remaining_today, balance_checks, paid_checks_30d, paid_units_30d}`.
+- `GET /v1/pricing`: `{free_daily_checks, bundles, payment_methods}`.
+- `POST /v1/topups` with `{"bundle": "10k" | "100k" | "1m", "method": "usdt_tron" | "mpesa"}`: returns the top-up with `amount_due`, `currency`, `pay_to`, `instructions` and `status: "pending"`.
+- `GET /v1/topups`: your 50 most recent top-ups.
+
+See [pay as you go](/docs/pay-as-you-go).
 
 ## Errors
 
-| Status | Meaning |
+| Status | When |
 |---|---|
-| `404` | Unknown protocol slug. |
-| `422` | Invalid input, for example a malformed address or a contract that is not a LayerZero OApp. The `detail` field explains why. |
-| `429` | Rate limited. Retry later with backoff. |
-| `502` / `504` | The upstream RPC could not be reached or timed out. Retry later. |
-
-Error bodies have the form `{"detail": "…"}`.
-
-## Types
-
-```ts
-type Severity = "critical" | "high" | "medium" | "low" | "info";
-type RiskLevel = "critical" | "high" | "medium" | "low";
-type Grade = "A" | "B" | "C" | "D" | "F";
-
-interface Verifier { address: string; name: string | null }
-
-interface UlnSide {
-  library: string;
-  is_default_library: boolean;
-  confirmations: number;
-  required_dvns: Verifier[];
-  optional_dvns: Verifier[];
-  optional_threshold: number;
-  effective_verifiers: number;
-}
-
-interface Pathway {
-  eid: number;               // LayerZero endpoint id of the remote chain
-  chain_name: string | null;
-  peer: string;
-  receive: UlnSide | null;
-  send: UlnSide | null;
-}
-
-interface AdminAccount {
-  address: string;
-  type: "eoa" | "safe" | "contract" | "none" | "unknown";
-  threshold: number | null;  // Safe only
-  owners: number | null;     // Safe only
-}
-
-interface Admin { owner: AdminAccount | null; delegate: AdminAccount | null }
-
-interface Evidence { label: string; value: string; link: string | null }
-
-interface Finding {
-  rule_id: string;
-  severity: Severity;
-  title: string;
-  summary: string;
-  why_it_matters: string;
-  recommendation: string;
-  pathways: number[];        // affected eids
-  evidence: Evidence[];
-}
-
-interface FindingRef { rule_id: string; severity: Severity; title: string }
-
-interface ChangeEvent {
-  detected_at: string;
-  kind: string;              // e.g. CHG-VERIFIER-REDUCED
-  severity: Severity;
-  summary: string;
-  pathway: number | null;
-  before: object | null;
-  after: object | null;
-}
-
-interface Posture {
-  framework: "layerzero_v2";
-  chain: string;
-  contract: string;
-  grade: Grade;
-  score: number;
-  risk_level: RiskLevel;
-  pathways_total: number;
-  single_verifier_pathways: number;
-  admin: Admin;
-  pathways: Pathway[];
-  findings: Finding[];
-  checked_at: string;
-}
-
-interface ProtocolSummary {
-  slug: string;
-  name: string;
-  category: string;
-  framework: string;
-  chain: string;
-  contract: string;
-  grade: Grade;
-  score: number;
-  risk_level: RiskLevel;
-  pathways_total: number;
-  single_verifier_pathways: number;
-  top_findings: FindingRef[];
-  checked_at: string;
-  last_change_at: string | null;
-}
-
-interface ProtocolDetail extends ProtocolSummary {
-  website: string | null;
-  admin: Admin;
-  pathways: Pathway[];
-  findings: Finding[];
-  changes: ChangeEvent[];
-}
-
-interface ProtocolList { generated_at: string; items: ProtocolSummary[] }
-```
-
-## Field notes
-
-- `effective_verifiers` is the number of independent verifier attestations a message needs on that side of the route: required DVNs plus the optional threshold. A value of `1` is what the `LZ-SINGLE-VERIFIER` rule flags.
-- `is_default_library` is `true` when the route inherits LayerZero's default configuration rather than an explicit one.
-- `rule_id` values and their severities are listed in the [methodology](/methodology).
+| `401` / `403` | Missing, invalid or inactive API key. |
+| `402` | Free quota used and no balance. |
+| `404` | Decision or `intent_id` not found for your account. |
+| `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
+| `429` | Too many requests. Wait a minute and retry. |
+| `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |

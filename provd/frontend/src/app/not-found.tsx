@@ -13,8 +13,8 @@ export default function NotFound() {
           <Button href="/" size="lg">
             Go to the homepage
           </Button>
-          <Button href="/ratings" size="lg" variant="secondary">
-            See the ratings
+          <Button href="/check" size="lg" variant="secondary">
+            Run a counterparty check
           </Button>
         </div>
       </div>

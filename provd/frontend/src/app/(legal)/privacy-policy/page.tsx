@@ -8,13 +8,15 @@ export const metadata = {
 const content = `
 ## Who we are
 
-Provd Technologies Ltd. ("Provd", "we") operates provd.tech and the Provd API. Provd rates the security configuration of cross-chain protocols using public blockchain data. Contact: [hello@provd.tech](mailto:hello@provd.tech).
+Provd Technologies Ltd. ("Provd", "we") operates provd.tech and the Provd API. Provd scores P2P stablecoin trades and mobile-money ramp transactions for risk before funds are released. Contact: [hello@provd.tech](mailto:hello@provd.tech).
 
 ## What we collect
 
-**Early-access requests.** When you submit the early-access form we collect your email address, and optionally your organization, role and message. We use this only to contact you about Provd access and to understand what you want to monitor.
+**Account and contact details.** When you email us or get an API key we keep your name, work email and organization. We use them to run your account and contact you about Provd.
 
-**Contract scans.** When you scan a contract we receive the contract address and chain. Contract addresses and on-chain configuration are public data. We may keep scan results to improve coverage.
+**API customers' data.** Platforms send us details of the trades they want scored: counterparty wallet addresses, rails, amounts and, optionally, a phone identifier. Phone identifiers must be sent as hashes (HMAC or SHA-256); we do not accept raw phone numbers. Outcomes a platform reports (for example a reversal) are used only for that platform's own checks and are never pooled with other customers.
+
+**Counterparty checks.** When you use the public scanner we receive the wallet address you check. Wallet addresses and their transfers are public blockchain data.
 
 **Technical logs.** Our servers and hosting provider record standard request data (IP address, user agent, requested URL, time). We use it to operate the service, prevent abuse and enforce rate limits.
 
@@ -24,11 +26,11 @@ We do not use advertising trackers and we do not sell or share personal data for
 
 ## Public blockchain data
 
-Ratings, findings and research are built from public on-chain data, such as contract configuration and the addresses of accounts that control it. Those addresses may belong to individuals. We publish them only as part of describing a protocol's security configuration.
+Scores are built partly from public on-chain data, such as a wallet's transfers and public risk lists (for example, addresses Tether has frozen). Wallet addresses may belong to individuals. We show them only as part of explaining a risk check.
 
 ## How long we keep it
 
-Early-access details are kept until you ask us to delete them or we no longer need them to contact you. Technical logs are kept for a limited period for security and abuse prevention.
+Account details are kept while your account is active and until you ask us to delete them. Decision records are kept so customers can verify past checks for audit. Technical logs are kept for a limited period for security and abuse prevention.
 
 ## Service providers
 

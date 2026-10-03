@@ -8,17 +8,16 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
-      { href: "/ratings", label: "Ratings" },
-      { href: "/scan", label: "Scan" },
-      { href: "/methodology", label: "Methodology" },
+      { href: "/check", label: "Counterparty check" },
       { href: "/pricing", label: "Pricing" },
+      { href: "/early-access", label: "Get an API key" },
     ],
   },
   {
-    title: "Research & docs",
+    title: "Docs",
     links: [
-      { href: "/blog", label: "Research" },
-      { href: "/docs", label: "Docs" },
+      { href: "/docs/quickstart", label: "Quickstart" },
+      { href: "/docs/pay-as-you-go", label: "Pay as you go" },
       { href: "/docs/api-reference", label: "API reference" },
     ],
   },
@@ -50,7 +49,7 @@ export default function Footer() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/provd-logo.svg" alt="Provd" width={107} height={30} className="h-[30px] w-auto" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            Ratings and alerts for the security configuration of cross-chain protocols, built from public on-chain data.
+            Risk checks for P2P stablecoin trades and mobile-money ramps. Built for African rails.
           </p>
           <a href={`mailto:${CONTACT_EMAIL}`} className="mt-3 inline-block text-sm text-accent-secondary hover:underline">
             {CONTACT_EMAIL}
@@ -79,8 +78,8 @@ export default function Footer() {
         ))}
       </div>
       <div className="mx-auto max-w-7xl border-t border-bg-border pt-6 text-xs text-text-muted">
-        © {new Date().getFullYear()} Provd Technologies Ltd. Ratings describe configuration, not code, and are not
-        investment advice.
+        © {new Date().getFullYear()} Provd Technologies Ltd. Scores are risk signals to support your decision, not
+        financial or legal advice.
       </div>
     </footer>
   );

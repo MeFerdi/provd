@@ -1,0 +1,79 @@
+---
+title: Pay as you go
+description: Free daily checks, prepaid bundles and top-ups with USDT or M-Pesa. No monthly plan.
+---
+
+Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term.
+
+## 1. Free quota
+
+Every account gets **100 free checks a day**, reset at 00:00 UTC. Free checks are used before your balance.
+
+A scored `POST /v1/actions/evaluate` uses one check. These don't use any:
+
+- Requests that return `recommended_action: "not_yet_supported"` (for example `chain: "stellar"` or `intent_type: "payout"`).
+- Retries with the same `Idempotency-Key`.
+- `GET /v1/decisions/...`, `POST /v1/outcomes`, `GET /v1/usage` and the public counterparty check.
+
+Check where you stand at any time:
+
+```bash
+curl -s https://api.provd.tech/v1/usage -H "X-API-Key: $PROVD_API_KEY"
+```
+
+```json
+{
+  "free_daily_checks": 100,
+  "free_used_today": 37,
+  "free_remaining_today": 63,
+  "balance_checks": 9800,
+  "paid_checks_30d": 200,
+  "paid_units_30d": 200
+}
+```
+
+## 2. When you run out: 402
+
+When the free quota is used up and your balance is empty, evaluate returns `402 Payment Required` instead of a score:
+
+```json
+{
+  "detail": "Free daily checks used and no prepaid balance. Buy a bundle to continue.",
+  "balance": 0,
+  "units_required": 1,
+  "purchase_url": "https://provd.tech/pricing",
+  "topup_endpoint": "/v1/topups"
+}
+```
+
+Decide in your own code what a 402 means for the trade. Most platforms fall back to their manual review queue so nothing is released unchecked.
+
+## 3. Bundles
+
+Early-access pricing (the live list is at `GET /v1/pricing`):
+
+| Bundle | Checks | Price | Per check |
+|---|---|---|---|
+| `10k` | 10,000 | $150 | $0.015 |
+| `100k` | 100,000 | $1,000 | $0.010 |
+| `1m` | 1,000,000 | $7,000 | $0.007 |
+
+## 4. Top up
+
+Start a top-up with the bundle and how you'll pay:
+
+```bash
+curl -s -X POST https://api.provd.tech/v1/topups \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "bundle": "10k", "method": "usdt_tron" }'
+```
+
+The response tells you exactly what to pay and where:
+
+- **`usdt_tron`**: send exactly `amount_due` USDT (TRC-20) to `pay_to`. The exact amount identifies your payment.
+- **`mpesa`**: pay `amount_due` KES to the paybill in `pay_to`, using the account number in `instructions`.
+
+The top-up stays `pending` until the payment is confirmed, then your balance is credited. List your top-ups with `GET /v1/topups`.
+
+Auto top-up (refill when your balance drops below a threshold) is coming.

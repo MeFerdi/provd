@@ -1,18 +1,18 @@
 const STEPS = [
   {
-    title: "Read",
+    title: "Intent",
     icon: "/assets/query.png",
-    body: "Pull verifier sets, libraries, owners and delegates straight from the contracts.",
+    body: "Send the trade before you release: counterparty wallet, rails and amounts.",
   },
   {
-    title: "Rate",
+    title: "Evaluate",
     icon: "/assets/rating.png",
-    body: "Explainable rules turn configuration into a grade from A to F, with findings and evidence.",
+    body: "Provd checks the counterparty's transfer graph against public risk lists such as Tether's frozen addresses, plus your own reversal history.",
   },
   {
-    title: "Alert",
+    title: "Decide",
     icon: "/fraud-alert.png",
-    body: "Get notified when a protocol you depend on changes — a verifier removed, an admin key swapped, a new weak route opened.",
+    body: "You get a score from 0 to 1000, flags, a recommended action — release, manual review, hold or reject — and a decision record you can verify.",
   },
 ];
 
@@ -21,14 +21,10 @@ export default function HowItWorks() {
     <section id="how-it-works" className="scroll-mt-20 border-b border-bg-border bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
         <h2 className="mx-auto mb-4 max-w-2xl font-display text-[32px] leading-tight text-text-primary md:text-[44px]">
-          Read, rate, alert.
+          One call before every release.
         </h2>
         <p className="mx-auto max-w-2xl text-[16px] leading-relaxed text-text-secondary">
-          The rules are public:{" "}
-          <a href="/methodology" className="text-accent-secondary hover:underline">
-            read the methodology
-          </a>
-          .
+          Intent in, decision out. Every signal that moved the score is listed with its reason.
         </p>
         <ol className="mt-10 flex flex-col divide-y divide-bg-border md:flex-row md:divide-x md:divide-y-0">
           {STEPS.map(({ title, icon, body }) => (

@@ -43,6 +43,7 @@ export function SearchBox({ className }: { className?: string }) {
       setRecords(data.records);
 
       const ms = new MiniSearch<Record>({
+        idField: "url",
         fields: ["title", "description", "headings", "body"],
         storeFields: ["type", "url", "title", "description"],
         searchOptions: {
@@ -75,8 +76,8 @@ export function SearchBox({ className }: { className?: string }) {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search docs and research…"
-          aria-label="Search docs and research"
+          placeholder="Search the docs…"
+          aria-label="Search the docs"
           className="w-full h-11 rounded-md border border-bg-border bg-white pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
         />
       </div>
