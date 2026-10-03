@@ -24,24 +24,24 @@ export default function Hero() {
           </div>
           <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
-        <figure className="min-w-0 pb-14 lg:py-14">
+        <figure className="min-w-0 justify-self-center pb-14 lg:justify-self-end lg:py-12">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/assets/home/mpesa-menu-smartphone-kenya.jpg"
-            alt="A hand holding a phone open on the M-Pesa menu"
-            width={1024}
-            height={683}
+            src="/assets/home/otc-stablecoin-exchange.jpg"
+            alt="A street-front over-the-counter exchange with a sign advertising USDT and USDC"
+            width={1041}
+            height={1200}
             fetchPriority="high"
-            className="block aspect-[4/3] w-full rounded-md border border-bg-border object-cover object-[45%_50%]"
+            className="block h-auto w-full max-w-[460px] rounded-md border border-bg-border object-cover"
           />
           <figcaption className="mt-2 text-xs text-text-muted">
-            Photo:{" "}
-            <a href="https://www.flickr.com/photos/134037448@N03/33570510786" className="hover:underline">
-              Fiona Graham / WorldRemit
+            A stablecoin exchange counter. Photo:{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Over-the-counter-crypto-exchange.jpeg" className="hover:underline">
+              Arutoria
             </a>
             ,{" "}
-            <a href="https://creativecommons.org/licenses/by-sa/2.0/" className="hover:underline">
-              CC BY-SA 2.0
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" className="hover:underline">
+              CC BY-SA 4.0
             </a>
           </figcaption>
         </figure>

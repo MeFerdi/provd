@@ -1,3 +1,5 @@
+import TransferLoop from "@/components/marketing/TransferLoop";
+
 const LOSSES = [
   {
     title: "Reversals after release",
@@ -20,29 +22,10 @@ const LOSSES = [
 export default function Problem() {
   return (
     <section className="border-b border-bg-border bg-bg-surface py-20 sm:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-stretch lg:gap-14">
-        <figure className="order-last flex min-w-0 flex-col lg:order-none">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/assets/home/mobile-money-withdrawal-uganda.jpg"
-            alt="A customer holding cash and checking his phone at a mobile money kiosk"
-            width={1024}
-            height={683}
-            loading="lazy"
-            decoding="async"
-            className="block aspect-[4/3] w-full rounded-md border border-bg-border object-cover object-[38%_50%] lg:aspect-auto lg:min-h-0 lg:flex-1"
-          />
-          <figcaption className="mt-2 text-xs text-text-muted">
-            Photo:{" "}
-            <a href="https://www.flickr.com/photos/134037448@N03/24888911676" className="hover:underline">
-              Fiona Graham / WorldRemit
-            </a>
-            ,{" "}
-            <a href="https://creativecommons.org/licenses/by-sa/2.0/" className="hover:underline">
-              CC BY-SA 2.0
-            </a>
-          </figcaption>
-        </figure>
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-14">
+        <div className="order-last min-w-0 lg:order-none">
+          <TransferLoop />
+        </div>
         <div className="min-w-0">
           <h2 className="mb-5 font-display text-[30px] leading-tight text-text-primary md:text-[42px]">
             Platforms release first and find out later.
