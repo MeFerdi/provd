@@ -33,7 +33,7 @@ function OpenHand() {
 
 export default function HeroMascot() {
   return (
-    <svg viewBox="0 0 440 500" role="img" aria-labelledby="mascot-title" className="block h-auto w-full font-sans">
+    <svg viewBox="0 0 480 500" role="img" aria-labelledby="mascot-title" className="block h-auto w-full font-sans">
       <title id="mascot-title">A smiling scoresheet walking with a Tether coin: the payment was scored and passed before release</title>
       <defs>
         <linearGradient id="board" x1="0" y1="0" x2="1" y2="1">
@@ -126,7 +126,7 @@ export default function HeroMascot() {
         <text x="138" y="239" fontSize="33" fontWeight="700" fill={INK}>
           120
         </text>
-        <rect x="206" y="214" width="78" height="29" rx="6" fill="#DCFCE7" stroke={OK} strokeWidth="1.5" />
+        <rect x="206" y="214" width="78" height="29" rx="6" fill="#FFFFFF" stroke={OK} strokeWidth="1.5" />
         <text x="245" y="233.5" textAnchor="middle" fontSize="14" fontWeight="700" fill="#15803D">
           Release
         </text>
@@ -149,16 +149,16 @@ export default function HeroMascot() {
         ))}
       </g>
 
-      {/* carrying arm and hand behind the coin, then the coin, then the thumb gripping over its rim */}
-      <path d="M306 232 Q 326 258 316 292" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
-      <g transform="rotate(-25 318 300)">
-        <ellipse cx="318" cy="302" rx="15" ry="13" fill="url(#skin)" />
+      {/* carrying arm, the coin, then the hand cupping it from below with the thumb over the front rim */}
+      <path d="M306 236 Q 316 292 334 328" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
+      <image href="/assets/home/usdt-coin-3d.webp" x="300" y="198" width="150" height="126" />
+      <g>
         {[0, 1, 2, 3].map((i) => (
-          <rect key={i} x={306 + i * 6.8} y={280} width="6.8" height="20" rx="3.4" fill="url(#skin)" />
+          <rect key={i} x={346} y={315 + i * 5.6} width={34 - i * 3} height="6.4" rx="3.2" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.25" strokeWidth="0.8" />
         ))}
+        <ellipse cx="342" cy="328" rx="15" ry="12" fill="url(#skin)" />
+        <rect x="331" y="296" width="8" height="24" rx="4" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="0.8" transform="rotate(22 335 308)" />
       </g>
-      <image href="/assets/home/usdt-coin-3d.webp" x="292" y="200" width="150" height="126" />
-      <rect x="303" y="276" width="8" height="24" rx="4" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="0.8" transform="rotate(32 307 288)" />
     </svg>
   );
 }
