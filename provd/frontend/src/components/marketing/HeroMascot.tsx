@@ -1,8 +1,10 @@
 /**
  * Hero illustration: a clipboard scoresheet with a face, arms and legs, walking and waving while it carries
  * a 3D Tether coin. The sheet shows a passed check (low score, release): money scored before it moved.
- * Coin: cut out from a CC0 render ("Usdt" by mediaviet, Flickr) in /assets/home/usdt-coin-3d.webp.
+ * Tether mark: cryptocurrency-icons (CC0), drawn as an exact circle coin.
  */
+const TETHER_PATH =
+  "M17.922 17.383v-.002c-.11.008-.677.042-1.942.042-1.01 0-1.721-.03-1.971-.042v.003c-3.888-.171-6.79-.848-6.79-1.658 0-.809 2.902-1.486 6.79-1.66v2.644c.254.018.982.061 1.988.061 1.207 0 1.812-.05 1.925-.06v-2.643c3.88.173 6.775.85 6.775 1.658 0 .81-2.895 1.485-6.775 1.657m0-3.59v-2.366h5.414V7.819H8.595v3.608h5.414v2.365c-4.4.202-7.709 1.074-7.709 2.118 0 1.044 3.309 1.915 7.709 2.118v7.582h3.913v-7.584c4.393-.202 7.694-1.073 7.694-2.116 0-1.043-3.301-1.914-7.694-2.117";
 const INK = "#1A1A1A";
 const MUTED = "#6B6B6B";
 const LINE = "#E7E5E4";
@@ -57,6 +59,14 @@ export default function HeroMascot() {
           <stop offset="0" stopColor="#2B3A55" />
           <stop offset="1" stopColor="#1B2537" />
         </linearGradient>
+        <linearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#4FD3A6" />
+          <stop offset="1" stopColor="#1D8A68" />
+        </linearGradient>
+        <radialGradient id="coinFace" cx="0.38" cy="0.32" r="0.75">
+          <stop offset="0" stopColor="#4CC99B" />
+          <stop offset="1" stopColor="#1F946F" />
+        </radialGradient>
         <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="6" stdDeviation="7" floodColor="#000000" floodOpacity="0.16" />
         </filter>
@@ -93,6 +103,10 @@ export default function HeroMascot() {
       <g transform="translate(70 150) rotate(-14)">
         <OpenHand />
       </g>
+
+      {/* carrying arm: starts behind the board, runs to the coin; the hand sits behind the coin */}
+      <path d="M296 252 C 322 290, 340 300, 366 298" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
+      <ellipse cx="378" cy="296" rx="16" ry="13" fill="url(#skin)" />
 
       {/* clipboard */}
       <g transform="rotate(-3 210 210)" filter="url(#soft)">
@@ -149,32 +163,19 @@ export default function HeroMascot() {
         ))}
       </g>
 
-      {/* Carrying arm and hand: palm up, fingers curled up on the right, thumb up on the left.
-          The coin sits in the cup between them: palm and back fingers, then the coin, then thumb and fingertips. */}
-      <path d="M304 240 C 326 288, 342 308, 366 307" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
-      <g id="hand-back">
-        <ellipse cx="386" cy="305" rx="24" ry="11.5" fill="url(#skin)" />
-        <path d="M368 309 q18 6 38 -1" fill="none" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="1.4" strokeLinecap="round" />
-      </g>
-      {/* coin: its lowest point (about 63% across, 97% down the image) rests in the palm at (380, 300) */}
-      <image href="/assets/home/usdt-coin-3d.webp" x="317" y="219" width="100" height="84" />
-      <g id="hand-front">
-        {[0, 1, 2, 3].map((i) => (
-          <rect
-            key={i}
-            x={386 + i * 6.4}
-            y={282 + i * 1.6}
-            width="7.2"
-            height={21 - i * 1.6}
-            rx="3.6"
-            fill="url(#skin)"
-            stroke="#7A4A2A"
-            strokeOpacity="0.28"
-            strokeWidth="0.8"
-            transform={`rotate(${8 + i * 4} ${389.6 + i * 6.4} 303)`}
-          />
-        ))}
-        <rect x="362" y="280" width="8.6" height="24" rx="4.3" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="0.8" transform="rotate(12 366 303)" />
+      {/* the coin, drawn last so the hand is fully hidden behind it */}
+      <g>
+        <circle cx="384" cy="297" r="44" fill="#156B52" />
+        <circle cx="380" cy="292" r="44" fill="url(#coinRim)" />
+        <circle cx="380" cy="292" r="36.5" fill="url(#coinFace)" />
+        <circle cx="380" cy="292" r="36.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.28" strokeWidth="1.2" />
+        <g transform="translate(346.4 258.4) scale(2.1)" opacity="0.22">
+          <path fill="#0B4D3A" d={TETHER_PATH} transform="translate(0.6 0.7)" />
+        </g>
+        <g transform="translate(346.4 258.4) scale(2.1)">
+          <path fill="#FFFFFF" d={TETHER_PATH} />
+        </g>
+        <path d="M352 268 A 36 36 0 0 1 392 257" fill="none" stroke="#FFFFFF" strokeOpacity="0.45" strokeWidth="3" strokeLinecap="round" />
       </g>
     </svg>
   );
