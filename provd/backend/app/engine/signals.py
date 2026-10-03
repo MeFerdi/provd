@@ -287,7 +287,7 @@ def float_and_timing(ctx: SignalContext) -> SignalResult:
 		if arrived and arrived >= 0.8 * ctx.amount:
 			points += 300
 			minutes = max(1, int(min((ctx.now - t.timestamp).total_seconds() for t in window) // 60))
-			msg = f"{arrived:,.2f} USDT arrived in this wallet in the last hour (latest {minutes} min ago) and covers this amount — possible pass-through."
+			msg = f"{arrived:,.2f} USDT arrived in this wallet in the last hour (latest {minutes} min ago) and covers this amount, a possible pass-through."
 			reasons.append(msg)
 			result.flags.append(Flag("RAPID_PASS_THROUGH", "high", msg))
 			result.source_refs += [t.tx_hash for t in window[:5]]

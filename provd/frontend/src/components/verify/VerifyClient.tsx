@@ -204,17 +204,17 @@ function Results({ result }: { result: VerifyResult }) {
               : "The hash, signature and Merkle inclusion check out, and the batch root is anchored on Bitcoin."}
         </p>
         <dl className="mt-4 grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
-          <Meta label="Intent" value={result.intentId || "—"} mono />
-          <Meta label="Decided" value={record.created_at ? fmtDate(record.created_at) : "—"} />
+          <Meta label="Intent" value={result.intentId || "n/a"} mono />
+          <Meta label="Decided" value={record.created_at ? fmtDate(record.created_at) : "n/a"} />
           <Meta
             label="Decision"
             value={
               record.decision
-                ? `${record.decision.score ?? "—"} / 1000 · ${record.decision.risk_level ?? "—"} · ${record.decision.recommended_action ?? "—"}`
-                : "—"
+                ? `${record.decision.score ?? "n/a"} / 1000 · ${record.decision.risk_level ?? "n/a"} · ${record.decision.recommended_action ?? "n/a"}`
+                : "n/a"
             }
           />
-          <Meta label="Counterparty" value={record.intent?.counterparty?.wallet_address ?? "—"} mono />
+          <Meta label="Counterparty" value={record.intent?.counterparty?.wallet_address ?? "n/a"} mono />
         </dl>
       </section>
 

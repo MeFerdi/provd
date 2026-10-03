@@ -4,7 +4,7 @@ import { fileExists } from "@/lib/content/fs";
 import { notFound } from "next/navigation";
 
 export const metadata = {
-  title: "Quickstart — Provd Docs",
+  title: "Quickstart | Provd Docs",
 };
 
 export default async function QuickstartPage() {

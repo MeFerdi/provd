@@ -11,7 +11,7 @@ router = APIRouter(prefix="/proof", tags=["proof"])
 
 MERKLE_ALGORITHM = "leaf=SHA256(0x00||record_hash); node=SHA256(0x01||left||right); odd node promoted"
 VERIFY_STEPS = [
-	"1. sha256(canonical JSON of `record` — sorted keys, no whitespace, UTF-8) must equal `record_hash`.",
+	"1. sha256(canonical JSON of `record` (sorted keys, no whitespace, UTF-8)) must equal `record_hash`.",
 	"2. `signature` (secp256k1, compact r||s) must verify over `record_hash` with the public key from GET /v1/proof/keys.",
 	"3. Folding `merkle.proof` from leaf_hash(record_hash) must reproduce `merkle.root`.",
 	"4. `merkle.root` is anchored: download GET /v1/proof/batches/{batch_id}/ots and run `ots verify -d <root> batch.ots`.",
@@ -59,7 +59,7 @@ async def proof_bundle(db: AsyncSession, decision: Decision) -> dict:
 			"anchored" if batch and batch.anchor_status == "anchored"
 			else "anchoring" if batch and batch.anchor_status in ("pending", "failed")
 			else "batched (not anchored)" if batch
-			else "signed — joins the next batch within minutes"
+			else "signed: joins the next batch within minutes"
 		),
 		"verify": VERIFY_STEPS,
 	}

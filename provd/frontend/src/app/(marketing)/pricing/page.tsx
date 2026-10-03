@@ -6,7 +6,7 @@ import { CONTACT_EMAIL } from "@/lib/env";
 import { BUNDLES, FREE_MONTHLY_CHECKS, PAYMENT_METHODS, PLANS, formatKes, formatUsd, joinOr } from "@/lib/pricing";
 
 export const metadata: Metadata = {
-  title: "Pricing — Provd",
+  title: "Pricing | Provd",
   description: `Pay as you go. ${FREE_MONTHLY_CHECKS} free checks a month, then check bundles from ${formatUsd(BUNDLES[0].priceUsd)} topped up with ${joinOr(PAYMENT_METHODS.map((m) => m.label))}. Monthly plans for global payout platforms.`,
   alternates: { canonical: "/pricing" },
 };
@@ -106,7 +106,7 @@ export default function PricingPage() {
           </div>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-text-secondary">
             For platforms paying out across borders at steady volume. Each plan includes a set number of checks a month;
-            after that, overage is invoiced, drawn from a prepaid balance, or stopped — your choice.
+            after that, overage is invoiced, drawn from a prepaid balance, or stopped, as you choose.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {PLANS.map((plan) => (
@@ -133,7 +133,7 @@ export default function PricingPage() {
           </div>
           <div className="mt-4 flex flex-col gap-4 rounded-md border border-bg-border bg-bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-[15px] text-text-secondary">
-              Payout and OTC checks are live. Plans are set up with you directly — tell us your volume and corridors.
+              Payout and OTC checks are live. Plans are set up with you directly. Tell us your volume and corridors.
             </p>
             <a
               href={PAYOUTS_MAILTO}

@@ -7,7 +7,7 @@ import { CONTACT_EMAIL } from "@/lib/env";
 import { docsNav } from "@/lib/nav";
 
 export const metadata = {
-  title: "Docs — Provd",
+  title: "Docs | Provd",
   description: "Provd API documentation: score P2P stablecoin trades, ramps and payouts before release.",
   alternates: { canonical: "/docs" },
 };

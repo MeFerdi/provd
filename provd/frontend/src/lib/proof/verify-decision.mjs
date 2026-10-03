@@ -363,7 +363,7 @@ export function verifyDecision(text, options = {}) {
       label: "Signature",
       status: ok ? "pass" : "fail",
       detail,
-      values: { key_id: String(sig.key_id ?? "—"), public_key: key || "(missing)", key_source: pinned ? "pinned" : "file" },
+      values: { key_id: String(sig.key_id ?? "n/a"), public_key: key || "(missing)", key_source: pinned ? "pinned" : "file" },
     });
   }
 
@@ -422,8 +422,8 @@ export function verifyDecision(text, options = {}) {
       status,
       detail,
       values: {
-        method: String(anchor.method ?? "—"),
-        status: String(anchor.status ?? "—"),
+        method: String(anchor.method ?? "n/a"),
+        status: String(anchor.status ?? "n/a"),
         proof_url: String(anchor.proof_url ?? ""),
         root: String(bundle.batch?.merkle_root ?? merkle?.root ?? ""),
       },

@@ -5,7 +5,7 @@ import { Section } from "@/components/ui/section";
 import { CONTACT_EMAIL } from "@/lib/env";
 
 export const metadata: Metadata = {
-  title: "Careers — Provd",
+  title: "Careers | Provd",
   description: "Provd is not hiring yet.",
 };
 

@@ -1,7 +1,7 @@
 const LOSSES = [
   {
     title: "Reversals after release",
-    body: "The buyer's local payment — mobile money, Pix, UPI or a bank transfer — is pulled back after the crypto has gone out.",
+    body: "The buyer's local payment (mobile money, Pix, UPI or a bank transfer) is pulled back after the crypto has gone out.",
   },
   {
     title: "Fake payment confirmations",

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { TopupReference } from "./TopupReference";
 
 export const metadata: Metadata = {
-  title: "Payment received — Provd",
+  title: "Payment received | Provd",
   description: "Your card payment is being confirmed.",
   robots: { index: false, follow: false },
 };
@@ -13,7 +13,7 @@ export default function TopupCompletePage() {
     <main className="bg-white">
       <section className="pb-24 pt-28">
         <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <h1 className="mb-5 font-display text-4xl leading-[1.05] text-text-primary md:text-5xl">Thanks — payment received.</h1>
+          <h1 className="mb-5 font-display text-4xl leading-[1.05] text-text-primary md:text-5xl">Thanks, payment received.</h1>
           <div className="space-y-4 text-lg leading-relaxed text-text-secondary">
             <p>
               Your checks are credited as soon as Paystack confirms the charge, usually within a minute. You can close

@@ -13,11 +13,11 @@ const CAPABILITIES: Capability[] = [
   },
   {
     title: "Your history counts",
-    body: "Report reversals and confirmed fraud, and future checks learn from them. Your data stays yours — it is never pooled with other platforms.",
+    body: "Report reversals and confirmed fraud, and future checks learn from them. Your data stays yours and is never pooled with other platforms.",
   },
   {
     title: "Decision records",
-    body: "Every check is hashed, signed and timestamped on Bitcoin, so you can prove to an auditor or regulator what was checked and when — without trusting us.",
+    body: "Every check is hashed, signed and timestamped on Bitcoin, so you can prove to an auditor or regulator what was checked and when, without having to trust us.",
     link: { href: "/verify", label: "Verify a decision" },
   },
   {
@@ -64,13 +64,13 @@ export default function Capabilities() {
               ))}
             </ul>
             <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-              Agent-ready API — the same intents work for automated agents.
+              Agent-ready API: the same intents work for automated agents.
             </p>
           </div>
         </div>
 
         <p className="mt-10 max-w-3xl border-l-2 border-text-primary pl-5 text-[16px] leading-relaxed text-text-primary sm:text-[17px]">
-          Device identity is not our layer — we work alongside device-trust providers. We decide whether to release the
+          Device identity is not our layer; we work alongside device-trust providers. We decide whether to release the
           funds.
         </p>
       </div>

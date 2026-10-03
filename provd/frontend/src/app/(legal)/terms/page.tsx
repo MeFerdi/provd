@@ -1,7 +1,7 @@
 import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata = {
-  title: "Terms of Service — Provd",
+  title: "Terms of Service | Provd",
   description: "Terms for using the Provd website, counterparty scanner and API.",
 };
 

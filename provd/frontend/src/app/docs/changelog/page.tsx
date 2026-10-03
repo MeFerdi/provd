@@ -4,7 +4,7 @@ import { fileExists } from "@/lib/content/fs";
 import { notFound } from "next/navigation";
 
 export const metadata = {
-  title: "Changelog — Provd Docs",
+  title: "Changelog | Provd Docs",
 };
 
 export default async function ChangelogPage() {

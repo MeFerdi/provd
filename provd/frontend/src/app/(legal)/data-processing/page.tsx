@@ -1,7 +1,7 @@
 import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata = {
-  title: "Data Processing — Provd",
+  title: "Data Processing | Provd",
   description: "How Provd processes data, and data processing terms for customers.",
 };
 

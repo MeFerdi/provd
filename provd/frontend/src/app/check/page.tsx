@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { CheckClient } from "@/components/check/CheckClient";
 
 export const metadata: Metadata = {
-  title: "Counterparty check — Provd",
+  title: "Counterparty check | Provd",
   description:
     "Free risk check for a Tron wallet: exposure to addresses Tether has frozen, recent USDT activity and a 0–1000 risk score, explained.",
   alternates: { canonical: "/check" },

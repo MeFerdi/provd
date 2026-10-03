@@ -8,7 +8,7 @@ import { docsPathForSlug, renderMdxFile } from "@/lib/content/mdx";
 import { publicOperationGroups, specInfo } from "@/lib/openapi";
 
 export const metadata = {
-  title: "API Reference — Provd Docs",
+  title: "API Reference | Provd Docs",
   description: "Every public Provd endpoint, generated from the OpenAPI spec, plus the risk scale, flag codes and errors.",
   alternates: { canonical: "/docs/api-reference" },
 };

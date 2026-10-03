@@ -54,7 +54,7 @@ function FieldNotes({ row }: { row: FieldRow }) {
   }
   if (row.constraints.length) parts.push(<span key="c" className="text-text-muted">{row.constraints.join(" · ")}</span>);
   if (row.nullable) parts.push(<span key="n" className="text-text-muted">May be null.</span>);
-  if (!parts.length) return <span className="text-text-muted">—</span>;
+  if (!parts.length) return <span className="text-text-muted">n/a</span>;
   return <span className="flex flex-col gap-0.5">{parts}</span>;
 }
 

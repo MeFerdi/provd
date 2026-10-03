@@ -1,7 +1,7 @@
 import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata = {
-  title: "Privacy Policy — Provd",
+  title: "Privacy Policy | Provd",
   description: "What personal data Provd collects, why, and your rights.",
 };
 

@@ -1,7 +1,7 @@
 import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata = {
-  title: "Cookie Policy — Provd",
+  title: "Cookie Policy | Provd",
   description: "Provd does not use tracking cookies.",
 };
 

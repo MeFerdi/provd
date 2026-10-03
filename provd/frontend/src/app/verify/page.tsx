@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { VerifyClient } from "@/components/verify/VerifyClient";
 
 export const metadata: Metadata = {
-  title: "Verify a decision — Provd",
+  title: "Verify a decision | Provd",
   description:
     "Check a Provd decision record in your browser: recompute its hash, verify the secp256k1 signature and fold the Merkle proof to the Bitcoin-anchored batch root.",
   alternates: { canonical: "/verify" },

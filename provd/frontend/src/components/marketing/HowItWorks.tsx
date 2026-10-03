@@ -12,7 +12,7 @@ const STEPS = [
   {
     title: "Decide",
     icon: "/fraud-alert.png",
-    body: "You get a score from 0 to 1000, flags, a recommended action — release, manual review, hold or reject — and a decision record you can verify.",
+    body: "You get a score from 0 to 1000, flags, a recommended action (release, manual review, hold or reject) and a decision record you can verify.",
   },
 ];
 

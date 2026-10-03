@@ -49,9 +49,9 @@ You can only fetch decisions made with your own keys.
 1. **Hash.** The record is serialized as canonical JSON (keys sorted, no whitespace, UTF-8) and hashed with SHA-256. That is `decision_record_hash`, returned the moment you call evaluate.
 2. **Signature.** Provd signs the hash with a dedicated secp256k1 key (compact `r‖s`, low-S). The public key is published at `GET /v1/proof/keys`; pin it in your system.
 3. **Batch.** Every few minutes, new decisions are sealed into a Merkle tree (`leaf = SHA256(0x00‖hash)`, `node = SHA256(0x01‖left‖right)`, odd node promoted). Your record gets an inclusion proof against the batch root.
-4. **Anchor.** The batch root is timestamped on **Bitcoin through OpenTimestamps**. The proof is `pending` straight away and becomes `anchored` once the calendar's Bitcoin transaction confirms, usually within a few hours. Nobody — including Provd — can later change a record without breaking this chain.
+4. **Anchor.** The batch root is timestamped on **Bitcoin through OpenTimestamps**. The proof is `pending` straight away and becomes `anchored` once the calendar's Bitcoin transaction confirms, usually within a few hours. Nobody, including Provd, can later change a record without breaking this chain.
 
-`proof_status` tells you where a record is: `signed — joins the next batch within minutes` → `anchoring` → `anchored`.
+`proof_status` tells you where a record is: `signed: joins the next batch within minutes` → `anchoring` → `anchored`.
 
 ## Verify a record yourself
 
@@ -72,7 +72,7 @@ python verify_decision.py decision.json --public-key <public_key from /v1/proof/
 [..] anchor: opentimestamps anchored bitcoin:block:…
 ```
 
-It exits non-zero if anything fails — change one field in the record and the hash and signature checks fail.
+It exits non-zero if anything fails. Change one field in the record and the hash and signature checks fail.
 
 To check the anchor independently, download the batch proof and use the official OpenTimestamps client:
 

@@ -1,3 +1,4 @@
+import DecisionPreview from "@/components/marketing/DecisionPreview";
 import { Button } from "@/components/ui/button";
 import { FREE_MONTHLY_CHECKS } from "@/lib/pricing";
 
@@ -11,7 +12,7 @@ export default function Hero() {
           </h1>
           <p className="max-w-xl font-sans text-[17px] leading-[1.7] text-text-secondary sm:text-[18px]">
             Risk checks for P2P stablecoin trades, on- and off-ramps and payouts, wherever local payment rails meet
-            stablecoins. Every decision explained, every check on record. Pay as you go —{" "}
+            stablecoins. Every decision explained, every check on record. Pay as you go, with{" "}
             {FREE_MONTHLY_CHECKS} free checks a month.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -22,18 +23,10 @@ export default function Hero() {
               Read the quickstart
             </Button>
           </div>
-          <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, with any local rail — M-Pesa, Pix, UPI, bank transfer.</p>
+          <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
-        <div className="flex min-w-0 justify-center lg:justify-end lg:self-end">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/cyber-investigation-specialist-working-governmental-hacking-room-removebg-preview.png"
-            alt="Risk analyst reviewing a transaction"
-            width={408}
-            height={612}
-            fetchPriority="high"
-            className="pointer-events-none -mt-20 block h-auto w-full max-w-[260px] sm:-mt-24 sm:max-w-[320px] lg:mt-0 lg:max-w-[408px]"
-          />
+        <div className="flex min-w-0 justify-center pb-14 lg:justify-end lg:py-16">
+          <DecisionPreview />
         </div>
       </div>
     </section>
