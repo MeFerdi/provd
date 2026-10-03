@@ -1,0 +1,746 @@
+{
+"30101": {
+"chain_key": "ethereum",
+"name": "Ethereum"
+},
+"30102": {
+"chain_key": "bsc",
+"name": "BNB Chain"
+},
+"30106": {
+"chain_key": "avalanche",
+"name": "Avalanche"
+},
+"30108": {
+"chain_key": "aptos",
+"name": "Aptos"
+},
+"30109": {
+"chain_key": "polygon",
+"name": "Polygon"
+},
+"30110": {
+"chain_key": "arbitrum",
+"name": "Arbitrum"
+},
+"30111": {
+"chain_key": "optimism",
+"name": "Optimism"
+},
+"30112": {
+"chain_key": "fantom",
+"name": "Fantom"
+},
+"30114": {
+"chain_key": "swimmer",
+"name": "Swimmer"
+},
+"30115": {
+"chain_key": "dfk",
+"name": "DFK"
+},
+"30116": {
+"chain_key": "harmony",
+"name": "Harmony"
+},
+"30118": {
+"chain_key": "dexalot",
+"name": "Dexalot Subnet"
+},
+"30125": {
+"chain_key": "celo",
+"name": "Celo Mainnet"
+},
+"30126": {
+"chain_key": "moonbeam",
+"name": "Moonbeam"
+},
+"30138": {
+"chain_key": "fuse",
+"name": "Fuse Mainnet"
+},
+"30145": {
+"chain_key": "gnosis",
+"name": "Gnosis"
+},
+"30148": {
+"chain_key": "shrapnel",
+"name": "Shrapnel Subnet"
+},
+"30149": {
+"chain_key": "dos",
+"name": "DOS Chain"
+},
+"30150": {
+"chain_key": "klaytn",
+"name": "Kaia Mainnet Cypress"
+},
+"30151": {
+"chain_key": "metis",
+"name": "Metis"
+},
+"30152": {
+"chain_key": "intain",
+"name": "intain"
+},
+"30153": {
+"chain_key": "coredao",
+"name": "Core Blockchain Mainnet"
+},
+"30155": {
+"chain_key": "okx",
+"name": "OKXChain Mainnet"
+},
+"30158": {
+"chain_key": "zkevm",
+"name": "Polygon zkEVM"
+},
+"30159": {
+"chain_key": "canto",
+"name": "Canto"
+},
+"30161": {
+"chain_key": "sepolia",
+"name": "Sepolia"
+},
+"30165": {
+"chain_key": "zksync",
+"name": "zkSync Era Mainnet"
+},
+"30167": {
+"chain_key": "moonriver",
+"name": "Moonriver"
+},
+"30168": {
+"chain_key": "solana",
+"name": "solana"
+},
+"30173": {
+"chain_key": "tenet",
+"name": "Tenet"
+},
+"30175": {
+"chain_key": "nova",
+"name": "Arbitrum Nova"
+},
+"30176": {
+"chain_key": "meter",
+"name": "Meter Mainnet"
+},
+"30177": {
+"chain_key": "kava",
+"name": "Kava"
+},
+"30181": {
+"chain_key": "mantle",
+"name": "Mantle"
+},
+"30182": {
+"chain_key": "hubble",
+"name": "hubble"
+},
+"30183": {
+"chain_key": "linea",
+"name": "Linea"
+},
+"30184": {
+"chain_key": "base",
+"name": "Base"
+},
+"30195": {
+"chain_key": "zora",
+"name": "Zora"
+},
+"30196": {
+"chain_key": "tomo",
+"name": "Viction"
+},
+"30197": {
+"chain_key": "loot",
+"name": "loot"
+},
+"30198": {
+"chain_key": "beam",
+"name": "Merit Circle"
+},
+"30199": {
+"chain_key": "telos",
+"name": "TelosEVM"
+},
+"30202": {
+"chain_key": "opbnb",
+"name": "opBNB Mainnet"
+},
+"30210": {
+"chain_key": "astar",
+"name": "Astar"
+},
+"30211": {
+"chain_key": "aurora",
+"name": "Aurora Mainnet"
+},
+"30212": {
+"chain_key": "conflux",
+"name": "Conflux eSpace"
+},
+"30213": {
+"chain_key": "orderly",
+"name": "Orderly Mainnet"
+},
+"30214": {
+"chain_key": "scroll",
+"name": "Scroll"
+},
+"30215": {
+"chain_key": "eon",
+"name": "Horizen EON Mainnet"
+},
+"30216": {
+"chain_key": "xpla",
+"name": "XPLA Mainnet"
+},
+"30217": {
+"chain_key": "manta",
+"name": "Manta"
+},
+"30218": {
+"chain_key": "pgn",
+"name": "PGN (Public Goods Network)"
+},
+"30230": {
+"chain_key": "shimmer",
+"name": "shimmer"
+},
+"30234": {
+"chain_key": "bb1",
+"name": "Injective"
+},
+"30235": {
+"chain_key": "rarible",
+"name": "Rari Chain"
+},
+"30236": {
+"chain_key": "xai",
+"name": "xai"
+},
+"30237": {
+"chain_key": "real",
+"name": "real"
+},
+"30238": {
+"chain_key": "tiltyard",
+"name": "tiltyard"
+},
+"30243": {
+"chain_key": "blast",
+"name": "Blast"
+},
+"30255": {
+"chain_key": "fraxtal",
+"name": "Fraxtal"
+},
+"30257": {
+"chain_key": "zkatana",
+"name": "Astar zkEVM"
+},
+"30260": {
+"chain_key": "mode",
+"name": "Mode"
+},
+"30263": {
+"chain_key": "masa",
+"name": "masa"
+},
+"30265": {
+"chain_key": "homeverse",
+"name": "homeverse"
+},
+"30266": {
+"chain_key": "merlin",
+"name": "merlin"
+},
+"30267": {
+"chain_key": "degen",
+"name": "degen"
+},
+"30273": {
+"chain_key": "skale",
+"name": "skale"
+},
+"30274": {
+"chain_key": "xlayer",
+"name": "xlayer"
+},
+"30278": {
+"chain_key": "sanko",
+"name": "sanko"
+},
+"30279": {
+"chain_key": "bob",
+"name": "bob"
+},
+"30280": {
+"chain_key": "sei",
+"name": "sei"
+},
+"30282": {
+"chain_key": "ebi",
+"name": "EBI"
+},
+"30283": {
+"chain_key": "cyber",
+"name": "cyber"
+},
+"30284": {
+"chain_key": "iota",
+"name": "IOTA EVM"
+},
+"30285": {
+"chain_key": "joc",
+"name": "joc"
+},
+"30290": {
+"chain_key": "taiko",
+"name": "taiko"
+},
+"30291": {
+"chain_key": "xchain",
+"name": "xchain"
+},
+"30292": {
+"chain_key": "etherlink",
+"name": "etherlink"
+},
+"30293": {
+"chain_key": "bouncebit",
+"name": "bouncebit"
+},
+"30294": {
+"chain_key": "gravity",
+"name": "gravity"
+},
+"30295": {
+"chain_key": "flare",
+"name": "flare"
+},
+"30301": {
+"chain_key": "zklink",
+"name": "zklink"
+},
+"30302": {
+"chain_key": "peaq",
+"name": "peaq"
+},
+"30303": {
+"chain_key": "zircuit",
+"name": "zircuit"
+},
+"30309": {
+"chain_key": "lightlink",
+"name": "lightlink"
+},
+"30311": {
+"chain_key": "lyra",
+"name": "lyra"
+},
+"30312": {
+"chain_key": "ape",
+"name": "ape"
+},
+"30313": {
+"chain_key": "reya",
+"name": "reya"
+},
+"30314": {
+"chain_key": "bitlayer",
+"name": "bitlayer"
+},
+"30315": {
+"chain_key": "dm2verse",
+"name": "dm2verse"
+},
+"30316": {
+"chain_key": "hedera",
+"name": "hedera"
+},
+"30317": {
+"chain_key": "bevm",
+"name": "bevm"
+},
+"30318": {
+"chain_key": "plume",
+"name": "plume"
+},
+"30319": {
+"chain_key": "worldchain",
+"name": "worldchain"
+},
+"30320": {
+"chain_key": "unichain",
+"name": "unichain"
+},
+"30321": {
+"chain_key": "lisk",
+"name": "lisk"
+},
+"30322": {
+"chain_key": "morph",
+"name": "morph"
+},
+"30323": {
+"chain_key": "codex",
+"name": "codex"
+},
+"30324": {
+"chain_key": "abstract",
+"name": "abstract"
+},
+"30325": {
+"chain_key": "movement",
+"name": "movement"
+},
+"30326": {
+"chain_key": "initia",
+"name": "initia"
+},
+"30327": {
+"chain_key": "superposition",
+"name": "superposition"
+},
+"30328": {
+"chain_key": "edu",
+"name": "edu"
+},
+"30329": {
+"chain_key": "hemi",
+"name": "hemi"
+},
+"30330": {
+"chain_key": "islander",
+"name": "islander"
+},
+"30331": {
+"chain_key": "mp1",
+"name": "Corn"
+},
+"30332": {
+"chain_key": "sonic",
+"name": "sonic"
+},
+"30333": {
+"chain_key": "rootstock",
+"name": "rootstock"
+},
+"30334": {
+"chain_key": "sophon",
+"name": "sophon"
+},
+"30335": {
+"chain_key": "swell",
+"name": "swell"
+},
+"30336": {
+"chain_key": "flow",
+"name": "flow"
+},
+"30337": {
+"chain_key": "bl4",
+"name": "bl4"
+},
+"30338": {
+"chain_key": "bl5",
+"name": "bl5"
+},
+"30339": {
+"chain_key": "ink",
+"name": "ink"
+},
+"30340": {
+"chain_key": "soneium",
+"name": "soneium"
+},
+"30341": {
+"chain_key": "space",
+"name": "space"
+},
+"30342": {
+"chain_key": "glue",
+"name": "glue"
+},
+"30343": {
+"chain_key": "ton",
+"name": "ton"
+},
+"30359": {
+"chain_key": "cronosevm",
+"name": "cronosevm"
+},
+"30360": {
+"chain_key": "cronoszkevm",
+"name": "cronoszkevm"
+},
+"30361": {
+"chain_key": "goat",
+"name": "goat"
+},
+"30362": {
+"chain_key": "bera",
+"name": "bera"
+},
+"30363": {
+"chain_key": "bahamut",
+"name": "bahamut"
+},
+"30364": {
+"chain_key": "story",
+"name": "Data"
+},
+"30365": {
+"chain_key": "xdc",
+"name": "xdc"
+},
+"30366": {
+"chain_key": "concrete",
+"name": "concrete"
+},
+"30367": {
+"chain_key": "hyperliquid",
+"name": "hyperliquid"
+},
+"30369": {
+"chain_key": "nibiru",
+"name": "nibiru"
+},
+"30370": {
+"chain_key": "plumephoenix",
+"name": "plumephoenix"
+},
+"30371": {
+"chain_key": "gunz",
+"name": "gunz"
+},
+"30372": {
+"chain_key": "animechain",
+"name": "animechain"
+},
+"30373": {
+"chain_key": "lens",
+"name": "lens"
+},
+"30374": {
+"chain_key": "subtensorevm",
+"name": "subtensorevm"
+},
+"30375": {
+"chain_key": "katana",
+"name": "katana"
+},
+"30376": {
+"chain_key": "botanix",
+"name": "botanix"
+},
+"30377": {
+"chain_key": "tac",
+"name": "tac"
+},
+"30378": {
+"chain_key": "sui",
+"name": "sui"
+},
+"30379": {
+"chain_key": "silicon",
+"name": "silicon"
+},
+"30380": {
+"chain_key": "somnia",
+"name": "somnia"
+},
+"30381": {
+"chain_key": "camp",
+"name": "camp"
+},
+"30382": {
+"chain_key": "humanity",
+"name": "humanity"
+},
+"30383": {
+"chain_key": "plasma",
+"name": "plasma"
+},
+"30384": {
+"chain_key": "apexfusionnexus",
+"name": "apexfusionnexus"
+},
+"30385": {
+"chain_key": "dinari",
+"name": "dinari"
+},
+"30386": {
+"chain_key": "zkverify",
+"name": "zkVerify"
+},
+"30388": {
+"chain_key": "og",
+"name": "0G"
+},
+"30389": {
+"chain_key": "gatelayer",
+"name": "gatelayer"
+},
+"30390": {
+"chain_key": "monad",
+"name": "monad"
+},
+"30391": {
+"chain_key": "ethereal",
+"name": "ethereal"
+},
+"30392": {
+"chain_key": "openledger",
+"name": "openledger"
+},
+"30393": {
+"chain_key": "doma",
+"name": "doma"
+},
+"30394": {
+"chain_key": "injectiveevm",
+"name": "injectiveevm"
+},
+"30395": {
+"chain_key": "nexera",
+"name": "nexera"
+},
+"30396": {
+"chain_key": "stable",
+"name": "stable"
+},
+"30397": {
+"chain_key": "zama",
+"name": "zama"
+},
+"30398": {
+"chain_key": "megaeth",
+"name": "megaeth"
+},
+"30399": {
+"chain_key": "horizen",
+"name": "horizen"
+},
+"30400": {
+"chain_key": "converge",
+"name": "converge"
+},
+"30401": {
+"chain_key": "rise",
+"name": "rise"
+},
+"30402": {
+"chain_key": "redbelly",
+"name": "redbelly"
+},
+"30403": {
+"chain_key": "citrea",
+"name": "citrea"
+},
+"30404": {
+"chain_key": "moca",
+"name": "moca"
+},
+"30405": {
+"chain_key": "sagaevm",
+"name": "sagaevm"
+},
+"30406": {
+"chain_key": "kite",
+"name": "kite"
+},
+"30407": {
+"chain_key": "pharos",
+"name": "pharos"
+},
+"30408": {
+"chain_key": "irys",
+"name": "irys"
+},
+"30409": {
+"chain_key": "chiliz",
+"name": "chiliz"
+},
+"30410": {
+"chain_key": "tempo",
+"name": "tempo"
+},
+"30412": {
+"chain_key": "gensyn",
+"name": "gensyn"
+},
+"30413": {
+"chain_key": "ault",
+"name": "ault"
+},
+"30414": {
+"chain_key": "neox",
+"name": "neox"
+},
+"30415": {
+"chain_key": "rayls",
+"name": "rayls"
+},
+"30416": {
+"chain_key": "robinhood",
+"name": "robinhood"
+},
+"30417": {
+"chain_key": "arc",
+"name": "arc"
+},
+"30418": {
+"chain_key": "adi",
+"name": "Chain A"
+},
+"30420": {
+"chain_key": "tron",
+"name": "Tron"
+},
+"30423": {
+"chain_key": "iotal1",
+"name": "IOTA L1"
+},
+"30461": {
+"chain_key": "onemoney",
+"name": "onemoney"
+},
+"30462": {
+"chain_key": "ritual",
+"name": "ritual"
+},
+"30464": {
+"chain_key": "opn",
+"name": "opn"
+},
+"30465": {
+"chain_key": "anubis",
+"name": "anubis"
+},
+"30466": {
+"chain_key": "memecore",
+"name": "memecore"
+},
+"30467": {
+"chain_key": "hashkey",
+"name": "hashkey"
+},
+"30500": {
+"chain_key": "starknet",
+"name": "starknet"
+},
+"30567": {
+"chain_key": "canton",
+"name": "canton"
+},
+"30600": {
+"chain_key": "stellar",
+"name": "stellar"
+}
+}

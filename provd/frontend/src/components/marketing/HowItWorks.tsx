@@ -1,59 +1,48 @@
-import Image from "next/image";
-
-import { AnimatedCard } from "./AnimatedCard";
-import { Container } from "../ui/container";
-import { Section } from "../ui/section";
-import { Card, CardContent } from "../ui/card";
+const STEPS = [
+  {
+    title: "Read",
+    icon: "/assets/query.png",
+    body: "Pull verifier sets, libraries, owners and delegates straight from the contracts.",
+  },
+  {
+    title: "Rate",
+    icon: "/assets/rating.png",
+    body: "Explainable rules turn configuration into a grade from A to F, with findings and evidence.",
+  },
+  {
+    title: "Alert",
+    icon: "/fraud-alert.png",
+    body: "Get notified when a protocol you depend on changes — a verifier removed, an admin key swapped, a new weak route opened.",
+  },
+];
 
 export default function HowItWorks() {
-	return (
-		<section className="py-28 bg-bg-base">
-			<div className="max-w-5xl mx-auto px-4 text-center">
-				<div className="font-mono text-[11px] text-accent tracking-[0.15em] mb-2">
-					REQUEST LIFECYCLE
-				</div>
-				<h2 className="font-display text-[36px] md:text-[48px] text-text-primary mb-12">
-					How a single API call changes your approval decision.
-				</h2>
-				<div className="flex flex-col md:flex-row gap-0 divide-y md:divide-y-0 md:divide-x divide-bg-border">
-					<div className="flex-1 px-8 py-10">
-						<div className="font-mono text-[11px] text-text-muted mb-2">01</div>
-						<div className="flex items-center justify-center mb-4">
-							<Image src="/assets/query.png" alt="Query" width={48} height={48} />
-						</div>
-						<div className="font-sans font-medium text-[20px] text-text-primary mb-2">
-							Ingest
-						</div>
-						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Before a trade releases, your platform sends counterparty identifiers, wallet address, hashed phone, payment rail, and trade context. Nothing raw leaves your environment.
-						</div>
-					</div>
-					<div className="flex-1 px-8 py-10">
-						<div className="font-mono text-[11px] text-text-muted mb-2">02</div>
-						<div className="flex items-center justify-center mb-4">
-							<Image src="/assets/check.png" alt="Analyse" width={48} height={48} />
-						</div>
-						<div className="font-sans font-medium text-[20px] text-text-primary mb-2">
-							Evaluate
-						</div>
-						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Provd scores the counterparty against network-wide dispute history, linked identifiers, and cross-platform fraud signals, intelligence your platform alone could never generate.
-						</div>
-					</div>
-					<div className="flex-1 px-8 py-10">
-						<div className="font-mono text-[11px] text-text-muted mb-2">03</div>
-						<div className="flex items-center justify-center mb-4">
-							<Image src="/assets/rating.png" alt="Score" width={48} height={48} />
-						</div>
-						<div className="font-sans font-medium text-[20px] text-text-primary mb-2">
-							Respond
-						</div>
-						<div className="font-sans text-[15px] text-text-secondary leading-relaxed">
-							Your platform receives a precision score, reason flags, and a recommended action, so you approve the trades you should, and only hold the ones that warrant it.
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+  return (
+    <section id="how-it-works" className="scroll-mt-20 border-b border-bg-border bg-white py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+        <h2 className="mx-auto mb-4 max-w-2xl font-display text-[32px] leading-tight text-text-primary md:text-[44px]">
+          Read, rate, alert.
+        </h2>
+        <p className="mx-auto max-w-2xl text-[16px] leading-relaxed text-text-secondary">
+          The rules are public:{" "}
+          <a href="/methodology" className="text-accent-secondary hover:underline">
+            read the methodology
+          </a>
+          .
+        </p>
+        <ol className="mt-10 flex flex-col divide-y divide-bg-border md:flex-row md:divide-x md:divide-y-0">
+          {STEPS.map(({ title, icon, body }) => (
+            <li key={title} className="flex-1 px-6 py-10 md:px-8">
+              <div className="mb-5 flex justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={icon} alt="" width={48} height={48} loading="lazy" className="h-12 w-12" />
+              </div>
+              <h3 className="mb-2 font-sans text-[20px] font-medium text-text-primary">{title}</h3>
+              <p className="mx-auto max-w-xs font-sans text-[15px] leading-relaxed text-text-secondary">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
 }

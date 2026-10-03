@@ -1,25 +1,23 @@
-import Hero from "../components/marketing/Hero";
-import Stats from "../components/marketing/Stats";
-import PartnerCarousel from "../components/marketing/PartnerCarousel";
-import HowItWorks from "../components/marketing/HowItWorks";
-import FraudTypes from "../components/marketing/FraudTypes";
-import ApiSnippet from "../components/marketing/ApiSnippet";
-import Pricing from "../components/marketing/Pricing";
-import TrustSignals from "../components/marketing/TrustSignals";
-import CTA from "../components/marketing/CTA";
+import Audience from "@/components/marketing/Audience";
+import EarlyAccessSection from "@/components/marketing/EarlyAccessSection";
+import Hero from "@/components/marketing/Hero";
+import HowItWorks from "@/components/marketing/HowItWorks";
+import KelpCase from "@/components/marketing/KelpCase";
+import Monitoring from "@/components/marketing/Monitoring";
+import Principles from "@/components/marketing/Principles";
+import ProductShots from "@/components/marketing/ProductShots";
 
 export default function HomePage() {
   return (
-    <main className="bg-bg-base">
+    <main className="bg-white">
       <Hero />
-      <Stats />
-      <PartnerCarousel />
       <HowItWorks />
-      <FraudTypes />
-      <ApiSnippet />
-      <Pricing />
-      <TrustSignals />
-      <CTA />
+      <KelpCase />
+      <ProductShots />
+      <Monitoring />
+      <Audience />
+      <Principles />
+      <EarlyAccessSection />
     </main>
   );
 }

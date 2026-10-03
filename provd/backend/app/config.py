@@ -1,10 +1,14 @@
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    # backend/.env, found regardless of the directory the process starts in.
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).resolve().parents[1] / ".env", env_file_encoding="utf-8", extra="ignore"
+    )
 
     app_env: str = Field(default="development", validation_alias=AliasChoices("APP_ENV", "ENVIRONMENT"))
 
@@ -23,28 +27,22 @@ class Settings(BaseSettings):
     dev_client_id: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_ID"))
     dev_client_secret: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_SECRET"))
     dev_client_role: str = Field(default="service")
-    dev_client_scopes: list[str] = Field(default_factory=lambda: ["trust:read"])
+    dev_client_scopes: list[str] = Field(default_factory=lambda: ["ratings:read"])
     bootstrap_admin_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_ID"))
     bootstrap_admin_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_CLIENT_SECRET"))
     bootstrap_admin_role: str = Field(default="admin", validation_alias=AliasChoices("BOOTSTRAP_ADMIN_ROLE"))
     bootstrap_admin_scopes_raw: str = Field(
-        default="keys:read,keys:write,trust:read,dispute:analyze",
+        default="keys:read,keys:write,ratings:read,alerts:manage",
         validation_alias=AliasChoices("BOOTSTRAP_ADMIN_SCOPES"),
     )
     bootstrap_client_client_id: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_ID"))
     bootstrap_client_client_secret: str = Field(default="", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_CLIENT_SECRET"))
     bootstrap_client_role: str = Field(default="client", validation_alias=AliasChoices("BOOTSTRAP_CLIENT_ROLE"))
     bootstrap_client_scopes_raw: str = Field(
-        default="trust:read",
+        default="ratings:read",
         validation_alias=AliasChoices("BOOTSTRAP_CLIENT_SCOPES"),
     )
 
-    celery_broker_url: str = Field(default="redis://redis:6379/0", validation_alias=AliasChoices("CELERY_BROKER_URL"))
-    celery_result_backend: str = Field(default="redis://redis:6379/1", validation_alias=AliasChoices("CELERY_RESULT_BACKEND"))
-    celery_task_max_retries: int = Field(default=3, validation_alias=AliasChoices("CELERY_TASK_MAX_RETRIES"))
-    celery_task_retry_backoff: int = Field(default=2, validation_alias=AliasChoices("CELERY_TASK_RETRY_BACKOFF"))
-    celery_task_time_limit_seconds: int = Field(default=120, validation_alias=AliasChoices("CELERY_TASK_TIME_LIMIT_SECONDS"))
-    celery_task_soft_time_limit_seconds: int = Field(default=90, validation_alias=AliasChoices("CELERY_TASK_SOFT_TIME_LIMIT_SECONDS"))
     sentry_dsn: str = Field(default="", validation_alias=AliasChoices("SENTRY_DSN"))
 
     ml_inference_enabled: bool = Field(default=False, validation_alias=AliasChoices("ML_INFERENCE_ENABLED"))
@@ -52,6 +50,30 @@ class Settings(BaseSettings):
     ml_inference_timeout_seconds: float = Field(default=2.0, validation_alias=AliasChoices("ML_INFERENCE_TIMEOUT_SECONDS"))
 
     cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+
+    rate_limit_backend: str = Field(default="memory", validation_alias=AliasChoices("RATE_LIMIT_BACKEND"))
+    trust_proxy_headers: bool = Field(default=False, validation_alias=AliasChoices("TRUST_PROXY_HEADERS"))
+
+    scan_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("SCAN_RATE_LIMIT_PER_MINUTE"))
+    early_access_rate_limit_per_hour: int = Field(default=5, validation_alias=AliasChoices("EARLY_ACCESS_RATE_LIMIT_PER_HOUR"))
+
+    # Comma-separated JSON-RPC URLs per chain, tried in order. No chain endpoint is hardcoded in code.
+    ethereum_rpc_urls_raw: str = Field(
+        default="https://ethereum-rpc.publicnode.com,https://eth.drpc.org,https://eth.merkle.io",
+        validation_alias=AliasChoices("ETHEREUM_RPC_URLS"),
+    )
+    rpc_timeout_seconds: float = Field(default=20.0, validation_alias=AliasChoices("RPC_TIMEOUT_SECONDS"))
+    monitor_interval_seconds: int = Field(default=900, validation_alias=AliasChoices("MONITOR_INTERVAL_SECONDS"))
+
+    # Where change alerts go. Both optional; with neither set, alerts are only logged and stored.
+    alert_webhook_url: str = Field(default="", validation_alias=AliasChoices("ALERT_WEBHOOK_URL"))
+    telegram_bot_token: str = Field(default="", validation_alias=AliasChoices("TELEGRAM_BOT_TOKEN"))
+    telegram_alert_chat_id: str = Field(default="", validation_alias=AliasChoices("TELEGRAM_ALERT_CHAT_ID"))
+    public_site_url: str = Field(default="https://provd.tech", validation_alias=AliasChoices("PUBLIC_SITE_URL"))
+
+    @property
+    def ethereum_rpc_urls(self) -> list[str]:
+        return [url.strip() for url in self.ethereum_rpc_urls_raw.split(",") if url.strip()]
 
     @property
     def bootstrap_admin_scopes(self) -> list[str]:

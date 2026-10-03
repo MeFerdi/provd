@@ -1,62 +1,29 @@
-import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { getCareersContent } from "@/lib/content/careers";
+import { CONTACT_EMAIL } from "@/lib/env";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Careers — Provd",
+  description: "Provd is not hiring yet.",
 };
 
 export default function CareersPage() {
-  const content = getCareersContent();
-
   return (
-    <>
-      <Section className="border-b border-bg-border pt-14 pb-16" padded={false}>
-        <Container>
-          <div className="max-w-2xl">
-            <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">{content.status.eyebrow}</div>
-            <h1 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.05] mb-5">
-              {content.status.title}
-            </h1>
-            <p className="text-text-secondary text-lg">
-              {content.status.description}
-            </p>
-            <div className="mt-8">
-              <Button size="lg" href="/about">
-                Learn more about Provd
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container>
-          <div className="rounded-2xl border border-bg-border bg-bg-surface/50">
-            <div className="p-6 md:p-8 border-b border-bg-border">
-              <div className="font-sans font-semibold text-text-primary">{content.areas_intro.title}</div>
-              <div className="text-sm text-text-secondary mt-1">{content.areas_intro.description}</div>
-            </div>
-            <div className="grid gap-0 md:grid-cols-2">
-              {content.areas.map((area, index) => (
-                <div
-                  key={area.title}
-                  className={`p-6 md:p-8 ${index < 2 ? "md:border-b" : ""} ${
-                    index % 2 === 0 ? "md:border-r" : ""
-                  } border-bg-border`}
-                >
-                  <div className="font-sans font-semibold text-text-primary">{area.title}</div>
-                  <div className="text-sm text-text-secondary mt-2 leading-relaxed">{area.body}</div>
-                </div>
-              ))}
-            </div>
-            <div className="border-t border-bg-border p-6 md:p-8">
-              <div className="text-sm text-text-secondary">{content.footer_note}</div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-    </>
+    <Section className="pb-24 pt-28" padded={false}>
+      <Container size="default" className="px-4 sm:px-6">
+        <div className="max-w-2xl">
+          <h1 className="mb-5 font-display text-4xl leading-[1.05] text-text-primary md:text-6xl">We&apos;re not hiring yet.</h1>
+          <p className="text-lg text-text-secondary">
+            If you work on cross-chain security and want to talk, say hello at{" "}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-secondary hover:underline">
+              {CONTACT_EMAIL}
+            </a>
+            .
+          </p>
+        </div>
+      </Container>
+    </Section>
   );
 }

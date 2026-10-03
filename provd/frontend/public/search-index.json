@@ -1,59 +1,36 @@
 {
-  "generatedAt": "2026-04-16T05:18:10.018Z",
+  "generatedAt": "2026-10-03T06:52:07.016Z",
   "records": [
-    {
-      "type": "docs",
-      "url": "/docs/api-access",
-      "title": "API Access",
-      "description": "Platform status, development roadmap, and beta access expectations.",
-      "date": "",
-      "tags": [],
-      "headings": [
-        "Current status",
-        "What is being built",
-        "What to expect before beta",
-        "Beta notifications",
-        "Recommended next step"
-      ],
-      "body": "\n## Current status\n\nProvd is still under active development. Public API access is not open yet, and the platform is not currently available for general beta testing or production use.\n\nThe current website and documentation outline the intended product direction, integration model, and system design so partners and early supporters can understand where the platform is heading.\n\n## What is being built\n\nThe Provd API is being designed as a fraud-intelligence layer for African P2P crypto, stablecoin, and OTC workflows. The intended surface area includes:\n\n- Counterparty risk scoring before release\n- Risk flags and decision support for operator workflows\n- Dispute and outcome intelligence\n- Audit-oriented response data for review teams\n\n## What to expect before beta\n\nBefore beta access opens, the public site will focus on:\n\n- Product direction\n- Technical documentation and integration intent\n- Policy and legal documentation\n- Architecture and workflow communication\n\nThis means some API details may continue to evolve while the platform is still being built.\n\n## Beta notifications\n\nOnce Provd is ready for beta testing and early usage, updates will be shared through the project communications channel.\n\nThat channel will be used to announce:\n\n- beta availability\n- onboarding timing\n- access criteria\n- implementation updates\n\n## Recommended next step\n\nIf you are evaluating the product now, the best place to start is the broader documentation set:\n\n- [Documentation overview](/docs)\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n- [Technical Whitepaper](/whitepaper)\n"
-    },
     {
       "type": "docs",
       "url": "/docs/api-reference",
       "title": "API Reference",
-      "description": "Endpoints, fields, and responses.",
+      "description": "Endpoints, response shapes and errors for the Provd API.",
       "date": "",
       "tags": [],
       "headings": [
-        "Authentication",
-        "POST /api/v1/trust/score",
-        "Request fields",
-        "Example request",
-        "Response fields",
-        "Example response",
-        "POST /api/v1/dispute/analyze",
-        "Key management endpoints",
-        "Notes"
+        "Endpoints",
+        "POST /scan",
+        "POST /early-access",
+        "Errors",
+        "Types",
+        "Field notes"
       ],
-      "body": "\nBase path: `/api/v1`\n\n## Authentication\n\nProtected endpoints accept either:\n\n- `Authorization: Bearer <jwt_token>`\n- `X-API-Key: <api_key>`\n\n## POST /api/v1/trust/score\n\nRequired scope: `trust:read`\n\nReturns a counterparty risk score and reason flags for a trade context.\n\n### Request fields\n\n- `entity_id` (string)\n- `amount` (number)\n- `currency` (string)\n- `context` (object)\n\n### Example request\n\n \n\n### Response fields\n\n- `score` (number)\n- `risk_level` (string)\n- `signals` (array)\n- `cached` (boolean)\n\n### Example response\n\n \n\n## POST /api/v1/dispute/analyze\n\nRequired scope: `dispute:analyze`\n\nReturns a recommendation and confidence score for a dispute case.\n\n## Key management endpoints\n\n- `GET /api/v1/keys` (scope: `keys:read`)\n- `POST /api/v1/keys` (scope: `keys:write`)\n- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)\n\n## Notes\n\n- Call this endpoint before releasing crypto or fiat.\n- Treat `risk_flags` as operator-facing reasons, not just UI labels.\n- Pair this endpoint with your internal review and dispute workflows.\n"
+      "body": "\nAll endpoints live under `/api/v1` and return JSON. Timestamps are ISO 8601 in UTC. Addresses are 0x-prefixed hex.\n\n## Endpoints\n\n| Method | Path | Returns |\n|---|---|---|\n| `GET` | `/api/v1/protocols` | `ProtocolList` |\n| `GET` | `/api/v1/protocols/{slug}` | `ProtocolDetail` |\n| `POST` | `/api/v1/scan` | `Posture` |\n| `POST` | `/api/v1/early-access` | `201` with `{\"ok\": true}` |\n\n### POST /scan\n\nRequest body:\n\n \n\n`chain` is `ethereum` today.\n\n### POST /early-access\n\nRequest body:\n\n \n\n## Errors\n\n| Status | Meaning |\n|---|---|\n| `404` | Unknown protocol slug. |\n| `422` | Invalid input, for example a malformed address or a contract that is not a LayerZero OApp. The `detail` field explains why. |\n| `429` | Rate limited. Retry later with backoff. |\n| `502` / `504` | The upstream RPC could not be reached or timed out. Retry later. |\n\nError bodies have the form `{\"detail\": \"…\"}`.\n\n## Types\n\n \n\n## Field notes\n\n- `effective_verifiers` is the number of independent verifier attestations a message needs on that side of the route: required DVNs plus the optional threshold. A value of `1` is what the `LZ-SINGLE-VERIFIER` rule flags.\n- `is_default_library` is `true` when the route inherits LayerZero's default configuration rather than an explicit one.\n- `rule_id` values and their severities are listed in the [methodology](/methodology).\n"
     },
     {
       "type": "docs",
       "url": "/docs/authentication",
       "title": "Authentication",
-      "description": "JWT bearer tokens, API keys, and scope-based access control.",
+      "description": "Access, rate limits and API keys.",
       "date": "",
       "tags": [],
       "headings": [
-        "Authentication methods",
-        "Get a bearer token",
+        "Public endpoints",
         "API keys",
-        "Authorization model",
-        "Hashing",
-        "Recommended pattern",
-        "Related docs"
+        "Good practice"
       ],
-      "body": "\n## Authentication methods\n\nProvd supports two auth methods:\n\n1. **Bearer JWT** (recommended for operator/admin clients)\n2. **API key via `X-API-Key`** (recommended for service-to-service calls)\n\n## Get a bearer token\n\nRequest:\n\n \n\nResponse includes:\n\n- `access_token`\n- `token_type`\n- `expires_in`\n- `scopes`\n- `role`\n\nUse it in requests:\n\n \n\n## API keys\n\nCreate and manage API keys through `/api/v1/keys` (requires key management permissions).\n\nUse them in requests:\n\n \n\n## Authorization model\n\nAccess is controlled by **scopes** (and optionally role).\n\nCurrent protected scopes:\n\n- `keys:read` — list keys\n- `keys:write` — create/deactivate keys\n- `trust:read` — call trust scoring endpoint\n- `dispute:analyze` — call dispute analysis endpoint\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n## Recommended pattern\n\n1. Keep raw user identifiers out of browser logs and analytics tools.\n2. Hash phone numbers or bank-account-derived identifiers before transport.\n3. Send only the hashed identifier plus the trade context to Provd.\n4. Rotate API keys on a schedule and scope them by environment.\n\n## Related docs\n\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n"
+      "body": "\n## Public endpoints\n\nReading ratings (`GET /protocols`, `GET /protocols/{slug}`), scanning a contract (`POST /scan`) and requesting early access (`POST /early-access`) need no authentication.\n\nPublic endpoints are rate-limited per client. When you exceed the limit the API responds with `429 Too Many Requests`; wait and retry with backoff.\n\n## API keys\n\nWatchlists, webhooks and higher limits are part of the Pro and Protocol plans, currently in early access. Keys are issued to design partners directly. [Request early access](/early-access) and tell us what you want to monitor.\n\n## Good practice\n\n- Treat scan results as a point-in-time read. Use the `checked_at` timestamp when you store them.\n- Cache `GET /protocols` responses; ratings are regenerated periodically, not on every request.\n- Never put an API key in client-side code once you have one.\n"
     },
     {
       "type": "docs",
@@ -63,41 +40,48 @@
       "date": "",
       "tags": [],
       "headings": [
-        "2026-04-02",
-        "2026-03-31"
+        "2026-10-02"
       ],
-      "body": "\n## 2026-04-02\n\n- Reframed the product around fraud-intelligence infrastructure for African P2P and stablecoin flows.\n- Updated docs navigation and landing pages to support a more standard documentation experience.\n- Standardized the scoring endpoint reference around `/v1/counterparties/score`.\n\n## 2026-03-31\n\n- Initial docs scaffolding.\n"
+      "body": "\n## 2026-10-02\n\n- Provd is now security-posture monitoring for cross-chain protocols. First coverage: LayerZero V2 OApps and OFTs on Ethereum.\n- New public API: `GET /api/v1/protocols`, `GET /api/v1/protocols/{slug}`, `POST /api/v1/scan`, `POST /api/v1/early-access`.\n- Published the rating [methodology](/methodology) and our first research note, [Kelp DAO: the exploited route ran on one verifier for 381 days](/blog/kelp-dao-381-days).\n- Previous APIs and documentation have been retired.\n"
     },
     {
       "type": "docs",
       "url": "/docs/quickstart",
       "title": "Quickstart",
-      "description": "Add counterparty scoring to your approval flow in minutes.",
+      "description": "Read a protocol's rating or scan a contract with the Provd API.",
       "date": "",
       "tags": [],
       "headings": [
         "Overview",
-        "Integration flow",
-        "Minimal request",
-        "Typical decisioning",
-        "Next steps"
+        "1. List rated protocols",
+        "2. Get one protocol in full",
+        "3. Scan a contract",
+        "Reading the result"
       ],
-      "body": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A counterparty score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Integration flow\n\n1. Collect the trade context before release.\n2. Hash sensitive user identifiers in your trusted environment.\n3. Call the scoring endpoint with wallet, rail, and trade metadata.\n4. Use the returned `risk_level` and flags to allow, review, or block the trade.\n\n## Minimal request\n\n \n\n## Typical decisioning\n\n- `low`: approve the trade automatically\n- `medium`: send the trade to review or request stronger evidence\n- `high`: stop release and escalate to your fraud workflow\n\n## Next steps\n\n- [Authentication](/docs/authentication)\n- [API Reference](/docs/api-reference)\n"
+      "body": "\n## Overview\n\nThe Provd API returns the same data the website shows: ratings for monitored protocols, and on-demand scans of any LayerZero V2 OApp or OFT on Ethereum. All responses are JSON. The public endpoints need no API key.\n\nBase URL:\n\n \n\nDuring early access, ask us for the production host at [hello@provd.tech](mailto:hello@provd.tech). For local development the default is `http://localhost:8000`.\n\n## 1. List rated protocols\n\n \n\nReturns a `ProtocolList`: a `generated_at` timestamp and an `items` array with each protocol's grade, score, risk level, single-verifier route count and top findings.\n\n## 2. Get one protocol in full\n\n \n\nReturns a `ProtocolDetail`: everything in the summary plus every route (`pathways`), the owner and delegate (`admin`), all findings with evidence, and the change history.\n\n## 3. Scan a contract\n\n \n\nReplace the address with the OApp or OFT you want to check. The scan reads the contract's current configuration over public RPC and returns a `Posture`. Large contracts with many routes can take up to a minute.\n\n## Reading the result\n\n- `grade` (A–F) and `score` (0–100) follow the [methodology](/methodology).\n- `single_verifier_pathways` / `pathways_total` is the quickest signal: how many routes accept a message attested by only one verifier.\n- Each entry in `findings` carries a `rule_id`, a severity, the affected route eids and `evidence` with links to the on-chain source.\n\nSee the [API reference](/docs/api-reference) for every field and error.\n"
     },
     {
       "type": "blog",
-      "url": "/blog/introducing-provd",
-      "title": "Introducing Provd",
-      "description": "Fraud-intelligence infrastructure for African P2P crypto markets.",
-      "date": "2026-03-31T00:00:00.000Z",
+      "url": "/blog/kelp-dao-381-days",
+      "title": "Kelp DAO: the exploited route ran on one verifier for 381 days",
+      "description": "We rebuilt the configuration history of Kelp's rsETH adapter from public on-chain data. The exploited route was set to a single verifier on 2025-04-02 and never changed until the exploit.",
+      "date": "2026-10-02",
       "tags": [
-        "product",
-        "security"
+        "layerzero",
+        "research",
+        "incident"
       ],
       "headings": [
-        "What we’re building"
+        "Summary",
+        "Timeline",
+        "Configuration at the time of the exploit",
+        "Who could change the configuration",
+        "What a configuration monitor would have shown",
+        "Method",
+        "Limitation",
+        "Reproduce it"
       ],
-      "body": "\nProvd helps platforms score counterparties before releasing funds.\n\n## What we’re building\n\n- Counterparty scoring before approval\n- Actionable reason codes and flags\n- Partner-fed fraud intelligence\n"
+      "body": "\nOn **2026-04-18 at 17:35:35 UTC** (Ethereum block 24,908,285) an attacker delivered a forged LayerZero message from Unichain to Kelp's rsETH OFT adapter on Ethereum and released **116,500 rsETH (~$292M)**.\n\nPublic accounts of the root cause disagreed. One analysis said the adapter was *deployed* with a single verifier; another said it had been *downgraded* from 2-of-2 to 1-of-1. We rebuilt the adapter's configuration history from public on-chain data to see which was right.\n\n## Summary\n\n- The exploited route (Unichain, eid 30320 → Ethereum) accepted messages attested by **one required verifier — the LayerZero Labs DVN — and no optional verifiers**.\n- That setting was made on **2025-04-02 08:14 UTC**, **381 days before the exploit**, and was not changed again before it.\n- At the time of the exploit, **24 of the adapter's 26** receive routes were single-verifier.\n- The Unichain setting was made by a **single private key (EOA)** that held the adapter's LayerZero delegate role — the account that can change its verifier configuration — from 2025-01-02 to 2025-08-25. It was not the protocol's multisig.\n- The widely reported **2-of-2 → 1-of-1 downgrade was real, but it happened on 2024-03-21 — 758 days before the exploit** — and on the Blast and Mode routes, not on Unichain.\n\nBoth public accounts were partly right. There was a downgrade, two years earlier; the exploited route itself was never configured with more than one verifier.\n\nEvery one of these settings was public and readable on-chain the whole time. A monitor reading them would have flagged the exploited route the day it was opened.\n\n## Timeline\n\n| Date (UTC) | Event |\n|---|---|\n| 2024-03-15 | The deployer key (an EOA) controls the adapter's verifier configuration. |\n| 2024-03-16 | Manta route configured with 2 required verifiers (LayerZero Labs, Polyhedra zkBridge). |\n| 2024-03-19 | Blast and Mode routes configured with 2 required verifiers (LayerZero Labs, Polyhedra zkBridge). |\n| 2024-03-21 | Blast and Mode reduced to 1 required verifier (LayerZero Labs). This is the \"2-of-2 → 1-of-1 downgrade\" — 758 days before the exploit. |\n| 2024-03-25 → 2024-12-17 | Ten more routes opened with a single verifier by the deployer key. |\n| 2025-01-02 | The delegate role moves to a second EOA, `0xCF7b…5662`. |\n| 2025-01-24 → 2025-08-18 | Routes opened by this EOA: Bera, Sonic, Hyperliquid, Unichain, TAC and Avalanche with a single verifier; Movement with 2 required verifiers. |\n| **2025-04-02 08:14** | **Unichain route (eid 30320) set to 1 required verifier (LayerZero Labs), 0 optional.** Tx `0x2d48d9331d…`. |\n| 2025-08-25 | The delegate role moves to a 3-of-6 Safe. |\n| 2025-09-15 → 2026-04-01 | Six more routes opened with a single verifier by the Safe: Ink, Plasma, Stable, MegaETH, Mantle, Monad. |\n| **2026-04-18 17:35** | **Forged message from Unichain delivered; 116,500 rsETH released.** |\n| 2026-04-23 | All 23 active receive routes reconfigured to 4 required verifiers (Horizen, LayerZero Labs, Canary, Nethermind). |\n| 2026-06-15 | All peers removed (bridge routes closed). |\n\n## Configuration at the time of the exploit\n\nThe adapter had 26 configured receive routes on Ethereum. The last configuration change before the exploit for each one:\n\n| Source chain | eid | Required verifiers | Verifier(s) | Set on | Set by |\n|---|---|---|---|---|---|\n| Manta | 30217 | 2 | LayerZero Labs, Polyhedra zkBridge | 2024-03-16 | Deployer EOA |\n| Blast | 30243 | 1 | LayerZero Labs | 2024-03-21 | Deployer EOA |\n| Mode | 30260 | 1 | LayerZero Labs | 2024-03-21 | Deployer EOA |\n| Base | 30184 | 1 | LayerZero Labs | 2024-03-25 | Deployer EOA |\n| Scroll | 30214 | 1 | LayerZero Labs | 2024-03-25 | Deployer EOA |\n| Arbitrum | 30110 | 1 | LayerZero Labs | 2024-04-01 | Deployer EOA |\n| Optimism | 30111 | 1 | LayerZero Labs | 2024-04-01 | Deployer EOA |\n| Linea | 30183 | 1 | LayerZero Labs | 2024-04-15 | Deployer EOA |\n| X Layer | 30274 | 1 | LayerZero Labs | 2024-05-09 | Deployer EOA |\n| zkSync Era | 30165 | 1 | LayerZero Labs | 2024-05-16 | Deployer EOA |\n| Zircuit | 30303 | 1 | LayerZero Labs | 2024-09-11 | Deployer EOA |\n| Hemi | 30329 | 1 | LayerZero Labs | 2024-12-17 | Deployer EOA |\n| Swell | 30335 | 1 | LayerZero Labs | 2024-12-17 | Deployer EOA |\n| Bera | 30362 | 1 | LayerZero Labs | 2025-01-24 | Delegate EOA |\n| Sonic | 30332 | 1 | LayerZero Labs | 2025-03-04 | Delegate EOA |\n| Hyperliquid | 30367 | 1 | LayerZero Labs | 2025-03-28 | Delegate EOA |\n| **Unichain** | **30320** | **1** | **LayerZero Labs** | **2025-04-02** | **Delegate EOA** |\n| Movement | 30325 | 2 | LayerZero Labs, Nethermind | 2025-04-15 | Delegate EOA |\n| TAC | 30377 | 1 | LayerZero Labs | 2025-07-13 | Delegate EOA |\n| Avalanche | 30106 | 1 | LayerZero Labs | 2025-08-18 | Delegate EOA |\n| Ink | 30339 | 1 | LayerZero Labs | 2025-09-15 | 3-of-6 Safe |\n| Plasma | 30383 | 1 | LayerZero Labs | 2025-09-16 | 3-of-6 Safe |\n| Stable | 30396 | 1 | LayerZero Labs | 2025-12-10 | 3-of-6 Safe |\n| MegaETH | 30398 | 1 | LayerZero Labs | 2025-12-23 | 3-of-6 Safe |\n| Mantle | 30181 | 1 | LayerZero Labs | 2026-01-01 | 3-of-6 Safe |\n| Monad | 30390 | 1 | LayerZero Labs | 2026-04-01 | 3-of-6 Safe |\n\nNone of the routes had optional verifiers. 24 of 26 relied on a single verifier; the two exceptions were Manta and Movement.\n\n## Who could change the configuration\n\nThe account that can change an OApp's verifier configuration on the LayerZero endpoint is its *delegate*. For Kelp's adapter that role was held by:\n\n| From | To | Account | Type |\n|---|---|---|---|\n| 2024-03-15 | 2025-01-02 | `0x1f7A…769b` | EOA (deployer key) |\n| 2025-01-02 | 2025-08-25 | `0xCF7b…5662` | EOA |\n| 2025-08-25 | — | `0xCbcd…29A1` | Safe, 3-of-6 |\n\nFor roughly 20 months the adapter's verifier configuration could be changed by a single private key rather than the protocol's multisig. This point was not covered in the public reporting we reviewed. By the time of the exploit the delegate was the 3-of-6 Safe; the single-key period is a separate configuration risk, and it was also readable on-chain.\n\n## What a configuration monitor would have shown\n\nUnder the [Provd methodology](/methodology), the Unichain route matches `LZ-SINGLE-VERIFIER` (critical) from 2025-04-02 onwards, and the delegate account matches `ADM-EOA-DELEGATE` (critical) until 2025-08-25. A change monitor would also have raised `CHG-NEW-ROUTE`, escalated to critical, on the day the Unichain route was configured as single-verifier.\n\nThat is a statement about visibility, not prevention. A flag does not stop a forged message; it gives the protocol team, its curators and its insurers the information to act on before one arrives.\n\n## Method\n\n1. Decode the exploit transaction's `PacketDelivered` event to get the source endpoint (eid 30320) and the receiving OApp, `0x85d4…8ef3` (`RSETH_OFTAdapter`).\n2. Read `EndpointV2.delegates(oapp)` and the adapter's `setDelegate` history to find the three delegates over time.\n3. Decode every `EndpointV2.setConfig` call made by each delegate (Blockscout for the EOAs, the Safe Transaction Service for the Safe) and replay the ULN (config type 2) changes in time order.\n4. Cross-check: the current `getConfig` for eid 30320 matches the Safe's 2026-04-23 configuration.\n5. Resolve DVN names with LayerZero's public metadata registry.\n\n## Limitation\n\nFree RPC endpoints do not serve historical state, so the configuration at each point in time is reconstructed from configuration transactions rather than read directly with a historical `eth_call`. An archive node can confirm each point directly.\n\n## Reproduce it\n\nReproduce it: [github.com/MeFerdi/provd-web (research/kelp-2026-04)](https://github.com/MeFerdi/provd-web/tree/main/research/kelp-2026-04). The summary data is in `data/kelp_facts.json`; the replay script rebuilds every decoded configuration change from public sources.\n\nIf you find an error, write to [security@provd.tech](mailto:security@provd.tech) and we will correct it publicly.\n"
     }
   ]
 }

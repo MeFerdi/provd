@@ -1,37 +1,50 @@
 ---
 title: Quickstart
-description: Add counterparty scoring to your approval flow in minutes.
+description: Read a protocol's rating or scan a contract with the Provd API.
 ---
 
 ## Overview
 
-Integrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:
+The Provd API returns the same data the website shows: ratings for monitored protocols, and on-demand scans of any LayerZero V2 OApp or OFT on Ethereum. All responses are JSON. The public endpoints need no API key.
 
-- A counterparty score
-- A risk level
-- A list of flags
-- Suggested actions for your flow
+Base URL:
 
-## Integration flow
-
-1. Collect the trade context before release.
-2. Hash sensitive user identifiers in your trusted environment.
-3. Call the scoring endpoint with wallet, rail, and trade metadata.
-4. Use the returned `risk_level` and flags to allow, review, or block the trade.
-
-## Minimal request
-
-```bash
-POST /v1/counterparties/score
+```
+https://<api-host>/api/v1
 ```
 
-## Typical decisioning
+During early access, ask us for the production host at [hello@provd.tech](mailto:hello@provd.tech). For local development the default is `http://localhost:8000`.
 
-- `low`: approve the trade automatically
-- `medium`: send the trade to review or request stronger evidence
-- `high`: stop release and escalate to your fraud workflow
+## 1. List rated protocols
 
-## Next steps
+```bash
+curl -s https://<api-host>/api/v1/protocols
+```
 
-- [Authentication](/docs/authentication)
-- [API Reference](/docs/api-reference)
+Returns a `ProtocolList`: a `generated_at` timestamp and an `items` array with each protocol's grade, score, risk level, single-verifier route count and top findings.
+
+## 2. Get one protocol in full
+
+```bash
+curl -s https://<api-host>/api/v1/protocols/<slug>
+```
+
+Returns a `ProtocolDetail`: everything in the summary plus every route (`pathways`), the owner and delegate (`admin`), all findings with evidence, and the change history.
+
+## 3. Scan a contract
+
+```bash
+curl -s -X POST https://<api-host>/api/v1/scan \
+  -H 'Content-Type: application/json' \
+  -d '{"chain": "ethereum", "address": "0x0000000000000000000000000000000000000000"}'
+```
+
+Replace the address with the OApp or OFT you want to check. The scan reads the contract's current configuration over public RPC and returns a `Posture`. Large contracts with many routes can take up to a minute.
+
+## Reading the result
+
+- `grade` (A–F) and `score` (0–100) follow the [methodology](/methodology).
+- `single_verifier_pathways` / `pathways_total` is the quickest signal: how many routes accept a message attested by only one verifier.
+- Each entry in `findings` carries a `rule_id`, a severity, the affected route eids and `evidence` with links to the on-chain source.
+
+See the [API reference](/docs/api-reference) for every field and error.

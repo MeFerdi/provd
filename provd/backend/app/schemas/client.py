@@ -17,7 +17,7 @@ class ClientResponse(BaseModel):
 
 class ApiKeyCreateRequest(BaseModel):
 	name: str = Field(min_length=2, max_length=100)
-	scopes: list[str] = Field(default_factory=lambda: ["trust:read"])
+	scopes: list[str] = Field(default_factory=lambda: ["ratings:read"])
 
 
 class ApiKeyResponse(BaseModel):

@@ -1,76 +1,20 @@
 ---
 title: Authentication
-description: JWT bearer tokens, API keys, and scope-based access control.
+description: Access, rate limits and API keys.
 ---
 
-## Authentication methods
+## Public endpoints
 
-Provd supports two auth methods:
+Reading ratings (`GET /protocols`, `GET /protocols/{slug}`), scanning a contract (`POST /scan`) and requesting early access (`POST /early-access`) need no authentication.
 
-1. **Bearer JWT** (recommended for operator/admin clients)
-2. **API key via `X-API-Key`** (recommended for service-to-service calls)
-
-## Get a bearer token
-
-Request:
-
-```bash
-POST /api/v1/auth/token
-Content-Type: application/json
-
-{
-	"client_id": "provd-dev-client",
-	"client_secret": "provd-dev-secret"
-}
-```
-
-Response includes:
-
-- `access_token`
-- `token_type`
-- `expires_in`
-- `scopes`
-- `role`
-
-Use it in requests:
-
-```bash
-Authorization: Bearer <access_token>
-```
+Public endpoints are rate-limited per client. When you exceed the limit the API responds with `429 Too Many Requests`; wait and retry with backoff.
 
 ## API keys
 
-Create and manage API keys through `/api/v1/keys` (requires key management permissions).
+Watchlists, webhooks and higher limits are part of the Pro and Protocol plans, currently in early access. Keys are issued to design partners directly. [Request early access](/early-access) and tell us what you want to monitor.
 
-Use them in requests:
+## Good practice
 
-```bash
-X-API-Key: <your_api_key>
-```
-
-## Authorization model
-
-Access is controlled by **scopes** (and optionally role).
-
-Current protected scopes:
-
-- `keys:read` — list keys
-- `keys:write` — create/deactivate keys
-- `trust:read` — call trust scoring endpoint
-- `dispute:analyze` — call dispute analysis endpoint
-
-## Hashing
-
-When sending identifiers like phone numbers, hash them client-side or in your secure backend environment.
-
-## Recommended pattern
-
-1. Keep raw user identifiers out of browser logs and analytics tools.
-2. Hash phone numbers or bank-account-derived identifiers before transport.
-3. Send only the hashed identifier plus the trade context to Provd.
-4. Rotate API keys on a schedule and scope them by environment.
-
-## Related docs
-
-- [Quickstart](/docs/quickstart)
-- [API Reference](/docs/api-reference)
+- Treat scan results as a point-in-time read. Use the `checked_at` timestamp when you store them.
+- Cache `GET /protocols` responses; ratings are regenerated periodically, not on every request.
+- Never put an API key in client-side code once you have one.

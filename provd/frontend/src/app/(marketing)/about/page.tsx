@@ -1,84 +1,57 @@
+import type { Metadata } from "next";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { Card, CardContent } from "@/components/ui/card";
+import { CONTACT_EMAIL, REPO_URL, SECURITY_EMAIL } from "@/lib/env";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "About — Provd",
+  description:
+    "Provd reads the security configuration of cross-chain protocols from public on-chain data, rates it, and alerts when it weakens.",
+  alternates: { canonical: "/about" },
 };
 
-const companyFacts = [
-  {
-    label: "Category",
-    value: "Counterparty intelligence infrastructure",
-  },
-  {
-    label: "Primary users",
-    value: "Exchanges, wallets, stablecoin apps, and OTC desks",
-  },
-  {
-    label: "Decision point",
-    value: "Before a P2P trade is approved or released",
-  },
-  {
-    label: "Headquarters",
-    value: "Nairobi, Kenya",
-  },
+const facts = [
+  { label: "What it is", value: "Security-posture ratings and monitoring for cross-chain protocols" },
+  { label: "What we read", value: "Bridge verifier (DVN) sets, multisig thresholds, admin keys" },
+  { label: "Coverage today", value: "LayerZero V2 OApps and OFTs on Ethereum" },
+  { label: "Who uses it", value: "Curators, allocators, insurers, protocol teams, funds and treasuries" },
 ];
 
 const principles = [
+  { title: "Evidence over opinion", body: "Every finding links to the on-chain source it was read from, so anyone can check it." },
+  { title: "Explainable", body: "Every grade shows the rules that produced it. The rules are published in our methodology." },
   {
-    title: "We score risk, not people",
-    body:
-      "Our models focus on behavioral and relational signals like disputes, linked identifiers, payment reversals, and repeat patterns. We do not build demographic profiling systems.",
+    title: "Responsible disclosure",
+    body: "We notify teams privately before publishing new critical findings, and publish after 14 days or once fixed, whichever comes first.",
   },
-  {
-    title: "False positives matter",
-    body:
-      "A legitimate trader blocked in error is not a dashboard metric. It is a real product failure. We design for explainability, thresholds, and review workflows that teams can trust.",
-  },
-  {
-    title: "Privacy is part of the architecture",
-    body:
-      "Identifiers are hashed before they leave partner infrastructure. Provd is built to learn from partner outcomes without requiring raw PII as the operating model.",
-  },
-  {
-    title: "Local context is the product edge",
-    body:
-      "African P2P counterparty risk patterns are shaped by payment rails, messaging channels, and regional trading behavior. We build for that operating reality directly, not as an afterthought.",
-  },
+  { title: "Independent", body: "No protocol pays for its rating. Paid plans buy monitoring and tooling, never a better grade." },
 ];
 
 export default function AboutPage() {
   return (
     <main className="bg-bg-base">
-      <Section className="border-b border-bg-border pt-24 pb-16" padded={false}>
-        <Container size="xl">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)] lg:items-end">
+      <Section className="border-b border-bg-border pb-16 pt-28" padded={false}>
+        <Container size="xl" className="px-4 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)] lg:items-end">
             <div className="max-w-3xl">
-              <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">
-                Company
-              </div>
-              <h1 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.02] mb-6">
-                Provd builds the counterparty intelligence layer African P2P markets actually need.
+              <h1 className="mb-6 font-display text-4xl leading-[1.04] text-text-primary md:text-6xl">
+                The settings that decide a bridge&apos;s security are public. Almost nobody reads them.
               </h1>
-              <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl">
-                Most crypto security products were built for smart contracts, DeFi exploits, and
-                onchain risk. Provd is built for the messier layer where African P2P counterparty
-                risk actually emerges: payment reversals, repeat offenders, desk-to-desk migration,
-                and offchain coordination before funds move.
+              <p className="max-w-2xl text-lg leading-relaxed text-text-secondary md:text-xl">
+                A cross-chain protocol is only as strong as the verifiers that attest its messages and the keys that can
+                change them. Those settings live on-chain and can change at any time, quietly. Provd reads them, rates
+                them against published rules, and alerts you when they weaken.
               </p>
             </div>
 
             <Card className="bg-bg-surface">
               <CardContent className="grid gap-5 p-6 md:p-7">
-                {companyFacts.map((fact) => (
+                {facts.map((fact) => (
                   <div key={fact.label} className="border-b border-bg-border pb-4 last:border-b-0 last:pb-0">
-                    <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-2">
-                      {fact.label}
-                    </div>
-                    <div className="text-sm md:text-base text-text-primary leading-relaxed">
-                      {fact.value}
-                    </div>
+                    <div className="mb-1 text-sm text-text-muted">{fact.label}</div>
+                    <div className="text-sm leading-relaxed text-text-primary md:text-base">{fact.value}</div>
                   </div>
                 ))}
               </CardContent>
@@ -88,150 +61,16 @@ export default function AboutPage() {
       </Section>
 
       <Section className="border-b border-bg-border" variant="surface">
-        <Container size="xl">
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div>
-              <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">
-                The Problem
-              </div>
-              <h2 className="font-display text-3xl md:text-5xl text-text-primary leading-[1.05] mb-5">
-                African P2P counterparty risk is a pre-chain problem.
-              </h2>
-              <div className="space-y-5 text-text-secondary text-base md:text-lg leading-relaxed">
-                <p>
-                  The highest-impact counterparty risk patterns in African crypto markets often happen before a
-                  blockchain transaction is ever broadcast. Deals are coordinated in Telegram,
-                  WhatsApp, and OTC channels, then settled through bank transfers or mobile money.
-                </p>
-                <p>
-                  That creates a blind spot. A smart contract scanner cannot see a payment reversal
-                  pattern on M-Pesa. An onchain risk engine cannot recognize that the same operator
-                  was banned on one desk last week and resurfaced elsewhere today.
-                </p>
-                <p>
-                  This is the gap Provd is built to close: turning fragmented counterparty signals into one
-                  reusable decision layer.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-5">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Risk Pattern 01
-                  </div>
-                  <div className="text-xl text-text-primary mb-2">Payment reversal after release</div>
-                  <div className="text-text-secondary leading-relaxed">
-                    Crypto is sent, then fiat is disputed or reversed through a banking or mobile
-                    money rail days later.
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Risk Pattern 02
-                  </div>
-                  <div className="text-xl text-text-primary mb-2">Serial migration across platforms</div>
-                  <div className="text-text-secondary leading-relaxed">
-                    A fraudster loses one account, then opens a fresh one elsewhere with no shared
-                    memory between platforms.
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-accent-primary mb-3">
-                    Risk Pattern 03
-                  </div>
-                  <div className="text-xl text-text-primary mb-2">Coordinated offchain networks</div>
-                  <div className="text-text-secondary leading-relaxed">
-                    Multiple accounts reuse payment rails, devices, and identities to defraud users
-                    at scale while looking independent at first glance.
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+        <Container size="xl" className="px-4 sm:px-6">
+          <div className="mb-10 max-w-3xl">
+            <h2 className="font-display text-3xl leading-[1.05] text-text-primary md:text-5xl">How we work.</h2>
           </div>
-        </Container>
-      </Section>
-
-      <Section className="border-b border-bg-border" variant="base">
-        <Container size="xl">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-            <div>
-              <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">
-                What We Build
-              </div>
-              <h2 className="font-display text-3xl md:text-5xl text-text-primary leading-[1.05] mb-5">
-                One API for counterparty decisions before approval.
-              </h2>
-              <p className="text-text-secondary text-base md:text-lg leading-relaxed">
-                Provd gives risk and compliance teams a counterparty score, reason codes, and
-                recommended action before a P2P trade is approved, released, or escalated.
-              </p>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-3">
-              <Card className="h-full">
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-3">
-                    Input
-                  </div>
-                  <div className="text-lg text-text-primary mb-2">Identifiers + trade context</div>
-                  <div className="text-sm text-text-secondary leading-relaxed">
-                    Wallets, hashed phones, hashed bank details, trade amount, rail, and desk
-                    context.
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="h-full">
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-3">
-                    Intelligence layer
-                  </div>
-                  <div className="text-lg text-text-primary mb-2">Federated intelligence graph</div>
-                  <div className="text-sm text-text-secondary leading-relaxed">
-                    Linked disputes, repeat-offender history, partner-fed outcomes, and payment-rail
-                    patterns.
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="h-full">
-                <CardContent className="p-6">
-                  <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-3">
-                    Output
-                  </div>
-                  <div className="text-lg text-text-primary mb-2">Approve, review, or block</div>
-                  <div className="text-sm text-text-secondary leading-relaxed">
-                    Fast scoring with explainable flags so teams can automate low-risk flows and
-                    review the rest.
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="border-b border-bg-border" variant="surface">
-        <Container size="xl">
-          <div className="max-w-3xl mb-10">
-            <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">
-              Operating Principles
-            </div>
-            <h2 className="font-display text-3xl md:text-5xl text-text-primary leading-[1.05] mb-5">
-              Built like infrastructure, not just marketing.
-            </h2>
-          </div>
-
           <div className="grid gap-5 md:grid-cols-2">
-            {principles.map((principle) => (
-              <Card key={principle.title} className="h-full">
+            {principles.map((p) => (
+              <Card key={p.title} className="h-full">
                 <CardContent className="p-6 md:p-7">
-                  <div className="text-xl text-text-primary mb-3">{principle.title}</div>
-                  <div className="text-text-secondary leading-relaxed">{principle.body}</div>
+                  <h3 className="mb-3 text-lg font-semibold text-text-primary">{p.title}</h3>
+                  <p className="leading-relaxed text-text-secondary">{p.body}</p>
                 </CardContent>
               </Card>
             ))}
@@ -240,52 +79,54 @@ export default function AboutPage() {
       </Section>
 
       <Section variant="base">
-        <Container size="xl">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
+        <Container size="xl" className="px-4 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.9fr)]">
             <div>
-              <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">
-                Company
-              </div>
-              <h2 className="font-display text-3xl md:text-5xl text-text-primary leading-[1.05] mb-5">
-                Built in Nairobi for the rails that matter locally.
-              </h2>
-              <div className="space-y-5 text-text-secondary text-base md:text-lg leading-relaxed">
-                <p>
-                  Provd was founded in Nairobi in 2026 by operators working across African fintech,
-                  crypto infrastructure, and machine learning. We are focused on the real operating
-                  conditions of African trading desks, not a generic global risk product with local
-                  copy pasted on top.
-                </p>
-                <p>
-                  We build for the chains and rails that matter in-market, including BNB Chain,
-                  Tron, and Celo, alongside the offchain payment systems that shape real counterparty
-                  risk.
-                </p>
-                <p>
-                  We are hiring across engineering, data science, and business development. If you
-                  want to help build serious counterparty intelligence infrastructure for African
-                  crypto markets, we would love to hear from you.
-                </p>
+              <h2 className="mb-5 font-display text-3xl leading-[1.05] text-text-primary md:text-5xl">Check our work.</h2>
+              <p className="text-base leading-relaxed text-text-secondary md:text-lg">
+                Our research is reproducible. The scripts and data behind our{" "}
+                <a href="/blog/kelp-dao-381-days" className="text-accent-secondary hover:underline">
+                  Kelp DAO analysis
+                </a>{" "}
+                are in{" "}
+                <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-accent-secondary hover:underline">
+                  our repository
+                </a>
+                , and the rules behind every grade are in the{" "}
+                <a href="/methodology" className="text-accent-secondary hover:underline">
+                  methodology
+                </a>
+                .
+              </p>
+              <div className="mt-8 overflow-hidden rounded-md border border-bg-border">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/home/hero-analytics.jpg"
+                  width={1400}
+                  height={933}
+                  alt="Monitoring dashboard on a laptop screen"
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto max-h-[360px] w-full object-cover"
+                />
               </div>
             </div>
 
             <Card className="self-start">
               <CardContent className="p-6 md:p-7">
-                <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-text-muted mb-4">
-                  Contact
-                </div>
+                <h3 className="mb-4 text-base font-semibold text-text-primary">Contact</h3>
                 <div className="space-y-4 text-sm md:text-base">
                   <div>
-                    <div className="text-text-muted mb-1">General</div>
-                    <div className="text-text-primary">contact@provd.io</div>
+                    <div className="mb-1 text-text-secondary">General and early access</div>
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-secondary hover:underline">
+                      {CONTACT_EMAIL}
+                    </a>
                   </div>
                   <div>
-                    <div className="text-text-muted mb-1">Research</div>
-                    <div className="text-text-primary">research@provd.io</div>
-                  </div>
-                  <div>
-                    <div className="text-text-muted mb-1">Location</div>
-                    <div className="text-text-primary">Nairobi, Kenya</div>
+                    <div className="mb-1 text-text-secondary">Security disclosures and rating questions from protocol teams</div>
+                    <a href={`mailto:${SECURITY_EMAIL}`} className="text-accent-secondary hover:underline">
+                      {SECURITY_EMAIL}
+                    </a>
                   </div>
                 </div>
               </CardContent>

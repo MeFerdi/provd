@@ -5,24 +5,25 @@ import { Section } from "@/components/ui/section";
 import { listBlogPosts } from "@/lib/content/blog";
 
 export const metadata = {
-  title: "Blog — Provd",
+  title: "Research — Provd",
+  description: "Reproducible research on cross-chain security configuration, built from public on-chain data.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogIndexPage() {
   const posts = await listBlogPosts();
   return (
     <>
-      <Section className="border-b border-bg-border pt-14 pb-16" padded={false}>
+      <Section className="border-b border-bg-border pt-28 pb-16" padded={false}>
         <Container>
           <div className="max-w-2xl">
-            <div className="uppercase text-accent-primary font-mono text-xs tracking-[0.22em] mb-4">Blog</div>
             <h1 className="font-display text-4xl md:text-6xl text-text-primary leading-[1.05] mb-5">
-              Product, research,
+              What the chain
               <br />
-              and security.
+              already says.
             </h1>
             <p className="text-text-secondary text-lg">
-              Updates on fraud patterns, approval workflows, and how we build fraud-intelligence infrastructure for African markets.
+              Reproducible analyses of cross-chain security configuration — verifier sets, admin keys and how they change — built from public on-chain data.
             </p>
           </div>
         </Container>
@@ -35,14 +36,14 @@ export default async function BlogIndexPage() {
               <Link
                 key={p.slug}
                 href={`/blog/${p.slug}`}
-                className="rounded-2xl border border-bg-border bg-bg-surface/50 p-7 hover:bg-bg-elevated transition"
+                className="rounded-md border border-bg-border bg-white p-7 transition-colors hover:border-text-muted"
               >
-                <div className="text-xs font-mono tracking-[0.22em] uppercase text-text-muted">
+                <div className="text-sm text-text-muted">
                   {p.date ?? "Draft"}
                 </div>
-                <div className="mt-2 font-sans font-semibold text-text-primary text-lg">{p.title}</div>
+                <div className="mt-2 font-display text-2xl font-bold leading-snug text-text-primary">{p.title}</div>
                 {p.description ? <div className="mt-2 text-sm text-text-secondary">{p.description}</div> : null}
-                <div className="mt-4 text-sm text-accent-primary">Read →</div>
+                <div className="mt-4 text-sm text-accent-secondary">Read →</div>
               </Link>
             ))}
           </div>

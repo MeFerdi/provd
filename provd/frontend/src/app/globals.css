@@ -4,97 +4,60 @@
 
 :root {
   /* Layout + typography */
-  --radius: 14px;
+  --radius: 6px;
   --font-display: Georgia, "Times New Roman", Times, serif;
   --font-mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-  --font-sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
   --font-size-base: 16px;
   --font-weight-bold: 700;
   --font-weight-medium: 500;
   --font-weight-regular: 400;
 
-  /* Default theme: dark */
-  --bg-base:        #07090E;
-  --bg-surface:     #0D1117;
-  --bg-elevated:    #161B22;
-  --bg-border:      #21262D;
+  /* Light theme only. Tokens are space-separated RGB triplets so Tailwind's
+     rgb(var(--token) / <alpha-value>) colours resolve correctly. */
+  --bg-base:        255 255 255; /* #FFFFFF */
+  --bg-surface:     247 247 245; /* #F7F7F5 */
+  --bg-elevated:    240 240 237; /* #F0F0ED */
+  --bg-border:      228 228 224; /* #E4E4E0 */
 
-  --text-primary:   #E6EDF3;
-  --text-secondary: #8B949E;
-  --text-muted:     #484F58;
-  --text-code:      #79C0FF;
+  --text-primary:   17 17 17;    /* #111111 */
+  --text-secondary: 74 74 74;    /* #4A4A4A */
+  --text-muted:     107 107 107; /* #6B6B6B */
+  --text-code:      17 17 17;
 
-  --accent:         #00D4AA;
-  --accent-dim:     #00D4AA1A;
-  --accent-blue:    #2F81F7;
-  --risk-amber:     #D29922;
-  --risk-red:       #CF222E;
+  /* accent-primary: solid near-black for primary buttons.
+     accent-secondary: muted ink blue for links. */
+  --accent-primary:   17 17 17;    /* #111111 */
+  --accent-secondary: 31 78 140;   /* #1F4E8C */
+  --accent-warning:   181 71 8;    /* #B54708 */
+  --accent-danger:    180 35 24;   /* #B42318 */
+
+  /* Grade scale. Always paired with a text label. */
+  --grade-a: 6 118 71;    /* #067647 */
+  --grade-b: 59 124 15;   /* #3B7C0F */
+  --grade-c: 147 55 13;   /* #93370D */
+  --grade-d: 181 71 8;    /* #B54708 */
+  --grade-f: 180 35 24;   /* #B42318 */
+
+  color-scheme: light;
 }
 
-[data-theme="light"] {
-  --bg-base: 250 252 255;
-  --bg-surface: 245 247 252;
-  --bg-elevated: 236 240 247;
-  --bg-border: 214 222 235;
-
-  --text-primary: 10 14 20;
-  --text-secondary: 64 74 88;
-  --text-muted: 118 128 144;
-  --text-code: 0 102 255;
-
-  --accent-primary: 0 122 102;
-  --accent-secondary: 0 102 255;
-  --accent-warning: 245 158 11;
-  --accent-danger: 239 68 68;
+html {
+  background: #ffffff;
 }
 
 body {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-regular);
-  background: var(--bg-base);
-  color: var(--text-primary);
-  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  background: rgb(var(--bg-base));
+  color: rgb(var(--text-primary));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-.logo-marquee {
-  animation: logo-marquee 34s linear infinite;
-}
-
-.group:hover .logo-marquee {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logo-marquee {
-    animation: none;
-  }
-}
-
-@keyframes logo-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-h1, .hero-title {
-  font-size: var(--font-size-xl);
+h1, h2 {
   font-weight: var(--font-weight-bold);
   letter-spacing: -0.5px;
-  line-height: 1.05;
-}
-
-h2, .section-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.1;
-}
-
-h3 {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
 }
 
 * {
@@ -102,48 +65,59 @@ h3 {
 }
 
 ::selection {
-  background: rgb(var(--accent-primary) / 0.25);
+  background: rgb(var(--accent-secondary) / 0.15);
 }
 
+/* Long-form content (research, docs, legal): dark text on white. */
 .prose {
   color: rgb(var(--text-secondary));
 }
 .prose :where(h1, h2, h3, h4) {
   color: rgb(var(--text-primary));
 }
+.prose :where(h2) {
+  font-family: var(--font-display);
+}
+.prose :where(strong) {
+  color: rgb(var(--text-primary));
+}
 .prose :where(a) {
-  color: rgb(var(--accent-primary));
+  color: rgb(var(--accent-secondary));
+  text-decoration: none;
+}
+.prose :where(a):hover {
+  text-decoration: underline;
 }
 .prose :where(code) {
-  color: rgb(var(--text-code));
+  color: rgb(var(--text-primary));
+  font-family: var(--font-mono);
+}
+.prose :where(code)::before,
+.prose :where(code)::after {
+  content: "";
 }
 .prose :where(pre) {
+  color: rgb(var(--text-primary));
   background: rgb(var(--bg-surface));
   border: 1px solid rgb(var(--bg-border));
+  border-radius: 6px;
 }
-
-.section {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+.prose :where(blockquote) {
+  color: rgb(var(--text-secondary));
+  border-left-color: rgb(var(--bg-border));
+  font-style: normal;
 }
-
-.card {
-  background: var(--bg-surface);
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.12);
-  padding: 2.5rem;
+.prose :where(thead) {
+  border-bottom-color: rgb(var(--bg-border));
 }
-
-.cta-btn {
-  background: var(--accent-primary);
-  color: var(--bg-base);
-  font-weight: var(--font-weight-bold);
-  padding: 1rem 2.5rem;
-  border-radius: 0.75rem;
-  font-size: 1.125rem;
-  transition: background 0.2s;
+.prose :where(thead th) {
+  color: rgb(var(--text-muted));
+  font-weight: 500;
+  font-size: 0.875em;
 }
-
-.cta-btn:hover {
-  background: #00b894;
+.prose :where(tbody tr) {
+  border-bottom-color: rgb(var(--bg-border));
+}
+.prose :where(hr) {
+  border-color: rgb(var(--bg-border));
 }

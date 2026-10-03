@@ -1,52 +1,37 @@
-import React from "react";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
-    <section className="border-b border-bg-border bg-bg-base pt-28 pb-18 sm:pb-20 lg:min-h-[80vh] lg:flex lg:items-center">
-      <div className="mx-auto grid w-full max-w-7xl gap-14 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(460px,1.1fr)] lg:items-center lg:gap-10">
-        <div className="min-w-0 max-w-2xl">
-          <div className="mb-4 flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-            <span className="font-mono text-[11px] text-accent tracking-[0.15em]">COUNTERPARTY INTELLIGENCE FOR AFRICAN P2P PLATFORMS</span>
-          </div>
-          <h1 className="mb-6 max-w-[11ch] font-display text-[40px] leading-[1.05] text-text-primary sm:text-[48px] lg:text-[60px]">
-            Blunt risk models approve the wrong trades. And block the right ones.
+    <section className="border-b border-bg-border bg-white pt-28 lg:pt-24">
+      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
+        <div className="min-w-0 max-w-2xl lg:py-16">
+          <h1 className="mb-6 font-display text-[40px] leading-[1.05] text-text-primary sm:text-[52px] lg:text-[60px]">
+            Know the moment a protocol gets weaker.
           </h1>
-          <p className="mb-10 max-w-xl font-sans text-[16px] leading-[1.7] text-text-secondary sm:text-[18px]">
-            African P2P platforms lose volume twice: once to fraud and once to the legitimate traders they turn away out of caution. Provd gives exchanges, wallets, and OTC desks network-backed counterparty scores so they can confidently approve more good trades, and precisely reject the bad ones. One API call. Decisions backed by signals no single platform can generate alone.
+          <p className="max-w-xl font-sans text-[17px] leading-[1.7] text-text-secondary sm:text-[18px]">
+            Provd monitors the security configuration of cross-chain protocols — verifier sets, admin keys, multisig
+            thresholds — and alerts you when it changes. Every rating is built from public on-chain data you can verify.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a href="/playground" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-bg-surface px-7 py-3 font-sans text-[15px] font-medium text-text-primary transition hover:-translate-y-[1px] hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              Try playground
-            </a>
-            <a href="/docs/quickstart" className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-accent px-7 py-3 font-sans text-[15px] font-medium text-[#07090E] transition hover:-translate-y-[1px] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              Read Documentation
-            </a>
-            <a href="/docs/api-reference" className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-bg-border px-7 py-3 font-sans text-[15px] text-text-secondary transition hover:border-text-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              View API Reference
-            </a>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button href="/ratings" size="lg">
+              See the ratings
+            </Button>
+            <Button href="/blog/kelp-dao-381-days" size="lg" variant="secondary">
+              Read the Kelp analysis
+            </Button>
           </div>
+          <p className="mt-5 font-sans text-sm text-text-muted">Coverage: LayerZero V2 on Ethereum.</p>
         </div>
-        <div className="min-w-0 w-full lg:flex lg:justify-end">
-          <div className="relative mx-auto flex min-h-[360px] w-full max-w-[460px] items-center justify-center sm:min-h-[430px] sm:max-w-[520px] lg:mx-0 lg:min-h-[560px] lg:w-[137.8%] lg:justify-end">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="h-[260px] w-[260px] rounded-full bg-accent/10 blur-3xl sm:h-[320px] sm:w-[320px] lg:h-[380px] lg:w-[380px]" />
-              <div className="absolute right-[8%] top-[14%] h-20 w-20 rounded-full bg-accent-blue/10 blur-3xl sm:h-24 sm:w-24 lg:right-[10%] lg:top-[12%] lg:h-28 lg:w-28" />
-            </div>
-            <div className="relative z-10 w-full max-w-[460px] sm:max-w-[520px] lg:mr-[-196px]">
-              <div className="pointer-events-none absolute left-1/2 top-[88%] h-[58px] w-[260px] -translate-x-1/2 rounded-full bg-black/22 blur-2xl sm:h-[72px] sm:w-[320px] lg:h-[86px] lg:w-[380px]" />
-              <div className="pointer-events-none absolute left-1/2 top-[92%] h-[24px] w-[180px] -translate-x-1/2 rounded-full bg-black/16 blur-xl sm:h-[28px] sm:w-[220px] lg:h-[34px] lg:w-[280px]" />
-              <Image
-                src="/two-factor-authentication-confirmation-removebg-preview.png"
-                alt="Two-factor approval illustration representing secure verification"
-                width={1200}
-                height={1200}
-                className="relative z-10 h-auto w-full object-contain"
-                priority
-              />
-            </div>
-          </div>
+        <div className="flex min-w-0 justify-center lg:justify-end lg:self-end">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/cyber-investigation-specialist-working-governmental-hacking-room-removebg-preview.png"
+            alt="Security analyst reviewing protocol configuration"
+            width={408}
+            height={612}
+            fetchPriority="high"
+            className="pointer-events-none -mt-20 block h-auto w-full max-w-[260px] sm:-mt-24 sm:max-w-[320px] lg:mt-0 lg:max-w-[408px]"
+          />
         </div>
       </div>
     </section>

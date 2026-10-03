@@ -9,31 +9,25 @@ export const docsNav: NavItem[] = [
   {
     title: "Overview",
     href: "/docs",
-    description: "Documentation home, integration flow, and entry points.",
+    description: "What the API covers and where to start.",
     category: "Overview",
-  },
-  {
-    title: "API Access",
-    href: "/docs/api-access",
-    description: "Platform status, development roadmap, and beta access expectations.",
-    category: "Getting Started",
   },
   {
     title: "Quickstart",
     href: "/docs/quickstart",
-    description: "Add counterparty scoring to your approval flow.",
+    description: "List ratings, fetch a protocol and scan a contract.",
     category: "Getting Started",
   },
   {
     title: "Authentication",
     href: "/docs/authentication",
-    description: "API keys, request signing patterns, and safe hashing.",
+    description: "Public access, rate limits and API keys.",
     category: "Getting Started",
   },
   {
     title: "API Reference",
     href: "/docs/api-reference",
-    description: "Endpoints, fields, responses, and risk decisions.",
+    description: "Endpoints, response types and errors.",
     category: "Reference",
   },
   {

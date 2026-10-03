@@ -1,16 +1,40 @@
-version: '3.9'
+# Local stack: postgres + migrations + API, plus the posture monitor.
+#   cp backend/.env.example backend/.env
+#   docker compose up --build                              # API on :8000
+#   docker compose run --rm backend python -m app.cli seed  # load protocols to monitor
+#   docker compose --profile monitor up -d monitor          # re-read every protocol on a schedule
+# The frontend runs separately: cd frontend && npm run dev
 services:
-  frontend:
-    build: ./frontend
-    command: npm run dev
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: provd
+      POSTGRES_PASSWORD: provd
+      POSTGRES_DB: provd
     ports:
-      - "3000:3000"
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
     volumes:
-      - ./frontend:/app
-    env_file:
-      - ./frontend/.env.local.example
-    networks:
-      - provd_network
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U provd"]
+      interval: 3s
+      retries: 20
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-6379}:6379"
+  migrate:
+    build: ./backend
+    command: alembic upgrade head
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://provd:provd@postgres:5432/provd
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
   backend:
     build: ./backend
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -18,56 +42,26 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    env_file:
-      - ./backend/.env.example
-    depends_on:
-      - postgres
-      - redis
-      - ml
-    networks:
-      - provd_network
-  ml:
-    build: ./ml
-    command: python serve.py
-    ports:
-      - "8001:8001"
-    volumes:
-      - ./ml:/app
-    env_file:
-      - ./ml/.env.example
-    networks:
-      - provd_network
-  postgres:
-    image: postgres:16
-    restart: always
+    env_file: ./backend/.env
     environment:
-      POSTGRES_USER: provd
-      POSTGRES_PASSWORD: provd
-      POSTGRES_DB: provd
-    ports:
-      - "127.0.0.1:5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - provd_network
-  redis:
-    image: redis:7
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      - provd_network
-  celery_worker:
-    build: ./backend
-    command: celery -A app.tasks.celery_app worker --loglevel=info
+      DATABASE_URL: postgresql+asyncpg://provd:provd@postgres:5432/provd
+      REDIS_URL: redis://redis:6379/0
     depends_on:
-      - redis
-    env_file:
-      - ./backend/.env.example
-    networks:
-      - provd_network
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+  monitor:
+    build: ./backend
+    command: python -m app.cli monitor
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://provd:provd@postgres:5432/provd
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    profiles: ["monitor"]
 volumes:
   pgdata:
-networks:
-  provd_network:
-    driver: bridge

@@ -1,76 +1,159 @@
 ---
 title: API Reference
-description: Endpoints, fields, and responses.
+description: Endpoints, response shapes and errors for the Provd API.
 ---
 
-Base path: `/api/v1`
+All endpoints live under `/api/v1` and return JSON. Timestamps are ISO 8601 in UTC. Addresses are 0x-prefixed hex.
 
-## Authentication
+## Endpoints
 
-Protected endpoints accept either:
+| Method | Path | Returns |
+|---|---|---|
+| `GET` | `/api/v1/protocols` | `ProtocolList` |
+| `GET` | `/api/v1/protocols/{slug}` | `ProtocolDetail` |
+| `POST` | `/api/v1/scan` | `Posture` |
+| `POST` | `/api/v1/early-access` | `201` with `{"ok": true}` |
 
-- `Authorization: Bearer <jwt_token>`
-- `X-API-Key: <api_key>`
+### POST /scan
 
-## POST /api/v1/trust/score
+Request body:
 
-Required scope: `trust:read`
+```json
+{ "chain": "ethereum", "address": "0x…40 hex characters" }
+```
 
-Returns a counterparty risk score and reason flags for a trade context.
+`chain` is `ethereum` today.
 
-### Request fields
+### POST /early-access
 
-- `entity_id` (string)
-- `amount` (number)
-- `currency` (string)
-- `context` (object)
-
-### Example request
+Request body:
 
 ```json
 {
-  "entity_id": "entity-123",
-  "amount": 250,
-  "currency": "USDT",
-  "context": {}
+  "email": "you@example.com",
+  "organization": "optional",
+  "role": "curator | insurer | protocol | fund | researcher | other",
+  "message": "optional"
 }
 ```
 
-### Response fields
+## Errors
 
-- `score` (number)
-- `risk_level` (string)
-- `signals` (array)
-- `cached` (boolean)
+| Status | Meaning |
+|---|---|
+| `404` | Unknown protocol slug. |
+| `422` | Invalid input, for example a malformed address or a contract that is not a LayerZero OApp. The `detail` field explains why. |
+| `429` | Rate limited. Retry later with backoff. |
+| `502` / `504` | The upstream RPC could not be reached or timed out. Retry later. |
 
-### Example response
+Error bodies have the form `{"detail": "…"}`.
 
-```json
-{
-  "entity_id": "entity-123",
-  "score": 0.82,
-  "risk_level": "low",
-  "signals": [
-    { "name": "trade_consistency", "value": 0.88, "weight": 0.4 }
-  ],
-  "cached": false
+## Types
+
+```ts
+type Severity = "critical" | "high" | "medium" | "low" | "info";
+type RiskLevel = "critical" | "high" | "medium" | "low";
+type Grade = "A" | "B" | "C" | "D" | "F";
+
+interface Verifier { address: string; name: string | null }
+
+interface UlnSide {
+  library: string;
+  is_default_library: boolean;
+  confirmations: number;
+  required_dvns: Verifier[];
+  optional_dvns: Verifier[];
+  optional_threshold: number;
+  effective_verifiers: number;
 }
+
+interface Pathway {
+  eid: number;               // LayerZero endpoint id of the remote chain
+  chain_name: string | null;
+  peer: string;
+  receive: UlnSide | null;
+  send: UlnSide | null;
+}
+
+interface AdminAccount {
+  address: string;
+  type: "eoa" | "safe" | "contract" | "none" | "unknown";
+  threshold: number | null;  // Safe only
+  owners: number | null;     // Safe only
+}
+
+interface Admin { owner: AdminAccount | null; delegate: AdminAccount | null }
+
+interface Evidence { label: string; value: string; link: string | null }
+
+interface Finding {
+  rule_id: string;
+  severity: Severity;
+  title: string;
+  summary: string;
+  why_it_matters: string;
+  recommendation: string;
+  pathways: number[];        // affected eids
+  evidence: Evidence[];
+}
+
+interface FindingRef { rule_id: string; severity: Severity; title: string }
+
+interface ChangeEvent {
+  detected_at: string;
+  kind: string;              // e.g. CHG-VERIFIER-REDUCED
+  severity: Severity;
+  summary: string;
+  pathway: number | null;
+  before: object | null;
+  after: object | null;
+}
+
+interface Posture {
+  framework: "layerzero_v2";
+  chain: string;
+  contract: string;
+  grade: Grade;
+  score: number;
+  risk_level: RiskLevel;
+  pathways_total: number;
+  single_verifier_pathways: number;
+  admin: Admin;
+  pathways: Pathway[];
+  findings: Finding[];
+  checked_at: string;
+}
+
+interface ProtocolSummary {
+  slug: string;
+  name: string;
+  category: string;
+  framework: string;
+  chain: string;
+  contract: string;
+  grade: Grade;
+  score: number;
+  risk_level: RiskLevel;
+  pathways_total: number;
+  single_verifier_pathways: number;
+  top_findings: FindingRef[];
+  checked_at: string;
+  last_change_at: string | null;
+}
+
+interface ProtocolDetail extends ProtocolSummary {
+  website: string | null;
+  admin: Admin;
+  pathways: Pathway[];
+  findings: Finding[];
+  changes: ChangeEvent[];
+}
+
+interface ProtocolList { generated_at: string; items: ProtocolSummary[] }
 ```
 
-## POST /api/v1/dispute/analyze
+## Field notes
 
-Required scope: `dispute:analyze`
-
-Returns a recommendation and confidence score for a dispute case.
-
-## Key management endpoints
-
-- `GET /api/v1/keys` (scope: `keys:read`)
-- `POST /api/v1/keys` (scope: `keys:write`)
-- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)
-
-## Notes
-
-- Call this endpoint before releasing crypto or fiat.
-- Treat `risk_flags` as operator-facing reasons, not just UI labels.
-- Pair this endpoint with your internal review and dispute workflows.
+- `effective_verifiers` is the number of independent verifier attestations a message needs on that side of the route: required DVNs plus the optional threshold. A value of `1` is what the `LZ-SINGLE-VERIFIER` rule flags.
+- `is_default_library` is `true` when the route inherits LayerZero's default configuration rather than an explicit one.
+- `rule_id` values and their severities are listed in the [methodology](/methodology).

@@ -1,0 +1,111 @@
+---
+title: "Kelp DAO: the exploited route ran on one verifier for 381 days"
+description: "We rebuilt the configuration history of Kelp's rsETH adapter from public on-chain data. The exploited route was set to a single verifier on 2025-04-02 and never changed until the exploit."
+date: "2026-10-02"
+tags: ["layerzero", "research", "incident"]
+---
+
+On **2026-04-18 at 17:35:35 UTC** (Ethereum block 24,908,285) an attacker delivered a forged LayerZero message from Unichain to Kelp's rsETH OFT adapter on Ethereum and released **116,500 rsETH (~$292M)**.
+
+Public accounts of the root cause disagreed. One analysis said the adapter was *deployed* with a single verifier; another said it had been *downgraded* from 2-of-2 to 1-of-1. We rebuilt the adapter's configuration history from public on-chain data to see which was right.
+
+## Summary
+
+- The exploited route (Unichain, eid 30320 → Ethereum) accepted messages attested by **one required verifier — the LayerZero Labs DVN — and no optional verifiers**.
+- That setting was made on **2025-04-02 08:14 UTC**, **381 days before the exploit**, and was not changed again before it.
+- At the time of the exploit, **24 of the adapter's 26** receive routes were single-verifier.
+- The Unichain setting was made by a **single private key (EOA)** that held the adapter's LayerZero delegate role — the account that can change its verifier configuration — from 2025-01-02 to 2025-08-25. It was not the protocol's multisig.
+- The widely reported **2-of-2 → 1-of-1 downgrade was real, but it happened on 2024-03-21 — 758 days before the exploit** — and on the Blast and Mode routes, not on Unichain.
+
+Both public accounts were partly right. There was a downgrade, two years earlier; the exploited route itself was never configured with more than one verifier.
+
+Every one of these settings was public and readable on-chain the whole time. A monitor reading them would have flagged the exploited route the day it was opened.
+
+## Timeline
+
+| Date (UTC) | Event |
+|---|---|
+| 2024-03-15 | The deployer key (an EOA) controls the adapter's verifier configuration. |
+| 2024-03-16 | Manta route configured with 2 required verifiers (LayerZero Labs, Polyhedra zkBridge). |
+| 2024-03-19 | Blast and Mode routes configured with 2 required verifiers (LayerZero Labs, Polyhedra zkBridge). |
+| 2024-03-21 | Blast and Mode reduced to 1 required verifier (LayerZero Labs). This is the "2-of-2 → 1-of-1 downgrade" — 758 days before the exploit. |
+| 2024-03-25 → 2024-12-17 | Ten more routes opened with a single verifier by the deployer key. |
+| 2025-01-02 | The delegate role moves to a second EOA, `0xCF7b…5662`. |
+| 2025-01-24 → 2025-08-18 | Routes opened by this EOA: Bera, Sonic, Hyperliquid, Unichain, TAC and Avalanche with a single verifier; Movement with 2 required verifiers. |
+| **2025-04-02 08:14** | **Unichain route (eid 30320) set to 1 required verifier (LayerZero Labs), 0 optional.** Tx `0x2d48d9331d…`. |
+| 2025-08-25 | The delegate role moves to a 3-of-6 Safe. |
+| 2025-09-15 → 2026-04-01 | Six more routes opened with a single verifier by the Safe: Ink, Plasma, Stable, MegaETH, Mantle, Monad. |
+| **2026-04-18 17:35** | **Forged message from Unichain delivered; 116,500 rsETH released.** |
+| 2026-04-23 | All 23 active receive routes reconfigured to 4 required verifiers (Horizen, LayerZero Labs, Canary, Nethermind). |
+| 2026-06-15 | All peers removed (bridge routes closed). |
+
+## Configuration at the time of the exploit
+
+The adapter had 26 configured receive routes on Ethereum. The last configuration change before the exploit for each one:
+
+| Source chain | eid | Required verifiers | Verifier(s) | Set on | Set by |
+|---|---|---|---|---|---|
+| Manta | 30217 | 2 | LayerZero Labs, Polyhedra zkBridge | 2024-03-16 | Deployer EOA |
+| Blast | 30243 | 1 | LayerZero Labs | 2024-03-21 | Deployer EOA |
+| Mode | 30260 | 1 | LayerZero Labs | 2024-03-21 | Deployer EOA |
+| Base | 30184 | 1 | LayerZero Labs | 2024-03-25 | Deployer EOA |
+| Scroll | 30214 | 1 | LayerZero Labs | 2024-03-25 | Deployer EOA |
+| Arbitrum | 30110 | 1 | LayerZero Labs | 2024-04-01 | Deployer EOA |
+| Optimism | 30111 | 1 | LayerZero Labs | 2024-04-01 | Deployer EOA |
+| Linea | 30183 | 1 | LayerZero Labs | 2024-04-15 | Deployer EOA |
+| X Layer | 30274 | 1 | LayerZero Labs | 2024-05-09 | Deployer EOA |
+| zkSync Era | 30165 | 1 | LayerZero Labs | 2024-05-16 | Deployer EOA |
+| Zircuit | 30303 | 1 | LayerZero Labs | 2024-09-11 | Deployer EOA |
+| Hemi | 30329 | 1 | LayerZero Labs | 2024-12-17 | Deployer EOA |
+| Swell | 30335 | 1 | LayerZero Labs | 2024-12-17 | Deployer EOA |
+| Bera | 30362 | 1 | LayerZero Labs | 2025-01-24 | Delegate EOA |
+| Sonic | 30332 | 1 | LayerZero Labs | 2025-03-04 | Delegate EOA |
+| Hyperliquid | 30367 | 1 | LayerZero Labs | 2025-03-28 | Delegate EOA |
+| **Unichain** | **30320** | **1** | **LayerZero Labs** | **2025-04-02** | **Delegate EOA** |
+| Movement | 30325 | 2 | LayerZero Labs, Nethermind | 2025-04-15 | Delegate EOA |
+| TAC | 30377 | 1 | LayerZero Labs | 2025-07-13 | Delegate EOA |
+| Avalanche | 30106 | 1 | LayerZero Labs | 2025-08-18 | Delegate EOA |
+| Ink | 30339 | 1 | LayerZero Labs | 2025-09-15 | 3-of-6 Safe |
+| Plasma | 30383 | 1 | LayerZero Labs | 2025-09-16 | 3-of-6 Safe |
+| Stable | 30396 | 1 | LayerZero Labs | 2025-12-10 | 3-of-6 Safe |
+| MegaETH | 30398 | 1 | LayerZero Labs | 2025-12-23 | 3-of-6 Safe |
+| Mantle | 30181 | 1 | LayerZero Labs | 2026-01-01 | 3-of-6 Safe |
+| Monad | 30390 | 1 | LayerZero Labs | 2026-04-01 | 3-of-6 Safe |
+
+None of the routes had optional verifiers. 24 of 26 relied on a single verifier; the two exceptions were Manta and Movement.
+
+## Who could change the configuration
+
+The account that can change an OApp's verifier configuration on the LayerZero endpoint is its *delegate*. For Kelp's adapter that role was held by:
+
+| From | To | Account | Type |
+|---|---|---|---|
+| 2024-03-15 | 2025-01-02 | `0x1f7A…769b` | EOA (deployer key) |
+| 2025-01-02 | 2025-08-25 | `0xCF7b…5662` | EOA |
+| 2025-08-25 | — | `0xCbcd…29A1` | Safe, 3-of-6 |
+
+For roughly 20 months the adapter's verifier configuration could be changed by a single private key rather than the protocol's multisig. This point was not covered in the public reporting we reviewed. By the time of the exploit the delegate was the 3-of-6 Safe; the single-key period is a separate configuration risk, and it was also readable on-chain.
+
+## What a configuration monitor would have shown
+
+Under the [Provd methodology](/methodology), the Unichain route matches `LZ-SINGLE-VERIFIER` (critical) from 2025-04-02 onwards, and the delegate account matches `ADM-EOA-DELEGATE` (critical) until 2025-08-25. A change monitor would also have raised `CHG-NEW-ROUTE`, escalated to critical, on the day the Unichain route was configured as single-verifier.
+
+That is a statement about visibility, not prevention. A flag does not stop a forged message; it gives the protocol team, its curators and its insurers the information to act on before one arrives.
+
+## Method
+
+1. Decode the exploit transaction's `PacketDelivered` event to get the source endpoint (eid 30320) and the receiving OApp, `0x85d4…8ef3` (`RSETH_OFTAdapter`).
+2. Read `EndpointV2.delegates(oapp)` and the adapter's `setDelegate` history to find the three delegates over time.
+3. Decode every `EndpointV2.setConfig` call made by each delegate (Blockscout for the EOAs, the Safe Transaction Service for the Safe) and replay the ULN (config type 2) changes in time order.
+4. Cross-check: the current `getConfig` for eid 30320 matches the Safe's 2026-04-23 configuration.
+5. Resolve DVN names with LayerZero's public metadata registry.
+
+## Limitation
+
+Free RPC endpoints do not serve historical state, so the configuration at each point in time is reconstructed from configuration transactions rather than read directly with a historical `eth_call`. An archive node can confirm each point directly.
+
+## Reproduce it
+
+Reproduce it: [github.com/MeFerdi/provd-web (research/kelp-2026-04)](https://github.com/MeFerdi/provd-web/tree/main/research/kelp-2026-04). The summary data is in `data/kelp_facts.json`; the replay script rebuilds every decoded configuration change from public sources.
+
+If you find an error, write to [security@provd.tech](mailto:security@provd.tech) and we will correct it publicly.
