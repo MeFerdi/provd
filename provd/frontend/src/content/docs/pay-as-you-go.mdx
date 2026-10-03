@@ -75,7 +75,7 @@ The response tells you exactly what to pay and where:
 
 - **`card`**: open `pay_url` and pay on Paystack's secure checkout page (Visa, Mastercard). Card top-ups are charged in KES; `amount_due` and `currency` show the exact charge, and your bank converts if your card is in another currency. `email` is required and gets the receipt. Checks are credited as soon as Paystack confirms the charge, usually within a minute. If you want to check sooner, call `POST /v1/topups/{id}/refresh`.
 - **`usdt_tron`**: send exactly `amount_due` USDT (TRC-20) to `pay_to`. The exact amount identifies your payment.
-- **`mpesa`**: pay `amount_due` KES to the paybill in `pay_to`, using the account number in `instructions`.
+- **`mpesa`**: open `pay_url`, enter your M-Pesa number on Paystack's checkout page and approve the prompt on your phone. Always charged in KES. `email` is required for the receipt. Checks are credited as soon as the payment is confirmed, with no manual step.
 
 The top-up stays `pending` until the payment is confirmed, then your balance is credited. List your top-ups with `GET /v1/topups`.
 

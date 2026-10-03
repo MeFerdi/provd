@@ -29,9 +29,10 @@ indexer ──► freeze events, USDT top-up matching
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
   bundled as a seed fixture.
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
-  M-Pesa top-ups confirmed by an admin; card top-ups through Paystack Checkout (signed `charge.success`
+  card and M-Pesa top-ups through Paystack Checkout (M-Pesa falls back to a manual paybill confirmed by an
+  admin when Paystack isn't configured) (signed `charge.success`
   webhook at `/v1/webhooks/paystack`, amount/currency checked before credit, indexer re-verifies missed
-  webhooks; off until `PAYSTACK_SECRET_KEY` is set); exact usage ledger recording what paid for each check.
+  webhooks; card is off until `PAYSTACK_SECRET_KEY` is set); exact usage ledger recording what paid for each check.
 - Subscriptions (global platforms, Phase C): monthly included checks with overage on prepaid balance, invoice,
   or block; `PUT /v1/admin/accounts/{id}/billing` and a monthly statement for invoicing.
 - Proof layer (Phase B): every decision record is hashed (SHA-256, canonical JSON), **signed** (secp256k1,

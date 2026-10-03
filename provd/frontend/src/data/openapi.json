@@ -952,7 +952,7 @@
         "type": "null"
        }
       ],
-      "description": "Card only: where Paystack sends the receipt",
+      "description": "Card, and M-Pesa via Paystack: where the receipt goes",
       "title": "Email"
      },
      "method": {
@@ -2378,7 +2378,7 @@
       "HTTPBearer": []
      }
     ],
-    "summary": "Card: check the payment with Paystack now",
+    "summary": "Card / M-Pesa via Paystack: check the payment now",
     "tags": [
      "actions"
     ]

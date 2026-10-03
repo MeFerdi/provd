@@ -26,7 +26,7 @@ async def paystack_webhook(
 		return {"received": True}
 	tx = paystack.transaction_from(event.get("data") or {})
 	purchase = await db.get(CreditPurchase, tx.reference) if tx.reference else None
-	if purchase is None or purchase.method != "card":
+	if purchase is None or not paystack.handles(purchase):
 		logger.warning("paystack.webhook.unknown_reference %s", tx.reference)
 		return {"received": True}
 	result = paystack.settle(purchase, tx)

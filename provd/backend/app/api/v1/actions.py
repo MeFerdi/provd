@@ -243,7 +243,7 @@ async def pricing() -> dict:
 class TopupRequest(BaseModel):
 	bundle: Literal["1k", "10k", "100k", "1m"]
 	method: Literal["card", "usdt_tron", "mpesa"]
-	email: EmailStr | None = Field(default=None, description="Card only: where Paystack sends the receipt")
+	email: EmailStr | None = Field(default=None, description="Card, and M-Pesa via Paystack: where the receipt goes")
 
 
 class TopupConfirm(BaseModel):
@@ -257,9 +257,10 @@ def _topup_view(p: CreditPurchase) -> dict:
 		"method": p.method, "status": p.status, "reference": p.reference,
 		"created_at": p.created_at.isoformat() if p.created_at else None,
 	}
-	if p.status == "pending" and p.method == "card":
+	if p.status == "pending" and paystack.handles(p):
 		view["pay_url"] = p.checkout_url
-		view["instructions"] = "Open pay_url to pay by card on Paystack's secure page. Checks are credited as soon as Paystack confirms the payment."
+		how = "by card" if p.method == "card" else "with M-Pesa (approve the prompt on your phone)"
+		view["instructions"] = f"Open pay_url to pay {how} on Paystack's secure page. Checks are credited as soon as Paystack confirms the payment."
 	elif p.status == "needs_review":
 		view["instructions"] = "The payment didn't match this top-up's amount or currency. We'll review it and contact you."
 	elif p.status == "pending" and p.method == "usdt_tron":
@@ -274,18 +275,18 @@ def _topup_view(p: CreditPurchase) -> dict:
 @router.post("/topups", status_code=status.HTTP_201_CREATED, summary="Start a top-up (buy a check bundle)")
 async def create_topup(body: TopupRequest, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	account_id = _account(ctx)
-	if body.method == "card":
-		if not get_settings().paystack_secret_key:
-			raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Card payments are not enabled yet. Use usdt_tron or mpesa.")
-		if not body.email:
-			raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Card top-ups need an email for the receipt")
+	if body.method == "card" and not paystack.enabled():
+		raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Card payments are not enabled yet. Use usdt_tron or mpesa.")
+	via_paystack = body.method in paystack.CHANNELS and paystack.enabled()
+	if via_paystack and not body.email:
+		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"{body.method} top-ups need an email for the receipt")
 	await billing.ensure_account(db, account_id)
 	purchase = billing.create_purchase(account_id, body.bundle, body.method)
-	if body.method == "card":
+	if via_paystack:
 		try:
 			checkout = await paystack.client().initialize(
 				reference=purchase.id, email=body.email, amount_subunits=paystack.subunits(purchase.amount_due),
-				currency=purchase.currency, callback_url=f"{get_settings().public_site_url.rstrip('/')}/topup/complete",
+				currency=purchase.currency, channels=paystack.CHANNELS[body.method], callback_url=f"{get_settings().public_site_url.rstrip('/')}/topup/complete",
 				metadata={"account_id": account_id, "bundle": purchase.bundle, "checks": purchase.checks},
 			)
 		except paystack.PaystackUnavailable as exc:
@@ -297,12 +298,12 @@ async def create_topup(body: TopupRequest, db: AsyncSession = Depends(get_db_ses
 	return _topup_view(purchase)
 
 
-@router.post("/topups/{purchase_id}/refresh", summary="Card: check the payment with Paystack now")
+@router.post("/topups/{purchase_id}/refresh", summary="Card / M-Pesa via Paystack: check the payment now")
 async def refresh_topup(purchase_id: str, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	purchase = await db.get(CreditPurchase, purchase_id)
 	if purchase is None or purchase.account_id != _account(ctx):
 		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Top-up not found")
-	if purchase.method == "card" and purchase.status == "pending":
+	if paystack.handles(purchase) and purchase.status == "pending":
 		try:
 			paystack.settle(purchase, await paystack.client().verify(purchase.id))
 		except paystack.PaystackUnavailable as exc:

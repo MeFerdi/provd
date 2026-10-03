@@ -545,3 +545,39 @@ def test_card_refresh_reconcile_and_provider_outage(card):
 			return len((await db.execute(select(CreditPurchase))).scalars().all())
 
 	assert portal.call(count) == 2
+
+
+def test_mpesa_through_paystack_is_kes_and_credited_automatically(card, monkeypatch):
+	from app.config import get_settings
+
+	client, tron, who, sessions, portal, fake = card
+	monkeypatch.setenv("PAYSTACK_CURRENCY", "USD")  # cards in USD; M-Pesa must stay KES
+	get_settings.cache_clear()
+	assert client.post("/v1/topups", json={"bundle": "1k", "method": "mpesa"}).status_code == 422  # email needed
+	topup = client.post("/v1/topups", json={"bundle": "1k", "method": "mpesa", "email": "ops@example.com"}).json()
+	assert topup["currency"] == "KES" and topup["amount_due"] == "2600" and "M-Pesa" in topup["instructions"]
+	assert topup["pay_url"].startswith("https://checkout.paystack.com/") and "pay_to" not in topup
+	assert fake.initialized[-1]["channels"] == ["mobile_money"] and fake.initialized[-1]["currency"] == "KES"
+
+	card_topup = client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).json()
+	assert card_topup["currency"] == "USD" and card_topup["amount_due"] == "20"
+	assert fake.initialized[-1]["channels"] == ["card"] and fake.initialized[-1]["amount_subunits"] == 2000
+
+	_webhook(client, {"event": "charge.success", "data": {"id": 55, "reference": topup["id"], "status": "success", "amount": 260000, "currency": "KES", "channel": "mobile_money"}})
+	assert client.get("/v1/usage").json()["balance_checks"] == 1000
+
+
+def test_mpesa_without_paystack_uses_manual_paybill(env, monkeypatch):
+	from app.config import get_settings
+
+	client, tron, who, *_ = env
+	monkeypatch.setenv("MPESA_PAYBILL", "4123456")
+	get_settings.cache_clear()
+	topup = client.post("/v1/topups", json={"bundle": "1k", "method": "mpesa"}).json()
+	assert topup["pay_to"] == "4123456" and "pay_url" not in topup
+	assert client.post(f"/v1/topups/{topup['id']}/refresh").json()["status"] == "pending"  # nothing to ask Paystack
+	event = {"event": "charge.success", "data": {"reference": topup["id"], "status": "success", "amount": 260000, "currency": "KES"}}
+	monkeypatch.setenv("PAYSTACK_SECRET_KEY", "sk_test_provd")
+	get_settings.cache_clear()
+	_webhook(client, event)  # a valid webhook can't credit a manual-paybill purchase
+	assert client.get("/v1/topups").json()[0]["status"] == "pending"

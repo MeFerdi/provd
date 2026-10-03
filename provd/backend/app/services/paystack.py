@@ -1,7 +1,8 @@
-"""Card top-ups through Paystack Checkout.
+"""Card and M-Pesa top-ups through Paystack Checkout.
 
-Flow: POST /v1/topups {method: "card"} creates a pending purchase and a Paystack transaction whose
-reference is the purchase id; the buyer pays on Paystack's hosted page (we never see card details).
+Flow: POST /v1/topups {method: "card" | "mpesa"} creates a pending purchase and a Paystack transaction whose
+reference is the purchase id; the buyer pays on Paystack's hosted page (we never see card details or PINs). Each method opens
+checkout on its own channel: card -> "card", mpesa -> "mobile_money".
 The purchase is credited when Paystack's signed `charge.success` webhook arrives, or when the indexer
 (or POST /v1/topups/{id}/refresh) verifies the transaction — whichever comes first. Amount and
 currency are checked against the purchase before crediting.
@@ -18,8 +19,20 @@ from app.models.rails import CreditPurchase
 from app.services import billing
 
 
+CHANNELS = {"card": ["card"], "mpesa": ["mobile_money"]}
+
+
 class PaystackUnavailable(Exception):
 	pass
+
+
+def enabled() -> bool:
+	return bool(get_settings().paystack_secret_key)
+
+
+def handles(purchase: CreditPurchase) -> bool:
+	"""Purchases that went through Paystack Checkout (manual-paybill M-Pesa purchases have no checkout)."""
+	return purchase.method in CHANNELS and purchase.checkout_url is not None
 
 
 @dataclass
@@ -63,10 +76,10 @@ class PaystackClient:
 			raise PaystackUnavailable(f"Paystack {response.status_code}: {body.get('message', response.text[:200])}")
 		return body["data"]
 
-	async def initialize(self, *, reference: str, email: str, amount_subunits: int, currency: str, callback_url: str, metadata: dict) -> Checkout:
+	async def initialize(self, *, reference: str, email: str, amount_subunits: int, currency: str, channels: list[str], callback_url: str, metadata: dict) -> Checkout:
 		data = await self._request("POST", "/transaction/initialize", {
 			"reference": reference, "email": email, "amount": amount_subunits, "currency": currency,
-			"callback_url": callback_url, "channels": get_settings().paystack_channel_list, "metadata": metadata,
+			"callback_url": callback_url, "channels": channels, "metadata": metadata,
 		})
 		return Checkout(authorization_url=data["authorization_url"], reference=data["reference"])
 

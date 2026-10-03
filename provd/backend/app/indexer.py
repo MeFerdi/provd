@@ -81,14 +81,14 @@ async def match_deposits(db) -> int:
 
 
 async def reconcile_card_payments(db, now: datetime | None = None) -> int:
-	"""Safety net for missed Paystack webhooks: verify pending card top-ups between 2 minutes and 24 hours old."""
-	if not get_settings().paystack_secret_key:
+	"""Safety net for missed Paystack webhooks: verify pending card/M-Pesa checkouts between 2 minutes and 24 hours old."""
+	if not paystack.enabled():
 		return 0
 	now = now or datetime.now(timezone.utc)
 	pending = (
 		await db.execute(
 			select(CreditPurchase).where(
-				CreditPurchase.status == "pending", CreditPurchase.method == "card",
+				CreditPurchase.status == "pending", CreditPurchase.method.in_(list(paystack.CHANNELS)), CreditPurchase.checkout_url.is_not(None),
 				CreditPurchase.created_at <= now - timedelta(minutes=2), CreditPurchase.created_at >= now - timedelta(hours=24),
 			).limit(50)
 		)

@@ -72,16 +72,12 @@ class Settings(BaseSettings):
     usdt_deposit_address: str = Field(default="", validation_alias=AliasChoices("USDT_DEPOSIT_ADDRESS"))
     mpesa_paybill: str = Field(default="", validation_alias=AliasChoices("MPESA_PAYBILL"))
     public_site_url: str = Field(default="https://provd.tech", validation_alias=AliasChoices("PUBLIC_SITE_URL"))
-    # Card top-ups (Paystack Checkout). Empty key = card payments off. Currency must be enabled on your
-    # Paystack account (a Kenyan account settles in KES; USD needs Paystack's approval).
+    # Card and M-Pesa top-ups (Paystack Checkout). Empty key = card off and M-Pesa falls back to the manual
+    # paybill. PAYSTACK_CURRENCY applies to cards (KES, or USD once Paystack approves it); M-Pesa is always KES.
     paystack_secret_key: str = Field(default="", validation_alias=AliasChoices("PAYSTACK_SECRET_KEY"))
     paystack_url: str = Field(default="https://api.paystack.co", validation_alias=AliasChoices("PAYSTACK_URL"))
     paystack_currency: str = Field(default="KES", validation_alias=AliasChoices("PAYSTACK_CURRENCY"))
-    paystack_channels: str = Field(default="card", validation_alias=AliasChoices("PAYSTACK_CHANNELS"))
 
-    @property
-    def paystack_channel_list(self) -> list[str]:
-        return [c.strip() for c in self.paystack_channels.split(",") if c.strip()]
 
     indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
 
