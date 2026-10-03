@@ -1,0 +1,28 @@
+usdt: 13846 to classify (0 done)
+usdt: 0/13846
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/classify_authority.py", line 52, in <module>
+    for i, row in enumerate(pool.map(classify, todo)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/classify_authority.py", line 31, in classify
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 24, in call
+    raise RuntimeError(f"{method} failed after retries")
+RuntimeError: getTransaction failed after retries

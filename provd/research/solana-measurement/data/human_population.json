@@ -1,0 +1,3635 @@
+{
+ "population": 907,
+ "checked": 907,
+ "human_paced": [],
+ "spans": {
+  "12893hGSNg98gvHETzfE2Qqa53R8ZSeutXSsVqCgnygE": [
+   0.14994212962962963,
+   60
+  ],
+  "219Ek1faiUfcRz5hkqnqVpZePVpikrHzUKHxZuhfLk55": [
+   null,
+   1
+  ],
+  "21ova6cmGb7TFAWJB59BXMTkFuHLin7nUo7XJpH85Yx5": [
+   0.8352893518518518,
+   23
+  ],
+  "22d7mFFgwv8jE8qm1jZviUFTK25YDapDb24JVShZ3EhD": [
+   0.7265046296296296,
+   10
+  ],
+  "23PJVia2BiMkjvYk1VBJ35jsnXG4HDJ3BJ3G7v9HnWBq": [
+   0.9398032407407407,
+   33
+  ],
+  "23xPq8C2SqkTpvZ3efBY5U24KtNePGMVDKYwLvVC6v62": [
+   0.8406481481481481,
+   5
+  ],
+  "24CYF1PsChJrfkJRqpJaaPbjsbV9j964MS2ajN76HfPe": [
+   0.0036689814814814814,
+   5
+  ],
+  "29LoC83qPgMNWuh6i8GcrwS66PEU1UAtH8z7gMMt2QKV": [
+   0.5673148148148148,
+   6
+  ],
+  "2A1eyUU1AiAVdtieZFcwBLGzaAuuLr3jTF5arwvC349K": [
+   null,
+   1
+  ],
+  "2AaQa8fmdrB3PdRvZxr95iGNkuumdC95w6FP9oUxZvLU": [
+   0.8793055555555556,
+   22
+  ],
+  "2B4N87VcWQhhuZ6ZXet2i3qzSuZTQmovdvdfuHhjhfjy": [
+   0.24004629629629629,
+   60
+  ],
+  "2CgkqqDrPuCPFCBpf8bBPqw7cWWCGiVZw7rCioyP1dzF": [
+   null,
+   1
+  ],
+  "2DqNr5Wp8wwUsTpJnqpm1mq5csBojtVZqHPUduyWG5no": [
+   null,
+   3
+  ],
+  "2FYQt8fKWtJziyzwQUnMehoPqCJJphiawa379nQzaouK": [
+   null,
+   1
+  ],
+  "2GTuM2yRfHUkZjwaCM7a99RrVMZZ5qi4EXgdLfJHsCDm": [
+   0.921863425925926,
+   16
+  ],
+  "2GX7iFs62miaAiMYPKbCZq8rSoxUPkhahSK57Z63R4ep": [
+   null,
+   1
+  ],
+  "2KsNDt7ZC9XD3Ksn9RDLLzUGHo4CeQeNa6ZmJSMvhPqo": [
+   0.02224537037037037,
+   10
+  ],
+  "2L5Q7CuqJbbp9HRxhHook5UkEGZ44zGnfEifmUP2HKC8": [
+   null,
+   3
+  ],
+  "2M2FhNvXi21vQnAFihponJzVLQuHcAtstvus5xKBCpTs": [
+   null,
+   2
+  ],
+  "2NxeNBJzWqgpX4RL8u7M6rrBD4Bx3Bxbqtih63ffetsh": [
+   0.8417013888888889,
+   12
+  ],
+  "2Q96nFdZW8u7HUPfTQewZKMjZ7DEbGFjbdVT3o1wM8LD": [
+   null,
+   1
+  ],
+  "2QgLo9BQZYwcA8eZs91QkA1iaUEF75D2y7GGGRZ6Hgq8": [
+   0.2135300925925926,
+   11
+  ],
+  "2Qo6tvncjMWRjcYVpASqqoLDBQ2aYy2bW8CqrWnwuTHj": [
+   0.09175925925925926,
+   8
+  ],
+  "2TPWFHuoSFCSiJiiPRRXJM95YxCuQdgdogdCF5K3iWpc": [
+   null,
+   3
+  ],
+  "2VG7jR7iaiUTSqxeagS33uh7mUksiTtBaSERUWw9EDrS": [
+   0.6071412037037037,
+   5
+  ],
+  "2WLMrjMzTPpko1w7v1rDN7Ee7qrHYrijw2LLL2qZ19dP": [
+   0.885775462962963,
+   5
+  ],
+  "2X3Q1s2pxqtowm5wAwvZdybpUJVaVt8rDBBEyEHNz64x": [
+   null,
+   2
+  ],
+  "2XdpFkxQKw6zE5ikbw3oxk7ZyMUvFLDr16LrVBub5ipF": [
+   null,
+   1
+  ],
+  "2YmovXS8gr3tL3zKDuL31sqD1BgiNttSGdGnszafXifZ": [
+   null,
+   2
+  ],
+  "2YnZmfpHzUpN6cA38DyuMMQ75GTCm1XjsVDB1ME3VuZk": [
+   null,
+   0
+  ],
+  "2ack97x2ns8QgjuZ7tvSasWDXjoJkmGMeWhR9NYiYc2P": [
+   0.004722222222222222,
+   5
+  ],
+  "2b6zc6fAtRqRh5ekJp5LsGU61TmYSikyBwDwZr2CV9vj": [
+   null,
+   1
+  ],
+  "2cd8XxmaFuNwgWNtcFvfhoAKm925Zwovhv2aj1Wx364N": [
+   0.8058564814814815,
+   10
+  ],
+  "2fCQ7PD6CRHacqakuFrfCB2JoXLmWK9dzE4xKBgG1QBE": [
+   null,
+   1
+  ],
+  "2fZomcWC9CD4S642Gkdswyppw2iWE17zEBVadXM7BMDC": [
+   null,
+   4
+  ],
+  "2gM4h5b5iLiZ3X7P3K9R6ucBshSmgb6DeoDosctPjoaG": [
+   0.017916666666666668,
+   5
+  ],
+  "2i5foDt63bUnSb1sSkgtsFtoC2HaWkVJhwPoxhB4HPch": [
+   null,
+   0
+  ],
+  "2iPRxzYeYmdCrQHSb22QbKaoKnYDn1XppbWYJQsk7RRM": [
+   0.0606712962962963,
+   7
+  ],
+  "2iUycVTyX4XWaQGiEQ95MDzoNs3qgGUjMfcKwurmxGqB": [
+   0.6417361111111111,
+   60
+  ],
+  "2iYbrNzGw4M6guH2fqRwmvydhH5PYYHUzCTCH4UVPT1U": [
+   0.6821527777777778,
+   10
+  ],
+  "2ifVkcUjLGdvYSsZ1yxpnxRaR9v7UwXuN52eGAu2wkw1": [
+   0.0033680555555555556,
+   7
+  ],
+  "2jqfPvKoafC49RXeDQJkeaKYkfMnefXB2jvno8CXiba5": [
+   null,
+   4
+  ],
+  "2kYCud6DWn9if7bNrHPiBbUjVkrgiaNzzfkwnuz4k7FU": [
+   0.887800925925926,
+   60
+  ],
+  "2nXJPhv1s3TKMEZ1RCfSCXqCSDCrrE5LmxEy4y3PA35y": [
+   null,
+   3
+  ],
+  "2oVox2upePQ4RKA9Y4W4KytS47H2T4WyT6s6Q3YVVvA4": [
+   0.012708333333333334,
+   5
+  ],
+  "2pRnA6TexAbytiS1dua1xWu9qWeXjbx5R61ap8FqoCf3": [
+   0.5356481481481481,
+   60
+  ],
+  "2pRqgMeBgSUtPvUQvdMy695oYMx6bEmU7BwUAf43q9X9": [
+   null,
+   0
+  ],
+  "2qo8jvuc49pFmTjmUHLiARSV6ppPTaE7gw27ZJ6DnNZy": [
+   0.011180555555555555,
+   60
+  ],
+  "2qt3LiiUKQBsAi5ixR7ZgHqm1vSWrCD1v6x6RBrdAzkW": [
+   null,
+   1
+  ],
+  "2rGfBUNcii8EfiDueq6yJh9v19jvBAB2gJSjQUe8NgmL": [
+   null,
+   1
+  ],
+  "2racky1VUiW58CdKEiRWYWnywPPqhdNEyP3pgTN1yh43": [
+   0.0594212962962963,
+   17
+  ],
+  "2so9wgxHkqn6pTPjhdZquZnw7f3d3qzvCkR5yyZUkNGY": [
+   0.8936921296296296,
+   11
+  ],
+  "2uUVKqmwJgk4tbK7qGL7zdjGAbnpmXASgHM8oWte1kTW": [
+   0.871087962962963,
+   40
+  ],
+  "2ufD9bSMgTvXtzZATomxNWPguUq1QZMCYwrgEXr6ZuDU": [
+   null,
+   1
+  ],
+  "2xUDNFaAV7BbdDpAbXcBA8fSdUPYpPfM5gCpNWiqgP4i": [
+   null,
+   1
+  ],
+  "2zBDVraqcHDPAcFTNsGZ3Fkq25j93F9hGwhdP2n9UxZ9": [
+   null,
+   2
+  ],
+  "2zb3zVCi3DQqGQEjeYZtDBSFxXMUqbMnGXpEjVoBZWiW": [
+   null,
+   2
+  ],
+  "32rzCRWqq9pAS74AgdMnuu6xhPHbNUdjTeZHnuK3nRvq": [
+   0.8542592592592593,
+   34
+  ],
+  "33SBQFyhwzgcV7fXSpo7GHL6hT4PtNpTfCpSjyMbth6S": [
+   null,
+   2
+  ],
+  "34H51VEYWvQd9uZqz4dUdShCy3DfiDQVxF4owhB6jmsQ": [
+   0.018599537037037036,
+   10
+  ],
+  "35L7u5ASGXVYSZ73nqhXdXeRtYobkei7RFFuHeoqVWx9": [
+   0.0037847222222222223,
+   5
+  ],
+  "37NxfuMxJ6Gz8QamKVRgwyTnGH8DXJswFJvDPc7vUwL1": [
+   null,
+   3
+  ],
+  "3AMqrVBUxeCcEWe8P6VaYxNjc7MWtunApm7ACDYxunZh": [
+   0.6066898148148148,
+   60
+  ],
+  "3B8DRg8oqqhm76eT6obXv21FLGFobfrkvkgaTV4MVGqn": [
+   null,
+   2
+  ],
+  "3C4Ed9UxdCeBXxoniiLrGFc5fn88Mr3DZpLGJSxcJkX4": [
+   null,
+   1
+  ],
+  "3DDawJy3WPSjprLKizSG64MtwW2wrhPoGoRfSVLJYGn3": [
+   null,
+   3
+  ],
+  "3Esc3A9yWMsch65iLFBqiW4UhB3ULQGSVxyTh9hY4bJo": [
+   0.8426273148148148,
+   17
+  ],
+  "3Ey7Hy5BQq4X1xGcHrSTeSZ7wmiftmAnjxMePqLtKeX5": [
+   0.8542013888888889,
+   20
+  ],
+  "3FfgZZ7EARK8cmvhEitdgPTHvdkFCG5AbQ65F1D7ZSLg": [
+   null,
+   3
+  ],
+  "3FyuhHLA1CgjoRjUknFhYJST3LmngvzdTaxYBetN2dVu": [
+   null,
+   0
+  ],
+  "3GD6Vy7H1raYsErvYw9rgZoet7xyYHDMfVz1tt8zUdRT": [
+   null,
+   1
+  ],
+  "3GW9j6U8npg1NGE4nuZ9QMpsRYvtuibRHQjgETPuLKLL": [
+   null,
+   1
+  ],
+  "3JKjsEiw8L94jwfNT4eGBSkgsJoVdoBujfYptvhVc2qY": [
+   null,
+   0
+  ],
+  "3K4SBCygVsGRLhk2xegBFvEGhWV85hQ33ZvfP81RLH8J": [
+   null,
+   0
+  ],
+  "3KBgaiQg8k9dDd8cZLzxrSoCS2jpbM6QQkYTK8sQXK9h": [
+   0.8599074074074075,
+   11
+  ],
+  "3LAFbwUKcduRF18LprjFnacbaMk8bUY7H4MdsFMR2Ei7": [
+   0.004629629629629629,
+   8
+  ],
+  "3LD26LimbNJn9NrgULmduByxQbmdjBf2pDPSMxBqhrvU": [
+   0.8101157407407408,
+   35
+  ],
+  "3LUYTQucw5UgQfY3NTo414qhrp6YSZQPLdpxCHVe61go": [
+   null,
+   2
+  ],
+  "3NRMH1ecTebd2kntUgTuDvA9BfHtJCea6XvhYCEjVjGc": [
+   null,
+   0
+  ],
+  "3QrjggiVkXstVwnudbQ4J7bqGvoonE3oiSvwYrLs8CTt": [
+   0.08399305555555556,
+   16
+  ],
+  "3RFadboeD454XVD2mV1aovj5MdvieYj3nAfkeDK3edgc": [
+   0.005462962962962963,
+   6
+  ],
+  "3SRPE3cBQiew9bkRu4fvEynA8t2tQEVvufydEz3G4d9P": [
+   null,
+   0
+  ],
+  "3Vjn5Mm11nieHd6sU6udGhoSCB3KpKVhqEYjrALEtoEb": [
+   null,
+   1
+  ],
+  "3XF8eDdvqXfbTQuPjRfA1Y2jodUZHZyYCBauLfy7hocM": [
+   0.8651273148148149,
+   60
+  ],
+  "3YBNPrS4vzZ8Wx7fKxpdFCVfAfiYY1XdZagptLBZ7HbE": [
+   null,
+   4
+  ],
+  "3YbBiEHazap19KrdmgCvFo9RSVuPyXPSw5w9nn3H3nnj": [
+   0.009710648148148149,
+   5
+  ],
+  "3YeTBtvDWw4RDpzkdZGKW5t3DzQTimqcCzB5aahGSfz7": [
+   null,
+   1
+  ],
+  "3ZLfdzi1KZiR1cxupLYWGzt31vwBRPvaSks1v92FqAb8": [
+   null,
+   4
+  ],
+  "3ZcjZyvDtZuQuvkTA4VhEBfpL3Ury3kUT6aJ7Pd7wqWm": [
+   0.6675694444444444,
+   25
+  ],
+  "3ZwGrRGxECFBfEF4ZxSqpzaxaCcc3ysuDMcdgUwgh58Q": [
+   0.37667824074074074,
+   5
+  ],
+  "3aGhYVKrizKauC8MjvRSKEYrJimVtpx8zcYegXV51uGK": [
+   null,
+   1
+  ],
+  "3ajggEtVxGbKphoEbqcbPw2zKvbpkZidWPnkdDqvx3jh": [
+   null,
+   1
+  ],
+  "3cPWzKvc64PbbqUgmAxhn1YaebeBxpVPgn6KCBHr1J5y": [
+   0.8887962962962963,
+   7
+  ],
+  "3dTXvZ39PhG2eaDoZ3ty8kPenEKwPCcKSSQBwudG2Jpa": [
+   0.4737152777777778,
+   6
+  ],
+  "3duMtuNAWzK39ucwnXNjrLGwrT79aELcR3SG9Z38HSzf": [
+   null,
+   1
+  ],
+  "3e8CKKXsvj2CMnBtC8PA4QKcV7HFBrfv4uB8F4on27o7": [
+   null,
+   1
+  ],
+  "3eqXPXSgEbdVt3k4UFZvd7VYnaVGc7CNia2tqFrBCZHN": [
+   null,
+   0
+  ],
+  "3fZk9VHAYnMaC3V6AsfUBr5aVQSKg2WzrhxCkBUWbot7": [
+   null,
+   1
+  ],
+  "3hXtqG6CrAthcJvpEfeWmDZ7CbwXJRpL9chxHrAWFcob": [
+   null,
+   4
+  ],
+  "3hgJ1Ky6GSezPqeBE5fzyDdHB1VwwGmMMmrYqTZYUrUK": [
+   0.8911574074074075,
+   20
+  ],
+  "3i2HU1oBjZrff9QM6SACYW8C1QjExveDNso9saFSJdYw": [
+   0.14422453703703703,
+   60
+  ],
+  "3k1xuTVBvoGTFwLEAeEFkFhKiQrvA9myKzWAgzcW3YYB": [
+   null,
+   0
+  ],
+  "3k4c85tu1YMgcPTduiM6WPpbhSGkcAYaYCko5WjafRiC": [
+   0.47030092592592593,
+   7
+  ],
+  "3pGpXCzkmW3TCC3HSvhC8SHDgudKYNhvsK17YBFba6Qh": [
+   0.8596643518518519,
+   10
+  ],
+  "3qf1fC3c1T9DNFSknGXQEGJ9J1NcJYpRWvuXFPmMKzeh": [
+   null,
+   1
+  ],
+  "3rSmV1gFqMsFRNBxcjV1DeidVZv8uW98GY8shEgRW6bk": [
+   null,
+   1
+  ],
+  "3tJsk8RwvesPEM7y8H3FkrswHbFdFk31Grb2FNwKnZ6p": [
+   null,
+   3
+  ],
+  "3tdtYHjPrKNQzLsVLNDD7ntHPnrfns3ezZVKsGdfWkus": [
+   0.5068865740740741,
+   5
+  ],
+  "3uKQJpCTJztbtfFv4ncEvwV2y6wNGZLmGvAa9KczM9qs": [
+   null,
+   1
+  ],
+  "3vKNSEnrVfhN95aJQkTyraiLif786HAhavaP8fcTP2T3": [
+   null,
+   3
+  ],
+  "3xbmFr5XE5TKKDmQVfb4uq9wFHXrZyFXCGHP2ciCJGpp": [
+   0.05204861111111111,
+   60
+  ],
+  "4179Vb92DNQymjBsF2ebCVkXtPRhpuoyjZNe8nSvYPUA": [
+   null,
+   2
+  ],
+  "41xX9BA3sSzp1WPXQyRZj16cK5G9bREL8dib1MGGbvEK": [
+   null,
+   1
+  ],
+  "42JaVtUGTDfMm7gXeA8N6ATeGS3jaU1etMdBxyzZTeYm": [
+   null,
+   2
+  ],
+  "46FBUaH4ePKsFvW9EnRMJcwmBHZeqZmFxkQ8jgMjMxPf": [
+   null,
+   3
+  ],
+  "46a2DhAH1E5HdvSuZWQHwv97z5wwQ1SyqM2Fg1HsEULa": [
+   null,
+   0
+  ],
+  "48MgwqhuMF8fxWh1f43XF5Mj9xJ5vu9GWHqXJiAMXbLu": [
+   0.8464236111111111,
+   39
+  ],
+  "49DfGXhGT3asVFedn5bUqyVMuHZ43kGHUXbKBZZM2Nr5": [
+   null,
+   0
+  ],
+  "49cTkKuqb3ATzXKXrQot2uZsjUkokErvNj67PpvKSukt": [
+   0.8399652777777777,
+   6
+  ],
+  "4AKicz9NPhy4QK6kqAc5Js2vyfMfmX9KEWAxjjbStUCH": [
+   null,
+   4
+  ],
+  "4AhTpXSV52cMBGCri7XzQHj9FmdFiKzNXAP4DzpN3xia": [
+   null,
+   2
+  ],
+  "4EFd4ammtaTsC2qxJNJVcUKJi6mNFPk5giV75yLbzpCq": [
+   null,
+   1
+  ],
+  "4EPwiaEcCbMj8hp8a1DBx3PCoLwdEq7kvbygRqxxhNDh": [
+   0.4216550925925926,
+   60
+  ],
+  "4ErgB91x9ydge6W57ngpjET7C4H4vgmKeCxe5bAGAeCt": [
+   0.35509259259259257,
+   5
+  ],
+  "4FhYfyrPpre7FXpym9PWQcogFFT771FXzXkDPunbVzUA": [
+   0.7357986111111111,
+   60
+  ],
+  "4H96qsXPq2nEUkSEdqPbrtihaoKcWTNRkk7stbkhL6pL": [
+   null,
+   1
+  ],
+  "4HE7fxnTz3LvdpvMCKUFRLLqT4DH26522rDLvNxpSrTB": [
+   0.8867824074074074,
+   8
+  ],
+  "4JLLGEW3CPwUwzDgei3vcyuiKet7iTuuRsXXWijDzui1": [
+   null,
+   3
+  ],
+  "4JPrcLFzyYgfUHuhEPGJpTS3KAi86vo19bx4tgMQQBsT": [
+   null,
+   0
+  ],
+  "4Jhv4YuCzQoyJfni7Aif2XnVEapu81eLwfXSC66zZrtd": [
+   null,
+   0
+  ],
+  "4KKkTyJ9CcDXC2SoCrG5QAhoBNmjXHZr6LzrrWRYbJAG": [
+   0.02619212962962963,
+   5
+  ],
+  "4KsXnyisCSNx7v6xDGaLWnoLzyV8nFv8sNptiCRrw5Yu": [
+   0.8139814814814815,
+   5
+  ],
+  "4MsPrTQtm81coAjWz5YfkWxi7x6uDRQRwP2h4hYJFVFV": [
+   null,
+   2
+  ],
+  "4N9JEDWuDUR4JrmgvZRJcaYmQM77i34Qk8RhC5v1Xckh": [
+   0.708587962962963,
+   10
+  ],
+  "4NXBRUprHHDWMenp2M34bGvv6VHEeyQQ6rnmDvRr7xfM": [
+   0.9014236111111111,
+   29
+  ],
+  "4QFXUwLap2Fq7D9q89sjYrFHNcjj9SBdueoAqbCWDsqj": [
+   null,
+   1
+  ],
+  "4Qfi83vUxFFiapBBcnotsggSsavmjPEL6p6ZaDcZQV7x": [
+   null,
+   0
+  ],
+  "4RCE98uVPGxcWy3A2kF8K7FdL7mDtNKvuPZCrBkrRY93": [
+   null,
+   2
+  ],
+  "4RGA7dqrmn8A27W4ULcLTd1axpCRpoxbM7HAQKcZ6aQw": [
+   0.897349537037037,
+   9
+  ],
+  "4SNqZVymKHBv7JttzXT7D3WqwMQbzH5ELKj53Vjmruvw": [
+   null,
+   3
+  ],
+  "4Tze7R5Gd6ky8o5rftJjx4Q7wNBnpX3MJ9E516Bs8wrV": [
+   null,
+   0
+  ],
+  "4Vn3myXqWWm1ETXdfPMVapiYkbqLgC2Mvva7mgnghbVa": [
+   null,
+   2
+  ],
+  "4WsQZ2kKVPrRPWTE39P1WwhCrEeEu4sEhkiNAcDAoRHx": [
+   0.8641550925925926,
+   12
+  ],
+  "4X8N8SWKrDwiMyEbyPptZvB988CJX5WXp6zD565B8565": [
+   null,
+   2
+  ],
+  "4X8PAfCDy9qsBEvVM8rKuLn3aDmkK8NPnMBgZXCaafo2": [
+   null,
+   1
+  ],
+  "4XQej5zMTc8xdTieZcwnqSRmD61s1PX1nP2tGjCpDDpq": [
+   0.18465277777777778,
+   7
+  ],
+  "4YAXTiuaVhzUFDasQabjGxWPKZiFRKoLUpnAwEagH6dX": [
+   0.2752199074074074,
+   60
+  ],
+  "4YFVgiptxoMYpoyjSsnvVpxm2iogpX3zMLZ4w7JNTrpc": [
+   null,
+   0
+  ],
+  "4YPv2DtNoefkQAPzcq3cgqRArzSdLQ6Yq68aMBX5GDAH": [
+   null,
+   4
+  ],
+  "4ZRi9EqPGcBVoPXvvPgpW4QciPA6vhhsZqWNYquo9Q7v": [
+   null,
+   1
+  ],
+  "4atzBCJG9RVhcGknPPKGFgdjhw8DKqoDK7rJva2xJQAL": [
+   null,
+   1
+  ],
+  "4iM3UQpAg5xxivN8zQU5uh3hMPx6Kka9nbi6hgMgSsjT": [
+   0.19003472222222223,
+   6
+  ],
+  "4icN5dMFiMNtXSQZ548BV1MsFK5PQx4Lxq6E2z4ZMk9P": [
+   null,
+   0
+  ],
+  "4issXDCs4AuCenVGC9udTZcNqMyqVYkwqHCoumBh5NUT": [
+   0.045162037037037035,
+   60
+  ],
+  "4k1XwmvYWnfigTEsZrkDKrUmwfZ1sFMtMTNXEyT66LBx": [
+   0.9120023148148149,
+   5
+  ],
+  "4kdPTDA6y9TUomXGVK3RX7mQUTyYz8v9ZJB6hbLddwGJ": [
+   0.6860648148148148,
+   32
+  ],
+  "4kszGJVjceGfn6myRjR4kiWPLnRVUAQvdWXB4Sn33YeC": [
+   0.6712731481481482,
+   27
+  ],
+  "4mksF19s6wxpd4XBu2BGYfHQfrRJAjKK8TZLpZSHdMuq": [
+   0.05178240740740741,
+   7
+  ],
+  "4mz3C6tKu3d5GAh1PfYksXRKnAkuSTVb2VnbDxT7rNzb": [
+   null,
+   0
+  ],
+  "4n4mB2RSERUWGkQK3jEpvPZnEEzFLDNjEheAsMh9L5ei": [
+   null,
+   1
+  ],
+  "4nhuMU98wyj4TmEnt7BtSvVRXcRvBJrCXAFZ2KmXEZMP": [
+   null,
+   3
+  ],
+  "4nv9B9vUuu3xFxiNJituki2KJysqdd2fh1fm252asopx": [
+   null,
+   0
+  ],
+  "4pfXgHJ1DEfuVJdBsitSGePjccmgJYvoFj7unMuo1CCD": [
+   null,
+   2
+  ],
+  "4s45P2e4SoCcYiVcaQTFvQAf3jUKx8D4TXobPyvfSYH9": [
+   0.48140046296296296,
+   5
+  ],
+  "4svK3mDjswtJHM96BCt2kZDjKKnG3rCw5m32tZK2agnY": [
+   0.6561458333333333,
+   56
+  ],
+  "4t3Pugk5R2scXYDU4Kg3g7bVvjfsZRPNRDGMTb68HL9w": [
+   null,
+   2
+  ],
+  "4tM7n3LWcQnxTYmdvubKo1jj4VBpYWPXWmrT8PxgVkRo": [
+   0.019074074074074073,
+   5
+  ],
+  "4tyvCr1xsqdVQe27bBDmXz4ZBFmPKdpE37n8s7AgVZMy": [
+   0.8591203703703704,
+   52
+  ],
+  "4uiCLMF5HSZhvyfiQEXtZPEJnSkj5vxF793ypM6FxPKy": [
+   0.6883101851851852,
+   8
+  ],
+  "4x4Qud2ZsJjFazCKnNF3XDYJSGvvHrsjRiXiohcREymn": [
+   null,
+   1
+  ],
+  "4xbExuodizBwD2Lyfca5i1WLB1vXRXUSKnFmQRrjSMNZ": [
+   null,
+   0
+  ],
+  "4yi4JjtMkfmqSZa9cZfqCVVVxGaLfKobHTwGvGBhnxxS": [
+   null,
+   0
+  ],
+  "4zDquMzZZgLh1Y4jUTMVy1sUNRe35sSz64casgPxXDnh": [
+   null,
+   2
+  ],
+  "51rnMnhGpzy2T61cCtXdN8AnQi1Aya4KfrazftewdWGs": [
+   null,
+   2
+  ],
+  "52JkKcwbWjBed1GzRLFTvFfzThHB6dLC47aY7YcHbf9W": [
+   0.8326388888888889,
+   18
+  ],
+  "56KUqB7NrJpQT514hmaYwZfEPbJAeYjdeWFeWXVxrgSe": [
+   0.09903935185185185,
+   5
+  ],
+  "59xLxyEPzpFVHJsvLQEsrAj47CJrH9y98D7iw5vkBdRT": [
+   0.705787037037037,
+   60
+  ],
+  "5AYpzFQuVQAGxjqf2Vd8EU4AgLqpamdyxX2bHeBcaejX": [
+   0.6144560185185185,
+   9
+  ],
+  "5Aam9h1B5gSXAhA1BbiwX9Kois5TH2bxmBfV6GPE3u89": [
+   null,
+   1
+  ],
+  "5Bwd6vpPswb6BqZTFmCKnbE1z2rEv75TzYeTHKSY2PRe": [
+   null,
+   1
+  ],
+  "5CG2bRukTK3EtrPKRsUFbM1w3A9FMsuMSMDjSUm1Fiwo": [
+   null,
+   1
+  ],
+  "5CLusYXnBZqYfue8D5iv81BwKmkguDobqXDpYXkqHUx2": [
+   null,
+   3
+  ],
+  "5F4PhTEAEGYUdxUvCHPDnLDCnCUQQcV4g6M9eq9TBEjM": [
+   0.8986342592592592,
+   6
+  ],
+  "5HZWahSWJyEUL2V1tfTre73UhT4V446D2cMxncRdKJPS": [
+   0.6656597222222222,
+   5
+  ],
+  "5PAwjg8R1zqdJCbHtMDdrxEjNrgg7WYXnEpcMCdyvVe2": [
+   null,
+   4
+  ],
+  "5PMugxE29pVKT6kcLPjGRy28ZnnybsySMry2Ffq1zGQF": [
+   null,
+   3
+  ],
+  "5Qfi5k3pPBg95yaGWRLQZbtRAPZVcb7CxkyqWszsutHp": [
+   null,
+   0
+  ],
+  "5QxhMsZBD4pzQYkJKQK9kXjxCjWCg7dw5H8wz23m3D9m": [
+   null,
+   3
+  ],
+  "5RasYDapfnD7m9EWtFUZhRUBiekYqfWZvtLqrfjGX4A5": [
+   0.7635648148148149,
+   35
+  ],
+  "5SpywJZCfG1om24FmqbwS1FTShQZJoze5v2pDBG1eTgU": [
+   null,
+   3
+  ],
+  "5T44zoRYA3VVx2cHMqFbvCedYBhe9gcP8pxh5Eh4J1o8": [
+   null,
+   2
+  ],
+  "5VJUm3NEZqQBos5PZNyYTJyxR23Wgnwcedmxp1Q19uwg": [
+   null,
+   3
+  ],
+  "5Vp5bhXa32FTniThJFbMUTYDJUkXovHEBxtkJZuHiG9f": [
+   0.9158680555555555,
+   15
+  ],
+  "5X7Lqz5kRWVNG7pqCBuSEqPcQ9ZvWmFfgoPLHeBvakus": [
+   0.3464351851851852,
+   11
+  ],
+  "5Y5qLQWGVtvbNWwLkACCQmFXbaM5CTHYT9FwzmeNphzL": [
+   null,
+   1
+  ],
+  "5Ym11hxchmmCLrzE6SUCed2X524EStXbAysnzenR2yGP": [
+   0.2690625,
+   19
+  ],
+  "5cG4mQLB944kEhHJK6VTDCZrBY6NnzPTCBRtLjutwwPc": [
+   0.8558796296296296,
+   37
+  ],
+  "5ePZJLQKm7U8aeJiA7Dqov8d52heMeYS2yHCznZ5MDNM": [
+   0.9387847222222222,
+   51
+  ],
+  "5ediPoneExnGFJFSHicjVjzZ3QExxrndmAGcxrsT9T6e": [
+   null,
+   2
+  ],
+  "5fNfF4MXfraArArnERVkF637SugP4vYVspHriFpSN1cU": [
+   null,
+   1
+  ],
+  "5fu1JYh9DPgE3DcpYmGVBS4BrhNAHQqh8Kc3AjtuexBb": [
+   null,
+   1
+  ],
+  "5fvotmH66r8AsDYF8u3SPPbsKpnzkyf45k3EUp9J3M1s": [
+   0.7370138888888889,
+   8
+  ],
+  "5kWdaRoS8UMnBiQCucjDwrwxD3mp5SB4D4vpZCZWrEQB": [
+   null,
+   1
+  ],
+  "5m3mBvhSX24SabBKUueQJQJeWMcM72zTtPkJaRw1DS6u": [
+   null,
+   0
+  ],
+  "5m5rR6LQapPrKTZbGvq7JaQqFH9KooYEwbnkdVb2ieGD": [
+   null,
+   0
+  ],
+  "5mqi9RDFzbrevHvzWPR8D66gKR582oqZRxdiNHsgrY41": [
+   0.8996180555555555,
+   18
+  ],
+  "5nLLD5AKv8NYnhscq4RMc1enu5sKuLnm23WeMFjqoSX": [
+   0.05216435185185185,
+   5
+  ],
+  "5neYN3sBLmrvyDKwqaZiuGxLFz9t159wdUzT9w8ezeBb": [
+   null,
+   4
+  ],
+  "5qbLXFti2bZeZtgZ4K1FCP45usaZkKJ6rChBAuKeZgyA": [
+   null,
+   0
+  ],
+  "5qq3whmUVQKcVFrKpwRtBHYoCXT8rW6n3C4TqdNKHVHT": [
+   null,
+   0
+  ],
+  "5uQ38DisPYsJTUe4hE4hLsAFQBLDMw6WBEHtUdwALDDe": [
+   0.8396643518518518,
+   55
+  ],
+  "5v7Ujn32fqGUJaWwvEFXPZ2epd4YS912CrmYD64zxxhv": [
+   0.10641203703703704,
+   5
+  ],
+  "5w5HVnNfoBixkGeHEQRQ7YH3PdjE3DZvUtoJAHwaLVcr": [
+   null,
+   2
+  ],
+  "5wTpuHC2bWpGx8fgzWd94EtNmeqE7oP27L4J8cGppnPh": [
+   0.2696875,
+   8
+  ],
+  "5xDornaW5tsRTwEy6UjH7jbSd5GbwrBoyp1fW8y96UC2": [
+   null,
+   3
+  ],
+  "5xLaNWG848NxctkythDsocx9cgSUSmNKTdmcLDdLzFuz": [
+   null,
+   1
+  ],
+  "5z1TxVqU4Cyu3hvhn6teZeaKJNtVWVS5BcBpL2rbS7B": [
+   0.5706365740740741,
+   60
+  ],
+  "5zKMtHyFFhKKiosVK7JDQRPwA1JD8BQyJ4aTyntQ85AJ": [
+   null,
+   1
+  ],
+  "632BdLkY1iVEJR2YYhBED8fiGD1DPAT6bjyBdSak8dJA": [
+   null,
+   3
+  ],
+  "67kUFU2mXJ3kNyx8ZGBzA66FN2DdHv3Z6NhqeGHoLezG": [
+   0.8902199074074074,
+   60
+  ],
+  "68ya8jECEsfAhWiV7D8R3y5kK99STdm2JGozoKRzfbTw": [
+   null,
+   4
+  ],
+  "6BXCeL9LzQFVrDJj9ymWzo6EudmuGWCScz6G246P7kEj": [
+   null,
+   1
+  ],
+  "6CqtPQDkENSCySKYbC7X1BZ8vXkhiQy8tK3zkZUQJz2j": [
+   0.8805555555555555,
+   60
+  ],
+  "6E4mADfFA71UhCwKWPnZkqjZoqykhpbtbUgMFFB8JEV2": [
+   0.6179398148148149,
+   41
+  ],
+  "6EZ9uTfoJQLUbmun1YcqLvjcvKtALvEMD2vohBToZDnA": [
+   0.08456018518518518,
+   13
+  ],
+  "6Etim91e4BYTfGLNBseR6DRJyCPsTH2b9uBxd3pwmeeo": [
+   null,
+   2
+  ],
+  "6M9i7kumyJrj1AfAqS4siScxH6mjggZHMF7rsrDPAC7n": [
+   0.921400462962963,
+   20
+  ],
+  "6MCjHXPVyLKdZuzxt6RFtWsy64ReEavowPBMTN192s6L": [
+   null,
+   0
+  ],
+  "6Mn5X2wJbh6vXh5TLNRcwLqDJN5o8essWbxuyJasWS5n": [
+   null,
+   1
+  ],
+  "6PFkwhbq1Q6Z9nXQu1L5CdaTwdMo57dzaBRnY2JJ14rN": [
+   null,
+   0
+  ],
+  "6PKznFW9aWUeqygPwrMPNnMQECd4nxAKxqgHQVA8qXn5": [
+   null,
+   2
+  ],
+  "6Q1SqqdybU7KqJtjrMZsRuRhgacFSiS96M9GmCWMFWgz": [
+   null,
+   2
+  ],
+  "6R8Ypoyg1PWmYYr5DH2tMYqChhZiXx5ke3FLt2aa3YhV": [
+   null,
+   3
+  ],
+  "6RDSEedEcNhUA1GbEQ2uJzUyJCUxKJCGhtLzaDUHsCbj": [
+   null,
+   3
+  ],
+  "6UctHMqhMEx3E21Gq41qxvUk8spfWfqyMKhjX7DN29t1": [
+   0.7862037037037037,
+   10
+  ],
+  "6bSaMCMqts3kwvLr5nwrMuNP6YTQtQ7vyroejumobZcg": [
+   0.09216435185185186,
+   5
+  ],
+  "6bkBMU1ZYkqubUU4MjmzVKJz3SofFKMqm3cSfrvmLEXt": [
+   null,
+   4
+  ],
+  "6bm9UkQQiZENpiCjWDWGbjVLKQXWDBdUpuxQ9tGNnogV": [
+   0.6650694444444445,
+   7
+  ],
+  "6bnkFKEm18kccvFFwJK9ee2iUomhMjGhapqd6DZo4Wk6": [
+   null,
+   1
+  ],
+  "6cMGBzD7DTxWZtLF7ucS8sHwzRuG9tFEKT2YnZcw2c5T": [
+   0.4895717592592593,
+   25
+  ],
+  "6cW8ofqGoXLyhHeYySsbwgkinUTfULQd1g2yknWArfzr": [
+   0.9429050925925926,
+   20
+  ],
+  "6cjj1xsSvwtPKDgUzmRz63WTxgVT7tzGPUtQYx4boviH": [
+   null,
+   1
+  ],
+  "6eS4eioPjxWUxgwfwRMFjWuVGnY3Mpk31YxWHdgUgSjv": [
+   0.5672222222222222,
+   50
+  ],
+  "6emwXqtycAvfVPtng3zu3mMMAgFaw3bTvDSz8Fxuq8Zt": [
+   null,
+   3
+  ],
+  "6fxzZMjq9ZLrNkxGrqu5g4bX17WYQmxAqhMKYhBFbTSn": [
+   null,
+   4
+  ],
+  "6j4GNguu1huBbZbTi5Hm4eR88WhXA2RSBT2SeqbURFeu": [
+   0.768275462962963,
+   6
+  ],
+  "6jzFj9mtEJ9ZkZLf2979j2vrMPfGHUN2WoZqrNHK1fBq": [
+   0.7904976851851852,
+   13
+  ],
+  "6kcnsS8ZzfzJ48zb4iuWQdqgtVvnToNngn4WK5HJ79GL": [
+   0.5189236111111111,
+   9
+  ],
+  "6sj8V3DoakZ8BMDVSKM8HcJkj8RqfP2S9gb4hkGvH8ZF": [
+   null,
+   1
+  ],
+  "6sntirhcpNC3TLdAsy85Md4SASxZyM2wXUEPHgS2xWPM": [
+   0.05385416666666667,
+   8
+  ],
+  "6v55b8RmXr1RwkNdLDT6pAfAW1t5XRJhxF2gn9Um5zyJ": [
+   0.5637152777777777,
+   21
+  ],
+  "6vxJTTxJPmDzNsj4Vt8SJ9ujq7yE8kyAcjzCJddm6VBs": [
+   null,
+   3
+  ],
+  "6zE5ajAs3n1dNbwLFLQWBPWtZtRPYzxnGc7o6X1YSdiD": [
+   0.9512037037037037,
+   25
+  ],
+  "6zyJJfgNia8p5PfTZWpi5F1Wu7f9RqYzzGMYPSRgp9rk": [
+   0.23929398148148148,
+   27
+  ],
+  "71zxrNJgnmTgSa6b44dd1chiLzKhenmMTJTjxJwsuBUs": [
+   0.331712962962963,
+   47
+  ],
+  "73VqMphmVxRVpqVMhu1GBWQSLBsQr8YLbL2Cbf8foQt9": [
+   null,
+   2
+  ],
+  "73tLz6Y2Gq3NestmuMtT8VbdN4HaPtNt1cf7JK8Zrmav": [
+   null,
+   2
+  ],
+  "759QFhirUWXzVEqjYGPwuD2r6jxZLp2ebWGFezgfd3cE": [
+   null,
+   3
+  ],
+  "75Tb85s9NQ43Ynaqr1QnVPmMXCMHUNsttfADvFCgNCyd": [
+   null,
+   3
+  ],
+  "76JH1CuFoVt5J4zYuXeC6ALyovfWHCYxG6JXb7Lbyf65": [
+   null,
+   1
+  ],
+  "77Aehcu7MAZr8iEBy9Z3Eak1u2SZoWqe9gNHXjGV6Jch": [
+   null,
+   1
+  ],
+  "77EnW2qhvBBxsDLVU1iBJLRFPwA3M3axU5BEq6kRXz2w": [
+   0.7627314814814815,
+   12
+  ],
+  "77uLtFE67xKyyYWWn9x5NdhXYn9yN9mcGbo4DSgpVac2": [
+   0.1308101851851852,
+   20
+  ],
+  "79B5CDAzww3C8V2tmzxHdGV9gZowPudwtoaCuXduTEm": [
+   null,
+   4
+  ],
+  "79kLyXK9WLFvjMCdWC6gr8AuBxKcon4erfRYrrEPDLkU": [
+   0.8860648148148148,
+   5
+  ],
+  "7AjFqwvtvuCtNUJf1H2Je3AoB2gDRon9PDYVt4W7emXP": [
+   null,
+   4
+  ],
+  "7BiYDTSpSdmi4arhWE5vfNvjD4Y5te9oj25X1MvsBeP5": [
+   null,
+   2
+  ],
+  "7BpMcj6otzJTg1b7PLSFyR7fm7j6yT2mb7EUtxXBDemV": [
+   null,
+   0
+  ],
+  "7CmwMxWuXwTA125chkKMswXVEv6uhb2JRoZGT56aUbhM": [
+   0.6225462962962963,
+   5
+  ],
+  "7E8BEG8uURd3efp5ZL8cxykbFgMbhqmqUUtn55RYy4Vn": [
+   null,
+   0
+  ],
+  "7FoaKiJ7DoiwLUCV8tapuuPMuUwAh6uWWet6eo8NkNSm": [
+   0.013206018518518518,
+   6
+  ],
+  "7H4aPQEQvDFrVLMXnJK7K78vRRkCgKs6GDkXsZfQ2Hwc": [
+   0.9302893518518518,
+   13
+  ],
+  "7J4z15Y96J7jBJiUCT8sAsCGBpxArQHrNQxk5nTTDfGv": [
+   0.8316898148148149,
+   60
+  ],
+  "7LUmt9jSRsJm6uyCygCwhXm52NdcyUBhq8LLrqYepgjS": [
+   null,
+   1
+  ],
+  "7NfdX9dxKxFmc2FETAuz22ZgUkiH7RXSLvRhzH4MFW1y": [
+   null,
+   2
+  ],
+  "7QgFxg2vE6wZFvvd9ct7qwLESuWeHQZzv8kbf1F8mr1t": [
+   null,
+   3
+  ],
+  "7QjWp2WuDQeP3myEEAJxbw2EXF6PCSz7C5zZvgXTTL9B": [
+   0.8968865740740741,
+   13
+  ],
+  "7RQLSX8YcaWUGh6nH8BnszL2Yc7PbjrrdHHHjnn7bKaU": [
+   null,
+   2
+  ],
+  "7SJndq4sSFVaofmZvEnan2HjCjmZDwaJSaSLsi6DniNL": [
+   null,
+   0
+  ],
+  "7SX4fDAJM3XeKzZS156v4opwZpuzBjYpNCo6F96XgDG1": [
+   null,
+   0
+  ],
+  "7TT9V6wwBwkvPzkBdZuxubhRuLpYRuS9GnZa4Fj1AVQe": [
+   0.6822916666666666,
+   8
+  ],
+  "7UsxyD9MML2s6Y3YxNu4Q4GcANFfjsoeVfRrxCBKbtFk": [
+   0.8481597222222222,
+   12
+  ],
+  "7WW4JWsN1j59KqQZihUungo2171XQ8kQ9inuMkGyuB68": [
+   null,
+   3
+  ],
+  "7WwxKLJRVpMpJ7ZcUtQoiSbNpZf2VPknxQMfGBj8NDAk": [
+   null,
+   1
+  ],
+  "7YUYYVt63ffEBJnv8nD3fzHddTBxFjHKnwPX8WD2Wb8q": [
+   0.9586574074074075,
+   23
+  ],
+  "7ZSUEEA8At6nAiKRdUWCD5ta6Nq9tWYDUQ4VrqHrYBWq": [
+   null,
+   1
+  ],
+  "7ajer8U5E3PPXRBgSvU3w6h43vnqt9LSQqMsjbqfQFPn": [
+   null,
+   2
+  ],
+  "7cwrKcpWNgtYqPA8YQ6dDFhYAT4T9opTCegaJPq6QJkn": [
+   null,
+   3
+  ],
+  "7dapwVUHAW9KpWwjBuoczq7TMwDJHFqVeX3EWtY84aZi": [
+   0.027546296296296298,
+   60
+  ],
+  "7ebCZ3KJqJKvUfAz3PSn5xkcJ4bSnLuEJgkSHuAYd32F": [
+   0.45697916666666666,
+   60
+  ],
+  "7fTT6SJZZXhB93rtockdmF4pHuf5av7RP8ywH4PYHRnK": [
+   null,
+   0
+  ],
+  "7jFrJzWvBXUBJhPG7tQUh3icULV3j2eoDNrbZF6PEk6y": [
+   null,
+   1
+  ],
+  "7jz7NR6r84ZWfoSLHis5ga1X8thye7DfX3QiTLHSJsZn": [
+   null,
+   3
+  ],
+  "7m21Tg5nGgLdjH6ZpYicWBhkmuaYwWv6QF3sHfe1Ci9y": [
+   0.8541203703703704,
+   8
+  ],
+  "7oS9dPVdXNuQZnsHd9V4zmc8hb9Gprdp3R8ck56ZA8wC": [
+   0.02875,
+   25
+  ],
+  "7oUoVZyb1M3DWjkLfywQS2qjaKTQEdoaNSUwwg7ao42C": [
+   null,
+   2
+  ],
+  "7qFtF2Zvt8gZvEh2C3pdqMN4ufWL6yMkLMG1ZcZQZ9TQ": [
+   null,
+   1
+  ],
+  "7tzbLKnFRXjpyXieM7L8KYMPAdhnPKSxrLcxsURvmoh9": [
+   null,
+   3
+  ],
+  "7u2DAWLLQ5mip7esicuau4poi16Hs4YCb7JkuQ5Xfh85": [
+   0.8085300925925926,
+   60
+  ],
+  "7uTACgs3RaaXJ3XEnXc6D2u9EkjZJhGsbGURwD5uwwJL": [
+   0.7689814814814815,
+   7
+  ],
+  "7xUFFc9eLBBHmnE1m19TTvecqx4jBdVGG29kSrCDKYgF": [
+   null,
+   3
+  ],
+  "7yejLLZv8YYUtFCumbMFoginMG9jJgNWXZTSSW5S9HNV": [
+   0.15768518518518518,
+   60
+  ],
+  "7zubQZREULAiT8RrxSjvhBywFZVzPN7pKcbDwMTVuVzy": [
+   0.003993055555555555,
+   5
+  ],
+  "814B2zj7ZkAREc8MooRGqWD7DoF9ZZD7xaWDCRG4qPoT": [
+   0.6158333333333333,
+   60
+  ],
+  "82SQpG2GyeA5yFWhL4MYVjUP7uMaNSuwGYmjWVcHkd3W": [
+   null,
+   3
+  ],
+  "833CGSezYq3EmvNGxXSzZkZyhZ8k9o4rNU7nTjyaZz8K": [
+   null,
+   1
+  ],
+  "83CSrsM75VoEpKvEWRi9ei3tCJZUCVUfxS627YrGYDhv": [
+   0.33858796296296295,
+   60
+  ],
+  "83e9FiKAkAsZDVd9TFc3roAZPitSzx579LPwLQ16Y8Ck": [
+   0.6673611111111111,
+   13
+  ],
+  "83pKa7VTD7pmGa2TDDqKZfPdat68mRgJQgcbBxKUfapm": [
+   null,
+   1
+  ],
+  "83ynny4CDMLJWzRzecANhiqhxt7ihwqFTTMqWwe7hMgd": [
+   null,
+   4
+  ],
+  "85MDWT2izBoJknj7L2fTsjnDLXEHVxNhCjYtXX5iQuHh": [
+   null,
+   0
+  ],
+  "85kzjidAWznbxbKBdHdRdsJHg1tsH5tvMExjno2vLzqf": [
+   null,
+   4
+  ],
+  "86EJWA4Fo11Qur3CCDbpHngQWTkev4qrHeFrxHQzsySq": [
+   0.5463888888888889,
+   10
+  ],
+  "88L4Ji7DKaSYuYT4vZmM26xWDnXidKrx3paRYkz1cbwH": [
+   0.8861574074074074,
+   8
+  ],
+  "88NgAJf8QP5C9GQLc9oeXqVwEXJFAhwFxgnMVKK4Q4zg": [
+   null,
+   0
+  ],
+  "88WhjAsxaJpJFs9uMAwgxk4qT5CwBkT92wrrA1HiDaNB": [
+   0.007488425925925926,
+   5
+  ],
+  "8CAAyVNz1a3MFJ7qQ6HwqSHoNnWpwTuGbbctwGCXbvwj": [
+   0.18135416666666668,
+   60
+  ],
+  "8CuvDkVeQP9q4g7M2YyqtzCPUfDq1CEPU5fh4YT77m2": [
+   null,
+   0
+  ],
+  "8CxfzDvkCM8cXiAz22Mz4KsiwNSMnJYBe9q7qZtLCQWy": [
+   0.19877314814814814,
+   30
+  ],
+  "8FRhL6vfnGVLLQNaWnsMSGy5f6yxZVrT2mgyFYyqAGpG": [
+   0.9334375,
+   45
+  ],
+  "8GF3x82JLgMf6fDLuCUGpMaVQZyfB1Cshwhi8N5uhmjb": [
+   null,
+   2
+  ],
+  "8Gypr4BNQSZaGHysWhNPUEXNNos7sydEYCoaQRVtVuux": [
+   null,
+   0
+  ],
+  "8H1DzZvCJd8iqz9KWrRMn9RPp6vB6mbSZmTyWw7gGbgN": [
+   null,
+   3
+  ],
+  "8KMGhT2pPuxFHroj6US37cieJDieezv7JxkES3LXn8in": [
+   null,
+   0
+  ],
+  "8M8GnfJ2DpyHMU7uLpQtV57tzpSsH8FwRFkWjRB52XEd": [
+   null,
+   0
+  ],
+  "8MHyTijwHPpsnTFnt2y4doaE1nKbrdfyZ3EEqreLktg7": [
+   null,
+   0
+  ],
+  "8MU3brzVmPkv7QjoWGtv7LaDLDu6iqCGXnjgMubbd6Bs": [
+   null,
+   4
+  ],
+  "8MZsvevh13dioq7Euu9EC88i9t9tfsm5uCRnvs7GQTYf": [
+   null,
+   1
+  ],
+  "8NiNkrtMR3tNZXAqKZArAfypN7ss6FKys8z63nEsPRH9": [
+   0.8090277777777778,
+   43
+  ],
+  "8P8FzqBa21vm4e3dVUCpJarAxfci62j7FXy5hGj1vG8Y": [
+   null,
+   1
+  ],
+  "8PhDcR9p1WRHmSgoxwbrKZM8z6CecFZ6apB5rzYiMUZA": [
+   null,
+   1
+  ],
+  "8QiAzpuFWZxwVTWPDCLe7iUJieELDex3gNYHVZ56FwQA": [
+   null,
+   2
+  ],
+  "8SHkWXoUqz3x221aB8newnRvtNZ4JJ35VE23tdFsuFMx": [
+   null,
+   1
+  ],
+  "8UH1FauZVa2EzGEDZoorPaxFmeH1YnGzGeaAExvaaaY1": [
+   0.30613425925925924,
+   5
+  ],
+  "8UV2UPkM3Ji38KV1eTJqjuCoV4YBUguJJNSWoWFsNg4T": [
+   null,
+   4
+  ],
+  "8VXKfYHy8xSd8Tm1twmTi1fq9Gghou3UbFDgQdCpEpAT": [
+   null,
+   3
+  ],
+  "8X7Wq3aa5zY7exMrPcybfdKdbCftdQ7XqqZ4dGV6noaW": [
+   0.8346296296296296,
+   5
+  ],
+  "8XRKRJzyJewNapjgMLNC37h2KBUKoL4CV5GZenSd8bAF": [
+   0.6775578703703704,
+   20
+  ],
+  "8XczZeEmUpyvbYF6mbzFX2kTreAu9zLxygRqX4hCUBRv": [
+   0.9078356481481481,
+   60
+  ],
+  "8Xhr8aUQxK1adEWptn3WsK9VXkpXB9X5hq2m7ZpSg4zN": [
+   0.1047337962962963,
+   6
+  ],
+  "8ZgAmj7fSo2eTcwidgg4uUYLZRXi8vyeFuywmA8FBQAv": [
+   0.0004861111111111111,
+   60
+  ],
+  "8a8JKvoQ3BE2knhvc5dQid8FEnd33fUkvUruKDrjHdWz": [
+   null,
+   1
+  ],
+  "8aMoZXq9Aw5BEDm4Lhmc3aFW1nASRwaf5FD6Mok3VvkD": [
+   0.8271990740740741,
+   6
+  ],
+  "8b9KErXbPdz92uvhDzxc2mDN3TcTDUDBqvFkgzFcrmZk": [
+   null,
+   3
+  ],
+  "8bWUq3zviJUpUWBwJe1HRfoqoh2BXQ1pLMq89W121UNK": [
+   0.7960763888888889,
+   6
+  ],
+  "8c9rcv5wCko1v9vs2XnMt64cjv4sCg4r44kdbPX69f29": [
+   0.18266203703703704,
+   39
+  ],
+  "8cVVjzos3U7VFuBSawpRzhPiLV6qcPZtrLgjmL8rThcK": [
+   null,
+   2
+  ],
+  "8fCAywGC95gUUTCmSWFqSVXGDzAPtosQcRgaYMDdMmq1": [
+   null,
+   1
+  ],
+  "8i6tt7e8t97ThmiEfSSkHzXmHzDqKt6SXH6tLtLb91vK": [
+   null,
+   2
+  ],
+  "8k1gpRYsnq9LcHrb8tVZprxGeLWxXGtdZ6zdGLymMum9": [
+   0.18623842592592593,
+   10
+  ],
+  "8mqLtwzLuKL7dcF5uRa3BEnXue6hdHoXYbQSNyXwrA7G": [
+   null,
+   2
+  ],
+  "8n5tiHmpHKcwqSWSmR5PkwYpv2wqoUSwQYivwXy87xSd": [
+   null,
+   1
+  ],
+  "8nNRfTYQaVySDRTnyzF5tXSFzZE6xbniCa3HTD89z8A7": [
+   null,
+   1
+  ],
+  "8nz9PwyqYwDQpPzsTgGqKBDrYAYGEHPL1YBs24iwuQzj": [
+   0.02378472222222222,
+   11
+  ],
+  "8oEHBYeM46adgDMUbC17MDjcj3iJJZmZVEjbfMNFxfgb": [
+   null,
+   1
+  ],
+  "8pFh625c32Sz4EivhLLEyeWdFDaS6iNT2YgjmF8vXEBL": [
+   null,
+   4
+  ],
+  "8prHCKtNmJ8PMdDwmYE1NpNijMA1uovq4maGVPCE46Bx": [
+   0.7599537037037037,
+   23
+  ],
+  "8qTA7ewB8Q7ebS9q6tJBWkyKz79PjNWmQrk7cWLqzBiP": [
+   null,
+   1
+  ],
+  "8rXUBWJnPQbCguh3pYjGSkjBpwVgg5ygLz3LnjEAk5MK": [
+   null,
+   1
+  ],
+  "8sJGf85BLKzTLSZ1Ma4ZnrJorMv2LTV6zMhVEtcshY5V": [
+   null,
+   3
+  ],
+  "8ssaShLbcnktABorSBAkNswirhBxLY18qPouxL4bnLa": [
+   null,
+   3
+  ],
+  "8tTcvU5mRCaJ9RCqVDJPGuxAKozeQwNaEpgYZ6LfuZbP": [
+   null,
+   0
+  ],
+  "8uLPHYCKEuANVFMf1BXM9FNUZXeA7AQRSj3sMh9SXnmd": [
+   null,
+   0
+  ],
+  "8weBJwX62tK6hjoi6Q4eofwcKBoA7wTRD4VdV1qZk4y2": [
+   null,
+   0
+  ],
+  "8wjgxctiXF2McMSaGmDwydb975dBqGhTTYdbiNu9vBHH": [
+   0.9099652777777778,
+   11
+  ],
+  "8xWyKt87ZDcsaWEPZctWStQadUVU993UG6i9S3oH9ZJg": [
+   0.5163425925925926,
+   50
+  ],
+  "8xYFkaea5FkUPrhmgQXBnvT1Bm4C4xXTfdikDMowKKCe": [
+   null,
+   2
+  ],
+  "8yDbuXub7TNy4brK8wHSBMCMjDxU6YsBhECxidE4Vfeb": [
+   0.9455208333333334,
+   29
+  ],
+  "8zcbDsHhQGuZWrmQJEVinjr1tXGDfdSnKFf8NKXo5JXh": [
+   0.7600925925925925,
+   41
+  ],
+  "93kD6MnYQgUPkrmy6pNRrspZjwVMQuye25Qz1LMWnVZh": [
+   null,
+   2
+  ],
+  "94XEKQU76r8XRRKVbmpmthKFE9NK2FEWE2qe2R41gjFe": [
+   null,
+   1
+  ],
+  "94uzuiwgtbjqU17TarLRmivA2oRvDtzGL2AtXjM2a2gt": [
+   null,
+   3
+  ],
+  "95A6og5hXT3LkFCtxY6Fhf7885c3KjPMxVxwawCUGLe8": [
+   0.027662037037037037,
+   14
+  ],
+  "95NAf2qr4QyWd7vw8JEjYbPARHoyYDh7PtWqW8qFVG8Q": [
+   null,
+   1
+  ],
+  "96Uy4MQTVDTb6D8HaXdBkAqSMYcyS88jUZyRrtTwczJP": [
+   null,
+   1
+  ],
+  "96aLqFtgJybUjBTCoFjZAXgdpobqMMPWKCsTjaJ59sLC": [
+   null,
+   3
+  ],
+  "98La97opPSNPkqmR9ESLwYc1dnUeRQTCuioYLHUnS7mH": [
+   0.4640625,
+   7
+  ],
+  "9AgzumpTaAYaYyoNHctAsd9x9umbmjT4eTDnDCpfwdCz": [
+   0.010671296296296297,
+   5
+  ],
+  "9CTukYGwqYisuwoi1uJoAdvkt9nWb7AYhPZmMUkhuTuE": [
+   null,
+   2
+  ],
+  "9EG6BRpuGFJX6tekfxE7cKKfpFbbmYWEFLexVi1PXs8H": [
+   null,
+   2
+  ],
+  "9HUCsPuWhNC8CrUwgMRYbCWQKERTwoeJvpomWdQwrBUH": [
+   0.9504282407407407,
+   29
+  ],
+  "9HfZcwjvkRNeSNHHEVPDMuH1XDtPyTyssweycjVaUMkT": [
+   null,
+   1
+  ],
+  "9KAQwjqhrbjAF6Y3ccG9mqkvTehAJrDnMLg8dpBLjrrP": [
+   null,
+   3
+  ],
+  "9KbTAcx9vzd83CLAcFcaGZBB1rFFJCERfq5JvAMoKZhw": [
+   null,
+   1
+  ],
+  "9MXV4vob3ofGwvPmnW7JCDW1ga4awxiKDrZU3x2G3hQX": [
+   null,
+   0
+  ],
+  "9NdZCBs5mf7vSjdyAThXTLLDXgVTFgujMpA1M2pDBMoG": [
+   0.7498842592592593,
+   5
+  ],
+  "9RAhv3fMqKB8GtbrBK9VXG9U8jgVAhf6yoFRry9Ep5g9": [
+   0.7205902777777777,
+   38
+  ],
+  "9RaLd7VBMK3SQ1kryZvXLxux6RRFWPpRB5HM78Je8pVQ": [
+   null,
+   1
+  ],
+  "9SVa3Gay5XByqEGQmwEB69BFXohtC25J9e9QzLUu2cMt": [
+   null,
+   1
+  ],
+  "9U8Xjfd7uV85k3EQNdePGDaqmTbvB4EbW9mWz7kNrNU8": [
+   null,
+   0
+  ],
+  "9VR9jmqscwmgQjMFgCa1YuKEiKgoxjxtaWfrnLADaAnS": [
+   null,
+   3
+  ],
+  "9Vqgfbc5kh22QKuL1UGmMfEQU3qGSwWURJ5uN9jxbPS6": [
+   null,
+   3
+  ],
+  "9VwE8wXXfS6utoX1JcpEsyj3AxdrrNq98mMQZafYDB4e": [
+   null,
+   1
+  ],
+  "9WyMYAmMbYnSwYAq2uXiJkwYVTRUSFUrNSfYnzE8Uu7q": [
+   null,
+   2
+  ],
+  "9Z4fenejCrKpVzRQhBvRibHC217uiZtArYHWSivkDzW4": [
+   0.7605324074074075,
+   5
+  ],
+  "9cSaoMWhzzajYMtyAwewCRexV3XMcyNvmDec6of9KjZY": [
+   0.6866550925925926,
+   26
+  ],
+  "9dkt55RWsfuPbWL9xgkfp77dZKFpH5o9Gogri3gDEa8q": [
+   null,
+   0
+  ],
+  "9dqp8t3FNH4CZdeG5APH8SHzZJdN9VuMneurLTLjhJaT": [
+   0.8292708333333333,
+   6
+  ],
+  "9esFHgra5pqbhaYW5exbTbQwqiQPgPduwVyE4NbX8CQS": [
+   null,
+   4
+  ],
+  "9eu2Wti3BiwmhMdQzYyZcUkcYQTbJvPW1wWJ9iVkmouu": [
+   0.9154282407407407,
+   54
+  ],
+  "9gxJWD6ov3VimXgY7ngKLFcRBQAxV3J3YCkRaD1t82L": [
+   null,
+   1
+  ],
+  "9gyNnc3y7bzARL8GrdxzxwJnuuJHtGb9E19tMJ5rxs19": [
+   0.4129861111111111,
+   60
+  ],
+  "9i5YrZsPUefPLP8DFSCatwzvoDsK7yNiEYzjAQSEyYbg": [
+   0.024120370370370372,
+   60
+  ],
+  "9iNRxNd4nqjKPZYc3quakZfjLvvH4my44rdWuzoAgwvw": [
+   null,
+   0
+  ],
+  "9jfLMQvHqjFxZrVaPqwKGbpDy6ZKpxX3vS5rY9Rydv1F": [
+   null,
+   1
+  ],
+  "9jtQkAdCarZbT5tf5FuKgkBxTZfVm2CtpmKn6bK9A6wC": [
+   0.017152777777777777,
+   60
+  ],
+  "9mCz91y9GTNCEHRuYSteWmyKjzpmuzqeXeFf9WfbvtUx": [
+   0.11284722222222222,
+   60
+  ],
+  "9mYeY1EMqrN4i48cJxDyu5JXArLpoM3mVsZVnLZiX9A5": [
+   null,
+   1
+  ],
+  "9n3oQyqrYw1SfewCoSY865w6kww1KG9FELC7qk1inriv": [
+   0.03396990740740741,
+   8
+  ],
+  "9nSBCNpQvNq81DmFqSLjEBqQq2Dr6Qd9963Zr7B44W1a": [
+   null,
+   3
+  ],
+  "9nXDunV8eNvYSVys7JSBkm2hz9Q79Q3EYeko19srVeMC": [
+   0.0006365740740740741,
+   60
+  ],
+  "9nqGTKCsXQYqdeNKVcurG93FfhWkjHZbQ4SmSHXXetjw": [
+   0.04760416666666667,
+   14
+  ],
+  "9pkEBvve1VzXjJiCweazWZzmraJ25XJTPNGa2yr9KUQD": [
+   null,
+   1
+  ],
+  "9rKbbbrtsd7Yfj1x74Npa7miBy4nXRRSA8ZwKqAhav5i": [
+   null,
+   2
+  ],
+  "9s5PDhdKoPN8C2LvCPoQ5j4PwJq1TDL7Uc4er9ztjW3r": [
+   null,
+   3
+  ],
+  "9shCCXrJj9w5SjasLwhcrYUepXPaymbnMb2igwSybYSA": [
+   0.4497685185185185,
+   60
+  ],
+  "9wdi1dUrXewYR7UE8t9DUAfui4LX5rWwoquVsRpvYdSy": [
+   0.4287384259259259,
+   15
+  ],
+  "9y4YqY8awcsrnJPj4iXX5sw5SykJhjaQ43xg4QGW1stz": [
+   0.3511458333333333,
+   6
+  ],
+  "9zzY9HBruDgtnSGEE6caUJD9EkikmPSZe3bf3cdAFQdf": [
+   0.023587962962962963,
+   5
+  ],
+  "A1sm4odTw6LBS9NW8JZ2CfsjF7Ywn9hdb7MxdsrnwdPh": [
+   null,
+   0
+  ],
+  "A2D2Rf5G4E3WiJMgMAYK14CoyQjVEjdrazrXySE8vuDn": [
+   0.8541550925925926,
+   9
+  ],
+  "A3zQFGDNW3br9nWhiegX4cMc7KNCthx6WanVggFmi8zk": [
+   0.939849537037037,
+   16
+  ],
+  "A4SFQATeE1PDttNP6u2n3LTj5cKZpAX9Tj5KMBH4foAf": [
+   0.08120370370370371,
+   7
+  ],
+  "A5McgJCkZXWKpYNknDvgc9ZymnupotYKdLfsXEehHzmY": [
+   0.22358796296296296,
+   7
+  ],
+  "A5tffPstzV5pKmnxKbeyFQEmowSdpZ1QtSSfNtFsLnSt": [
+   0.02630787037037037,
+   5
+  ],
+  "A63hHLmTztb2XDsLpmp7TRLkNpDDrXLXGMeYofvXYWmP": [
+   null,
+   0
+  ],
+  "A6ywhHCmxB5u6ZbYCmsxAWPbHToHrz35h1MUXKTroE4f": [
+   null,
+   0
+  ],
+  "A7Gja8K534fNqmjEkfbxfVrD2M9Nv71nsvH2J74o21u9": [
+   null,
+   1
+  ],
+  "A7NxwWndBkhN23xa6mDe7nNTAp3AjWKVZWBX9AYMC5D9": [
+   null,
+   2
+  ],
+  "A9B8XexYxSm4Xsi336f3eJ3tnFVmad7KUoQbxXFDnHq3": [
+   null,
+   0
+  ],
+  "A9tiWFx3GoX4QbnXCRXQMhmcmUpH5P8UoyWbGED9pdGD": [
+   0.1699074074074074,
+   60
+  ],
+  "AAft4NCgeufRQL97sCAWZbvjDyZ9P9iHdRAjHuPo4FSb": [
+   null,
+   0
+  ],
+  "ABRnbp7CPeaz3oey29RWNw1fWBkofrHwED8zgPkDcHcm": [
+   0.8008101851851852,
+   10
+  ],
+  "ABgHAH7JkvifQSPuuxY1iqdvUzYADfL7LL9qBkpqv61U": [
+   null,
+   1
+  ],
+  "AC4QExDtLcuarjNANiXKtqveC1SCBttmugbonkbGgZE4": [
+   0.14074074074074075,
+   17
+  ],
+  "AFGdEV75vMYTE6CiLmYg9wNnrXezL7fWzJPpVvwqKwNp": [
+   0.7290972222222222,
+   11
+  ],
+  "AFTV8vrez5r2MPQZmy3mpKe44w4AJ4LXTBPyYdLqSTuJ": [
+   null,
+   1
+  ],
+  "AFrGfreAuqa9yTZxhWP6Qdmi6wnhHGD614k4HfPi787H": [
+   null,
+   3
+  ],
+  "AHnPrR93UPpqYokxXr9b4zdMj1JvMGyabJo2YQzVXTQb": [
+   null,
+   3
+  ],
+  "AJP9MhbvnZPSme6u3w7sZQXAVpHeNZ5wFjtdgGNrC1PF": [
+   0.8667361111111112,
+   14
+  ],
+  "AKiToJ32wiVtWBLJQtDvAwma6XnQTPk3RiUQAwEkxCAB": [
+   null,
+   4
+  ],
+  "APaaNizw4pi9cso5J6mHEgo66SiieR3Lstr8ddG1iDiA": [
+   null,
+   2
+  ],
+  "AQJNxz3EctkXCcLJEDQ6RayGurAfjPU58W2ASNYDBVMS": [
+   0.8555324074074074,
+   41
+  ],
+  "AR3MBuBdxvee1BFgRcB8G6VNXFf83KZAtC2YAGCpLpAu": [
+   0.4879398148148148,
+   26
+  ],
+  "ASebwY6uqGxtjtgfU8XqvGX8ACCxTLZrG9y3asBcX7Sa": [
+   0.6783680555555556,
+   60
+  ],
+  "AUCLC1ThLPhGg5RKXmbmgs5zUszsMZYu8FBRvnKjVaSg": [
+   null,
+   3
+  ],
+  "AUmAePts627cRUDAEdbv9zKPuVWtPNTMPi2E9HkKiNLD": [
+   null,
+   4
+  ],
+  "AUwhqug7wDjtQ6Nx5AdBtjHdKidmKjFqPtZrSHJSFDJV": [
+   null,
+   1
+  ],
+  "AVMeLKi9u8YPnkgMW7dpMneacRccX4FwcM7h5vWiSQ56": [
+   null,
+   4
+  ],
+  "AY44xv4f1Re7CneUJtBpmYSs5tJLy1BMSG2SBFWCkSvB": [
+   null,
+   2
+  ],
+  "AZaG9evhmiTzNtn7VS3DGpE9U8VWgwxTEvT2Dw9psKF8": [
+   null,
+   0
+  ],
+  "AaE6fyeexcyiPkPfoGikXyFv7DvHqfQMjqWimfYeML1H": [
+   0.7108101851851852,
+   34
+  ],
+  "AbHa8Can3bkcWk63K1TySrvKMmakirDdrBCvTW15KzHS": [
+   null,
+   1
+  ],
+  "Abp7TCZsMKbRumzK11NkP2MU1HcdmuoDuXaS6j4dUuYE": [
+   null,
+   1
+  ],
+  "AdeoYw8anr4hPEDeZbR5iJ8C9ybAgdVMV1wjMeSAo8Mz": [
+   0.8336342592592593,
+   7
+  ],
+  "AeDtaDhjiAEJRRfWbvFb71YqNQ9MTSQbNHKFaaQuaD4R": [
+   0.14721064814814816,
+   42
+  ],
+  "AeYiV3M7bZSVRRnKyrBuxB8qDFVdqxyd7tMue2mryhes": [
+   null,
+   1
+  ],
+  "Aftpq6r8tDU9BCuv7JDW16F62fkoaM2z3fqverTnZTMX": [
+   null,
+   4
+  ],
+  "AhRtkYvxoYX4ze6gSR6KKEuAYR2KTpessUicuH6X6U27": [
+   0.6476041666666666,
+   14
+  ],
+  "AkQUcYMdMzZMMC7nwg1gFN778L3qH21y8BPggqfVHQsN": [
+   0.7916203703703704,
+   60
+  ],
+  "Akea9kBzMGQT4Ni2YkY55wRdY1yHUG4LtJUGUoH9c63q": [
+   null,
+   1
+  ],
+  "AmttVe2X91fFDATLgU4tGkspd6us1mWQLfWiENipmHoz": [
+   0.8163773148148148,
+   30
+  ],
+  "Ao9HUxN2uMXW8uthKRiDhNMCHAhZ4uDqq19P5uvajTae": [
+   null,
+   1
+  ],
+  "AoQN5RKShuqt4o5HWyGehNo7neKERjk5rdUFd3JQ6mSZ": [
+   null,
+   1
+  ],
+  "ArXCUVDN8aXrg5P6VexzCi7gDA92XUGHVGxBwPb7bhUC": [
+   null,
+   1
+  ],
+  "Asc5d3LvvaMNPxKBkPrRspXL4FVkgt7srGaMfBabsx9c": [
+   0.018726851851851852,
+   44
+  ],
+  "AucdFPYoa3XHP2GkFxLnv8XPEDn1WsJhsWitN3y8TBzL": [
+   null,
+   1
+  ],
+  "AvbH4SvUFHDzVZbetZSw2wC7vdo5L6rtjgvcaYWnv9wQ": [
+   0.7324884259259259,
+   8
+  ],
+  "Aw8dd99GafzXyv2VahwstNCjzg9NhjPwN6ZbGA5zovLz": [
+   null,
+   0
+  ],
+  "AwdEEYqD2rbXetn2aHwwC3ia6aWRLgWvPMWSf4bTcm36": [
+   0.9624537037037038,
+   33
+  ],
+  "AxasairhAaWGGzuHeEB4yVXyKKEWX3viU5WXd6DmpyrQ": [
+   0.7638888888888888,
+   6
+  ],
+  "AzkgRYH8g88Vrmq4XoFcq2yJxLEWrtuwA6NETqkiRZwA": [
+   null,
+   1
+  ],
+  "B2TR5o8YqrMZeBRJr1RAZDCJ6YpfYfQrxaxCja5WZgY5": [
+   0.8583101851851852,
+   20
+  ],
+  "B2TmNC4Wnuo6FAMHDi8UWsx2ML3dUExsUkTy17SFi4PP": [
+   null,
+   0
+  ],
+  "B2n3ovSuypqQDG1h2GZYHqFhEcr5QjNYwDWhELJ8JNYB": [
+   0.003726851851851852,
+   5
+  ],
+  "B3VeY6vWtRSkSUrmc6wWqB74dGFZzWpMupLXXP298WjK": [
+   0.9194560185185185,
+   16
+  ],
+  "B4gyq2mJ7gEgZP5n1R6qLYL6Q5WrEXg1nbUSNFFkDu5e": [
+   null,
+   0
+  ],
+  "B5xFJKpa6g9Pjidyf9M1CY2uw4MsS4BY9Sb9BukhJa5n": [
+   0.04927083333333333,
+   12
+  ],
+  "B78cSBNjbJU9mN9YtZexknkbevrk56DVrcayMRqPH8JB": [
+   0.8789930555555555,
+   49
+  ],
+  "B7LBcdDMVnj86tcxniSC6UTRKJeTDAn9RFpFQVnaQzWk": [
+   null,
+   2
+  ],
+  "B7x4Rwaar8hoZxk4FjXUPmWKSVW8uxaeGM1S7twPLrTB": [
+   null,
+   0
+  ],
+  "BBLRvYKa6mLqg1SC5whvjZbMRuQep4zUrkAJHpRSApRS": [
+   0.37538194444444445,
+   17
+  ],
+  "BBqFYZwYhtmrNC41QiihLfUQVzrph9EtT81TDgtMSNMU": [
+   null,
+   2
+  ],
+  "BD1v83qqmjjXFLd7XmvxeJYdonvoChRgcJCv5wb7Mpyz": [
+   0.32524305555555555,
+   60
+  ],
+  "BDuN1yXWQgmK416YYQdqMpM4xt2XrqfZHRqYfGWGgPuq": [
+   0.6686226851851852,
+   12
+  ],
+  "BEk4LVNhSFAX59BtjaJUsD6c43QjPd2xfzHHUaqLKUhN": [
+   null,
+   1
+  ],
+  "BGBdp2X6iDaWYgGuQ8Yy48TrF3e1r9iFv1jHW8Ydm4ZS": [
+   null,
+   0
+  ],
+  "BMt9vhYubSUGcsvg1NsNpmMDp2HAu7nGJfPfrNdtHZYq": [
+   0.555787037037037,
+   8
+  ],
+  "BNXu9xmgKBavQrR8yVL8HhJDzRYnhDG65G9v7orbzNEx": [
+   null,
+   2
+  ],
+  "BNfGbuBaAgtK5V4Zsc1DyyKzBVoVVe4AoGFgfkm4X4pQ": [
+   0.8875115740740741,
+   6
+  ],
+  "BNxghLG1nar6dyieqBvXxH2HuosEp5jh8h6RjNiR3Sb": [
+   0.901400462962963,
+   7
+  ],
+  "BPXKgm9wRNSwKjq2RTMiCdutQ8tSWYg2JFxSx2pMBpZV": [
+   0.13655092592592594,
+   60
+  ],
+  "BQKUjMy8Kzgnhvooe5RG9karCeYUBsHwhETv4DAMBKQg": [
+   0.7257638888888889,
+   5
+  ],
+  "BRPTS7ezxeXYcuw7JRNKvX4wAcqRc6HZWdsqjxre2qKr": [
+   null,
+   0
+  ],
+  "BT9BSFGMsHuovNnmLQXsHbhkywiKGHgjBeNZ3skkw7mX": [
+   null,
+   4
+  ],
+  "BVLhZNynqnPc1oPfWW3JRwoaFFRwvkEPosdbcPH57VB7": [
+   0.007592592592592593,
+   6
+  ],
+  "BXLvysUQumD1yCZBcXrnQVAEQYxo4S3GBjLut2GfvHPR": [
+   null,
+   1
+  ],
+  "BXky5kup2fc7Y7vpVMH2bSbxdh5LmAFGikayc9YYjBjM": [
+   null,
+   1
+  ],
+  "BZ7kUAcV2rpjSQoWmn2ZYz4MCTd6EM2qjriRZRbD8mp": [
+   null,
+   1
+  ],
+  "BZXDBXatWtZHQ5DbHxbfKbS5igCTJmVDkjyw5JZiJb6g": [
+   0.9541087962962963,
+   49
+  ],
+  "BbhNLACf8DAEuJB9cXQEntx33mweE5W9rfZJPE6yNEij": [
+   0.8256134259259259,
+   20
+  ],
+  "BdAEeBLScCuqgRJzAmZfY9DNb3i8Dy5BSMCm4ShFzNKN": [
+   null,
+   4
+  ],
+  "Bdh6pse2Jjqv1YvhmR2xiamJqYzwMMzLWxTmZeryMG1U": [
+   null,
+   2
+  ],
+  "BeETsbGJpM9sEtCazkeVxnJow7sLs7RRk9a7Yf8LXXgk": [
+   null,
+   2
+  ],
+  "Bem19b6TTX1RguVfXxxTunK99r8eug3NMrSGa6P7jRt7": [
+   null,
+   0
+  ],
+  "BfhDuKU6ev3mAtMr9chb226R9aFxNBbaYtcuWQ6WiwdF": [
+   0.674212962962963,
+   26
+  ],
+  "BidRz6VPs3mbCjHWTPtjANoZYd2fuekxgUbxhbK8Jn5m": [
+   null,
+   3
+  ],
+  "BjEwopAesttVep6Hi8LDXunZ9SqK8978V1p8c11zf1ax": [
+   null,
+   2
+  ],
+  "BmSKeeGzwpdhEFRfqTpichqzEwrRMXfNYGwKwJfJfi4g": [
+   null,
+   2
+  ],
+  "Bnrq6WWHrFJCEchGy2LSERBQLGCAs3WYXxavPpArRL9W": [
+   0.7912847222222222,
+   8
+  ],
+  "Bo1ZK2cbPsBRb9fPCptUcxknt9Vbx37WUWVeAAN6NnRd": [
+   0.00537037037037037,
+   8
+  ],
+  "BoQ5P3Uc3Nd7VENRDBUybrCVWW9TTmw743EfiagXyFTu": [
+   0.8302314814814815,
+   7
+  ],
+  "BoXwyAE8qeQRjCsAMxYuQiD5EpJ73U7wDHS8qzQaMNqA": [
+   null,
+   2
+  ],
+  "BqNYybL6bovSopVFJYZLTKEnEoKnK3E3WjcXQJXEeJGg": [
+   0.9522337962962963,
+   49
+  ],
+  "Br4EozqAYm7AQvCxgw9hZSxajzMt1NtCYgmozfCY6wiQ": [
+   null,
+   2
+  ],
+  "BrS7BiKX62LdqFvey8p8iLUrhX8kcWbKNQkCmitpEpqr": [
+   null,
+   1
+  ],
+  "BsP8QRUVjA4JW9NnCymjypXrYEDkKnWhm744Z2kJTaEE": [
+   0.08684027777777778,
+   14
+  ],
+  "BsmHx4rFTDx7w2S1TqZuxm9ohuyuke8tJyFCpPeq2iKC": [
+   0.6009143518518518,
+   37
+  ],
+  "BtBag8ZmLQES3PhMWzJgX615AekAzf7oQauav2K6GDTC": [
+   0.6529282407407407,
+   60
+  ],
+  "BvJg3AFvwa5xX7hmZ9bzqQ5Apb4mqQLMjHqp9bb6N9Z2": [
+   0.3791319444444444,
+   12
+  ],
+  "BvNeRH91YrjvMgy1G4xxFgkuLk397LvbCT3gMpzrVQoe": [
+   null,
+   0
+  ],
+  "ByHZbob7UrsKN9V5hF4BxyQGKzmiwTxPLNGhynn699xq": [
+   null,
+   1
+  ],
+  "BycgPpKyJpscfcjjTMsNTgiptchw2eRtJfu42guTUkot": [
+   0.8961921296296296,
+   7
+  ],
+  "ByiReYYETYkckiX2mZ1PqJDJXakwntsA6mYa948RPcEv": [
+   null,
+   3
+  ],
+  "C39p9sG2CEiRyY6nG8Wi7Psd4Hb4Z5aa555vd61FaHnJ": [
+   0.0757638888888889,
+   60
+  ],
+  "C3F4J2gnJFNN4kMh42PaZ5krQ8sofAGT9AmQ7Z2PCvL9": [
+   null,
+   1
+  ],
+  "C5psripaaZUKQGGBhE8m7SebMPbMWhNmwCcPeWfg8kWP": [
+   null,
+   0
+  ],
+  "C5u2jwsUSXv1X6gDSVAgTdwNakMsJJTymKzx9Hhhsjfy": [
+   null,
+   1
+  ],
+  "C6N4evKGv21iCcoMbqPNKfv7VapmvNtJc1ScCrSGh51x": [
+   0.8826388888888889,
+   17
+  ],
+  "C8HZyycTAVF5pxjzHqswDjE6hPUGmXUojSSkMRGtzSKm": [
+   0.13045138888888888,
+   17
+  ],
+  "C9A83hnCQfynY34xZH1Ng2SUTvYCeZeiH9ViMD4wW7Wx": [
+   null,
+   4
+  ],
+  "C9K3Me9QBPF4pBmeqnJpXwvg1HPCGRcof66ayXLFuTBR": [
+   null,
+   2
+  ],
+  "C9LzQpoaWgLoAoSSQSJmgWDsgN8qMcd1TyrsE83bbWkT": [
+   0.35778935185185184,
+   9
+  ],
+  "CA6ksWHZyXCSt9goHNU5nQjp8T7xWygwwK1t72cJY4ZG": [
+   null,
+   3
+  ],
+  "CAkkomEyrRY3k1YXE3AjPd2H3Ptir8x8pc9o51zuow3r": [
+   null,
+   2
+  ],
+  "CBPeLS3qZ4JNLtUKsh9uQgpRWtGKL8saWq2JK76nmokN": [
+   0.0015509259259259259,
+   6
+  ],
+  "CCcAGCZt4PLLbSof7rPMTH9NFXvUXkQ4v5TcUP3Bd8eb": [
+   null,
+   0
+  ],
+  "CCfxTxSTcxHUhZWqxpnLMQyhP1kxYTwNkQGCbMTWevGG": [
+   null,
+   2
+  ],
+  "CCsFRBE44e8dVJ5quUJLxqYQg8DNsQQh2Pn36vjRCvDJ": [
+   0.6008564814814815,
+   23
+  ],
+  "CGKtiS13bNgFJWUCmB5e4GqqAVmmsEEpTpsiVuCLKaAp": [
+   null,
+   1
+  ],
+  "CHHUYQvSmieYUawZvDSXiLrLcsxUcgxXgbVr2JgT1JDg": [
+   null,
+   2
+  ],
+  "CJ9JiMCaWNaEFaymWEUMMSxxRvVNMHKL35X7QFMaV2HK": [
+   0.016446759259259258,
+   5
+  ],
+  "CKbNssMvZ7eeWYHCzSx5HrWuwKVmyYHNa7nS1SToawND": [
+   0.039594907407407405,
+   10
+  ],
+  "CKcEPRgttZ4NCdXhZ2iXQ9MDfS5ygJQGbtY71d2ND5WB": [
+   0.8135300925925926,
+   19
+  ],
+  "CLgvjCFmJyBKLCJHb3zvWLrpPqJm8n3PjSkeToou49Q9": [
+   0.3741435185185185,
+   5
+  ],
+  "CNfzWUfFW2qpTzUeqhhiUqRc3uAw8TiFc6B8mAm2TUan": [
+   null,
+   4
+  ],
+  "CNoJ3z5SRqdTWbniz1fn5Unwvugu1BhuEmb5VZFEfqQW": [
+   null,
+   1
+  ],
+  "CP1B1mVzsXgXZuWPZvJAwD1Mh3VtMHzi27Dbo6mYwQpq": [
+   0.7376273148148148,
+   13
+  ],
+  "CQ4VJt2MWYt764Czdk51mu57bVeipPdo9t2mpKTwN5Ch": [
+   null,
+   1
+  ],
+  "CQcPF2nx13rKK2BwtTk7UzVvdkFfCjti1oF1315ubRxA": [
+   null,
+   1
+  ],
+  "CRabv4oCrrPsUq4EJ5Fbwf58KLsgYeF2RRSinuKUN3mx": [
+   0.7620601851851851,
+   11
+  ],
+  "CRoM7dg9e7ChmTP7R4sb6HaX77f9BapmXVdx3x7ExJ6o": [
+   0.7088888888888889,
+   29
+  ],
+  "CS9a4zj4ZECh7r84a2raSaQdpkp1H6E39vkSEJXdRRWe": [
+   0.8943865740740741,
+   60
+  ],
+  "CSWhLEqq24vbG7dr9VtF4k6iTxPvM9uZtR8PMUhXtKvR": [
+   0.9456365740740741,
+   21
+  ],
+  "CWmjs55e6J19H7wki5VF89a7xsPRrJCqjj2N5AkKN5nb": [
+   null,
+   1
+  ],
+  "CWsuTE1ziNiBXP3H6n2etKnEUprpDsDq39SZK89z7ADs": [
+   null,
+   1
+  ],
+  "CX3LgKA2KKBRqyey4s1zJdLahRjNUkvQDmXRgCKAkZwB": [
+   0.8661689814814815,
+   60
+  ],
+  "CXFgLmyaeNRqAouXxtYjxWtEnQDgX88Cn2tzH4qosxp8": [
+   null,
+   1
+  ],
+  "CXkp4jF23BRZnbLLQVLzYSkwmP7ftiqU6N7BCHiD1Gmo": [
+   null,
+   1
+  ],
+  "CXzYvU4V9anE3ZeXG5wJFUeFpdxQSiakppThyDY2wDVk": [
+   null,
+   0
+  ],
+  "CZ4ZjaBVV5EjJandSnAjYa6h4GR7o7zZkoAeehDq2Vi4": [
+   null,
+   3
+  ],
+  "CZGDz3Fy6t1XsCKKuw5256zyxTdWVu8xZzvVKGJq6RSK": [
+   null,
+   3
+  ],
+  "CZVyqYx1cKoAzT4nmwsdNddwmfPGyUfc1VGqr2V89udW": [
+   0.30416666666666664,
+   8
+  ],
+  "CZaSf251r6KkvzAtuKjTJBfk2eSkhZNby7TBhkmJMYjx": [
+   0.058402777777777776,
+   20
+  ],
+  "CZhvsQwiPs9VzanuDN4WVBbY3RSNb4ziWhZJesYZjKG7": [
+   null,
+   1
+  ],
+  "CaBQB1hsiL3x1q9MyfBG7kCAxAsnahQo53z7193Pde1z": [
+   null,
+   1
+  ],
+  "CaSJFyW7Ci4h2i5gpr45iA3sJexZwqBTNs5ZHnSQqXyq": [
+   null,
+   1
+  ],
+  "CaSbtWTr7SVd8APVkqrmAtJJHHVT9kKNEN15YtuKdWvs": [
+   null,
+   0
+  ],
+  "Cb7ZMGNrKXWSnsj9dt63hchq7NooXB567Q11uvTpzV14": [
+   0.009525462962962963,
+   6
+  ],
+  "CcNXZboCWrSXRSvFejbvHuCabyoLVPpXPGM4bx9xkb83": [
+   null,
+   0
+  ],
+  "CebE4hM6WJiD4o2E1weDyx7BBkvU5MtBfV7rdGsCuNxk": [
+   null,
+   3
+  ],
+  "Cg3AnS2qPYiYMTsSdB711rmGAqWnwYHnpi7k1o1MVE5u": [
+   0.9258333333333333,
+   36
+  ],
+  "CgKKmyrauaWjM4MTD3CFU6AeLEiRnPWHdaimiUzBPohD": [
+   0.89625,
+   9
+  ],
+  "CggPcyCQsvRKE76xmyhzLvo8E6VtUaC54Wcx9ZkyWX18": [
+   null,
+   3
+  ],
+  "CiMjTPTCP9VexL17m9rH4dkwrPv7onMsiSdq4HUDNfBh": [
+   0.366875,
+   10
+  ],
+  "CizvBisqZRGTT4Nd5WrrFpccy5doy77QbftRFPxt2DYf": [
+   null,
+   1
+  ],
+  "CjMkffYHhf6Atukdg6SaftZzywzAijvYEcVkoUYjunQM": [
+   null,
+   1
+  ],
+  "CjgMQXiLveZ762KWhk9WGG2PG8jBeNTVLjVDWgtsiY7J": [
+   null,
+   0
+  ],
+  "Ck36Rxeu17isy1S4sJmRAwwYVQAwKsFAfRKqUmqzuRyR": [
+   null,
+   4
+  ],
+  "CkLiynY4xcrUDBBEYMGMEdRYpKVAmYSFYKz7hg66Umr4": [
+   null,
+   2
+  ],
+  "Cme2MU3aLcSCjmBzLqUjBHwGuFZW8QgQkiiAk7yV3MKu": [
+   0.9192013888888889,
+   33
+  ],
+  "CncFGzs7mS5oo4MJz3PaoDnEBXmV8Kw7mhzvRX1ck1Lh": [
+   null,
+   0
+  ],
+  "Cow9QU1tW3Y1mdcAYri7ybBok2iV5iKUTwvVN8b322C5": [
+   0.9257060185185185,
+   29
+  ],
+  "CpyV2v4Pe5kS2rvtRJtpbGjHTwU2y9E33uMWaseinbaU": [
+   null,
+   0
+  ],
+  "CqERBAavAVqnNgpJefKU8qvXAjhLYKp1Fdy8Ai1cDDFq": [
+   0.8081944444444444,
+   20
+  ],
+  "CsXNUxdw3D3vshKayeXV6VvFU4JsCSUnDJJf4EEsGuSd": [
+   null,
+   0
+  ],
+  "Csmon21vkPRzwYHk8esafeUdwnULZcMNbBjKoxLSWNoM": [
+   0.0077777777777777776,
+   8
+  ],
+  "Cu9soUrantMto11WKq74VtYXMwKm54RcoizCqk64KLAy": [
+   0.29487268518518517,
+   15
+  ],
+  "CveAiFcEYN6ELhFn7ZHcTxmBFwwYUhzn14ATwjvKYYNA": [
+   0.7391782407407408,
+   35
+  ],
+  "CxtAzewCr95crNDrPRWLhtRsfgtacac6DawAmzrWVdXF": [
+   null,
+   0
+  ],
+  "CztQXE9phgn2xedMNWSs7XM5bwHxvcohLBy7PDAWpbSK": [
+   0.030127314814814815,
+   10
+  ],
+  "D1QoneQhaTucvkB8BVNqcmiJautoJcw5aFmNsLA9ABYx": [
+   null,
+   4
+  ],
+  "D1htg5VLHzLXfpdixmr7NJxcyQtYodqhrdbvcrVrSJYA": [
+   0.42909722222222224,
+   27
+  ],
+  "D1ojrFEZ5sUn3oAh2M4MU8QupeHF3GHPUTu314wvhLus": [
+   0.9036111111111111,
+   36
+  ],
+  "D2PxGKjfz49qTrfoDqq21A3tQgPPLHMLVXQTAcMR9t6H": [
+   null,
+   0
+  ],
+  "D4uAhTXBMq6hMVEUNZo7WvXGDi58eSU4MStRNT21Z7Yy": [
+   0.7044097222222222,
+   60
+  ],
+  "DAewUYbm7XrVJH2vGjNxPjpAS7nfShpdp7rBiwbTPScZ": [
+   0.7017361111111111,
+   6
+  ],
+  "DAoQWRRs2qqLEsUGiTpKsaag7whYwUDNVQtDyLQSnRgq": [
+   null,
+   1
+  ],
+  "DB1HXWWRyAHsyMtjwsimJ8CvmarVWF89JQCqm1BHUiAf": [
+   0.01380787037037037,
+   12
+  ],
+  "DCcR76dv92aGXGPWeCt7RfCyk4URSnaGWecaGAZf5zY7": [
+   0.016307870370370372,
+   5
+  ],
+  "DE9tjrdm7VHBCEZBDik75aM8d9LbCk1oDsyTjcAjuyzK": [
+   null,
+   0
+  ],
+  "DEtzDjtm1mZwToN4iLUoocptDoeNFoCBpTVfbrpLRPWo": [
+   0.7916435185185186,
+   5
+  ],
+  "DFEECPdGqS26rGrYsdvBGihnoypx9fhZ5PV3fuY4Ldk2": [
+   null,
+   3
+  ],
+  "DGRfQBpdxnumtacaZd5u5dT1xpnqeg4qDtGzjj3ZswnU": [
+   0.18239583333333334,
+   19
+  ],
+  "DJ77VYrtzqn2G7n96tY36xRpcv7hn5szM4p53uZx7WSb": [
+   null,
+   1
+  ],
+  "DNEWz9w8Ttpox1wSFq4g5cggoG7sGQVjxbiRNgfPgobP": [
+   null,
+   2
+  ],
+  "DNdbpquvxsbwFZBH5Qf5gVXUHNfSdN8CkTyLPXyTeE2M": [
+   null,
+   2
+  ],
+  "DPBcodWb4u4eio2GenseRRAKuQouwzjyrRJ6sW8R7cqD": [
+   0.8696990740740741,
+   32
+  ],
+  "DPPvyvQ2T9cEKUKWsxaAue36jytsPZeNqEsfLwnMeusx": [
+   null,
+   3
+  ],
+  "DQY56UMg9airzDfiN75kW8yqdo844APX3PsCivuVVX4e": [
+   null,
+   3
+  ],
+  "DSJrXQs1FxctsxYvHGiSWWc4Pzysvb5a4mgUpjyREwfH": [
+   null,
+   3
+  ],
+  "DT4HuvFvdSs69nDJv2fsr5qdUc7SoUVpF4P8y7sWTkvJ": [
+   null,
+   2
+  ],
+  "DUjHGykP29BU5cFC4Daf5mQMqp5VfPCVuipPURo4qisG": [
+   0.945162037037037,
+   8
+  ],
+  "DV6yUCnqzAUVXrNjuwqEQbnGSThmVixCjRqMF2dZkZAQ": [
+   null,
+   1
+  ],
+  "DWfM932SSGhpqLjvxEdbv2LDyoeXdkVFankC12D6Levx": [
+   0.8291898148148148,
+   9
+  ],
+  "DWxYFtUiEejgoiiQsbwugbKfhpSGwAhrjBGYFA4Z5pX5": [
+   0.46380787037037036,
+   60
+  ],
+  "DXHKt3poHDvtRuiqHAzToxdnrCBvfysjMBZe2ARpQ6g9": [
+   null,
+   1
+  ],
+  "DXgWzmjRLox2D6UxupsPE9iaHGqu2hmoPFfCaVjTGbvG": [
+   0.5534375,
+   21
+  ],
+  "DXkpZ1odaUtk3vm9pKEsr894Cbp2tAgTvYNF5xgAvppN": [
+   null,
+   1
+  ],
+  "DZspW6LcxcDd4C1byKB9dH1ntwtCi5nTbW2zpvJVrVC1": [
+   null,
+   1
+  ],
+  "DbujF3jbEGiJRcPBHV1ttW3kBBdALdAg2dwPWZYTyb6E": [
+   0.4996759259259259,
+   10
+  ],
+  "DcagKkbKE4zwLTdSrZha2L4j6nfAZkNBUBs7L7eCTjpr": [
+   null,
+   1
+  ],
+  "DcwfF9ixp97e6RwfZj3ETxWPTqqynvj1pyZ32JLozPKj": [
+   null,
+   1
+  ],
+  "DeWEfc3rZdAqJ8KYKvxPqVJwb5kr2C2NBetuAH85RKve": [
+   0.007916666666666667,
+   5
+  ],
+  "Dfk7URVD8cqvwZNJaLdSJg9c2z4ctMS5wYpaL7zs2EJV": [
+   null,
+   3
+  ],
+  "Dh3vmKGvusAZGnsMLaLbG7d3JWunRDyYzPKT39B7vqi9": [
+   0.04875,
+   10
+  ],
+  "DhNYnMUYrgj65DTBo1Pw1PVtssC5d9CsnqFVeTb5pYoh": [
+   0.9116666666666666,
+   49
+  ],
+  "DhhK6q1D441v1GaVhE2y5gi93378V1Sa5jMs8Y57mdEc": [
+   null,
+   2
+  ],
+  "Dna2ViepLCBSphDVskWTvFNvUyXjHZ7d6WFafGdmsfGx": [
+   0.024050925925925927,
+   18
+  ],
+  "DoXnFeki16Bd4mZWaLdd2MVZjigmWyNEkQ4EvB8NMq2K": [
+   0.08056712962962963,
+   10
+  ],
+  "DoZ4xw95EFaA17rVsryKxvQLVBEXksXBk2941uPtQUoU": [
+   null,
+   0
+  ],
+  "Dod8G4RFUzbQWNQQhpNSbpMdPw4eTc9bQobovQC8iiMY": [
+   null,
+   4
+  ],
+  "DqHvijvvRdGfp9i2fSGJmYxbxZZnzPPtSYH19uDuUXSW": [
+   0.0038078703703703703,
+   5
+  ],
+  "DrXsfeq6SCvoeBmUNH766HRpUzcFneMvcgKk7xdjhoos": [
+   0.07309027777777778,
+   14
+  ],
+  "Dru8JsmTpa36F4rCYzsWuNKcsZ8wCqPXy94bmuqjyG3D": [
+   null,
+   3
+  ],
+  "Dsnmgj82guKDx2YKURBB95dzVdN7ApCGYhKs93Etf8tX": [
+   null,
+   2
+  ],
+  "DwUf7wJtkn1X3kTrZtPyBdewMgNGoMv4L8jzuWNNP1SL": [
+   null,
+   2
+  ],
+  "DwrHEEucSNuJ9fQkQdmoEZNM5WE3HBdiCLsC8RASLf7T": [
+   null,
+   2
+  ],
+  "DzfpJx6r7nCVQuHZjAAk9ZBCHg2raPQRkG9rdtwxfiEe": [
+   null,
+   1
+  ],
+  "E16gy5dWjqN2vTgKcEwuJthkrmnKMxNhEKa1CRGTRdUG": [
+   null,
+   1
+  ],
+  "E2T7Tn6dSpPxLc9ppV1k5t3vDfb5voPu6Z3v48HQ9SJi": [
+   null,
+   2
+  ],
+  "E3abt7zSuzy1zjNYLQBdf1BRoccLKzfkEqm7Eo89A66Y": [
+   null,
+   3
+  ],
+  "E5VynfY4aJqV8Fjk4iY77pkcvV7KH47UuhBND4bgCeDH": [
+   null,
+   0
+  ],
+  "E7nkdVFjjsApuBoQNJXRMSZ7H1AstBqzGDFv98TQ2KFc": [
+   null,
+   1
+  ],
+  "E81T8adEjcqhZypPm1gPVHkWircLseAEn29E8pWCejXV": [
+   0.013275462962962963,
+   8
+  ],
+  "E8FtVB22NqSb6DzH7SvNzysobwdQ2DAEaoRFcm6EtxSK": [
+   0.8968518518518519,
+   22
+  ],
+  "E8HscwLqsVCunqsWCTK92HoKBAnUg3yKG8DjTWHEpjUx": [
+   0.08873842592592593,
+   60
+  ],
+  "E9k1ZgPGbimQGMjPfd6fWQ1CM1chJ4W3qmth87PYZHEA": [
+   null,
+   1
+  ],
+  "E9oLDrFAsHfNRtzztojHSbPJpZJVp4c151VwWVaNmemS": [
+   null,
+   0
+  ],
+  "EDH4aQsdXDpoGJGypc1ffeqyddGw4wMsM4i6mkfQD7fZ": [
+   0.9448958333333334,
+   32
+  ],
+  "EGXMC12dTcWTW14ayonqe8JsYKNNPmRptcMksJfS86cR": [
+   0.7103356481481482,
+   11
+  ],
+  "EGhRymjgZxTDdEG11rGKUn3SeGaRKjqigJXGGrTbZSvv": [
+   null,
+   0
+  ],
+  "EJdCLF1ayuyfWxvyJb3RevbKLYLS2V3KEbmAfuMjLMoi": [
+   0.08662037037037038,
+   60
+  ],
+  "EKTYDgXsF1wuddgtkC2uypFWofdJ4YTwzigs4ZRYupv9": [
+   null,
+   3
+  ],
+  "EKYPQdmXqhyY3RbGWCt8yQfZq3K1K74Ue8tqP11KEbYX": [
+   null,
+   0
+  ],
+  "EKxLmcUvzuefTQN4k9o9yeTHH3RziwEEwqX3RFLDmzSp": [
+   0.15859953703703702,
+   6
+  ],
+  "EL7NKSq2CZVnACw9E6jQAdVCxkqBzUyHB4sYryDpAeCr": [
+   0.30716435185185187,
+   7
+  ],
+  "ENXPf4rer8AS6XW3d3hqfS8UMrAop3CsjwDHPVLJ2dXE": [
+   0.8074768518518518,
+   60
+  ],
+  "ENrBwfKY83QeaeDX954DJsfWS9DazNtBKhxT5rAWv4Wi": [
+   null,
+   3
+  ],
+  "EPrnj2X1RqR3cvq6T1Mr7n5ieGZSrYC2y9z9J4ARntwt": [
+   null,
+   3
+  ],
+  "EQ1nHS6kKuWb7td5h53AKvLycGWY4tE3ozJKRPhRC1Jv": [
+   null,
+   1
+  ],
+  "EQ6VvPrRLHDPWrYm2ShebrUDR6PyxYrA1oegfnWFdQhu": [
+   null,
+   4
+  ],
+  "EUiinzaPLYzeEfvZc2L1kvrcXG9DEBYcPMfazUr4YaSF": [
+   0.8614120370370371,
+   41
+  ],
+  "EVS8tSFfxaBpKDjxQMQ3AmrAsSMhtNG7ftmu9WpWhoo9": [
+   null,
+   1
+  ],
+  "EX2Yb2TJBohZ8THQhVqgu23Cc7xNNDg5ubzQGVvaMWBQ": [
+   null,
+   0
+  ],
+  "EXW9QKke2C3KeZGEB3prK1MXWDTLRQ1xPALk7iZeTP15": [
+   0.12837962962962962,
+   24
+  ],
+  "EXpheUVWjEGfx1p78xgH1TsNrroFJ8YTKzmXmUaT38nq": [
+   null,
+   1
+  ],
+  "EYxbobUUvvGyrRgSWGZmbRqMxXpcPNsEPeaNjXmyscoA": [
+   0.8052777777777778,
+   60
+  ],
+  "EbWZL9wZK9PcJHCSuHfVGSmm6Eu1ncwD52QD5uXg6yXx": [
+   null,
+   3
+  ],
+  "Edqqy9TEQiaxhjU1wGGCSzvwwF6c1uidq41HmgEC6MEw": [
+   0.9025810185185185,
+   58
+  ],
+  "EeJYd28A1vUyLhHiwXuYBXeoWtf6ATY8Qybbpdd6Aif": [
+   null,
+   4
+  ],
+  "EfNM6G8GB3jBUKDgsy1HNBNznA3DgGs5LGYbQyuLEwAp": [
+   null,
+   0
+  ],
+  "EfmfPENqv2QHwMASZYroQZUsQioQbPBbCgKqEGeWQHj2": [
+   0.8831018518518519,
+   33
+  ],
+  "EjUnDbodo1Yx1NexfHv1pkXQqHSoS3hFaeGg9Z9VHv6p": [
+   0.9206712962962963,
+   21
+  ],
+  "EjmwHhTDFY6rvE2jBWkmSYHSU2Hu5CU5UDk6nc3rJgte": [
+   null,
+   1
+  ],
+  "EjyFZHVAPKb4DVjCak27mvWsqKGnrVWsk2tcyKk9yLv7": [
+   0.8575694444444445,
+   41
+  ],
+  "EnbjjgmyvMSkGrBUQC4VPQXZ3jubiJLfEetRiJtrgZwe": [
+   null,
+   3
+  ],
+  "EoWbxpbuKPEL8MYj4ALsNGpp9nh22q6H28N6Lunqpb4H": [
+   null,
+   3
+  ],
+  "Er5aFTLzoQ71cxfNs9cGXqMMWJe5HhkBfR6e6B1jVVMp": [
+   null,
+   3
+  ],
+  "ErcfHxwY5RwR22Z17f5Yk7TorQFEve8xh9cNB1R6zKuo": [
+   null,
+   1
+  ],
+  "EsdBDih1gA2S7L1E8K72B8Nvx7DXKJm5RsjpLf7U3TCb": [
+   0.00024305555555555555,
+   5
+  ],
+  "EtEDX9e7Zbo9hhYA6N51KSsuU4coiD2jGS3WF74Qb19m": [
+   0.5557060185185185,
+   60
+  ],
+  "EumSPVPKhPmepX99w99awBzhbqXxVJy1CdqkpouiFC9e": [
+   0.7706712962962963,
+   6
+  ],
+  "EvJ38ZHyc4nJTGWo9PTF6FE26g7wZeDRFcBQwAKPiAMX": [
+   0.8835763888888889,
+   14
+  ],
+  "EvpZ2Dz6KNg5U4xDtLr3hDCXKXBPCyUxmGGW7Q1Zn5Ye": [
+   null,
+   2
+  ],
+  "Ey6tcmzwJ1stQ5kg7YuWiDYioowb5QpBqr8afqTqZTVd": [
+   0.7463425925925926,
+   6
+  ],
+  "F2myTTpivdQigy8XCTbGdX8wWg4uyw2zk5HGdowbsjh6": [
+   0.598275462962963,
+   6
+  ],
+  "F3hLJj5JZhxQxYB4vfwZj3ZtPdb8G6xyMm4sK39QtDPC": [
+   0.07564814814814814,
+   60
+  ],
+  "F7MMArLDE1wn5LxoTmTLAxwNPvbBB3yRJX3mbwgavYgv": [
+   0.753912037037037,
+   10
+  ],
+  "F8C5fS1FFR1PKPtZxm3894ewGVCuUY6SzszK4AzrrkgL": [
+   null,
+   3
+  ],
+  "F8YES5GmscmdaBeb2qhyuaxugmbaptqCh28bhzYmGo4u": [
+   null,
+   4
+  ],
+  "F8fgQETx8mzSX2ZrZ6ouA985dQQ5hMH3WoKW9dv8ejk8": [
+   0.007222222222222222,
+   5
+  ],
+  "FJjm18WnqoVrj3dyBB9hAqNUFQNTDLaZDobUpiaDcJC3": [
+   0.019664351851851853,
+   11
+  ],
+  "FK3nVbC7x74eyDj3756yM7dA1cAq4f7EcK3CFCCRnsSx": [
+   0.5911574074074074,
+   60
+  ],
+  "FKNwWtz6KKSfYDggqa66YZG3EusGzVPcG6CxbaZt591r": [
+   null,
+   2
+  ],
+  "FKQCB4y5nbDdGUhBbag4GB1td1s1E6kDWoCaC7Fy1g4T": [
+   null,
+   0
+  ],
+  "FLQAppnUQkvMMUbYg4aWWkawst7snqAv38F9bfC1gawN": [
+   null,
+   2
+  ],
+  "FMXLaxFwfAecsxcNj6vB5j7tnbdUg8h5wChBsaKTsAKj": [
+   null,
+   1
+  ],
+  "FNBbjasAhhYkXVK1Rswh6zndTSLRuThDvbNrgy8mzYWj": [
+   null,
+   2
+  ],
+  "FQK2gB13R7RCyMEv1UytyiSv2SDaoaLSyd72xbZiQ8tK": [
+   0.9213888888888889,
+   7
+  ],
+  "FSDZYNQA78LJqnWXtxvKFoR3d8bR5WJiYPCSjvkNVRiq": [
+   null,
+   1
+  ],
+  "FSeCWikNBM6euNUnGjzJxmnQ71wUctx33nspjeg2CPjt": [
+   null,
+   1
+  ],
+  "FT3UfAuQxcCeQSrLsGMGT13MTEtvwDv7XC19qFkcJGiS": [
+   0.37960648148148146,
+   7
+  ],
+  "FUdRcGGSTCWp7ofWTcg4hSWzAsZPxa7nW8kUr9tH4F1U": [
+   0.09314814814814815,
+   6
+  ],
+  "FUfLGQPv8rhq8T4BC6wV38YBGz6bW8riWsbA9cHey5zZ": [
+   0.9113541666666667,
+   16
+  ],
+  "FW6sUcb6eFLZon88i2akQDmJoB4FNGjK8WgRKRCzn6rC": [
+   null,
+   1
+  ],
+  "FWBtpKrhaVzVYiWJeumEKDrm5ryvGdEbb8wTLctWnEyk": [
+   0.5437037037037037,
+   24
+  ],
+  "FWSn6ehoUi1F75jUEvoe33mKYxDw7tFjobuymw9V1Jxi": [
+   0.9629861111111111,
+   55
+  ],
+  "FWXyYcN8aTjTdnDd65WHRNeddd6e93uCKszAa1UhBKbm": [
+   null,
+   4
+  ],
+  "FWYdwiMPHjc8YssHTRHSTUwBHV34MoLVWD8RtXSgJns6": [
+   null,
+   0
+  ],
+  "FXYcxZD2fCFLZYUsia9i88T4Q1X9vuymSi4tFPKRXEvT": [
+   null,
+   1
+  ],
+  "FXyjWLni1R1MLFPXzuyayj2D4Px1nQNLr3DjPXYnkg7x": [
+   null,
+   3
+  ],
+  "FYE4oqL9qRt7W3EESyBjw3SKuaphXNo8PU8w4yaLmvaW": [
+   null,
+   0
+  ],
+  "FYjgg1KC4S3a25vv23NBciTwmcsBCadvTypFFAeViiuV": [
+   null,
+   2
+  ],
+  "FZWyvvrQxGEVZTvkisZ7bbdVqcK65SYXMA3AaX7EBPuP": [
+   null,
+   2
+  ],
+  "FZyGD9fHN4gJwtdX8fbyXdsmboS68gGbsE9ioetKGzdE": [
+   0.8244328703703704,
+   10
+  ],
+  "FaMRiu9N2KubYq2a2d4WLyzZ5GparD2N9hM5krw5rp15": [
+   null,
+   1
+  ],
+  "FajP2FjmdGDxPwbhVStVVEkMQ2sC2nEayypBztviPfNM": [
+   0.4590162037037037,
+   60
+  ],
+  "FanykWp2U556EfWeEroW97MEWdaWEm4Byef6aUxnmhz2": [
+   0.7041319444444445,
+   6
+  ],
+  "FcDL6JutKpGfNLLAn5HyzkjKbAdb6sG1jQk8kAxrBLYB": [
+   null,
+   3
+  ],
+  "FdQtp9RwwYZTAnZ2idEMAoq97kHtCs6xNgLqfWcxLWUs": [
+   null,
+   0
+  ],
+  "Fdj9ZsrdWTN6mHYyEpqzAVQ2cDR7csZi3Vxdunn3Mz8N": [
+   0.027592592592592592,
+   9
+  ],
+  "FfgtT73yxaVRQrZi3ZjRSdg9G21rTimQzD68fk362VPz": [
+   null,
+   3
+  ],
+  "FjHXfnBXKDMjMTXeJECE6e2goRcmB5hzYfpxQuzZh3B4": [
+   0.023668981481481482,
+   16
+  ],
+  "Fjm3NGn8wHSvMXSNTSEEUzrv5pP6dGRySg69hxQmfAE9": [
+   null,
+   2
+  ],
+  "FkHYXryF6zPHfimRfoDHCQZgyqqetzmonSuznAvWCrKz": [
+   0.0007638888888888889,
+   7
+  ],
+  "FkhGKfjAh9zRfpM3GzGwvn2UpWjT93ADNo6bfmmqpePt": [
+   0.9047453703703704,
+   6
+  ],
+  "FoLTFHQ2r6B8QdiXikmz6G4fZaGwpwUknd9Syg2wUaPJ": [
+   null,
+   0
+  ],
+  "Fp4VS7M8YjPtVGakEpjv6ybakvqLu2Nen8dBpuSascUn": [
+   null,
+   3
+  ],
+  "FqTVseRtuyyqU4URV2tZq4F4hJNHdVijJDQkGBzqYs2H": [
+   null,
+   1
+  ],
+  "FrDnu4EPyxxk9V6wV9Cd6xdTPsF6rf3NKcGEJm85jCdw": [
+   0.7615740740740741,
+   7
+  ],
+  "FuuMcT8HRy4cbnYn1svcKMYwacLSksZ5SNJyxx1oVN3T": [
+   0.8528587962962964,
+   60
+  ],
+  "FvgFQarC9gHQQZan7gtyT13WmuM72xohLavQ52oJyZjw": [
+   null,
+   1
+  ],
+  "Fvr9a3Un2eZoWTmmnoa4XvmZhfAnbcESWjecT77oAidx": [
+   null,
+   2
+  ],
+  "Fx6hcWzYKbn63XWduYZUzAwUJGRC2UNictZ1EWQdvZsW": [
+   null,
+   3
+  ],
+  "FxhGS8HShXB7RjCjuP9xKjQYgUSeumnTXqq5eWTQYsm4": [
+   null,
+   1
+  ],
+  "FyZA5tB1ENHSZ6y3t4rVcwbgkfqiADYczhJuBv2TTqT5": [
+   0.9341087962962963,
+   60
+  ],
+  "G1U74NHcitfKCdgXEUhuUbDFev2HEnTEuUY3a6sgMN9F": [
+   null,
+   1
+  ],
+  "G2nrKatbjmhZ5AAJ8jHFHJD4Laz7Ym6XNZupF9k4iv3E": [
+   0.8212731481481481,
+   16
+  ],
+  "G5AKj2f4R1EVBmtVj89Pfndw9xCQuGDmPKGMigiVNqvs": [
+   0.9211805555555556,
+   10
+  ],
+  "G8Jx3nbEy8M4vNtX73HfzMw7xqLzp2ZmdY26udicEQei": [
+   null,
+   1
+  ],
+  "GAQBd4bKKJp8SfQ1q55jn1J5kGe3gn4bUZjDwGti3CK9": [
+   null,
+   3
+  ],
+  "GBHYHxttc9LV3f51Y5o1JwKnXu8q3ZptghZSRphwdA7q": [
+   null,
+   2
+  ],
+  "GBRPSdsWJ2kF3agioAT4BSmv9r3WsDi6eurZ5mUK918Q": [
+   null,
+   4
+  ],
+  "GBfgYdw8YDkjuH6WdeqNDHe982wV51oTaRt2HUubMFXc": [
+   null,
+   1
+  ],
+  "GBmYb75T5WjeF1m5NAfRDAHDvGiTkoDq6dFee1YWUi99": [
+   null,
+   2
+  ],
+  "GCQdHKuF26KbR3qgWtFayQJxUPsozj44RL74Td98uZ56": [
+   null,
+   2
+  ],
+  "GEB9gx3KNMYGoMoQwxwJxn1fPh5c6ujBm7Vm4Q2YFQAf": [
+   0.9030671296296297,
+   12
+  ],
+  "GGcPYqzfe3NJvVpZRdT3hWF45HqPCYYizfUkUqxrbTcj": [
+   null,
+   4
+  ],
+  "GH9fxD3oRdfSYeWbqsnwRhTd7YmHzDLhjeBDVKbAuGaP": [
+   0.19265046296296295,
+   6
+  ],
+  "GJQw6RABftRphVkJNAEAAtYHpcE5CTpewfiUeBwb87ke": [
+   null,
+   3
+  ],
+  "GJoftBfahLj8cBnT3Z157AEq73XdsyPq1XuKuvxkyB2Q": [
+   null,
+   0
+  ],
+  "GK5n7bw3jgSuJEED77rKZCBn6LYLLHRw2JiuJLNguLXf": [
+   null,
+   0
+  ],
+  "GKsyiNoJ6utUZL3sb7CjAeT9u16R7k8LhC75jkqdXDTD": [
+   0.6082060185185185,
+   6
+  ],
+  "GLkzjWC4oP52VP5UMBVkmf2uL91sgASJBZCgWA9RJ3HH": [
+   null,
+   1
+  ],
+  "GMXzgycXSyiENFoTJ3nnJ3ttGP2p7hNjZEEeD3GUPYUR": [
+   null,
+   3
+  ],
+  "GMndEYjnVEdAxLwumN88YdcGao47noxmsMJPZH9XQ5Au": [
+   0.005358796296296296,
+   5
+  ],
+  "GMw336gSMLpjmQDNYHnbr6rosTBvUWuYasBMJ3qZVkJG": [
+   null,
+   1
+  ],
+  "GN4UtdeNeDpuvKNbGbNTkBsBf7icmsG7S6M969Rc2mXP": [
+   0.07614583333333333,
+   60
+  ],
+  "GNHraMmaqXf3S9gBUKvB9ainPPnAdcVCciAxFjGucD3Q": [
+   null,
+   4
+  ],
+  "GPEQUnSZKDeBDgZCAku4QnCgg9d7rmJ7UjUJtJJ2ZfXF": [
+   0.06898148148148148,
+   6
+  ],
+  "GQHMZGPkG5XpcssxiT19NW5aMPMPMRTV6Xq1Pc9QuiJm": [
+   0.8603125,
+   46
+  ],
+  "GQxh2bh7z6A5YgiyPX3ftdQYXzARMnL8ieJHMEQ6LPtn": [
+   0.4091782407407407,
+   8
+  ],
+  "GRL8mKqsf7KS7gdRX6LFzu7gicu2uf4euyzyRZByTbXC": [
+   null,
+   3
+  ],
+  "GSGewTMKpSxWYVVAVg8JeZi5WkCTVWjtZrPLHBGDmRzg": [
+   0.9115856481481481,
+   51
+  ],
+  "GTZbYxE2CcMGMhqAwCN9HThLHLviWseXgGvuWNvFbujJ": [
+   null,
+   2
+  ],
+  "GUCRUvwkJNFPD7hSPVyBh35kp9pkw4VZDhUBpsuWJEeY": [
+   null,
+   2
+  ],
+  "GW4nnA7Jbhept5EgYwUMVDbpoJCeto7ZtT4Fg6MysKqm": [
+   null,
+   2
+  ],
+  "GWUiRnejBe23FW4xE7W626agfKMTy3bobhT5pJitEesn": [
+   null,
+   3
+  ],
+  "GWWL1VEYD65EDsWmCDmATjgUc26qsCQ6VEsAN1L4Ari": [
+   null,
+   1
+  ],
+  "GWrjVX49xcrzMGCc13DSqsqKXEnPQ7U7r346W5DE2RL7": [
+   null,
+   1
+  ],
+  "GXFT4KsbuuemHDyUonniWjPbbk2rSNdPTKDswYVzktmc": [
+   null,
+   1
+  ],
+  "GXfprgeHqkfqbxrZTicbyhNE71digUXqfvQk2FJR5RXD": [
+   null,
+   2
+  ],
+  "GZHADwQpZAmKttNc6bauNFuU2jDTuwjbkXaWEuX3baV1": [
+   null,
+   3
+  ],
+  "GaCKdmg3rBb5EFXtseQ7m4cM86jttSwhgKcosmcPiZMs": [
+   null,
+   1
+  ],
+  "GaQtSJqVMroJf2XJnQUXmNx2VbSPG4ByiKdkd7hkFkMP": [
+   null,
+   2
+  ],
+  "GargiZTykRuiAcdmRznJdEMRiGZkbPNRXSH6m3eZVHPW": [
+   null,
+   0
+  ],
+  "GbfpV5PAGvsvdvaBiPSqiuY4cCWVYTwEHNuzyYUVrKqL": [
+   0.8963888888888889,
+   5
+  ],
+  "GdWPk2A6W2xuXkvJ8T9bD49FVvZyBJ7hPYaz8g1eioos": [
+   null,
+   1
+  ],
+  "GefV5EDEtX7xSPaajKVJj2V3LHigiAuXNhHcRtXriKyG": [
+   null,
+   2
+  ],
+  "Gem2VAypSg7Ai7vjDKPTtqFahpoQWkfgVkyzx3rPoTka": [
+   0.02939814814814815,
+   60
+  ],
+  "GerEEdQfiwe6bFjdeopXDVsAhMe8PYqBowvSEwcjuEjA": [
+   null,
+   2
+  ],
+  "GgCyMmBbJFxzMF3x9E5MoSxTemYHGHpEmxHGzkSFtvGL": [
+   0.7627662037037037,
+   60
+  ],
+  "GhNufuz6oPqn4J3dKMqSLt5ZfUb25nSYXYLx31NkEijq": [
+   null,
+   4
+  ],
+  "GjmbPvpPURtaijjHhYNytV59n58qW1PqsD7jcdxF3oLr": [
+   null,
+   1
+  ],
+  "GkZSWYq2WJqoqGZEyngkb2SXFXa6pApNarSBG6FDUK5t": [
+   null,
+   4
+  ],
+  "GmHikVVvS7BSumDkKDGBegMFU7jwnpT1uBctftr5Hjh6": [
+   0.04186342592592593,
+   19
+  ],
+  "GnLowPrTaigRJYopgKHNU8LiBdkXXZbWjXUnFAdnL1rX": [
+   null,
+   4
+  ],
+  "GnkZYU5n8nRqHLqnKWEnCZCYa6J1ktJAs6qGRxW3QjJj": [
+   null,
+   4
+  ],
+  "Gp2fpp1tBDpbLZjuM6SXnVhRGSxXfRkyQC8oyUGYgVNy": [
+   null,
+   1
+  ],
+  "GqgdfNU589ResSTH3HnajvQKGa1g1rgzB4fCYGiz5H8H": [
+   0.121875,
+   15
+  ],
+  "GrPjbur4mdEGXa5p8iS9h2t997vnnLTVects6d958C6E": [
+   0.7231712962962963,
+   41
+  ],
+  "GrwuVxpLsTPcvASi3HGLtwsQpzYCyxQgu4DQ9tpmVAW8": [
+   0.06069444444444445,
+   60
+  ],
+  "GsRKAfN6JfbePSNmhXMheabRkXrJz4DFSmtkXHFtQuN5": [
+   0.680150462962963,
+   33
+  ],
+  "GsV3ihERmUowsL9t3WDjvFEThRVe6mLWZFZe8fdPDGYo": [
+   null,
+   3
+  ],
+  "GtXgjWfacYCGTvyKm2cse7t7S9GLWuV3Nejq36GhdZLF": [
+   0.9509722222222222,
+   17
+  ],
+  "GtZbJMGR5jBMhH1HiPLR3dZxUT9EjQnVHbnuEptGPoHv": [
+   null,
+   1
+  ],
+  "GuiGCrCcTmB5vFv9B3Bd2sADBpdef3PcqSfyLXPTEVQw": [
+   0.2296064814814815,
+   5
+  ],
+  "Gv5vaGheGvjvUzAU12tR6PWG4Lgwb2FpdEFCK53P6Vu5": [
+   null,
+   3
+  ],
+  "Gwg79JtnsgBTZ3C4YgoUWW74YXiv3DK8S5JW2fW6uAmB": [
+   0.892337962962963,
+   31
+  ],
+  "GxbqDTkzLTepoYuTX4vSHk4NF4wyQa3m7XcfGcm6Z7Nj": [
+   null,
+   3
+  ],
+  "Gy33LEDc1KRR6Lp5SQ5o9S9ArnBx7dSHamxYif2167FM": [
+   0.5896064814814815,
+   60
+  ],
+  "GysdvFkHroxSxa84d64rikM5SJ9inazz8SvVUgwJDuw8": [
+   null,
+   4
+  ],
+  "Gz2heZxTar6z3GmJrFRZCSpNMR92sY9nvBHTfumj48CC": [
+   null,
+   2
+  ],
+  "H183FiGMPLorJMqAU32a1aLJL11dwiqSTkfGvab2A3iU": [
+   null,
+   2
+  ],
+  "H25CgSW6mXwpyBdqJpKceYT9rmN8JH21m5bYj38Se8UR": [
+   0.9510763888888889,
+   12
+  ],
+  "H2YocXaD717Fs48nuQqc4y9JL4fxPkwu7NGYCYKffR6u": [
+   null,
+   1
+  ],
+  "H33AxpmwbA1q65CskbB4kWj7QMiJDmktsrtw6kRFYcLH": [
+   null,
+   3
+  ],
+  "H5ydvpLEC6b4Ppo3dufQ4MiNLP4YBg8DFirxr2Papz2P": [
+   null,
+   2
+  ],
+  "H6VgLpmjNrTPj3uuPwApdLQwST7Phzf7AdkU9Qwm1Qkg": [
+   null,
+   0
+  ],
+  "H9q4e5bzmP6pJonKfTLQjdnb9bPuNNuGkD4U1xhWYyHv": [
+   null,
+   3
+  ],
+  "HAGmRGAQMzNNe3gUQiTyixMn8kvYn6dSPzaWjNxARtyX": [
+   0.7306018518518519,
+   16
+  ],
+  "HBA6icS1LDuxBgpaox1Rw2FSPdmk4QzkUwA17En8Vdz6": [
+   null,
+   1
+  ],
+  "HBFhvrv51Q4ip9y1iqJEm8ZGvj2hChWeu7GY9xGASqNi": [
+   null,
+   1
+  ],
+  "HC9HjU6sPSCipdgusTEp3Gzung7tTSFwpwGMuJZMzkX9": [
+   0.7386574074074074,
+   40
+  ],
+  "HDobUWiSYaXDzrCmK8KBeN7nnfCCCRESd1PJp1frXGUd": [
+   0.6752893518518519,
+   14
+  ],
+  "HE2ZvTJi8cqHAoAbjaPiHxvZyJrNXr3hZKi7ZH7gLnpe": [
+   null,
+   1
+  ],
+  "HE9wHRBMvxJ2Scwy6XvusauXCq1AibHnX2jUncHLA5Xh": [
+   null,
+   1
+  ],
+  "HEXWbjRt6TZH6guPQjmYZtRcCLMfL5N2LktS8xGhLC9n": [
+   null,
+   2
+  ],
+  "HEh8xT4ezd4ETdEbVrcRMhttU2zquKEahvEp8aqUqTK9": [
+   null,
+   1
+  ],
+  "HF9dCC7qCazkyJcgPssAAwTEiB7L478XRsiV32At9Maj": [
+   null,
+   1
+  ],
+  "HFXmCqtSV3hJrdkQ9FLBsmJWNZ4A3LaRgNBryEF6MXrb": [
+   0.3973148148148148,
+   24
+  ],
+  "HG7uuPwf9juax6KM65WGLWXAqHAus7Afp6V5g5tN4Qdq": [
+   null,
+   2
+  ],
+  "HGA1ou6DDJmhYyMyXgcvuJwjbadLLn2myKZb76wk81K9": [
+   null,
+   3
+  ],
+  "HGQXzbqf84CRTjCHj7vjupan5zqjpPTzvsgCZGXBwDSd": [
+   null,
+   4
+  ],
+  "HGW3oV9JYUKWh5oLi5QRUssZAVDFsAwj4awLNUNdTsJB": [
+   null,
+   1
+  ],
+  "HGoqY8LYf5CdVjAgb37tChK6HNJZsnfsYoAm7UhiWXrG": [
+   null,
+   1
+  ],
+  "HJaVLZGiH5b6Ff2bidXww9eQfPnU7TFrwcXPK58WiyeY": [
+   null,
+   3
+  ],
+  "HK5wFWN4JFqMXpCPmSncH79nBvmX2bqDBjSMiWmjmG2L": [
+   null,
+   1
+  ],
+  "HKFjXh69qZSkLuH2Esf3eGRdQD8FsYrnUZDzsnQ15LcA": [
+   null,
+   2
+  ],
+  "HKak5zxchQpqNUSxuNUUV6x33G3F8zUg3d1rZVfeyS6T": [
+   0.8423495370370371,
+   6
+  ],
+  "HLVKRhci6fPX72f8ipXSb6u5CjR1fu91hCFsgrHEj31x": [
+   null,
+   4
+  ],
+  "HLqoJrcmdf98Qhohg5ZNqdcXZSanS5nWJMRTHUhGKqrD": [
+   0.7915277777777778,
+   12
+  ],
+  "HNWL63YgbZ2gZHkifd7819FV5wpHSphwfN54iv3yNhgL": [
+   null,
+   4
+  ],
+  "HNsYYVYGHxNNh7zuQAmhuNTkwWUR3CTVRkW6qk7z7fbr": [
+   0.8630787037037037,
+   37
+  ],
+  "HQ33YGx7wgfaPz7krWwfuBo1kzHGiTzQgAotxu5QwkTm": [
+   null,
+   2
+  ],
+  "HQ38BrK9aW11eUWr4uuWZd9dNq6dsFVXqXzsxCccszHm": [
+   null,
+   0
+  ],
+  "HRit9WqmaZdgqumWdiiir8kphhY6EygH2wUsksvx7pqC": [
+   null,
+   1
+  ],
+  "HTYU7TNywLQzJLvxiZdfkfzbEWxtxuFwyWTwMWRtHTzc": [
+   null,
+   3
+  ],
+  "HTtEDNL4NSLZQZfd6AkP2TiRnzoeVxvrBD1PFy4RAFS8": [
+   null,
+   0
+  ],
+  "HUFLHMgjC647PfyvvbjGHqeYbQrXKhAEwLExnVNPjrYd": [
+   null,
+   1
+  ],
+  "HawgfG5LcCWifCbTp6TgPPZmEKMJfyTzEp6SNipfo8n4": [
+   0.6755555555555556,
+   41
+  ],
+  "HfSBHiqXAhG6tqQthKXE9JBJmLgiwXMDT2hNT6afHJam": [
+   null,
+   2
+  ],
+  "HhQiSE9onT4Lfy6aSkfzTNbSpzZphNhceMZxjfeith1N": [
+   0.000625,
+   7
+  ],
+  "HjoDxW9bLq48goRR7VN1V7DgGuF35pQP7oAGHMwkvdNi": [
+   null,
+   3
+  ],
+  "HjxCURS33rB8bJhWDW6pu91WwByqMc8RGCqq2BRMP8en": [
+   0.013194444444444444,
+   8
+  ],
+  "Hmc2dLxZZ4xfHqn2wFCTBu11oCpYiuwsj23JBjJmD4ni": [
+   0.0014814814814814814,
+   60
+  ],
+  "HnNVuVtwXVW6K7hj7H7h7MxLRYridBz4SJkF9fWZYbxm": [
+   null,
+   2
+  ],
+  "Hp9YvCh5ikJxk1FkCrxn5Q6teyzJo7eJKfZ5AXbxK4K2": [
+   null,
+   2
+  ],
+  "HpUW38xju3CdfaxSHtbhHL6o4TBPdmnqY2c5vcQJ4euA": [
+   null,
+   1
+  ],
+  "Hpj3Trs1gpSFmKHY5NMCcmYEFNHEWBzVrUFwdKJemGcV": [
+   null,
+   2
+  ],
+  "HqNpvNAvRvoLhqMYrsqxkZ4ahk38sDHvftocuLuQnV6B": [
+   null,
+   2
+  ],
+  "HqmEKRd5uYs7QyGKWbSeFNCz9cxjF9iJQC2p55DZ5aLn": [
+   null,
+   2
+  ],
+  "Hrytasko8acRdSJBD9qxybVdPg6tkry7LZHNuD6oeRxS": [
+   null,
+   1
+  ],
+  "HsfUpS9KDqRjZs753DUCNS5i6U3n4ZTfXoBFM7YZFfV2": [
+   null,
+   1
+  ],
+  "Hsr2Ey8P5aGTGPgq5ngED4Qsks9BxfnN2kUBoCLWYq3j": [
+   0.6445023148148148,
+   60
+  ],
+  "Ht9CQS1kiqs8rVUh7DrY8RZcAMF1qYhGeULHJkFF2As9": [
+   null,
+   2
+  ],
+  "HuBhpj1sKHmsKMiQUUJVMufEdmhdd8ZjN6So3gkGwSZ7": [
+   null,
+   1
+  ],
+  "HviYSAmJHPVKj1xqNdNprpaxniYpjHGVwxgnLErY563x": [
+   0.7838541666666666,
+   25
+  ],
+  "HwXkwrzFeR5NCgUe19p8ymrMDdwQTBAftSnY7Y8dJoDW": [
+   null,
+   1
+  ],
+  "HwxYEtN8SQ9kUVC5YGsRSdka9mJNH1wuCMkEwfnBcCKL": [
+   0.5240046296296297,
+   7
+  ],
+  "HxBkdBWnFzpCgTzwhgPndvSdPax4Anh89ZZd7NBcPd2v": [
+   null,
+   1
+  ],
+  "J15nzh3t8hgELoFbp25Rjohr9SA5yQVjYLkbWyzFcxzB": [
+   0.7984143518518518,
+   33
+  ],
+  "J4cnrWsKhK79bnoGtzjLU5tvznZhVhMax792qankRJEQ": [
+   0.7329861111111111,
+   16
+  ],
+  "J7dT9P8xwvxd1rPcndMbSAMqHPPus4ndvf7K6vWRvYDk": [
+   null,
+   2
+  ],
+  "J7pVhU8MwSajTj6qrTa2XYG7wNYiucdKTDjG9RmVxyzb": [
+   null,
+   3
+  ],
+  "J9h8w3ELwFeLUQRVUK9PrB22QrfjkdBVnDJfJ1vb1Xd9": [
+   null,
+   1
+  ],
+  "JAX8iVtU7ShTQ4kkee8e1HfHD1fz88nQABKhuFJ4BwFA": [
+   null,
+   0
+  ],
+  "JCFUYKT66HCC5WygwcumJyfw4hQ5x3RXwG1ZJRn67GYE": [
+   null,
+   0
+  ],
+  "JD1xSytXxWgLUtuyBsFtasNnrSkEzxDeTcayutr8Lb2m": [
+   null,
+   1
+  ],
+  "LQKoccghzefkQgVma9e2gYzU1j29RCeZmf2WMiy2nZP": [
+   null,
+   1
+  ],
+  "LjzksHZuUVkmSNZbvVeuzXEeQzFFrf4Weh48cWqwCc2": [
+   null,
+   1
+  ],
+  "NbNbb8CRyiBFwsVE89sK8KoCFEadsX7Arr9686wMfZo": [
+   0.07758101851851852,
+   21
+  ],
+  "NjJjqJ7qAe6FBqYUxxK3bQkJZdRzLWFxrJGBXa38qJH": [
+   0.1675347222222222,
+   10
+  ],
+  "NsTz3wtzmkAp8mVToivCaAWTTkAniFRwGpteG7Pu8cG": [
+   0.542037037037037,
+   47
+  ],
+  "NzSN2heGeu1MKR2bEpZgRPvE9dvtBKjjfWaGMzRqeaq": [
+   null,
+   1
+  ],
+  "PehGDqp9CE29C8WYx6z2a4imyCU5soVLY5iJ9JdKpme": [
+   0.009953703703703704,
+   7
+  ],
+  "Q3c5suxoVWL1bEP8vr79Hq5cCFRzwfJJbk9mpBhgVY1": [
+   0.8642361111111111,
+   12
+  ],
+  "SRJ4apiABCTBZpPhqUXA2pwsMMMmsMrcPU7XwAmXjja": [
+   null,
+   2
+  ],
+  "TDj2FfPAS8SNxRTx5sXrwtSv3YJYp8cWA316sWW2VSi": [
+   null,
+   3
+  ],
+  "VqgnUhJS35GAbvPH2WNb1vd85Jyq1Epar8dXKeQUz7g": [
+   null,
+   4
+  ],
+  "WuQyNY8q7awkw2dVCRkEpcV1JNVvqR68XJ9vmdQW77X": [
+   0.5322685185185185,
+   33
+  ],
+  "YpiPpfq2w5vu9U5q9xLAEafSfHGNx7WthT3CtFdFe7i": [
+   null,
+   1
+  ],
+  "Z6aTofjwtPBx2QgMbwChyViDMow7AAsumebpkB87Y8t": [
+   null,
+   2
+  ],
+  "airRE69nwKCTskyyMHMfcnkWWpeapUgCVEp3siSsDvu": [
+   null,
+   1
+  ],
+  "d153xuBQm6c1LQsBYoMNQJ3KcfhMBoASaSRGk7pwzRZ": [
+   0.5786689814814815,
+   10
+  ],
+  "dBNRdhwRHup5RqcsSVv8Zqm73DVjtAjTEJFYfYoDE49": [
+   0.7813194444444445,
+   52
+  ],
+  "dydKYj5iSCWgfujX3khUhvtvsdKxnnrgbJZEZ99rezH": [
+   0.8832175925925926,
+   51
+  ],
+  "gxiL42pnvqg26gd3p9T7byVmYvmFzLvJCPxiEnRkTKx": [
+   0.1301388888888889,
+   11
+  ],
+  "h5cW8N6AQAu1thicfkVUPQuGQbxp1vyP94wEnaow8jC": [
+   null,
+   0
+  ],
+  "hdLbyQkFuZtntycp54x7mApJFcNBX8vZvhvSTNBQfA7": [
+   0.8910763888888888,
+   8
+  ],
+  "kJ1roeh9xiW5YdgiZC8rmUbfxkRy1Pb4FMVfKcVXwsN": [
+   0.6866435185185186,
+   12
+  ],
+  "kQ6Hrmt5cJzj4on9zWrg6CkEEDiEFRKVzXBBy1mftBN": [
+   0.7918518518518518,
+   23
+  ],
+  "muBKptm9vNct8fay34LueYqkf6G4Z3BbMNUjWWGQuN6": [
+   0.09315972222222223,
+   13
+  ],
+  "nwwYPr53MfXkBL1Epn4dVUwAsJix8AxxP3jixeaAgQ1": [
+   null,
+   1
+  ],
+  "qdbfYyM12HhW3t2Uzw99qMqXxUUU1BxLQgZvszsHyKm": [
+   0.5444212962962963,
+   8
+  ],
+  "qio8B68xMqaqNvVBF3rp1XVavsAecNTBy8UCWKEitpC": [
+   0.6628125,
+   42
+  ],
+  "tFhKoxXjQPRhmAm1pVFLHQnmUTe1B4rgaaoTYCnKLde": [
+   0.9619328703703703,
+   46
+  ],
+  "twT9F31KYwWoCKJekKZrhk15RsUguHiqFDvXnfMKzBu": [
+   0.004780092592592593,
+   6
+  ],
+  "u4vRWDu3GogNUaANv5YpCVdqSZq6tQGUkcrDKZkKQRw": [
+   0.8088888888888889,
+   9
+  ],
+  "uHHVAkgkCZaNn4r28bhBgLQSSmZ7rtZctdFRfTJtUEe": [
+   null,
+   3
+  ],
+  "vGmE6j4hUgXQBkCRNLkzbnSDsvq7immnA9Xs5SdDPB2": [
+   null,
+   1
+  ],
+  "wmjh2f9BZcduVKLYud65wjiLnFjbCZsGGQB276ALMQ6": [
+   0.9466666666666667,
+   13
+  ],
+  "yUYhMD5SAjhFQbPoZMkV96ZS3ELvRSmNKM1AArE6Mad": [
+   0.4264236111111111,
+   6
+  ],
+  "z7MGaBbnJ2gwdoWBsygR3e7mCp5wxviYkFYeyjKV8Wt": [
+   0.9053356481481482,
+   10
+  ],
+  "zVixjTHc29AJUSdfPFSxxCENfmJAgtaaNowfvP1YoXT": [
+   null,
+   1
+  ],
+  "zxgfQEnKyEYyU2fS7QT1pgt2b28U9h2TnkkBx5bBNTr": [
+   null,
+   1
+  ]
+ }
+}

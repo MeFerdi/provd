@@ -1,0 +1,45 @@
+{
+ "summary": {
+  "w1": {
+   "transactions": 1000,
+   "hours_covered": 0.8,
+   "addresses_paid": 1713,
+   "stablecoin_payouts": 588,
+   "poisoning_transfers": 0,
+   "distinct_lookalikes": 0,
+   "recipients_imitated": 0,
+   "sent_to_lookalike": []
+  },
+  "w2": {
+   "transactions": 1000,
+   "hours_covered": 3.3,
+   "addresses_paid": 766,
+   "stablecoin_payouts": 330,
+   "poisoning_transfers": 0,
+   "distinct_lookalikes": 0,
+   "recipients_imitated": 0,
+   "sent_to_lookalike": []
+  },
+  "w3": {
+   "transactions": 1000,
+   "hours_covered": 2.3,
+   "addresses_paid": 598,
+   "stablecoin_payouts": 278,
+   "poisoning_transfers": 0,
+   "distinct_lookalikes": 0,
+   "recipients_imitated": 0,
+   "sent_to_lookalike": []
+  },
+  "w4": {
+   "transactions": 810,
+   "hours_covered": 23.2,
+   "addresses_paid": 140,
+   "stablecoin_payouts": 3,
+   "poisoning_transfers": 0,
+   "distinct_lookalikes": 0,
+   "recipients_imitated": 0,
+   "sent_to_lookalike": []
+  }
+ },
+ "attempts": []
+}

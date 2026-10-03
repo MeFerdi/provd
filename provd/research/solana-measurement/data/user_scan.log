@@ -1,0 +1,785 @@
+u000: 3 to fetch
+u000: 0/3
+u000: done
+u001: 6 to fetch
+u001: 0/6
+u001: done
+u002: 6 to fetch
+u002: 0/6
+u002: done
+u003: 18 to fetch
+u003: 0/18
+u003: done
+u004: 2 to fetch
+u004: 0/2
+u004: done
+u005: 8 to fetch
+u005: 0/8
+u005: done
+u006: 16 to fetch
+u006: 0/16
+u006: done
+u007: 4 to fetch
+u007: 0/4
+u007: done
+u008: 3 to fetch
+u008: 0/3
+u008: done
+u009: 2 to fetch
+u009: 0/2
+u009: done
+u010: 2 to fetch
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u010: Traceback
+u011: 5 to fetch
+u011: 0/5
+u011: done
+u012: 2 to fetch
+u012: 0/2
+u012: done
+u013: 19 to fetch
+u013: 0/19
+u013: done
+u014: 2 to fetch
+u014: 0/2
+u014: done
+u015: 5 to fetch
+u015: 0/5
+u015: done
+u016: 3 to fetch
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u016: Traceback
+u017: 41 to fetch
+u017: 0/41
+u017: done
+u018: 4 to fetch
+u018: 0/4
+u018: done
+u019: 15 to fetch
+u019: 0/15
+u019: done
+u020: 12 to fetch
+u020: 0/12
+u020: done
+u021: 50 to fetch
+u021: 0/50
+u021: done
+u022: 27 to fetch
+u022: 0/27
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u022: Traceback
+u023: 8 to fetch
+u023: 0/8
+u023: done
+u024: 28 to fetch
+u024: 0/28
+u024: done
+u025: 29 to fetch
+u025: 0/29
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u025: Traceback
+u026: 2 to fetch
+u026: 0/2
+u026: done
+u027: 7 to fetch
+u027: 0/7
+u027: done
+u028: 3 to fetch
+u028: 0/3
+u028: done
+u029: 2 to fetch
+u029: 0/2
+u029: done
+u030: 3 to fetch
+u030: 0/3
+u030: done
+u031: 3 to fetch
+u031: 0/3
+u031: done
+u032: 12 to fetch
+u032: 0/12
+u032: done
+u033: 3 to fetch
+u033: 0/3
+u033: done
+u034: 30 to fetch
+u034: 0/30
+u034: done
+u035: 10 to fetch
+u035: 0/10
+u035: done
+u036: 4 to fetch
+u036: 0/4
+u036: done
+u037: 23 to fetch
+u037: 0/23
+u037: done
+u038: 2 to fetch
+u038: 0/2
+u038: done
+u039: 3 to fetch
+u039: 0/3
+u039: done
+u040: 4 to fetch
+u040: 0/4
+u040: done
+u041: 24 to fetch
+u041: 0/24
+u041: done
+u042: 2 to fetch
+u042: 0/2
+u042: done
+u043: 7 to fetch
+u043: 0/7
+u043: done
+u044: 3 to fetch
+u044: 0/3
+u044: done
+u045: 7 to fetch
+u045: 0/7
+u045: done
+u046: 49 to fetch
+u046: 0/49
+u046: done
+u047: 43 to fetch
+u047: 0/43
+u047: done
+u048: 12 to fetch
+u048: 0/12
+u048: done
+u049: 6 to fetch
+u049: 0/6
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u049: Traceback
+u050: 7 to fetch
+u050: 0/7
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u050: Traceback
+u051: 18 to fetch
+u051: 0/18
+u051: done
+u052: 33 to fetch
+u052: 0/33
+u052: done
+u053: 2 to fetch
+u053: 0/2
+u053: done
+u054: 3 to fetch
+u054: 0/3
+u054: done
+u055: 7 to fetch
+u055: 0/7
+u055: done
+u056: 5 to fetch
+u056: 0/5
+u056: done
+u057: 26 to fetch
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u057: Traceback
+u058: 3 to fetch
+u058: 0/3
+u058: done
+u059: 1 to fetch
+u059: 0/1
+u059: done
+u060: 4 to fetch
+u060: 0/4
+u060: done
+u061: 3 to fetch
+u061: 0/3
+u061: done
+u062: 8 to fetch
+u062: 0/8
+u062: done
+u063: 31 to fetch
+u063: 0/31
+u063: done
+u064: 3 to fetch
+u064: 0/3
+u064: done
+u065: 8 to fetch
+u065: 0/8
+u065: done
+u066: 3 to fetch
+u066: 0/3
+u066: done
+u067: 3 to fetch
+u067: 0/3
+u067: done
+u068: 30 to fetch
+u068: 0/30
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u068: Traceback
+u069: 2 to fetch
+u069: 0/2
+u069: done
+u070: 36 to fetch
+u070: 0/36
+u070: done
+u071: 33 to fetch
+u071: 0/33
+u071: done
+u072: 8 to fetch
+u072: 0/8
+u072: done
+u073: 2 to fetch
+u073: 0/2
+u073: done
+u074: 5 to fetch
+u074: 0/5
+u074: done
+u075: 8 to fetch
+u075: 0/8
+u075: done
+u076: 10 to fetch
+u076: 0/10
+u076: done
+u077: 3 to fetch
+u077: 0/3
+u077: done
+u078: 6 to fetch
+u078: 0/6
+u078: done
+u079: 24 to fetch
+u079: 0/24
+u079: done
+u080: 3 to fetch
+u080: 0/3
+u080: done
+u081: 9 to fetch
+u081: 0/9
+u081: done
+u082: 3 to fetch
+u082: 0/3
+u082: done
+u083: 5 to fetch
+u083: 0/5
+u083: done
+u084: 2 to fetch
+u084: 0/2
+u084: done
+u085: 4 to fetch
+u085: 0/4
+u085: done
+u086: 41 to fetch
+u086: 0/41
+u086: done
+u087: 5 to fetch
+u087: 0/5
+u087: done
+u088: 6 to fetch
+u088: 0/6
+u088: done
+u089: 2 to fetch
+u089: 0/2
+u089: done
+u090: 4 to fetch
+u090: 0/4
+u090: done
+u091: 27 to fetch
+u091: 0/27
+u091: done
+u092: 35 to fetch
+u092: 0/35
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u092: Traceback
+u093: 2 to fetch
+u093: 0/2
+u093: done
+u094: 16 to fetch
+u094: 0/16
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u094: Traceback
+u095: 5 to fetch
+u095: 0/5
+u095: done
+u096: 10 to fetch
+u096: 0/10
+u096: done
+u097: 2 to fetch
+u097: 0/2
+u097: done
+u098: 3 to fetch
+u098: 0/3
+u098: done
+u099: 33 to fetch
+u099: 0/33
+u099: done
+u100: 18 to fetch
+u100: 0/18
+u100: done
+u101: 25 to fetch
+u101: 0/25
+u101: done
+u102: 2 to fetch
+u102: 0/2
+u102: done
+u103: 2 to fetch
+u103: 0/2
+u103: done
+u104: 20 to fetch
+u104: 0/20
+u104: done
+u105: 41 to fetch
+u105: 0/41
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u105: Traceback
+u106: 18 to fetch
+u106: 0/18
+u106: done
+u107: 2 to fetch
+u107: 0/2
+u107: done
+u108: 4 to fetch
+u108: 0/4
+u108: done
+u109: 40 to fetch
+u109: 0/40
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u109: Traceback
+u110: 2 to fetch
+u110: 0/2
+u110: done
+u111: 2 to fetch
+u111: 0/2
+u111: done
+u112: 3 to fetch
+u112: 0/3
+u112: done
+u113: 4 to fetch
+u113: 0/4
+u113: done
+u114: 10 to fetch
+u114: 0/10
+u114: done
+u115: 2 to fetch
+u115: 0/2
+u115: done
+u116: 14 to fetch
+u116: 0/14
+u116: done
+u117: 5 to fetch
+u117: 0/5
+u117: done
+u118: 4 to fetch
+u118: 0/4
+u118: done
+u119: 20 to fetch
+u119: 0/20
+u119: done
+u120: 3 to fetch
+u120: 0/3
+u120: done
+u121: 14 to fetch
+u121: 0/14
+u121: done
+u122: 9 to fetch
+u122: 0/9
+u122: done
+u123: 22 to fetch
+u123: 0/22
+u123: done
+u124: 3 to fetch
+u124: 0/3
+u124: done
+u125: 4 to fetch
+u125: 0/4
+u125: done
+u126: 2 to fetch
+u126: 0/2
+u126: done
+u127: 10 to fetch
+u127: 0/10
+u127: done
+u128: 13 to fetch
+u128: 0/13
+u128: done
+u129: 5 to fetch
+u129: 0/5
+Traceback (most recent call last):
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 57, in <module>
+    for i, row in enumerate(pool.map(flows, sigs)):
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/poisoning_scan.py", line 26, in flows
+    tx = rpc.transaction(sig["signature"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 44, in transaction
+    return call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ferdinand/work/provd-web/provd/research/solana-measurement/scripts/rpc.py", line 19, in call
+    raise ValueError(data["error"])
+ValueError: {'code': -32015, 'message': 'Transaction version (1) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 1'}
+u129: Traceback
+u130: 2 to fetch
+u130: 0/2
+u130: done
+u131: 2 to fetch
+u131: 0/2
+u131: done
+u132: 5 to fetch
+u132: 0/5
+u132: done
+u133: 5 to fetch
+u133: 0/5
+u133: done
+u134: 2 to fetch
+u134: 0/2
+u134: done
+u135: 2 to fetch
+u135: 0/2
+u135: done
+u136: 2 to fetch
+u136: 0/2
+u136: done
+u137: 6 to fetch
+u137: 0/6
+u137: done
+u138: 4 to fetch
+u138: 0/4
+u138: done
+u139: 4 to fetch
+u139: 0/4
+u139: done
+u140: 25 to fetch
+u140: 0/25
+u140: done
+u141: 2 to fetch
+u141: 0/2
+u141: done
+u142: 3 to fetch
+u142: 0/3
+u142: done
+u143: 3 to fetch
+u143: 0/3
+u143: done
+u144: 9 to fetch
+u144: 0/9
+u144: done
+u145: 3 to fetch
+u145: 0/3
+u145: done
+u146: 14 to fetch
+u146: 0/14
+u146: done
+u147: 15 to fetch
+u147: 0/15
+u147: done
+u148: 12 to fetch
+u148: 0/12
+u148: done
+u149: 2 to fetch
+u149: 0/2
+u149: done
