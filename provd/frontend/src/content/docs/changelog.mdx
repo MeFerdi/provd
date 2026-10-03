@@ -3,12 +3,18 @@ title: Changelog
 description: Product and API updates.
 ---
 
-## 2026-04-02
+## 2026-10-04
 
-- Reframed the product around fraud-intelligence infrastructure for African P2P and stablecoin flows.
-- Updated docs navigation and landing pages to support a more standard documentation experience.
-- Standardized the scoring endpoint reference around `/v1/counterparties/score`.
+- M-Pesa top-ups now go through Paystack checkout (`pay_url`) and are credited automatically; send an `email` with `"method": "mpesa"`.
+- Card top-ups: `POST /v1/topups` with `"method": "card"` and an `email` returns a Paystack checkout link (`pay_url`). Checks are credited when Paystack confirms the charge. `POST /v1/topups/{id}/refresh` checks a card payment on demand.
+- Pricing: the free tier is now 300 checks a month (was 100 a day). New `1k` bundle: 1,000 checks for $20 / KES 2,600. `GET /v1/usage` returns `free_monthly_checks`, `free_used_this_month` and `free_remaining_this_month` in place of the daily fields.
+- `rails.fiat_rail` and `amounts.fiat_currency` take any local rail and currency (for example `pix`/`BRL`, `upi`/`INR`); amount baselines are learned per currency.
+- Monthly plans for global payout platforms: Payouts Starter, Payouts Pro and Enterprise, listed in `GET /v1/pricing` under `plans`.
 
-## 2026-03-31
+## 2026-10-03
 
-- Initial docs scaffolding.
+- Provd now scores money movement on African rails before funds are released. First coverage: USDT on Tron, with M-Pesa and bank rails as fiat context.
+- New API under `/v1`: `POST /v1/actions/evaluate`, `GET /v1/decisions/{intent_id}`, `POST /v1/outcomes`, `GET /v1/counterparties/tron/{address}`, `GET /v1/usage`, `GET /v1/pricing`, `POST /v1/topups`, `GET /v1/topups`.
+- Pay as you go: 100 free checks a day, then prepaid bundles topped up with USDT (TRC-20) or M-Pesa.
+- Public [counterparty check](/check) on the website.
+- Earlier APIs under `/api/v1` and their documentation have been retired.

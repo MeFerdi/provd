@@ -1,4 +1,10 @@
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+if __package__ in (None, ""):
+	# Started as a script (`python main.py` inside app/): make the `app` package importable.
+	sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,3 +55,9 @@ def create_app() -> FastAPI:
 	return app
 
 app = create_app()
+
+
+if __name__ == "__main__":
+	import uvicorn
+
+	uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=False)

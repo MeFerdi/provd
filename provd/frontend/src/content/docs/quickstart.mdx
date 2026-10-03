@@ -1,37 +1,119 @@
 ---
-title: Quickstart
-description: Add counterparty scoring to your approval flow in minutes.
+title: Score your first P2P trade in 10 minutes
+description: Send a USDT-on-Tron trade to Provd before you release it, read the decision, and report what happened.
 ---
 
-## Overview
+## What you need
 
-Integrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:
+- An API key. Email [hello@provd.tech](mailto:hello@provd.tech) and we'll send one. Every key includes 300 free checks a month.
+- The counterparty's Tron wallet address for a trade you're about to settle.
 
-- A counterparty score
-- A risk level
-- A list of flags
-- Suggested actions for your flow
+Base URLs:
 
-## Integration flow
-
-1. Collect the trade context before release.
-2. Hash sensitive user identifiers in your trusted environment.
-3. Call the scoring endpoint with wallet, rail, and trade metadata.
-4. Use the returned `risk_level` and flags to allow, review, or block the trade.
-
-## Minimal request
-
-```bash
-POST /v1/counterparties/score
+```
+https://api.provd.tech/v1     # production (placeholder during early access)
+http://localhost:8000/v1      # local development
 ```
 
-## Typical decisioning
+All requests and responses are JSON. Send your key in the `X-API-Key` header.
 
-- `low`: approve the trade automatically
-- `medium`: send the trade to review or request stronger evidence
-- `high`: stop release and escalate to your fraud workflow
+## 1. Check the counterparty (no key needed)
 
-## Next steps
+Before wiring anything in, look at what Provd sees for a wallet. This is the same check the [public scanner](/check) runs.
 
-- [Authentication](/docs/authentication)
-- [API Reference](/docs/api-reference)
+```bash
+curl -s https://api.provd.tech/v1/counterparties/tron/TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9
+```
+
+You get a score from 0 to 1000 (higher is riskier), a risk level, flags with reasons, and a summary of the wallet's recent USDT activity. This endpoint is rate-limited and uses public data only.
+
+## 2. Score the trade before you release
+
+When a buyer marks their payment as sent (M-Pesa, Pix, UPI, a bank transfer) and you're about to release USDT, send the trade as an intent:
+
+```bash
+curl -s -X POST https://api.provd.tech/v1/actions/evaluate \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: order-48213" \
+  -d '{
+    "intent_id": "order-48213",
+    "chain": "tron",
+    "intent_type": "p2p_trade",
+    "counterparty": {
+      "wallet_address": "TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9",
+      "phone_hash": "9f2c6a1e4b7d3c8a0e5f1b2d6c4a8e3f7b9d0c2a4e6f8b1d3c5a7e9f0b2d4c6a"
+    },
+    "rails": { "fiat_rail": "mpesa", "crypto_asset": "USDT_TRC20" },
+    "amounts": { "fiat": 65000, "fiat_currency": "KES", "crypto": 500 }
+  }'
+```
+
+- `intent_id` is your own reference (an order id works). If you leave it out, Provd generates one.
+- `Idempotency-Key` makes retries safe: the same key returns the same decision and is charged once.
+- `fiat_rail` and `fiat_currency` take any local rail and ISO currency: `"pix"` and `"BRL"`, `"upi"` and `"INR"`, `"bank_transfer"` and `"NGN"`. Amount baselines are learned per currency from your own history.
+- `phone_hash` is optional. Hash the phone number on your side (HMAC-SHA256 with your own secret, hex-encoded). Never send raw numbers; they are rejected.
+
+## 3. Read the decision
+
+```json
+{
+  "intent_id": "order-48213",
+  "score": 1000,
+  "risk_level": "critical",
+  "risk_flags": [
+    {
+      "code": "CP_ADDRESS_FROZEN",
+      "severity": "critical",
+      "reason": "The counterparty wallet itself is on a public risk list (tether_usdt_freeze)."
+    }
+  ],
+  "recommended_action": "reject",
+  "explainability": [
+    {
+      "signal": "counterparty_graph",
+      "value": "address_flagged",
+      "contribution": 1000,
+      "reason": "The counterparty wallet itself is on a public risk list (tether_usdt_freeze).",
+      "source_refs": ["tether_usdt_freeze"]
+    }
+  ],
+  "signal_coverage": { "counterparty_graph": "full" },
+  "decision_record_hash": "5b0f…",
+  "engine_version": "2026.10.0",
+  "latency_ms": 412,
+  "created_at": "2026-10-03T13:11:16.891600Z"
+}
+```
+
+Act on `recommended_action`:
+
+| Score | Level | Action | What to do |
+|---|---|---|---|
+| 0–249 | `low` | `release` | Release the funds. |
+| 250–499 | `medium` | `manual_review` | Have someone confirm the fiat payment landed before releasing. |
+| 500–749 | `high` | `hold` | Hold the funds and ask the counterparty for more. |
+| 750–1000 | `critical` | `reject` | Don't release. |
+
+Each entry in `explainability` says which signal moved the score and why. Show the `reason` strings to your ops team; they are written for people.
+
+## 4. Report what happened
+
+Your own history makes future checks sharper. When a trade completes, or when it's reversed or turns out to be fraud, tell Provd:
+
+```bash
+curl -s -X POST https://api.provd.tech/v1/outcomes \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "intent_id": "order-48213", "outcome": "reversed" }'
+```
+
+Outcomes: `completed`, `reversed`, `refunded`, `chargeback`, `fraud_confirmed`, `fake_confirmation`. You can also report against a `wallet_address` or `phone_hash` directly, without an `intent_id`.
+
+The next time that wallet, phone hash or a wallet that traded with it comes back, your checks raise `OWN_REVERSAL_HISTORY`, `OWN_FRAUD_HISTORY` or `CP_PLATFORM_FLAGGED_EXPOSURE`. Your outcomes are used only for your own checks. They are never pooled with other platforms.
+
+## Next
+
+- [Pay as you go](/docs/pay-as-you-go): free quota, balance and top-ups.
+- [Decision records](/docs/decisions): fetch and verify the record behind a decision.
+- [API reference](/docs/api-reference): every endpoint, field and flag code.

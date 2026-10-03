@@ -1,76 +1,89 @@
 ---
 title: API Reference
-description: Endpoints, fields, and responses.
+description: Every public endpoint, generated from the OpenAPI spec, plus the risk scale, flag codes and errors.
 ---
 
-Base path: `/api/v1`
+## Base URL
+
+| Environment | Base URL |
+|---|---|
+| Production | `https://api.provd.tech/v1` (placeholder during early access) |
+| Local | `http://localhost:8000/v1` |
+
+All requests and responses are JSON. Timestamps are ISO 8601 in UTC.
 
 ## Authentication
 
-Protected endpoints accept either:
+Endpoints marked **API key** take your key in the `X-API-Key` header. Public endpoints need no key and are rate-limited per IP.
 
-- `Authorization: Bearer <jwt_token>`
-- `X-API-Key: <api_key>`
-
-## POST /api/v1/trust/score
-
-Required scope: `trust:read`
-
-Returns a counterparty risk score and reason flags for a trade context.
-
-### Request fields
-
-- `entity_id` (string)
-- `amount` (number)
-- `currency` (string)
-- `context` (object)
-
-### Example request
-
-```json
-{
-  "entity_id": "entity-123",
-  "amount": 250,
-  "currency": "USDT",
-  "context": {}
-}
+```bash
+curl -s https://api.provd.tech/v1/actions/evaluate \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"chain":"tron","intent_type":"p2p_trade","counterparty":{"wallet_address":"T…"},"rails":{"fiat_rail":"mpesa","crypto_asset":"USDT_TRC20"},"amounts":{"fiat":65000,"fiat_currency":"KES","crypto":500}}'
 ```
 
-### Response fields
+Send an `Idempotency-Key` header on evaluate: retries with the same key return the original decision and are not charged again.
 
-- `score` (number)
-- `risk_level` (string)
-- `signals` (array)
-- `cached` (boolean)
+## Errors
 
-### Example response
+| Status | When |
+|---|---|
+| `401` / `403` | Missing, invalid or inactive API key. |
+| `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |
+| `404` | Decision or `intent_id` not found for your account. |
+| `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
+| `429` | Too many requests. Wait a minute and retry. |
+| `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
 
-```json
-{
-  "entity_id": "entity-123",
-  "score": 0.82,
-  "risk_level": "low",
-  "signals": [
-    { "name": "trade_consistency", "value": 0.88, "weight": 0.4 }
-  ],
-  "cached": false
-}
-```
+Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron`. Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
 
-## POST /api/v1/dispute/analyze
+## Optional inputs that sharpen a score
 
-Required scope: `dispute:analyze`
+| Field | Used by | What to send |
+|---|---|---|
+| `amounts.crypto` or `amounts.fiat` + `fiat_currency` | `amount_pattern` | The amount. Provd learns your own baselines from it: per counterparty, and your 90-day p99 per intent type. |
+| `float_available` | `float_and_timing` | Your available float on this rail, in `amounts.fiat_currency` (payouts, OTC). |
+| `account_signals` | `account_takeover_proxies` | Timestamps from your SIM-swap, device-trust or KYC provider: `sim_swap_at`, `device_changed_at`, `credentials_changed_at`, `payout_destination_added_at`, `account_created_at`, plus `provider`. Provd doesn't detect these itself; send what you have. |
 
-Returns a recommendation and confidence score for a dispute case.
+Signals with nothing to work on report `none` in `signal_coverage` and add no risk.
 
-## Key management endpoints
+## Risk scale
 
-- `GET /api/v1/keys` (scope: `keys:read`)
-- `POST /api/v1/keys` (scope: `keys:write`)
-- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)
+| Score | `risk_level` | `recommended_action` |
+|---|---|---|
+| 0–249 | `low` | `release` |
+| 250–499 | `medium` | `manual_review` |
+| 500–749 | `high` | `hold` |
+| 750–1000 | `critical` | `reject` |
 
-## Notes
+## Flag codes
 
-- Call this endpoint before releasing crypto or fiat.
-- Treat `risk_flags` as operator-facing reasons, not just UI labels.
-- Pair this endpoint with your internal review and dispute workflows.
+| Code | Severity | Meaning |
+|---|---|---|
+| `CP_ADDRESS_FROZEN` | critical | The counterparty wallet is itself on a public risk list (for example, frozen by Tether). |
+| `CP_FLAGGED_EXPOSURE` | high | The wallet transacted directly with wallets on a public risk list. |
+| `CP_INCIDENTAL_EXPOSURE` | medium | Exposure to listed wallets is a small share of volume across many counterparties, as with exchanges. |
+| `CP_PLATFORM_FLAGGED_EXPOSURE` | high | The wallet transacted with wallets you confirmed as fraudulent. |
+| `CP_NEW_WALLET` | low | First USDT activity in the last 7 days, with few transfers. |
+| `CP_NO_HISTORY` | low | No USDT transfers found for this wallet. |
+| `OWN_FRAUD_HISTORY` | critical | You reported confirmed fraud or a fake payment confirmation from this counterparty in the last 180 days. |
+| `OWN_REVERSAL_HISTORY` | medium or high | You reported reversals, refunds or chargebacks from this counterparty in the last 180 days. |
+| `VELOCITY_SPIKE` | medium | Unusually many checks for this counterparty in the last 24 hours. |
+| `AMOUNT_SPIKE` | medium or high | Much larger (5x+, 20x+ for high) than this counterparty's largest previous amount with you. |
+| `AMOUNT_ABOVE_PLATFORM_P99` | medium | Larger than 99% of your amounts for this intent type over 90 days (needs 30+ decisions). |
+| `AMOUNT_STRUCTURING` | high | Three or more amounts just under a reporting threshold for this counterparty in 24 hours. |
+| `RAPID_PASS_THROUGH` | high | Funds covering this amount arrived in the wallet within the last hour. |
+| `FLOAT_STRAIN` | medium | The amount uses more than half of your available float. |
+| `OFF_HOURS` | low | Fewer than 2% of your checks happen at this UTC hour. |
+| `SIM_SWAP_RECENT` | high or critical | SIM swap in the last 72 hours; critical within 24 hours together with a new payout destination. |
+| `DEVICE_CHANGE_WITH_ACCOUNT_CHANGE` | high | New device in the last 24 hours plus a new payout destination or credential change. |
+| `NEW_PAYOUT_DESTINATION` | low | Payout destination added in the last 72 hours. |
+| `NEW_ACCOUNT` | medium | Account opened in the last 24 hours. |
+| `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |
+| `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |
+| `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |
+
+## Decision records
+
+`GET /v1/decisions/{intent_id}` returns the signed record behind a score, with its Merkle proof and Bitcoin anchor once sealed. `merkle` and `batch` are `null` until the record joins a batch (within minutes). See [decision records](/docs/decisions), or paste a record into [Verify a decision](/verify).

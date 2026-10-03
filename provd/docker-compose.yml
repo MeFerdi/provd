@@ -1,73 +1,51 @@
-version: '3.9'
+# Local stack: postgres + migrations + seed fixtures + API + indexer.
+#   cp backend/.env.example backend/.env
+#   docker compose up --build        # API on :8000, docs at /docs
 services:
-  frontend:
-    build: ./frontend
-    command: npm run dev
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: provd
+      POSTGRES_PASSWORD: provd
+      POSTGRES_DB: provd
     ports:
-      - "3000:3000"
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
     volumes:
-      - ./frontend:/app
-    env_file:
-      - ./frontend/.env.local.example
-    networks:
-      - provd_network
-  backend:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U provd"]
+      interval: 3s
+      retries: 20
+  migrate:
+    build: ./backend
+    command: sh -c "alembic upgrade head && python -m app.indexer seed"
+    env_file: ./backend/.env
+    environment: &db_env
+      DATABASE_URL: postgresql+asyncpg://provd:provd@postgres:5432/provd
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
     build: ./backend
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    env_file:
-      - ./backend/.env.example
+    env_file: ./backend/.env
+    environment: *db_env
     depends_on:
-      - postgres
-      - redis
-      - ml
-    networks:
-      - provd_network
-  ml:
-    build: ./ml
-    command: python serve.py
-    ports:
-      - "8001:8001"
-    volumes:
-      - ./ml:/app
-    env_file:
-      - ./ml/.env.example
-    networks:
-      - provd_network
-  postgres:
-    image: postgres:16
-    restart: always
-    environment:
-      POSTGRES_USER: provd
-      POSTGRES_PASSWORD: provd
-      POSTGRES_DB: provd
-    ports:
-      - "127.0.0.1:5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - provd_network
-  redis:
-    image: redis:7
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      - provd_network
-  celery_worker:
+      migrate:
+        condition: service_completed_successfully
+  indexer:
     build: ./backend
-    command: celery -A app.tasks.celery_app worker --loglevel=info
+    command: python -m app.indexer run
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment: *db_env
     depends_on:
-      - redis
-    env_file:
-      - ./backend/.env.example
-    networks:
-      - provd_network
+      migrate:
+        condition: service_completed_successfully
 volumes:
   pgdata:
-networks:
-  provd_network:
-    driver: bridge

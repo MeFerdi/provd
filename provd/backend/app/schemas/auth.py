@@ -19,3 +19,5 @@ class AuthContext(BaseModel):
 	auth_type: str
 	scopes: list[str] = Field(default_factory=list)
 	role: str = "user"
+	# The platform (client) an API key belongs to; usage is metered and data isolated per client.
+	client_id: str | None = None

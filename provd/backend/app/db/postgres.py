@@ -33,3 +33,7 @@ async def init_postgres() -> None:
 
 async def close_postgres() -> None:
     await _engine.dispose()
+
+
+def get_session_factory() -> async_sessionmaker[AsyncSession]:
+    return _session_factory

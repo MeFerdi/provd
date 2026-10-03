@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db_session, require_permissions
 from app.models.api_key import ApiKey
+from app.models.client import Client
 from app.schemas.auth import AuthContext
 from app.schemas.client import ApiKeyCreateRequest, ApiKeyCreateResponse, ApiKeyResponse
 from app.services.hasher import sha256_hex
@@ -40,6 +41,8 @@ async def create_api_key(
 	db: AsyncSession = Depends(get_db_session),
 	_: AuthContext = Depends(require_permissions(["keys:write"], allowed_roles=["admin"])),
 ) -> ApiKeyCreateResponse:
+	if payload.client_id and await db.get(Client, payload.client_id) is None:
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
 	key_id = str(uuid4())
 	raw_key = token_urlsafe(32)
 	key_hash = sha256_hex(raw_key)
@@ -51,6 +54,7 @@ async def create_api_key(
 		prefix=prefix,
 		key_hash=key_hash,
 		scopes=payload.scopes,
+		client_id=payload.client_id,
 		active=True,
 	)
 	db.add(api_key)

@@ -1,0 +1,912 @@
+{
+ "exploit_utc": "2026-04-18T17:35:35+00:00",
+ "exploit_block": 24908285,
+ "exploit_tx": "0x1ae232da212c45f35c1525f851e4c41d529bf18af862d9ce9fd40bf709db4222",
+ "oapp": "0x85d456b2dff1fd8245387c0bfb64dfb700e98ef3",
+ "receive_lib": "0xc02ab410f0734efa3f14628780e6e695156024c2",
+ "endpoint": "0x1a44076050125825900e736c501f859c50fe728c",
+ "exploited_eid": 30320,
+ "exploited_pathway_config": {
+  "ts": "2025-04-02T08:14:47.000000Z",
+  "tx": "0x2d48d9331d96c46f8b4a9f7a7bdcf256d2034dadb42f039d27dc28077d520592",
+  "eid": 30320,
+  "required": 1,
+  "optional": 0,
+  "threshold": 0,
+  "dvns": [
+   "LayerZero Labs"
+  ],
+  "by": "delegate EOA"
+ },
+ "days_exploited_pathway_visible": 381,
+ "pathways_at_exploit": 26,
+ "single_verifier_pathways": 24,
+ "first_downgrade": [
+  {
+   "ts": "2024-03-19T10:41:11.000000Z",
+   "tx": "0xf46f6bf4e4b3b0bc40ffbdef20b3ed2566176cd9fe7900e774dd39fcc72fc513",
+   "eid": 30243,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Polyhedra zkBridge"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-19T10:41:11.000000Z",
+   "tx": "0xf46f6bf4e4b3b0bc40ffbdef20b3ed2566176cd9fe7900e774dd39fcc72fc513",
+   "eid": 30260,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Polyhedra zkBridge"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-21T04:55:35.000000Z",
+   "tx": "0xf64d02e59234f08841eeeafd4668ff3c30581acc200a20330a51241f00a5e94f",
+   "eid": 30243,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-21T04:55:35.000000Z",
+   "tx": "0xf64d02e59234f08841eeeafd4668ff3c30581acc200a20330a51241f00a5e94f",
+   "eid": 30260,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  }
+ ],
+ "days_since_first_downgrade": 758,
+ "eid_names": {
+  "30217": "Manta",
+  "30243": "Blast",
+  "30260": "Mode",
+  "30184": "Base",
+  "30214": "Scroll",
+  "30110": "Arbitrum",
+  "30111": "Optimism",
+  "30183": "Linea",
+  "30274": "xlayer",
+  "30165": "zkSync Era Mainnet",
+  "30303": "zircuit",
+  "30329": "hemi",
+  "30335": "swell",
+  "30362": "bera",
+  "30332": "sonic",
+  "30325": "movement",
+  "30367": "hyperliquid",
+  "30320": "unichain",
+  "30377": "tac",
+  "30106": "Avalanche",
+  "30339": "ink",
+  "30383": "plasma",
+  "30396": "stable",
+  "30398": "megaeth",
+  "30181": "Mantle",
+  "30390": "monad"
+ },
+ "events": [
+  {
+   "ts": "2024-03-16T07:36:35.000000Z",
+   "tx": "0x90770c411af3a8bf225214622f1b175a241939e47f1244475a23b5cbd68e2fab",
+   "eid": 30217,
+   "required": 0,
+   "optional": 2,
+   "threshold": 2,
+   "dvns": [],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-16T14:51:47.000000Z",
+   "tx": "0xad64fadcf031615777140655279f65b04fa0a936a84ac969a9f33b5d8ff9bff1",
+   "eid": 30217,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Polyhedra zkBridge"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-19T10:41:11.000000Z",
+   "tx": "0xf46f6bf4e4b3b0bc40ffbdef20b3ed2566176cd9fe7900e774dd39fcc72fc513",
+   "eid": 30243,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Polyhedra zkBridge"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-19T10:41:11.000000Z",
+   "tx": "0xf46f6bf4e4b3b0bc40ffbdef20b3ed2566176cd9fe7900e774dd39fcc72fc513",
+   "eid": 30260,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Polyhedra zkBridge"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-21T04:55:35.000000Z",
+   "tx": "0xf64d02e59234f08841eeeafd4668ff3c30581acc200a20330a51241f00a5e94f",
+   "eid": 30243,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-21T04:55:35.000000Z",
+   "tx": "0xf64d02e59234f08841eeeafd4668ff3c30581acc200a20330a51241f00a5e94f",
+   "eid": 30260,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-25T16:16:35.000000Z",
+   "tx": "0x7d8c4d8c668f763c129cf3021f9e9667a30cafb4b41a890f79763a68db893a58",
+   "eid": 30184,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-03-25T16:16:35.000000Z",
+   "tx": "0x7d8c4d8c668f763c129cf3021f9e9667a30cafb4b41a890f79763a68db893a58",
+   "eid": 30214,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-04-01T07:12:23.000000Z",
+   "tx": "0x21e967c99a7038962d84c3a1090b55a531a2fe34a250141ae2e48178ced77084",
+   "eid": 30110,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-04-01T07:12:23.000000Z",
+   "tx": "0x21e967c99a7038962d84c3a1090b55a531a2fe34a250141ae2e48178ced77084",
+   "eid": 30111,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-04-15T19:03:11.000000Z",
+   "tx": "0x95a906177e279dfb9b61c7a41c77addba28f80632385f2bc437505f4484b8777",
+   "eid": 30183,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-05-09T05:54:23.000000Z",
+   "tx": "0xf3b7dc2812063c97e081a0e865101576b498b6f4af7ecbc514d39646e5c5051e",
+   "eid": 30274,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-05-16T07:59:35.000000Z",
+   "tx": "0x31250898dea1b27a6f2d2f1accc3e4a0fdb2580a0c34601bbfa3287de6d33d39",
+   "eid": 30165,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-09-11T05:54:11.000000Z",
+   "tx": "0x074e8c53f0bb62453048bb680c8c69378ce5eb843e9f52ecde3e7e0e415e8882",
+   "eid": 30303,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-12-17T12:54:11.000000Z",
+   "tx": "0x7bc75150d931795f191986a8100809b3b55b132e4832161c0063c15e063e9a57",
+   "eid": 30329,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2024-12-17T12:54:11.000000Z",
+   "tx": "0x7bc75150d931795f191986a8100809b3b55b132e4832161c0063c15e063e9a57",
+   "eid": 30335,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "deployer EOA"
+  },
+  {
+   "ts": "2025-01-24T15:35:59.000000Z",
+   "tx": "0x6545f712995e3785132605aca68b668458b3ef829412fad67ab11e5cc062c89e",
+   "eid": 30362,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-03-04T15:24:23.000000Z",
+   "tx": "0xd5612679e6e4ac8d4fe4f148c5b14cae986b2636cd851be71f3698102503db97",
+   "eid": 30332,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-03-14T17:00:23.000000Z",
+   "tx": "0xf15f56b71be1ba1cdb9ef41b28dd169459f4626dc0c25e519ec1df3ed479f3d9",
+   "eid": 30325,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Nethermind"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-03-14T18:32:11.000000Z",
+   "tx": "0x77ba790ea728856fff49b130d5acc089cb01174cee2f47400d03ff9732f6dca5",
+   "eid": 30325,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Nethermind"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-03-28T13:49:35.000000Z",
+   "tx": "0x9aff0056d4f270165fa38200fcb7e0e9acad14a8b126128ee7af8ea0b482543f",
+   "eid": 30367,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-04-02T08:14:47.000000Z",
+   "tx": "0x2d48d9331d96c46f8b4a9f7a7bdcf256d2034dadb42f039d27dc28077d520592",
+   "eid": 30320,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-04-15T13:21:35.000000Z",
+   "tx": "0xf41c0c928667083f7906e7f177848b458483c4d1753cd99ab22921af3e6aa360",
+   "eid": 30325,
+   "required": 2,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs",
+    "Nethermind"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-07-13T17:09:11.000000Z",
+   "tx": "0x5189ab81d3940da3ebb13964823d8026f280d308429d6a5f62943d5428177e7c",
+   "eid": 30377,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-08-18T12:00:47.000000Z",
+   "tx": "0xfa974c410c58fec4ea31fd37181183ab15c45823199ddc7fc13ffd204c68cfaf",
+   "eid": 30106,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "delegate EOA"
+  },
+  {
+   "ts": "2025-09-15T15:30:11Z",
+   "tx": "0x8e83a3b07312b4187850217dfc365317025dfd32d6f588a8a62775a4f56e3899",
+   "eid": 30339,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2025-09-16T13:14:59Z",
+   "tx": "0xc8d4cfe3e65e067fc02f3fb76a94a1b9ac51a9e05ba23e9134b85d6d6617e847",
+   "eid": 30383,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2025-12-10T07:53:35Z",
+   "tx": "0x2fc3e42a0251911c85eb705fa86ed26b5b6e9a61c89d5ba0b89bda4443d6b976",
+   "eid": 30396,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2025-12-23T17:17:11Z",
+   "tx": "0xd6ad507795df456606daa2d1fe53191c0e2ed7d13462214aabdcbe826806ccd3",
+   "eid": 30398,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-01-01T13:57:59Z",
+   "tx": "0xfdc485c659dbd118148a669d6f9ef71f201e87a524ab86b055d85c2477feebb8",
+   "eid": 30181,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-01T12:54:35Z",
+   "tx": "0x53e5389c75d592cc7f0e57b9b0d74303253d35f1357cf151e97166df0969e086",
+   "eid": 30390,
+   "required": 1,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "LayerZero Labs"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30110,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30111,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30217,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30260,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30243,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30214,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30184,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30183,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30274,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30165,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30303,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30335,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30329,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30362,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30332,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30367,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30320,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30377,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30106,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30339,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30383,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30396,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30398,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30181,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T09:55:23Z",
+   "tx": "0xde7aa019a29b999606335c16e60d445cfa3d25a2b9d4f565db5aed5eb1a5a240",
+   "eid": 30390,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-04-23T16:08:23Z",
+   "tx": "0x7b3e4eef76a6943d276ba033dbc752dbca82e7bcaba607dc6069e064e8e7b621",
+   "eid": 30325,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "P2P",
+    "Horizen",
+    "LayerZero Labs",
+    "Nethermind"
+   ],
+   "by": "3-of-6 Safe"
+  },
+  {
+   "ts": "2026-09-08T18:44:35Z",
+   "tx": "0x2bc8e5d6413788443b6ac0696c74dc5d28df50030479cab763d82f916ef4df9d",
+   "eid": 30110,
+   "required": 4,
+   "optional": 0,
+   "threshold": 0,
+   "dvns": [
+    "Horizen",
+    "LayerZero Labs",
+    "Canary",
+    "Google"
+   ],
+   "by": "3-of-6 Safe"
+  }
+ ],
+ "config_admin_history": [
+  {
+   "from": "2024-03-15",
+   "to": "2025-01-02",
+   "admin": "0x1f7A03b70C5448DFd0a2C5a7865169253c2C769b",
+   "type": "EOA (deployer key)"
+  },
+  {
+   "from": "2025-01-02",
+   "to": "2025-08-25",
+   "admin": "0xCF7bF9D3a485b9c4d4A38d65e4d68e081a585662",
+   "type": "EOA"
+  },
+  {
+   "from": "2025-08-25",
+   "to": null,
+   "admin": "0xCbcdd778AA25476F203814214dD3E9b9c46829A1",
+   "type": "Gnosis Safe, 3-of-6"
+  }
+ ],
+ "post_incident": {
+  "2026-04-23": "All 23 active receive pathways reconfigured to 4 required DVNs (Horizen, LayerZero Labs, Canary, Nethermind)",
+  "2026-06-15": "All peers removed (bridge pathways closed)"
+ }
+}

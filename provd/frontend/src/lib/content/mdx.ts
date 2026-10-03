@@ -1,6 +1,7 @@
 import path from "node:path";
 import { promises as fs } from "node:fs";
 
+import { createElement } from "react";
 import matter from "gray-matter";
 import remarkGfm from "remark-gfm";
 import { compileMDX } from "next-mdx-remote/rsc";
@@ -13,6 +14,26 @@ export type MdxFrontmatter = {
   /** YAML dates may be parsed as Date by gray-matter */
   date?: string;
   tags?: string[];
+};
+
+function textOf(node: React.ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textOf).join("");
+  if (node && typeof node === "object" && "props" in node) return textOf((node as { props: { children?: React.ReactNode } }).props.children);
+  return "";
+}
+
+export function headingId(children: React.ReactNode): string {
+  return textOf(children)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** Headings get ids so pages can link to sections (e.g. /docs/api-reference#errors). */
+const headingComponents = {
+  h2: ({ children }: { children?: React.ReactNode }) => createElement("h2", { id: headingId(children), className: "scroll-mt-24" }, children),
+  h3: ({ children }: { children?: React.ReactNode }) => createElement("h3", { id: headingId(children), className: "scroll-mt-24" }, children),
 };
 
 export async function renderMdxFile(filePath: string) {
@@ -35,7 +56,7 @@ export async function renderMdxFile(filePath: string) {
         remarkPlugins: [remarkGfm],
       },
     },
-    components: {},
+    components: headingComponents,
   });
 
   return {

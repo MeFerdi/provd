@@ -1,87 +1,44 @@
-import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
-import Markdown from "@/components/ui/markdown";
+import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata = {
-  title: "Terms of Service — Provd",
+  title: "Terms of Service | Provd",
+  description: "Terms for using the Provd website, counterparty scanner and API.",
 };
 
+const content = `
+## The service
+
+Provd provides risk scores, explanations, decision records and a public counterparty scanner for P2P stablecoin trades, on- and off-ramps and payouts ("the Service"). By using the Service you agree to these terms.
+
+## Not advice, not a guarantee
+
+Scores are risk signals to support your own decision. They are not a guarantee that a transaction is safe, and not investment, legal or financial advice. A low score does not mean a counterparty is honest; a high score does not mean it is fraudulent. You are responsible for your own decisions, including whether to release funds.
+
+## Accuracy
+
+We work to make every score accurate and explain the signals behind it, but data can be incomplete, delayed or wrong (for example, public risk lists change, and for busy wallets we read only recent transfers). If you believe a score is wrong, contact [hello@provd.tech](mailto:hello@provd.tech) and we will review it.
+
+## Acceptable use
+
+Do not abuse the Service: no attempts to disrupt it, bypass rate limits, scrape it in a way that degrades it for others, or use it to break the law. We may limit or suspend access that does.
+
+## Use of scores
+
+Do not present our scores in a misleading way, or as a finding that a person committed fraud.
+
+## Early access and payment
+
+Features offered in early access, including prices, may change or be withdrawn. Prepaid checks are used as checks are scored.
+
+## Liability
+
+The Service is provided "as is". To the maximum extent permitted by law, Provd is not liable for any loss arising from use of, or reliance on, the Service.
+
+## Changes and contact
+
+We may update these terms; the date above shows the latest version. Questions: [hello@provd.tech](mailto:hello@provd.tech).
+`;
+
 export default function TermsPage() {
-  return (
-    <Section className="pt-14 pb-16" padded={false}>
-      <Container size="default">
-        <div className="uppercase text-accent-primary font-mono text-xs mb-4" style={{ letterSpacing: "0.22em" }}>Legal</div>
-        <h1 className="font-display text-4xl md:text-5xl text-text-primary leading-[1.08] mb-5">Terms of Service</h1>
-        <div className="mb-8 rounded-2xl border border-bg-border bg-bg-surface/50 px-5 py-4">
-          <div className="font-sans text-sm font-semibold text-text-primary">Provd Technologies Ltd.</div>
-          <div className="mt-2 grid gap-2 text-sm text-text-secondary sm:grid-cols-2">
-            <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Effective date</span>
-              <div className="mt-1">1 April 2026</div>
-            </div>
-            <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-text-muted">Last updated</span>
-              <div className="mt-1">1 April 2026</div>
-            </div>
-          </div>
-        </div>
-        <Markdown>{[
-              '---',
-              '',
-              '## 1. Agreement',
-              '',
-              'These Terms of Service ("Terms") constitute a legally binding agreement between Provd Technologies Ltd., a company registered in Kenya ("Provd", "we", "us"), and the entity accessing or using the Provd API and platform ("Client", "you").',
-              '',
-              'By creating an account, accessing the API, or using any Provd service, you confirm that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. If you are agreeing on behalf of an organisation, you represent that you have authority to bind that organisation.',
-              '',
-              'If you do not agree to these Terms, do not use the service.',
-              '',
-              '---',
-              '',
-              '## 2. The service',
-              '',
-              'Provd provides a B2B counterparty intelligence API that returns risk scores and signals for counterparty entities in peer-to-peer cryptocurrency transactions. The service includes:',
-              '',
-              '- The Provd Trust Score API (`/v1/trust/score`)',
-              '- The Dispute Intelligence API (`/v1/dispute/analyze`) on eligible plans',
-              '- The Provd compliance dashboard',
-              '- Documentation, support, and related services',
-              '',
-              '**Provd is an intelligence service, not a financial service.** We do not hold, transfer, or exchange cryptocurrency or fiat currency. We do not make decisions about whether specific trades should be approved or rejected. All decisions about how to act on Provd\'s scores and recommendations remain entirely with the Client.',
-              '',
-              '---',
-              '',
-              '## 3. Account registration',
-              '',
-              'To use the service, you must register for an account. You agree to:',
-              '',
-              '- Provide accurate and complete information during registration',
-              '- Keep your account credentials confidential',
-              '- Notify us immediately of any unauthorised access to your account at security@provd.io',
-              '- Be responsible for all activity that occurs under your account',
-              '',
-              'You must be a legally incorporated business entity to register for a Provd account. We do not provide service to individuals acting in a personal capacity.',
-              '',
-              '---',
-              '',
-              '## 4. Permitted use',
-              '',
-              'You may use the service to:',
-              '',
-              '- Query counterparty risk scores in connection with legitimate P2P cryptocurrency trading operations',
-              '- Analyse trade disputes using the Dispute Intelligence module',
-              '- Integrate Provd\'s API into your exchange, wallet, or compliance platform',
-              '',
-              'You may not:',
-              '',
-              '- Use the service to harass, discriminate against, or make consequential decisions about individuals without appropriate human oversight',
-              '- Resell, relicense, or provide the service to third parties as a standalone product without a white-label agreement',
-              '- Attempt to reverse-engineer Provd\'s models, scoring methodology, or counterparty intelligence graph',
-              '- Submit false or fabricated dispute data, outcome labels, or fraud reports',
-              '- Use the service in any jurisdiction where doing so is prohibited by law',
-              '- Use the service for any purpose that violates applicable law, including privacy law and financial services regulation',
-            ].join('\n')}</Markdown>
-      </Container>
-    </Section>
-  );
+  return <LegalPage title="Terms of Service" content={content} />;
 }

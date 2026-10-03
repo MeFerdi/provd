@@ -1,59 +1,23 @@
 {
-  "generatedAt": "2026-04-16T05:18:10.018Z",
+  "generatedAt": "2026-10-03T15:25:53.177Z",
   "records": [
-    {
-      "type": "docs",
-      "url": "/docs/api-access",
-      "title": "API Access",
-      "description": "Platform status, development roadmap, and beta access expectations.",
-      "date": "",
-      "tags": [],
-      "headings": [
-        "Current status",
-        "What is being built",
-        "What to expect before beta",
-        "Beta notifications",
-        "Recommended next step"
-      ],
-      "body": "\n## Current status\n\nProvd is still under active development. Public API access is not open yet, and the platform is not currently available for general beta testing or production use.\n\nThe current website and documentation outline the intended product direction, integration model, and system design so partners and early supporters can understand where the platform is heading.\n\n## What is being built\n\nThe Provd API is being designed as a fraud-intelligence layer for African P2P crypto, stablecoin, and OTC workflows. The intended surface area includes:\n\n- Counterparty risk scoring before release\n- Risk flags and decision support for operator workflows\n- Dispute and outcome intelligence\n- Audit-oriented response data for review teams\n\n## What to expect before beta\n\nBefore beta access opens, the public site will focus on:\n\n- Product direction\n- Technical documentation and integration intent\n- Policy and legal documentation\n- Architecture and workflow communication\n\nThis means some API details may continue to evolve while the platform is still being built.\n\n## Beta notifications\n\nOnce Provd is ready for beta testing and early usage, updates will be shared through the project communications channel.\n\nThat channel will be used to announce:\n\n- beta availability\n- onboarding timing\n- access criteria\n- implementation updates\n\n## Recommended next step\n\nIf you are evaluating the product now, the best place to start is the broader documentation set:\n\n- [Documentation overview](/docs)\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n- [Technical Whitepaper](/whitepaper)\n"
-    },
     {
       "type": "docs",
       "url": "/docs/api-reference",
       "title": "API Reference",
-      "description": "Endpoints, fields, and responses.",
+      "description": "Every public endpoint, generated from the OpenAPI spec, plus the risk scale, flag codes and errors.",
       "date": "",
       "tags": [],
       "headings": [
+        "Base URL",
         "Authentication",
-        "POST /api/v1/trust/score",
-        "Request fields",
-        "Example request",
-        "Response fields",
-        "Example response",
-        "POST /api/v1/dispute/analyze",
-        "Key management endpoints",
-        "Notes"
+        "Errors",
+        "Optional inputs that sharpen a score",
+        "Risk scale",
+        "Flag codes",
+        "Decision records"
       ],
-      "body": "\nBase path: `/api/v1`\n\n## Authentication\n\nProtected endpoints accept either:\n\n- `Authorization: Bearer <jwt_token>`\n- `X-API-Key: <api_key>`\n\n## POST /api/v1/trust/score\n\nRequired scope: `trust:read`\n\nReturns a counterparty risk score and reason flags for a trade context.\n\n### Request fields\n\n- `entity_id` (string)\n- `amount` (number)\n- `currency` (string)\n- `context` (object)\n\n### Example request\n\n \n\n### Response fields\n\n- `score` (number)\n- `risk_level` (string)\n- `signals` (array)\n- `cached` (boolean)\n\n### Example response\n\n \n\n## POST /api/v1/dispute/analyze\n\nRequired scope: `dispute:analyze`\n\nReturns a recommendation and confidence score for a dispute case.\n\n## Key management endpoints\n\n- `GET /api/v1/keys` (scope: `keys:read`)\n- `POST /api/v1/keys` (scope: `keys:write`)\n- `DELETE /api/v1/keys/{key_id}` (scope: `keys:write`)\n\n## Notes\n\n- Call this endpoint before releasing crypto or fiat.\n- Treat `risk_flags` as operator-facing reasons, not just UI labels.\n- Pair this endpoint with your internal review and dispute workflows.\n"
-    },
-    {
-      "type": "docs",
-      "url": "/docs/authentication",
-      "title": "Authentication",
-      "description": "JWT bearer tokens, API keys, and scope-based access control.",
-      "date": "",
-      "tags": [],
-      "headings": [
-        "Authentication methods",
-        "Get a bearer token",
-        "API keys",
-        "Authorization model",
-        "Hashing",
-        "Recommended pattern",
-        "Related docs"
-      ],
-      "body": "\n## Authentication methods\n\nProvd supports two auth methods:\n\n1. **Bearer JWT** (recommended for operator/admin clients)\n2. **API key via `X-API-Key`** (recommended for service-to-service calls)\n\n## Get a bearer token\n\nRequest:\n\n \n\nResponse includes:\n\n- `access_token`\n- `token_type`\n- `expires_in`\n- `scopes`\n- `role`\n\nUse it in requests:\n\n \n\n## API keys\n\nCreate and manage API keys through `/api/v1/keys` (requires key management permissions).\n\nUse them in requests:\n\n \n\n## Authorization model\n\nAccess is controlled by **scopes** (and optionally role).\n\nCurrent protected scopes:\n\n- `keys:read` — list keys\n- `keys:write` — create/deactivate keys\n- `trust:read` — call trust scoring endpoint\n- `dispute:analyze` — call dispute analysis endpoint\n\n## Hashing\n\nWhen sending identifiers like phone numbers, hash them client-side or in your secure backend environment.\n\n## Recommended pattern\n\n1. Keep raw user identifiers out of browser logs and analytics tools.\n2. Hash phone numbers or bank-account-derived identifiers before transport.\n3. Send only the hashed identifier plus the trade context to Provd.\n4. Rotate API keys on a schedule and scope them by environment.\n\n## Related docs\n\n- [Quickstart](/docs/quickstart)\n- [API Reference](/docs/api-reference)\n"
+      "body": "\n## Base URL\n\n| Environment | Base URL |\n|---|---|\n| Production | `https://api.provd.tech/v1` (placeholder during early access) |\n| Local | `http://localhost:8000/v1` |\n\nAll requests and responses are JSON. Timestamps are ISO 8601 in UTC.\n\n## Authentication\n\nEndpoints marked **API key** take your key in the `X-API-Key` header. Public endpoints need no key and are rate-limited per IP.\n\n \n\nSend an `Idempotency-Key` header on evaluate: retries with the same key return the original decision and are not charged again.\n\n## Errors\n\n| Status | When |\n|---|---|\n| `401` / `403` | Missing, invalid or inactive API key. |\n| `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |\n| `404` | Decision or `intent_id` not found for your account. |\n| `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{\"detail\": \"…\"}`. |\n| `429` | Too many requests. Wait a minute and retry. |\n| `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |\n\nScored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron`. Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: \"not_yet_supported\"` with a `NOT_YET_SUPPORTED` flag. They are not charged.\n\n## Optional inputs that sharpen a score\n\n| Field | Used by | What to send |\n|---|---|---|\n| `amounts.crypto` or `amounts.fiat` + `fiat_currency` | `amount_pattern` | The amount. Provd learns your own baselines from it: per counterparty, and your 90-day p99 per intent type. |\n| `float_available` | `float_and_timing` | Your available float on this rail, in `amounts.fiat_currency` (payouts, OTC). |\n| `account_signals` | `account_takeover_proxies` | Timestamps from your SIM-swap, device-trust or KYC provider: `sim_swap_at`, `device_changed_at`, `credentials_changed_at`, `payout_destination_added_at`, `account_created_at`, plus `provider`. Provd doesn't detect these itself; send what you have. |\n\nSignals with nothing to work on report `none` in `signal_coverage` and add no risk.\n\n## Risk scale\n\n| Score | `risk_level` | `recommended_action` |\n|---|---|---|\n| 0–249 | `low` | `release` |\n| 250–499 | `medium` | `manual_review` |\n| 500–749 | `high` | `hold` |\n| 750–1000 | `critical` | `reject` |\n\n## Flag codes\n\n| Code | Severity | Meaning |\n|---|---|---|\n| `CP_ADDRESS_FROZEN` | critical | The counterparty wallet is itself on a public risk list (for example, frozen by Tether). |\n| `CP_FLAGGED_EXPOSURE` | high | The wallet transacted directly with wallets on a public risk list. |\n| `CP_INCIDENTAL_EXPOSURE` | medium | Exposure to listed wallets is a small share of volume across many counterparties, as with exchanges. |\n| `CP_PLATFORM_FLAGGED_EXPOSURE` | high | The wallet transacted with wallets you confirmed as fraudulent. |\n| `CP_NEW_WALLET` | low | First USDT activity in the last 7 days, with few transfers. |\n| `CP_NO_HISTORY` | low | No USDT transfers found for this wallet. |\n| `OWN_FRAUD_HISTORY` | critical | You reported confirmed fraud or a fake payment confirmation from this counterparty in the last 180 days. |\n| `OWN_REVERSAL_HISTORY` | medium or high | You reported reversals, refunds or chargebacks from this counterparty in the last 180 days. |\n| `VELOCITY_SPIKE` | medium | Unusually many checks for this counterparty in the last 24 hours. |\n| `AMOUNT_SPIKE` | medium or high | Much larger (5x+, 20x+ for high) than this counterparty's largest previous amount with you. |\n| `AMOUNT_ABOVE_PLATFORM_P99` | medium | Larger than 99% of your amounts for this intent type over 90 days (needs 30+ decisions). |\n| `AMOUNT_STRUCTURING` | high | Three or more amounts just under a reporting threshold for this counterparty in 24 hours. |\n| `RAPID_PASS_THROUGH` | high | Funds covering this amount arrived in the wallet within the last hour. |\n| `FLOAT_STRAIN` | medium | The amount uses more than half of your available float. |\n| `OFF_HOURS` | low | Fewer than 2% of your checks happen at this UTC hour. |\n| `SIM_SWAP_RECENT` | high or critical | SIM swap in the last 72 hours; critical within 24 hours together with a new payout destination. |\n| `DEVICE_CHANGE_WITH_ACCOUNT_CHANGE` | high | New device in the last 24 hours plus a new payout destination or credential change. |\n| `NEW_PAYOUT_DESTINATION` | low | Payout destination added in the last 72 hours. |\n| `NEW_ACCOUNT` | medium | Account opened in the last 24 hours. |\n| `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |\n| `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |\n| `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |\n\n## Decision records\n\n`GET /v1/decisions/{intent_id}` returns the signed record behind a score, with its Merkle proof and Bitcoin anchor once sealed. `merkle` and `batch` are `null` until the record joins a batch (within minutes). See [decision records](/docs/decisions), or paste a record into [Verify a decision](/verify).\n"
     },
     {
       "type": "docs",
@@ -63,41 +27,254 @@
       "date": "",
       "tags": [],
       "headings": [
-        "2026-04-02",
-        "2026-03-31"
+        "2026-10-04",
+        "2026-10-03"
       ],
-      "body": "\n## 2026-04-02\n\n- Reframed the product around fraud-intelligence infrastructure for African P2P and stablecoin flows.\n- Updated docs navigation and landing pages to support a more standard documentation experience.\n- Standardized the scoring endpoint reference around `/v1/counterparties/score`.\n\n## 2026-03-31\n\n- Initial docs scaffolding.\n"
+      "body": "\n## 2026-10-04\n\n- M-Pesa top-ups now go through Paystack checkout (`pay_url`) and are credited automatically; send an `email` with `\"method\": \"mpesa\"`.\n- Card top-ups: `POST /v1/topups` with `\"method\": \"card\"` and an `email` returns a Paystack checkout link (`pay_url`). Checks are credited when Paystack confirms the charge. `POST /v1/topups/{id}/refresh` checks a card payment on demand.\n- Pricing: the free tier is now 300 checks a month (was 100 a day). New `1k` bundle: 1,000 checks for $20 / KES 2,600. `GET /v1/usage` returns `free_monthly_checks`, `free_used_this_month` and `free_remaining_this_month` in place of the daily fields.\n- `rails.fiat_rail` and `amounts.fiat_currency` take any local rail and currency (for example `pix`/`BRL`, `upi`/`INR`); amount baselines are learned per currency.\n- Monthly plans for global payout platforms: Payouts Starter, Payouts Pro and Enterprise, listed in `GET /v1/pricing` under `plans`.\n\n## 2026-10-03\n\n- Provd now scores money movement on African rails before funds are released. First coverage: USDT on Tron, with M-Pesa and bank rails as fiat context.\n- New API under `/v1`: `POST /v1/actions/evaluate`, `GET /v1/decisions/{intent_id}`, `POST /v1/outcomes`, `GET /v1/counterparties/tron/{address}`, `GET /v1/usage`, `GET /v1/pricing`, `POST /v1/topups`, `GET /v1/topups`.\n- Pay as you go: 100 free checks a day, then prepaid bundles topped up with USDT (TRC-20) or M-Pesa.\n- Public [counterparty check](/check) on the website.\n- Earlier APIs under `/api/v1` and their documentation have been retired.\n"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/decisions",
+      "title": "Decision records",
+      "description": "What Provd records for every check, and how to verify a record hasn't changed.",
+      "date": "",
+      "tags": [],
+      "headings": [
+        "What's in a record",
+        "Fetch a record",
+        "How the proof works",
+        "Verify a record yourself",
+        "Just the hash, in a few lines"
+      ],
+      "body": "\nEvery call to `POST /v1/actions/evaluate` writes a decision record: what you asked, which signals ran, what they found and what Provd recommended. The response carries the record's hash as `decision_record_hash`, so you can store it next to the trade in your own system.\n\nWhen a dispute, an auditor or a regulator asks why a release went ahead, you can show the record and prove it is the one produced at the time.\n\n## What's in a record\n\n| Field | Contents |\n|---|---|\n| `intent_id` | Your reference for the trade. |\n| `intent` | The intent as you sent it: chain, intent type, counterparty (wallet address, phone hash), rails, amounts, context. |\n| `signals` | Each signal that ran, its value, its contribution to the score, the reason and source references. |\n| `signal_coverage` | For each signal, whether it ran on `full`, `partial` or `none` of its data. |\n| `decision` | Score, risk level, recommended action and flags. |\n| `engine_version` | The scoring engine version that made the decision. |\n| `created_at` | When the decision was made (UTC). |\n\nRecords hold hashed phone identifiers only, never raw numbers.\n\n## Fetch a record\n\n \n\n \n\nYou can only fetch decisions made with your own keys.\n\n## How the proof works\n\n1. **Hash.** The record is serialized as canonical JSON (keys sorted, no whitespace, UTF-8) and hashed with SHA-256. That is `decision_record_hash`, returned the moment you call evaluate.\n2. **Signature.** Provd signs the hash with a dedicated secp256k1 key (compact `r‖s`, low-S). The public key is published at `GET /v1/proof/keys`; pin it in your system.\n3. **Batch.** Every few minutes, new decisions are sealed into a Merkle tree (`leaf = SHA256(0x00‖hash)`, `node = SHA256(0x01‖left‖right)`, odd node promoted). Your record gets an inclusion proof against the batch root.\n4. **Anchor.** The batch root is timestamped on **Bitcoin through OpenTimestamps**. The proof is `pending` straight away and becomes `anchored` once the calendar's Bitcoin transaction confirms, usually within a few hours. Nobody, including Provd, can later change a record without breaking this chain.\n\n`proof_status` tells you where a record is: `signed: joins the next batch within minutes` → `anchoring` → `anchored`.\n\n## Verify a record yourself\n\nThe quickest way is in the browser: paste the JSON into [Verify a decision](/verify). It recomputes the hash, checks the signature and folds the Merkle proof on your device; nothing is sent to Provd.\n\nFor scripts and CI, download the verifier ([verify_decision.py](/tools/verify_decision.py)) and run it on a saved decision:\n\n \n\n \n\nIt exits non-zero if anything fails. Change one field in the record and the hash and signature checks fail.\n\nTo check the anchor independently, download the batch proof and use the official OpenTimestamps client:\n\n \n\n### Just the hash, in a few lines\n\n \n\nUse a JSON serializer that keeps numbers exactly as received. Some languages rewrite numbers such as `1.0` as `1`, which changes the hash.\n"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/pay-as-you-go",
+      "title": "Pay as you go",
+      "description": "Free monthly checks, prepaid bundles from $20, top-ups by card, USDT or M-Pesa, and monthly plans for payout platforms.",
+      "date": "",
+      "tags": [],
+      "headings": [
+        "1. Free quota",
+        "2. When you run out: 402",
+        "3. Bundles",
+        "4. Top up",
+        "Monthly plans for global platforms"
+      ],
+      "body": "\nProvd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term. (Global payout platforms can ask for a monthly plan instead; see the end of this page.)\n\n## 1. Free quota\n\nEvery account gets **300 free checks a month**, reset on the 1st at 00:00 UTC. That is enough to integrate and test; production volume runs on a bundle. Free checks are used before your balance.\n\nA scored `POST /v1/actions/evaluate` uses one check. These don't use any:\n\n- Requests that return `recommended_action: \"not_yet_supported\"` (for example `chain: \"stellar\"` or `intent_type: \"swap\"`).\n- Retries with the same `Idempotency-Key`.\n- `GET /v1/decisions/...`, `POST /v1/outcomes`, `GET /v1/usage` and the public counterparty check.\n\nCheck where you stand at any time:\n\n \n\n \n\n## 2. When you run out: 402\n\nWhen the free quota is used up and your balance is empty, evaluate returns `402 Payment Required` instead of a score:\n\n \n\nDecide in your own code what a 402 means for the trade. Most platforms fall back to their manual review queue so nothing is released unchecked.\n\n## 3. Bundles\n\nEarly-access pricing (the live list is at `GET /v1/pricing`):\n\n| Bundle | Checks | Price | Per check |\n|---|---|---|---|\n| `1k` | 1,000 | $20 (KES 2,600) | $0.020 |\n| `10k` | 10,000 | $150 (KES 19,500) | $0.015 |\n| `100k` | 100,000 | $1,000 (KES 130,000) | $0.010 |\n| `1m` | 1,000,000 | $7,000 (KES 910,000) | $0.007 |\n\n## 4. Top up\n\nStart a top-up with the bundle and how you'll pay:\n\n \n\nThe response tells you exactly what to pay and where:\n\n- **`card`**: open `pay_url` and pay on Paystack's secure checkout page (Visa, Mastercard). Card top-ups are charged in KES; `amount_due` and `currency` show the exact charge, and your bank converts if your card is in another currency. `email` is required and gets the receipt. Checks are credited as soon as Paystack confirms the charge, usually within a minute. If you want to check sooner, call `POST /v1/topups/{id}/refresh`.\n- **`usdt_tron`**: send exactly `amount_due` USDT (TRC-20) to `pay_to`. The exact amount identifies your payment.\n- **`mpesa`**: open `pay_url`, enter your M-Pesa number on Paystack's checkout page and approve the prompt on your phone. Always charged in KES. `email` is required for the receipt. Checks are credited as soon as the payment is confirmed, with no manual step.\n\nThe top-up stays `pending` until the payment is confirmed, then your balance is credited. List your top-ups with `GET /v1/topups`.\n\nAuto top-up (refill when your balance drops below a threshold) is coming.\n\n## Monthly plans for global platforms\n\nPayout platforms with steady volume can have a monthly plan instead, billed in USD by invoice:\n\n| Plan | Per month | Included checks |\n|---|---|---|\n| Payouts Starter | from $300 | 25,000 |\n| Payouts Pro | from $1,500 | 200,000 |\n| Enterprise | custom | custom |\n\nEach plan has a set number of included checks per billing month, and a choice of what happens after they're used: draw from a prepaid balance, invoice the overage, or stop with `402`. `GET /v1/usage` then returns `billing_model: \"subscription\"` and a `plan` block with checks used and remaining this period. Plans are set up by us; [contact us](mailto:hello@provd.tech?subject=Provd%20monthly%20plan).\n"
     },
     {
       "type": "docs",
       "url": "/docs/quickstart",
-      "title": "Quickstart",
-      "description": "Add counterparty scoring to your approval flow in minutes.",
+      "title": "Score your first P2P trade in 10 minutes",
+      "description": "Send a USDT-on-Tron trade to Provd before you release it, read the decision, and report what happened.",
       "date": "",
       "tags": [],
       "headings": [
-        "Overview",
-        "Integration flow",
-        "Minimal request",
-        "Typical decisioning",
-        "Next steps"
+        "What you need",
+        "1. Check the counterparty (no key needed)",
+        "2. Score the trade before you release",
+        "3. Read the decision",
+        "4. Report what happened",
+        "Next"
       ],
-      "body": "\n## Overview\n\nIntegrate Provd by calling the scoring endpoint **before** releasing crypto or fiat. You’ll receive:\n\n- A counterparty score\n- A risk level\n- A list of flags\n- Suggested actions for your flow\n\n## Integration flow\n\n1. Collect the trade context before release.\n2. Hash sensitive user identifiers in your trusted environment.\n3. Call the scoring endpoint with wallet, rail, and trade metadata.\n4. Use the returned `risk_level` and flags to allow, review, or block the trade.\n\n## Minimal request\n\n \n\n## Typical decisioning\n\n- `low`: approve the trade automatically\n- `medium`: send the trade to review or request stronger evidence\n- `high`: stop release and escalate to your fraud workflow\n\n## Next steps\n\n- [Authentication](/docs/authentication)\n- [API Reference](/docs/api-reference)\n"
+      "body": "\n## What you need\n\n- An API key. Email [hello@provd.tech](mailto:hello@provd.tech) and we'll send one. Every key includes 300 free checks a month.\n- The counterparty's Tron wallet address for a trade you're about to settle.\n\nBase URLs:\n\n \n\nAll requests and responses are JSON. Send your key in the `X-API-Key` header.\n\n## 1. Check the counterparty (no key needed)\n\nBefore wiring anything in, look at what Provd sees for a wallet. This is the same check the [public scanner](/check) runs.\n\n \n\nYou get a score from 0 to 1000 (higher is riskier), a risk level, flags with reasons, and a summary of the wallet's recent USDT activity. This endpoint is rate-limited and uses public data only.\n\n## 2. Score the trade before you release\n\nWhen a buyer marks their payment as sent (M-Pesa, Pix, UPI, a bank transfer) and you're about to release USDT, send the trade as an intent:\n\n \n\n- `intent_id` is your own reference (an order id works). If you leave it out, Provd generates one.\n- `Idempotency-Key` makes retries safe: the same key returns the same decision and is charged once.\n- `fiat_rail` and `fiat_currency` take any local rail and ISO currency: `\"pix\"` and `\"BRL\"`, `\"upi\"` and `\"INR\"`, `\"bank_transfer\"` and `\"NGN\"`. Amount baselines are learned per currency from your own history.\n- `phone_hash` is optional. Hash the phone number on your side (HMAC-SHA256 with your own secret, hex-encoded). Never send raw numbers; they are rejected.\n\n## 3. Read the decision\n\n \n\nAct on `recommended_action`:\n\n| Score | Level | Action | What to do |\n|---|---|---|---|\n| 0–249 | `low` | `release` | Release the funds. |\n| 250–499 | `medium` | `manual_review` | Have someone confirm the fiat payment landed before releasing. |\n| 500–749 | `high` | `hold` | Hold the funds and ask the counterparty for more. |\n| 750–1000 | `critical` | `reject` | Don't release. |\n\nEach entry in `explainability` says which signal moved the score and why. Show the `reason` strings to your ops team; they are written for people.\n\n## 4. Report what happened\n\nYour own history makes future checks sharper. When a trade completes, or when it's reversed or turns out to be fraud, tell Provd:\n\n \n\nOutcomes: `completed`, `reversed`, `refunded`, `chargeback`, `fraud_confirmed`, `fake_confirmation`. You can also report against a `wallet_address` or `phone_hash` directly, without an `intent_id`.\n\nThe next time that wallet, phone hash or a wallet that traded with it comes back, your checks raise `OWN_REVERSAL_HISTORY`, `OWN_FRAUD_HISTORY` or `CP_PLATFORM_FLAGGED_EXPOSURE`. Your outcomes are used only for your own checks. They are never pooled with other platforms.\n\n## Next\n\n- [Pay as you go](/docs/pay-as-you-go): free quota, balance and top-ups.\n- [Decision records](/docs/decisions): fetch and verify the record behind a decision.\n- [API reference](/docs/api-reference): every endpoint, field and flag code.\n"
     },
     {
-      "type": "blog",
-      "url": "/blog/introducing-provd",
-      "title": "Introducing Provd",
-      "description": "Fraud-intelligence infrastructure for African P2P crypto markets.",
-      "date": "2026-03-31T00:00:00.000Z",
+      "type": "docs",
+      "url": "/docs/api-reference#post-v1-actions-evaluate",
+      "title": "POST /v1/actions/evaluate",
+      "description": "Score a money movement before release",
+      "date": "",
       "tags": [
-        "product",
-        "security"
+        "api",
+        "actions"
       ],
       "headings": [
-        "What we’re building"
+        "Score a money movement before release"
       ],
-      "body": "\nProvd helps platforms score counterparties before releasing funds.\n\n## What we’re building\n\n- Counterparty scoring before approval\n- Actionable reason codes and flags\n- Partner-fed fraud intelligence\n"
+      "body": "Score a money movement before release  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-counterparties-chain-address",
+      "title": "GET /v1/counterparties/{chain}/{address}",
+      "description": "Public counterparty risk report (no key, rate-limited)",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Public counterparty risk report (no key, rate-limited)"
+      ],
+      "body": "Public counterparty risk report (no key, rate-limited)  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-decisions-intent-id",
+      "title": "GET /v1/decisions/{intent_id}",
+      "description": "The full decision record with signature, Merkle proof and anchor",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "The full decision record with signature, Merkle proof and anchor"
+      ],
+      "body": "The full decision record with signature, Merkle proof and anchor  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-health",
+      "title": "GET /v1/health",
+      "description": "Engine version, signal coverage and dependency status",
+      "date": "",
+      "tags": [
+        "api",
+        "health"
+      ],
+      "headings": [
+        "Engine version, signal coverage and dependency status"
+      ],
+      "body": "Engine version, signal coverage and dependency status  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#post-v1-outcomes",
+      "title": "POST /v1/outcomes",
+      "description": "Report what happened after a decision",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Report what happened after a decision"
+      ],
+      "body": "Report what happened after a decision  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-pricing",
+      "title": "GET /v1/pricing",
+      "description": "Public price list",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Public price list"
+      ],
+      "body": "Public price list  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-proof-batches-batch-id",
+      "title": "GET /v1/proof/batches/{batch_id}",
+      "description": "A Merkle batch and its anchor status",
+      "date": "",
+      "tags": [
+        "api",
+        "proof"
+      ],
+      "headings": [
+        "A Merkle batch and its anchor status"
+      ],
+      "body": "A Merkle batch and its anchor status  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-proof-batches-batch-id-ots",
+      "title": "GET /v1/proof/batches/{batch_id}/ots",
+      "description": "OpenTimestamps proof for the batch root (verify with `ots verify -d <root>`)",
+      "date": "",
+      "tags": [
+        "api",
+        "proof"
+      ],
+      "headings": [
+        "OpenTimestamps proof for the batch root (verify with `ots verify -d <root>`)"
+      ],
+      "body": "OpenTimestamps proof for the batch root (verify with `ots verify -d <root>`)  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-proof-keys",
+      "title": "GET /v1/proof/keys",
+      "description": "Public keys that sign decision records",
+      "date": "",
+      "tags": [
+        "api",
+        "proof"
+      ],
+      "headings": [
+        "Public keys that sign decision records"
+      ],
+      "body": "Public keys that sign decision records  public, no key"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-topups",
+      "title": "GET /v1/topups",
+      "description": "Your top-ups",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Your top-ups"
+      ],
+      "body": "Your top-ups  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#post-v1-topups",
+      "title": "POST /v1/topups",
+      "description": "Start a top-up (buy a check bundle)",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Start a top-up (buy a check bundle)"
+      ],
+      "body": "Start a top-up (buy a check bundle)  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#post-v1-topups-purchase-id-refresh",
+      "title": "POST /v1/topups/{purchase_id}/refresh",
+      "description": "Card / M-Pesa via Paystack: check the payment now",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Card / M-Pesa via Paystack: check the payment now"
+      ],
+      "body": "Card / M-Pesa via Paystack: check the payment now  X-API-Key required"
+    },
+    {
+      "type": "docs",
+      "url": "/docs/api-reference#get-v1-usage",
+      "title": "GET /v1/usage",
+      "description": "Quota, plan, prepaid balance and recent usage",
+      "date": "",
+      "tags": [
+        "api",
+        "actions"
+      ],
+      "headings": [
+        "Quota, plan, prepaid balance and recent usage"
+      ],
+      "body": "Quota, plan, prepaid balance and recent usage  X-API-Key required"
     }
   ]
 }

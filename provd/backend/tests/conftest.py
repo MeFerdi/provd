@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+import os
+
+# Settings validate at import time; give the suite a dev secret unless the caller set one.
+os.environ.setdefault("SECRET_KEY", "test-secret-key-that-is-at-least-32-characters")
+
 from datetime import datetime, timezone
 
 from fastapi import FastAPI

@@ -1,0 +1,94 @@
+---
+title: Pay as you go
+description: Free monthly checks, prepaid bundles from $20, top-ups by card, USDT or M-Pesa, and monthly plans for payout platforms.
+---
+
+Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term. (Global payout platforms can ask for a monthly plan instead; see the end of this page.)
+
+## 1. Free quota
+
+Every account gets **300 free checks a month**, reset on the 1st at 00:00 UTC. That is enough to integrate and test; production volume runs on a bundle. Free checks are used before your balance.
+
+A scored `POST /v1/actions/evaluate` uses one check. These don't use any:
+
+- Requests that return `recommended_action: "not_yet_supported"` (for example `chain: "stellar"` or `intent_type: "swap"`).
+- Retries with the same `Idempotency-Key`.
+- `GET /v1/decisions/...`, `POST /v1/outcomes`, `GET /v1/usage` and the public counterparty check.
+
+Check where you stand at any time:
+
+```bash
+curl -s https://api.provd.tech/v1/usage -H "X-API-Key: $PROVD_API_KEY"
+```
+
+```json
+{
+  "billing_model": "payg",
+  "free_monthly_checks": 300,
+  "free_used_this_month": 300,
+  "free_remaining_this_month": 0,
+  "balance_checks": 9800,
+  "paid_checks_30d": 200,
+  "paid_units_30d": 200
+}
+```
+
+## 2. When you run out: 402
+
+When the free quota is used up and your balance is empty, evaluate returns `402 Payment Required` instead of a score:
+
+```json
+{
+  "detail": "Free checks for this month used and no prepaid balance. Buy a bundle to continue.",
+  "balance": 0,
+  "units_required": 1,
+  "purchase_url": "https://provd.tech/pricing",
+  "topup_endpoint": "/v1/topups"
+}
+```
+
+Decide in your own code what a 402 means for the trade. Most platforms fall back to their manual review queue so nothing is released unchecked.
+
+## 3. Bundles
+
+Early-access pricing (the live list is at `GET /v1/pricing`):
+
+| Bundle | Checks | Price | Per check |
+|---|---|---|---|
+| `1k` | 1,000 | $20 (KES 2,600) | $0.020 |
+| `10k` | 10,000 | $150 (KES 19,500) | $0.015 |
+| `100k` | 100,000 | $1,000 (KES 130,000) | $0.010 |
+| `1m` | 1,000,000 | $7,000 (KES 910,000) | $0.007 |
+
+## 4. Top up
+
+Start a top-up with the bundle and how you'll pay:
+
+```bash
+curl -s -X POST https://api.provd.tech/v1/topups \
+  -H "X-API-Key: $PROVD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "bundle": "10k", "method": "card", "email": "billing@yourplatform.com" }'
+```
+
+The response tells you exactly what to pay and where:
+
+- **`card`**: open `pay_url` and pay on Paystack's secure checkout page (Visa, Mastercard). Card top-ups are charged in KES; `amount_due` and `currency` show the exact charge, and your bank converts if your card is in another currency. `email` is required and gets the receipt. Checks are credited as soon as Paystack confirms the charge, usually within a minute. If you want to check sooner, call `POST /v1/topups/{id}/refresh`.
+- **`usdt_tron`**: send exactly `amount_due` USDT (TRC-20) to `pay_to`. The exact amount identifies your payment.
+- **`mpesa`**: open `pay_url`, enter your M-Pesa number on Paystack's checkout page and approve the prompt on your phone. Always charged in KES. `email` is required for the receipt. Checks are credited as soon as the payment is confirmed, with no manual step.
+
+The top-up stays `pending` until the payment is confirmed, then your balance is credited. List your top-ups with `GET /v1/topups`.
+
+Auto top-up (refill when your balance drops below a threshold) is coming.
+
+## Monthly plans for global platforms
+
+Payout platforms with steady volume can have a monthly plan instead, billed in USD by invoice:
+
+| Plan | Per month | Included checks |
+|---|---|---|
+| Payouts Starter | from $300 | 25,000 |
+| Payouts Pro | from $1,500 | 200,000 |
+| Enterprise | custom | custom |
+
+Each plan has a set number of included checks per billing month, and a choice of what happens after they're used: draw from a prepaid balance, invoice the overage, or stop with `402`. `GET /v1/usage` then returns `billing_model: "subscription"` and a `plan` block with checks used and remaining this period. Plans are set up by us; [contact us](mailto:hello@provd.tech?subject=Provd%20monthly%20plan).

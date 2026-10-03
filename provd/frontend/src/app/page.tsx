@@ -1,25 +1,19 @@
-import Hero from "../components/marketing/Hero";
-import Stats from "../components/marketing/Stats";
-import PartnerCarousel from "../components/marketing/PartnerCarousel";
-import HowItWorks from "../components/marketing/HowItWorks";
-import FraudTypes from "../components/marketing/FraudTypes";
-import ApiSnippet from "../components/marketing/ApiSnippet";
-import Pricing from "../components/marketing/Pricing";
-import TrustSignals from "../components/marketing/TrustSignals";
-import CTA from "../components/marketing/CTA";
+import Capabilities from "@/components/marketing/Capabilities";
+import ContactSection from "@/components/marketing/ContactSection";
+import Hero from "@/components/marketing/Hero";
+import HowItWorks from "@/components/marketing/HowItWorks";
+import Markets from "@/components/marketing/Markets";
+import Problem from "@/components/marketing/Problem";
 
 export default function HomePage() {
   return (
-    <main className="bg-bg-base">
+    <main className="bg-white">
       <Hero />
-      <Stats />
-      <PartnerCarousel />
+      <Problem />
       <HowItWorks />
-      <FraudTypes />
-      <ApiSnippet />
-      <Pricing />
-      <TrustSignals />
-      <CTA />
+      <Capabilities />
+      <Markets />
+      <ContactSection />
     </main>
   );
 }

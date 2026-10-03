@@ -1,0 +1,4473 @@
+{
+ "generated": "2026-10-03T16:02:24Z",
+ "stablecoin_lookalikes": [
+  {
+   "id": "3YJSqXQkN5gXoZkHrHFnAMKwqyGv7B7WmRdyYVFAXnmh",
+   "name": "UpSideDownCat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 196,
+   "liquidity": 9734.54246918428,
+   "mcap": 43150.55474060725,
+   "usdPrice": 4.315055474060725e-05,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-01T16:49:02Z",
+   "firstPool": {
+    "id": "3YJSqXQkN5gXoZkHrHFnAMKwqyGv7B7WmRdyYVFAXnmh",
+    "createdAt": "2026-10-01T16:49:02Z"
+   }
+  },
+  {
+   "id": "6WNogxXa4Lswh8i7U4BSaN9J5jgHrVbwvuYjr9zgpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 40,
+   "liquidity": 740.1347364645258,
+   "mcap": 2839.7347634997404,
+   "usdPrice": 3.6160608740441505e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T08:48:00Z",
+   "firstPool": {
+    "id": "6WNogxXa4Lswh8i7U4BSaN9J5jgHrVbwvuYjr9zgpump",
+    "createdAt": "2026-10-03T08:48:00Z"
+   }
+  },
+  {
+   "id": "Dwcgy9c8t4Pjh5mxVJLrRnamyHfFrvBtJJYGV34pVnom",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3578.5486504068626,
+   "mcap": 3335.8250784147376,
+   "usdPrice": 3.335825078414738e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T08:47:00Z",
+   "firstPool": {
+    "id": "Dwcgy9c8t4Pjh5mxVJLrRnamyHfFrvBtJJYGV34pVnom",
+    "createdAt": "2026-10-03T08:47:00Z"
+   }
+  },
+  {
+   "id": "AkPVVcKfEVvCh2GxpkmLE3wnfLHR8WtnMV7vCDnktAZF",
+   "name": "Ultra Sending Dollar Cat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4291.745776210176,
+   "mcap": 4183.0450072631,
+   "usdPrice": 4.1830450072631e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-02T02:23:16Z",
+   "firstPool": {
+    "id": "AkPVVcKfEVvCh2GxpkmLE3wnfLHR8WtnMV7vCDnktAZF",
+    "createdAt": "2026-10-02T02:23:16Z"
+   }
+  },
+  {
+   "id": "C5nG72gUFJz6wewcgTPjcBmpSq4BwFLHy5j8heo9d7rZ",
+   "name": "Upside Down Cat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown"
+   ],
+   "holderCount": 523,
+   "liquidity": 10866.264192574186,
+   "mcap": 36615.75094523419,
+   "usdPrice": 4.7700665088629163e-05,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-08-05T00:24:50Z",
+   "firstPool": {
+    "id": "CJQVxjQRM1pcy7Gptbs1PcY3wTGGxvJ1q52RVzSvX7Dp",
+    "createdAt": "2026-08-05T00:24:51Z"
+   }
+  },
+  {
+   "id": "AuaGKbZB6QkvfkV9dgqDeQ8YV6DmaF9EMTxQ2wjCpump",
+   "name": "Up Side Down Cat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4291.803671715358,
+   "mcap": 4001.321180936949,
+   "usdPrice": 4.001321180936949e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T01:18:46Z",
+   "firstPool": {
+    "id": "AuaGKbZB6QkvfkV9dgqDeQ8YV6DmaF9EMTxQ2wjCpump",
+    "createdAt": "2026-10-03T01:18:46Z"
+   }
+  },
+  {
+   "id": "8mwxB2e7b14ZoycXCqGAi673w3eSyfWs28F8D6EY6EtY",
+   "name": "UpSideDownCat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4234.987016387985,
+   "mcap": 3947.850234324399,
+   "usdPrice": 3.947850234324399e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-30T17:13:15Z",
+   "firstPool": {
+    "id": "8mwxB2e7b14ZoycXCqGAi673w3eSyfWs28F8D6EY6EtY",
+    "createdAt": "2026-09-30T17:13:15Z"
+   }
+  },
+  {
+   "id": "5SduqQfAFriE96WRpMDJo8eGX9vWpTWvru6qsMeXpump",
+   "name": "UpSideDownCat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 3,
+   "liquidity": 3650.7916863604732,
+   "mcap": 3465.817716619577,
+   "usdPrice": 3.465817716619577e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T12:21:10Z",
+   "firstPool": {
+    "id": "5SduqQfAFriE96WRpMDJo8eGX9vWpTWvru6qsMeXpump",
+    "createdAt": "2026-10-03T12:21:10Z"
+   }
+  },
+  {
+   "id": "unhuqPXaoKQwNR5DfRzwrVde3RDvYwkbj5xSDbvpump",
+   "name": "Up Side Down Cat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4291.80015205484,
+   "mcap": 4026.78846622723,
+   "usdPrice": 4.02678846622723e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T01:21:25Z",
+   "firstPool": {
+    "id": "unhuqPXaoKQwNR5DfRzwrVde3RDvYwkbj5xSDbvpump",
+    "createdAt": "2026-10-03T01:21:25Z"
+   }
+  },
+  {
+   "id": "F3UfckxLPtCmFQZ8WDkDsYiwDHFzpdFrC1sfNkEofJH1",
+   "name": "UpSide Down Cat",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 595,
+   "liquidity": 5763.66974455761,
+   "mcap": 9928.419838658681,
+   "usdPrice": 1.0117854035220158e-05,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-05-12T00:05:11Z",
+   "firstPool": {
+    "id": "F3UfckxLPtCmFQZ8WDkDsYiwDHFzpdFrC1sfNkEofJH1",
+    "createdAt": "2026-05-12T00:05:11Z"
+   }
+  },
+  {
+   "id": "5iE3FbUCbbq17733kaVU5C9DndHqdnUZCRcgasmRRYv5",
+   "name": "USD//COIN",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 3645.7571161008054,
+   "mcap": 3425.5471418236575,
+   "usdPrice": 3.4255471418236577e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-02T07:07:56Z",
+   "firstPool": {
+    "id": "5iE3FbUCbbq17733kaVU5C9DndHqdnUZCRcgasmRRYv5",
+    "createdAt": "2026-10-02T07:07:56Z"
+   }
+  },
+  {
+   "id": "GtUTELaZW5uJCdBM2mwWeJdbXbk94egW6TVC3LLktA1o",
+   "name": "Unites States Dollar Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4291.012020427974,
+   "mcap": 4022.7465322392295,
+   "usdPrice": 4.0227465322392295e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-30T12:06:54Z",
+   "firstPool": {
+    "id": "GtUTELaZW5uJCdBM2mwWeJdbXbk94egW6TVC3LLktA1o",
+    "createdAt": "2026-09-30T12:06:54Z"
+   }
+  },
+  {
+   "id": "AssLR7jpGhSd6QZ3wVsaAsdCSGd2JVA5abhi2PSWpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 3577.9041048351773,
+   "mcap": 3362.357713295992,
+   "usdPrice": 3.3623577132959923e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T08:48:00Z",
+   "firstPool": {
+    "id": "AssLR7jpGhSd6QZ3wVsaAsdCSGd2JVA5abhi2PSWpump",
+    "createdAt": "2026-10-03T08:48:00Z"
+   }
+  },
+  {
+   "id": "GwSdu9UiWh8prc1z1iEzApuDwyEPJ6WW1kvyAcGzpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "token-2022",
+    "unknown"
+   ],
+   "holderCount": 1,
+   "liquidity": 3577.904104715914,
+   "mcap": 3362.357713295992,
+   "usdPrice": 3.3623577132959923e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T08:48:00Z",
+   "firstPool": {
+    "id": "GwSdu9UiWh8prc1z1iEzApuDwyEPJ6WW1kvyAcGzpump",
+    "createdAt": "2026-10-03T08:48:00Z"
+   }
+  },
+  {
+   "id": "6qpnRZoBtfbZfChGFXJzAfjsm2fg2Gt1C4ACU8Pvpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4301.651823681283,
+   "mcap": 4009.070000044203,
+   "usdPrice": 4.009070000044203e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T09:04:36Z",
+   "firstPool": {
+    "id": "6qpnRZoBtfbZfChGFXJzAfjsm2fg2Gt1C4ACU8Pvpump",
+    "createdAt": "2026-10-03T09:04:36Z"
+   }
+  },
+  {
+   "id": "21ztkEiXi29HRLiH28fnYzCKsJHBTot3hgXGYQgHpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 4319.532185312834,
+   "mcap": 4036.498301141983,
+   "usdPrice": 4.036498301141983e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T09:04:09Z",
+   "firstPool": {
+    "id": "21ztkEiXi29HRLiH28fnYzCKsJHBTot3hgXGYQgHpump",
+    "createdAt": "2026-10-03T09:04:09Z"
+   }
+  },
+  {
+   "id": "ETFwJoEuuMXYWEKRuPvwNXWTCqZv6Pptbe2PWiLtiyKe",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 2526.6446510126843,
+   "mcap": 3501.367869269742,
+   "usdPrice": 3.501367869269742e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-19T17:38:00Z",
+   "firstPool": {
+    "id": "ETFwJoEuuMXYWEKRuPvwNXWTCqZv6Pptbe2PWiLtiyKe",
+    "createdAt": "2026-09-19T17:38:00Z"
+   }
+  },
+  {
+   "id": "EuSfs4a7UibdkDFvmreNyKzkmVsJGfkbV7fm72MHpump",
+   "name": "USD coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 13,
+   "liquidity": 3755.6582362661948,
+   "mcap": 3580.291387610014,
+   "usdPrice": 3.580291387610014e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-07T15:11:57Z",
+   "firstPool": {
+    "id": "EuSfs4a7UibdkDFvmreNyKzkmVsJGfkbV7fm72MHpump",
+    "createdAt": "2026-09-07T15:11:57Z"
+   }
+  },
+  {
+   "id": "4rtW3sV659ZoFq28FqW9Y6Wa6pWHSPd3ccqBpUWepump",
+   "name": "USD coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "token-2022",
+    "unknown"
+   ],
+   "holderCount": 5,
+   "liquidity": 3270.3770941535595,
+   "mcap": 3048.485686335716,
+   "usdPrice": 3.0484856863357157e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2025-11-22T17:57:16Z",
+   "firstPool": {
+    "id": "4rtW3sV659ZoFq28FqW9Y6Wa6pWHSPd3ccqBpUWepump",
+    "createdAt": "2025-11-22T17:57:16Z"
+   }
+  },
+  {
+   "id": "BpsyG5KVrBk9DZ3dWo7x15qWbRZqgjixNTrbrgpdpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown"
+   ],
+   "holderCount": 2,
+   "liquidity": 2666.3779475714396,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-02-12T03:45:26Z",
+   "firstPool": {
+    "id": "BpsyG5KVrBk9DZ3dWo7x15qWbRZqgjixNTrbrgpdpump",
+    "createdAt": "2026-02-12T03:45:26Z"
+   }
+  },
+  {
+   "id": "AU1RzLEkLCbHo7fFozinupeYjWBVcPQahsTxLyRQWqSS",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 9,
+   "liquidity": 2595.3122698395364,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-02-16T02:40:45Z",
+   "firstPool": {
+    "id": "AU1RzLEkLCbHo7fFozinupeYjWBVcPQahsTxLyRQWqSS",
+    "createdAt": "2026-02-16T02:40:45Z"
+   }
+  },
+  {
+   "id": "H1Z1DJCEWBQ9HKjKVxi3BJrSAhB3prKvLYwjczqxpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 2585.0860339590113,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-03-10T03:51:17Z",
+   "firstPool": {
+    "id": "H1Z1DJCEWBQ9HKjKVxi3BJrSAhB3prKvLYwjczqxpump",
+    "createdAt": "2026-03-10T03:51:17Z"
+   }
+  },
+  {
+   "id": "GpqxsWJSD9Y27ypupSpSHoUpcPah5XF6a3yUriiwpump",
+   "name": "USD Coin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 3,
+   "liquidity": 2487.431118612146,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-03-27T19:01:58Z",
+   "firstPool": {
+    "id": "GpqxsWJSD9Y27ypupSpSHoUpcPah5XF6a3yUriiwpump",
+    "createdAt": "2026-03-27T19:01:58Z"
+   }
+  },
+  {
+   "id": "HBiHPHC6JFCE3cfCrERiFnJUVTzGErhZm9RmsTtzDJUb",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown"
+   ],
+   "holderCount": 56,
+   "liquidity": 15805.105306979414,
+   "mcap": 126944.00334785673,
+   "usdPrice": 0.9929512767744636,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": "CaR2E877KG5DazBPq3HRq4u8YEyM6vsoeeDCY5XmyA6D",
+   "createdAt": "2025-10-03T15:26:35Z",
+   "firstPool": {
+    "id": "3pVtPBaQn1LiNaQwGUaxkbctTYd1KwTroT3E3r4qd8KS",
+    "createdAt": "2025-10-11T06:56:18Z"
+   }
+  },
+  {
+   "id": "5Y6APRmc6maTRryZhgDNaqx4y1eigfxGHQTj98Uwpump",
+   "name": "Unstable Donald Trump",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3537.475631853496,
+   "mcap": 3319.2858725470105,
+   "usdPrice": 3.3192858725470106e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-29T17:42:55Z",
+   "firstPool": {
+    "id": "5Y6APRmc6maTRryZhgDNaqx4y1eigfxGHQTj98Uwpump",
+    "createdAt": "2026-09-29T17:42:55Z"
+   }
+  },
+  {
+   "id": "FzufVA9DQUt86qfX2AkGU6C76oPs5wtFgh2ZuXQwuMPD",
+   "name": "ULTRA SIZED DOUBLE TITTIES",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "token-2022",
+    "unknown"
+   ],
+   "holderCount": 1,
+   "liquidity": 3566.252951541858,
+   "mcap": 3487.5931146795597,
+   "usdPrice": 3.48759311467956e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-29T21:57:26Z",
+   "firstPool": {
+    "id": "FzufVA9DQUt86qfX2AkGU6C76oPs5wtFgh2ZuXQwuMPD",
+    "createdAt": "2026-09-29T21:57:26Z"
+   }
+  },
+  {
+   "id": "86p8H3GpmWZW3X1puTo2zYnxRu6vV3UyaUjDGMH68Ay",
+   "name": "USDT",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 6,
+   "liquidity": 2502790.833870861,
+   "mcap": 4522.497484057116,
+   "usdPrice": 4.5224974840571155e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-24T15:00:24Z",
+   "firstPool": {
+    "id": "86p8H3GpmWZW3X1puTo2zYnxRu6vV3UyaUjDGMH68Ay",
+    "createdAt": "2026-09-24T15:00:24Z"
+   }
+  },
+  {
+   "id": "HCGw68dY8f9vNiTSD3GuuRDUddBZUoM5XQT9JeX7pump",
+   "name": "TIKITANKA TOKEN",
+   "symbol": "usdt",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3829.520102264307,
+   "mcap": 3594.94175929082,
+   "usdPrice": 3.59494175929082e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-02T23:54:56Z",
+   "firstPool": {
+    "id": "HCGw68dY8f9vNiTSD3GuuRDUddBZUoM5XQT9JeX7pump",
+    "createdAt": "2026-10-02T23:54:56Z"
+   }
+  },
+  {
+   "id": "g1dDwuZdkZqrurzeo74kL62TtoA8zkBzUViiCS5XhV6",
+   "name": "USDT",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 3534.5105060507685,
+   "mcap": 3388.298923266698,
+   "usdPrice": 3.388298923266698e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-30T19:22:07Z",
+   "firstPool": {
+    "id": "g1dDwuZdkZqrurzeo74kL62TtoA8zkBzUViiCS5XhV6",
+    "createdAt": "2026-09-30T19:22:07Z"
+   }
+  },
+  {
+   "id": "GrKzZN9yF2bi3EafVF4ZBc13WKrQwQTdPty45vYmpump",
+   "name": "Unstable Soft Delicious Tits",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "token-2022",
+    "unknown"
+   ],
+   "holderCount": 1,
+   "liquidity": 3595.0876544526195,
+   "mcap": 3351.204332026056,
+   "usdPrice": 3.351204332026056e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-28T03:51:54Z",
+   "firstPool": {
+    "id": "GrKzZN9yF2bi3EafVF4ZBc13WKrQwQTdPty45vYmpump",
+    "createdAt": "2026-09-28T03:51:54Z"
+   }
+  },
+  {
+   "id": "6vShhEXH746ybU67n8RjzcsvKQdN2XFos5FQza6Hpump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 3,
+   "liquidity": 3575.4565756155725,
+   "mcap": 3424.1443770632923,
+   "usdPrice": 3.4241443770632923e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-10-03T02:15:27Z",
+   "firstPool": {
+    "id": "6vShhEXH746ybU67n8RjzcsvKQdN2XFos5FQza6Hpump",
+    "createdAt": "2026-10-03T02:15:27Z"
+   }
+  },
+  {
+   "id": "6avxZ3pSyQ1t6bwE8Aq6cJkXtw9gB1VABBkX3cmepump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3588.412410910963,
+   "mcap": 3398.2118210349454,
+   "usdPrice": 3.3982118210349455e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-28T17:28:26Z",
+   "firstPool": {
+    "id": "6avxZ3pSyQ1t6bwE8Aq6cJkXtw9gB1VABBkX3cmepump",
+    "createdAt": "2026-09-28T17:28:26Z"
+   }
+  },
+  {
+   "id": "Her1svWsSKD37BCdd8kBwgYD8sRno1t9zWFSKaf2pump",
+   "name": "Unemployed Solana Dumb Traders",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "duplicate",
+    "launchpad",
+    "unknown"
+   ],
+   "holderCount": 337,
+   "liquidity": 2677.562848010212,
+   "mcap": 2878.422042979668,
+   "usdPrice": 2.88546369326477e-06,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2025-06-18T12:56:51Z",
+   "firstPool": {
+    "id": "Her1svWsSKD37BCdd8kBwgYD8sRno1t9zWFSKaf2pump",
+    "createdAt": "2025-06-18T12:56:51Z"
+   }
+  },
+  {
+   "id": "Cwa6QNeNP2Qh7zR34hdzJdgtDDmaD2Y96m7c9HBdpump",
+   "name": "Ultimate Supreme Degen Tiger",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "duplicate"
+   ],
+   "holderCount": 443,
+   "liquidity": 5421.8928347439505,
+   "mcap": 6776.272255273825,
+   "usdPrice": 6.978618820839552e-06,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": null,
+   "firstPool": {
+    "id": "g5d5odeuADNNUw66RZCD7hJ7xH6bN4x75dFsenhgXCK",
+    "createdAt": "2024-07-25T13:22:12Z"
+   }
+  },
+  {
+   "id": "72pbt41uetb5hhcPnfeYVQ86K73xAZ8J3651ptw4wiBn",
+   "name": "UpSideDownToad",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 27,
+   "liquidity": 3283.2056841486115,
+   "mcap": 5139.87368936064,
+   "usdPrice": 5.13987368936064e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-19T19:57:26Z",
+   "firstPool": {
+    "id": "72pbt41uetb5hhcPnfeYVQ86K73xAZ8J3651ptw4wiBn",
+    "createdAt": "2026-09-19T19:57:26Z"
+   }
+  },
+  {
+   "id": "4HVGuKo5gdLy5Q17ZP1DJFenpeJSdqG3ygEDYvrUpump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3639.4843018152574,
+   "mcap": 3392.4720152148916,
+   "usdPrice": 3.3924720152148918e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-25T16:06:33Z",
+   "firstPool": {
+    "id": "4HVGuKo5gdLy5Q17ZP1DJFenpeJSdqG3ygEDYvrUpump",
+    "createdAt": "2026-09-25T16:06:33Z"
+   }
+  },
+  {
+   "id": "FXoXtUkRjzSHhs1npHP442vjcMpjBVnL6SVpxS2UGohr",
+   "name": "USDCoin",
+   "symbol": "USDC",
+   "isVerified": null,
+   "tags": [
+    "unknown"
+   ],
+   "holderCount": 3,
+   "liquidity": null,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2025-09-25T09:25:12Z",
+   "firstPool": {
+    "id": "7Jz4iNvJrEYcDqmTGuhoLTVWTFnZGF2kofc4eaSDFGzs",
+    "createdAt": "2025-09-25T09:30:43Z"
+   }
+  },
+  {
+   "id": "ASRGi8HuVK5S5qTzMnY6k19jpYkS8nP3FfLkBqUwk9N4",
+   "name": "TetherUSD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "duplicate",
+    "unknown"
+   ],
+   "holderCount": 19,
+   "liquidity": 33.49351587230327,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": "Un6xXwcW5GX7g6hb7kM8FvJj8vLirW1pBTpUVHXZYED",
+   "mintAuthority": "CU3WSAGQA8wibWBYM2EmWViBTK3HvioshJ2RmWdVmqvt",
+   "createdAt": "2024-11-16T07:20:34Z",
+   "firstPool": {
+    "id": "4CLUjhfjkiDZn99q2cobWvNmm2EoVHrjVW7rz3D7qTk8",
+    "createdAt": "2024-11-16T11:48:47Z"
+   }
+  },
+  {
+   "id": "Xg7kSe3KhPMWvQzjkAFWbCnYZq28GX97Ed4fVLC4AQG",
+   "name": "TetherUSD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "duplicate"
+   ],
+   "holderCount": 89,
+   "liquidity": 23.70062483131419,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": "Un6xXwcW5GX7g6hb7kM8FvJj8vLirW1pBTpUVHXZYED",
+   "mintAuthority": "Un6xXwcW5GX7g6hb7kM8FvJj8vLirW1pBTpUVHXZYED",
+   "createdAt": "2024-11-15T14:23:06Z",
+   "firstPool": {
+    "id": "GxLykn6zg3BHgMTbQK5cMh6v8gtdHHgU4Si7RQsDFTng",
+    "createdAt": "2024-11-15T16:01:17Z"
+   }
+  },
+  {
+   "id": "APVDc2PUShWGeEwt5JcgdJWJNJ4pSJmuWKJof8xrQ5eo",
+   "name": "TetherUSD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "duplicate",
+    "unknown"
+   ],
+   "holderCount": 182,
+   "liquidity": 22.513888753907818,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "freezeAuthority": "Un6xXwcW5GX7g6hb7kM8FvJj8vLirW1pBTpUVHXZYED",
+   "mintAuthority": "CU3WSAGQA8wibWBYM2EmWViBTK3HvioshJ2RmWdVmqvt",
+   "createdAt": "2024-11-16T07:21:46Z",
+   "firstPool": {
+    "id": "2X3KDqTqRVzY1Lfg1M1U7cYK9eGfHR8TyjiLQ9pfra2q",
+    "createdAt": "2024-11-16T08:54:15Z"
+   }
+  },
+  {
+   "id": "4YvGUfLVPpcuRoyAvJb3nautoFabq2v72AZe4U3npump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 1,
+   "liquidity": 3600.2969623069334,
+   "mcap": 3365.996265939627,
+   "usdPrice": 3.3659962659396267e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-26T14:05:32Z",
+   "firstPool": {
+    "id": "4YvGUfLVPpcuRoyAvJb3nautoFabq2v72AZe4U3npump",
+    "createdAt": "2026-09-26T14:05:32Z"
+   }
+  },
+  {
+   "id": "9WQrQ5wasbrNWRpY1fZu1ax1unrkkp1BnWMvZVVzpump",
+   "name": "Tether USDT",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 2,
+   "liquidity": 3540.1828163864693,
+   "mcap": 3299.8685070806696,
+   "usdPrice": 3.2998685070806695e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-30T23:42:31Z",
+   "firstPool": {
+    "id": "9WQrQ5wasbrNWRpY1fZu1ax1unrkkp1BnWMvZVVzpump",
+    "createdAt": "2026-09-30T23:42:31Z"
+   }
+  },
+  {
+   "id": "Dg6LFZTxTDnuoLmMtatWAbpRWhYejSA3krDFassZpump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 7,
+   "liquidity": 2553.790024364786,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-04-06T21:30:03Z",
+   "firstPool": {
+    "id": "Dg6LFZTxTDnuoLmMtatWAbpRWhYejSA3krDFassZpump",
+    "createdAt": "2026-04-06T21:30:03Z"
+   }
+  },
+  {
+   "id": "ESoKdqhpyDk95kXsgsDWf7G3NdSAajSDjRvSmRowpump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 4,
+   "liquidity": 2067.3231778463996,
+   "mcap": null,
+   "usdPrice": null,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-06-14T01:49:03Z",
+   "firstPool": {
+    "id": "ESoKdqhpyDk95kXsgsDWf7G3NdSAajSDjRvSmRowpump",
+    "createdAt": "2026-06-14T01:49:03Z"
+   }
+  },
+  {
+   "id": "8N3uu2VXWQZbrDGPby7YgMxqmEF1MEDi9X2anUHfpump",
+   "name": "Tether USDT",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "unknown",
+    "token-2022"
+   ],
+   "holderCount": 3,
+   "liquidity": 3554.25002702821,
+   "mcap": 3315.89765226889,
+   "usdPrice": 3.31589765226889e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-16T05:16:02Z",
+   "firstPool": {
+    "id": "8N3uu2VXWQZbrDGPby7YgMxqmEF1MEDi9X2anUHfpump",
+    "createdAt": "2026-09-16T05:16:02Z"
+   }
+  },
+  {
+   "id": "FLpEDpGDdwW46SsbC5CkD3byvrefzoroKaLWEJxBpump",
+   "name": "Tether USD",
+   "symbol": "USDT",
+   "isVerified": null,
+   "tags": [
+    "token-2022",
+    "unknown"
+   ],
+   "holderCount": 3,
+   "liquidity": 33.17614275175208,
+   "mcap": 4009.1339658939787,
+   "usdPrice": 4.009133965893979e-06,
+   "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "freezeAuthority": null,
+   "mintAuthority": null,
+   "createdAt": "2026-09-28T04:42:10Z",
+   "firstPool": {
+    "id": "FLpEDpGDdwW46SsbC5CkD3byvrefzoroKaLWEJxBpump",
+    "createdAt": "2026-09-28T04:42:10Z"
+   }
+  }
+ ],
+ "stock_symbol_tokens": {
+  "TSLAx": [
+   {
+    "id": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+    "name": "Tesla xStock",
+    "symbol": "TSLAx",
+    "isVerified": true,
+    "tags": [
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified"
+    ],
+    "holderCount": 43787,
+    "liquidity": 1454274.1842753084,
+    "mcap": 85097692.53878915,
+    "usdPrice": 370.5763197586345,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:41:10Z",
+    "firstPool": {
+     "id": "HHQUnUbmWLrYzkscDY1C3deEFbGtiGBGoHjpANogmvum",
+     "createdAt": "2025-06-27T12:56:29Z"
+    }
+   },
+   {
+    "id": "7vZtA6rrLxN3AdcpLYHZD7AKLbw4nuiHnsxw23JGnfz1",
+    "name": "TSLAx",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3544.9190572301973,
+    "mcap": 3328.2232781920547,
+    "usdPrice": 3.3282232781920547e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-10-02T21:39:18Z",
+    "firstPool": {
+     "id": "7vZtA6rrLxN3AdcpLYHZD7AKLbw4nuiHnsxw23JGnfz1",
+     "createdAt": "2026-10-02T21:39:18Z"
+    }
+   },
+   {
+    "id": "FKesz1vcFKp12FUt6wp9VP2FUWHZNF1Wbbfr6t5kpump",
+    "name": "TESLAX",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3571.2676508844756,
+    "mcap": 3329.397031368246,
+    "usdPrice": 3.329397031368246e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-10-03T02:52:11Z",
+    "firstPool": {
+     "id": "FKesz1vcFKp12FUt6wp9VP2FUWHZNF1Wbbfr6t5kpump",
+     "createdAt": "2026-10-03T02:52:11Z"
+    }
+   },
+   {
+    "id": "E4XqSKpaFRSyNojqxQupZUWH1K1YDHKvLjy5YCvDpump",
+    "name": "xStocks Tesla",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 116,
+    "liquidity": 2886.923816038619,
+    "mcap": 3128.6195671888486,
+    "usdPrice": 3.130735891098447e-06,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-06-06T19:27:55Z",
+    "firstPool": {
+     "id": "E4XqSKpaFRSyNojqxQupZUWH1K1YDHKvLjy5YCvDpump",
+     "createdAt": "2025-06-06T19:27:55Z"
+    }
+   },
+   {
+    "id": "58V2uCDduQDPnYmteHTNEuvKQv8miUsoTtbkRMgXpump",
+    "name": "Tesla xStock",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 3427.162869358507,
+    "mcap": 4405.653286554205,
+    "usdPrice": 4.792161977161619e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-22T17:04:20Z",
+    "firstPool": {
+     "id": "58V2uCDduQDPnYmteHTNEuvKQv8miUsoTtbkRMgXpump",
+     "createdAt": "2026-09-22T17:04:20Z"
+    }
+   },
+   {
+    "id": "91t3wuew99QX6Q5nBkoG5zwkqnbD4mvyZzpb2gGvpump",
+    "name": "TSLAX",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2512.6262786283946,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-05-02T08:35:44Z",
+    "firstPool": {
+     "id": "91t3wuew99QX6Q5nBkoG5zwkqnbD4mvyZzpb2gGvpump",
+     "createdAt": "2026-05-02T08:35:44Z"
+    }
+   },
+   {
+    "id": "7js4TUCWXji3rSrmVzZRpe7yET31i4CjrCPUhetWpump",
+    "name": "Teslanomics | Hold and earn",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-04T17:07:17Z",
+    "firstPool": {
+     "id": "7js4TUCWXji3rSrmVzZRpe7yET31i4CjrCPUhetWpump",
+     "createdAt": "2025-07-04T17:07:17Z"
+    }
+   },
+   {
+    "id": "68vXTJmzKHgKjJpkrPWPtsXYm36uJi3tRLbSrQRtpump",
+    "name": "TSLAx",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 33,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-06-30T18:58:51Z",
+    "firstPool": {
+     "id": "68vXTJmzKHgKjJpkrPWPtsXYm36uJi3tRLbSrQRtpump",
+     "createdAt": "2025-06-30T18:58:51Z"
+    }
+   },
+   {
+    "id": "5hi75vkQxzUHKDfXpMQ9NSBH6EcXLD52ctBrPQQuenBa",
+    "name": "Collection NO. 01",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-19T18:28:06Z",
+    "firstPool": {
+     "id": "2wjwCvYcQrFu1cgviiuUttjmRbZjeRLuXK7UUe7Zsfxf",
+     "createdAt": "2026-08-19T18:28:06Z"
+    }
+   },
+   {
+    "id": "2TbPnUaivNSjuQccEF3mWwrJXKtWvkHSKUTvV1hQuPTW",
+    "name": "Collection NO. 01",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-19T23:38:18Z",
+    "firstPool": {
+     "id": "2Z5NWn3Lpd8gN1NXTf4BBRAKFm1ZhSMyZ2yQ61NBu8pr",
+     "createdAt": "2026-08-19T23:38:18Z"
+    }
+   },
+   {
+    "id": "4A3AVcPqf9Yft4rP9vMyv9Pi3xwP4M8fJKpYfn1R5XgC",
+    "name": "Tesla xStock",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 11,
+    "liquidity": 8.037901012841695,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": "FLoYyutt26U11GQathGRpBFops3CGeuUJLKoz4enYFuj",
+    "mintAuthority": null,
+    "createdAt": "2026-02-24T08:30:36Z",
+    "firstPool": {
+     "id": "F1ot6VQ7cmrjg34D3Bdfbhth4dNnZtEpUcTJ14rnC46J",
+     "createdAt": "2026-02-24T08:32:23Z"
+    }
+   },
+   {
+    "id": "7cGBUToWKsPPiZ2iSY3Ahc54iKLLW97GULKLUc5Kpump",
+    "name": "Tesla xStock",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 10,
+    "liquidity": 16.044665319953474,
+    "mcap": 2084.4895706584703,
+    "usdPrice": 2.0855168613820613e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-14T13:58:15Z",
+    "firstPool": {
+     "id": "7cGBUToWKsPPiZ2iSY3Ahc54iKLLW97GULKLUc5Kpump",
+     "createdAt": "2026-09-14T13:58:15Z"
+    }
+   },
+   {
+    "id": "DXepd6W3Nr5j2XFcPyz84nMaVKR3whWRDS42TpfKpBqB",
+    "name": "Tesla tokenized (xStock)",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 23,
+    "liquidity": 4.449645876183135,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:59:03Z",
+    "firstPool": {
+     "id": "9N62j8mzqM4mkVrWzEyZMsvaowDqP98DvpkK7z1aVrYC",
+     "createdAt": "2025-07-06T18:15:13Z"
+    }
+   },
+   {
+    "id": "5AdPiA7b9nwKWWvZWS67d2e5fxC8za19FAhqqEoRE9ux",
+    "name": "Tesla tokenized stock",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 15,
+    "liquidity": 3.0349864769858796,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-01-28T10:43:47Z",
+    "firstPool": {
+     "id": "Yr9264AQtpc3ZBihxe68KVxkkZm26sX6s3FS8jiRN4H",
+     "createdAt": "2026-01-28T10:44:19Z"
+    }
+   },
+   {
+    "id": "9nTQvjKEoMx2MF2etymkkkTE7DSvBaZqDQVQSjmJUkc8",
+    "name": "Tesla xStock",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": 2.7293739264633006,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-01-29T09:23:18Z",
+    "firstPool": {
+     "id": "9nTQvjKEoMx2MF2etymkkkTE7DSvBaZqDQVQSjmJUkc8",
+     "createdAt": "2026-01-29T09:23:18Z"
+    }
+   },
+   {
+    "id": "4YnnJL8RUEi6zxcqM7iDYwyS3KdjCqnNMvVQzUaSUJXi",
+    "name": "TSLAx",
+    "symbol": "TSLAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 38,
+    "liquidity": 2.0224754584038402,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-06-23T15:59:22Z",
+    "firstPool": {
+     "id": "95hwpHy4ZJCytzrJkA2HCxY9NkWnCTYcrLgq1dtAJiov",
+     "createdAt": "2026-06-23T15:59:31Z"
+    }
+   },
+   {
+    "id": "8Lz9R3c6Mhh2EAj3UfoKeiTaMDjLErKcy7kucdehJtdA",
+    "name": "Tesla tokenized stock",
+    "symbol": "TSLAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": 1.3719428461008434,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-01-28T08:40:38Z",
+    "firstPool": {
+     "id": "8Lz9R3c6Mhh2EAj3UfoKeiTaMDjLErKcy7kucdehJtdA",
+     "createdAt": "2026-01-28T08:40:38Z"
+    }
+   }
+  ],
+  "NVDAx": [
+   {
+    "id": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": true,
+    "tags": [
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified"
+    ],
+    "holderCount": 169427,
+    "liquidity": 4676723.346148765,
+    "mcap": 75462427.68685657,
+    "usdPrice": 234.49083981886128,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:39:59Z",
+    "firstPool": {
+     "id": "GH5Jo3dRwkg6bYZcC7oPPrVRFu7KexBL7ncdgqVqGtnz",
+     "createdAt": "2025-06-27T10:14:51Z"
+    }
+   },
+   {
+    "id": "JAGJJZZkMPNJqwc8B2TR9tgHNZ4pwPNq2y9QvZmKtMsj",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 6890.084080299518,
+    "mcap": 4124.031892115386,
+    "usdPrice": 4.124031892115386e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-28T22:18:53Z",
+    "firstPool": {
+     "id": "JAGJJZZkMPNJqwc8B2TR9tgHNZ4pwPNq2y9QvZmKtMsj",
+     "createdAt": "2026-09-28T22:18:53Z"
+    }
+   },
+   {
+    "id": "Ev4TyvHaACzW14dNpZYCAShVEaxoMcVJmtDgzQDopump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3543.309658852581,
+    "mcap": 3404.4386745699426,
+    "usdPrice": 3.4044386745699425e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-10-01T23:09:53Z",
+    "firstPool": {
+     "id": "Ev4TyvHaACzW14dNpZYCAShVEaxoMcVJmtDgzQDopump",
+     "createdAt": "2026-10-01T23:09:53Z"
+    }
+   },
+   {
+    "id": "Dn8CGUZr61mBJK1qqhvM7RKL6CvwXnABHrJuiDRspump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 19,
+    "liquidity": 3586.766877689619,
+    "mcap": 3343.2516751450707,
+    "usdPrice": 3.3443804025741494e-06,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-11-24T22:45:41Z",
+    "firstPool": {
+     "id": "Dn8CGUZr61mBJK1qqhvM7RKL6CvwXnABHrJuiDRspump",
+     "createdAt": "2025-11-24T22:45:41Z"
+    }
+   },
+   {
+    "id": "FyeSxEUkXBTrwRuRaDNCandrvyKtV3uaHSiLJWBBbeKA",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3397.8401398631113,
+    "mcap": 3183.761112163293,
+    "usdPrice": 3.183761112163293e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T23:02:25Z",
+    "firstPool": {
+     "id": "FyeSxEUkXBTrwRuRaDNCandrvyKtV3uaHSiLJWBBbeKA",
+     "createdAt": "2026-09-18T23:02:25Z"
+    }
+   },
+   {
+    "id": "2kwvU12Zy5YGWnN9hrdnzfokehMyCefwU9XWXHkRpump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 10,
+    "liquidity": 2902.1253526111036,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-24T21:11:13Z",
+    "firstPool": {
+     "id": "2kwvU12Zy5YGWnN9hrdnzfokehMyCefwU9XWXHkRpump",
+     "createdAt": "2026-08-24T21:11:13Z"
+    }
+   },
+   {
+    "id": "6wm9EckQSuuVzz7HipBDNG1gUpkWMhD1oUcTTW8Gpump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": 304.60054060868293,
+    "mcap": 2961.446974088412,
+    "usdPrice": 2.9618193938900628e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-29T11:31:44Z",
+    "firstPool": {
+     "id": "6wm9EckQSuuVzz7HipBDNG1gUpkWMhD1oUcTTW8Gpump",
+     "createdAt": "2026-09-29T11:31:44Z"
+    }
+   },
+   {
+    "id": "45vUvRqJCtt8F4jDSv2okAdvqhcN3KxBctJ5hGgnpump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 5,
+    "liquidity": 17.72426980948016,
+    "mcap": 2104.6521891776542,
+    "usdPrice": 2.1052472799537276e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-22T10:41:12Z",
+    "firstPool": {
+     "id": "45vUvRqJCtt8F4jDSv2okAdvqhcN3KxBctJ5hGgnpump",
+     "createdAt": "2026-09-22T10:41:12Z"
+    }
+   },
+   {
+    "id": "6Cy1nxwFWHxgrPKTysgjGKXakqynjY8tLEbGLT1DVfpj",
+    "name": "NVIDIA Employee",
+    "symbol": "NVDAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": 10.6823246148334,
+    "mcap": 4901.386156234842,
+    "usdPrice": 4.901390131513929e-06,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-31T15:40:55Z",
+    "firstPool": {
+     "id": "BjsLkaTb1357xE8xw4WNMekRs1mRjeFGWGuCRzANoYe2",
+     "createdAt": "2026-08-31T15:40:55Z"
+    }
+   },
+   {
+    "id": "57dJ9dBZHFdThhkibupySSZXy68NAzeb8eo9nKhMByWy",
+    "name": "NVIDIA XStocks",
+    "symbol": "NVDAX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3.4344967915742935e-07,
+    "mcap": 3251.3446345786547,
+    "usdPrice": 3.251344634578655e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-23T17:32:09Z",
+    "firstPool": {
+     "id": "57dJ9dBZHFdThhkibupySSZXy68NAzeb8eo9nKhMByWy",
+     "createdAt": "2026-09-23T17:32:09Z"
+    }
+   },
+   {
+    "id": "FXPfpAzC6LkJLyCH5bvSnTgCRPezCWg3dDG3wpwce76q",
+    "name": "NVIDIA Employee",
+    "symbol": "NVDAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 1.0567003558606167e-07,
+    "mcap": 1169.0288089673825,
+    "usdPrice": 1.1690288089673824e-06,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-06T22:04:12Z",
+    "firstPool": {
+     "id": "FXPfpAzC6LkJLyCH5bvSnTgCRPezCWg3dDG3wpwce76q",
+     "createdAt": "2026-09-06T22:04:12Z"
+    }
+   },
+   {
+    "id": "4TXtBFxzMyZbfvc6uco74NqQKZVebQAzegP9FqHRgD7P",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3645.9891634784944,
+    "mcap": 3733.3786013491526,
+    "usdPrice": 3.733378601349153e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-26T16:46:03Z",
+    "firstPool": {
+     "id": "4TXtBFxzMyZbfvc6uco74NqQKZVebQAzegP9FqHRgD7P",
+     "createdAt": "2026-09-26T16:46:03Z"
+    }
+   },
+   {
+    "id": "7pMq76sQ2remTTtJUP5ro1n3apnTezvDJwCcuGc4pump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 3482.6408820553784,
+    "mcap": 46.97550617555,
+    "usdPrice": 4.605465437551981e-08,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-24T14:15:41Z",
+    "firstPool": {
+     "id": "7pMq76sQ2remTTtJUP5ro1n3apnTezvDJwCcuGc4pump",
+     "createdAt": "2026-09-24T14:15:41Z"
+    }
+   },
+   {
+    "id": "E4fUEs6Nts4o37AmgwGi1bhMPSizY52J4mSq7Nwpump",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 62,
+    "liquidity": 21.25222019841019,
+    "mcap": 2019.8137253512439,
+    "usdPrice": 2.0203377839588272e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-14T05:51:45Z",
+    "firstPool": {
+     "id": "E4fUEs6Nts4o37AmgwGi1bhMPSizY52J4mSq7Nwpump",
+     "createdAt": "2026-09-14T05:51:45Z"
+    }
+   },
+   {
+    "id": "A8J2NUsEKnJ6yAqbacFXdcFUC91DBemar8VyrQkRH3NJ",
+    "name": "NVIDIA xStock",
+    "symbol": "NVDAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": 24.50180041876077,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-07-17T14:41:15Z",
+    "firstPool": {
+     "id": "3HQbt5uCuCGEVKTmM8THwV8BobnSKb4fucWKrHMd23tT",
+     "createdAt": "2026-07-17T14:42:35Z"
+    }
+   }
+  ],
+  "AAPLx": [
+   {
+    "id": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": true,
+    "tags": [
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities"
+    ],
+    "holderCount": 36636,
+    "liquidity": 546788.2666447139,
+    "mcap": 51452714.35245802,
+    "usdPrice": 333.5343461606177,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-10T11:06:56Z",
+    "firstPool": {
+     "id": "CKwJZwm7oj3nu4653N1EpDrqXbXAYXoPFiPeEnLouF8y",
+     "createdAt": "2025-06-27T14:21:12Z"
+    }
+   },
+   {
+    "id": "QdxeV82MWs4ddvymLhGFyWTJSBXBjje6YFnQbrXHTmJ",
+    "name": "Applex",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 20,
+    "liquidity": 46.428295053485144,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-13T16:25:38Z",
+    "firstPool": {
+     "id": "57ixtwFKh11h3x1oVemEnudaaZcRwkEhLiVuakEatXoJ",
+     "createdAt": "2026-09-13T16:26:36Z"
+    }
+   },
+   {
+    "id": "GQfQ2avnmJBMttz2D5nyDkQAY9rWLHGvDVq8BMRpxWh4",
+    "name": "Apple tokenized  (xStock)",
+    "symbol": "AAPLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 3.4618957780432345,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:58:34Z",
+    "firstPool": {
+     "id": "F88VS931dMmFurgd1f7A6oF4ethPKvjZP7iep8dNxNVu",
+     "createdAt": "2025-07-06T18:14:44Z"
+    }
+   },
+   {
+    "id": "iPqR93oq66rLeuBrn9xcdQ7dr4kGj4tPV1LHBeARYsB",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 5,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-14T00:06:18Z",
+    "firstPool": {
+     "id": "FJ1TGYLmmFCpxjBNwAyC9NXrRdVsyVo5ryjwNi7PnHQN",
+     "createdAt": "2025-09-14T00:08:01Z"
+    }
+   },
+   {
+    "id": "GrG5fzdaUgUxxQNbvicZyFVstg8wLZkgGjpmRQKt2X3f",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-17T19:15:38Z",
+    "firstPool": {
+     "id": "GrG5fzdaUgUxxQNbvicZyFVstg8wLZkgGjpmRQKt2X3f",
+     "createdAt": "2025-09-17T19:15:38Z"
+    }
+   },
+   {
+    "id": "Bi2uGy9cNd8TcynnKPpXYUgxDsu34nPLPmRnEBYJpump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 13,
+    "liquidity": 0.0024109460919620363,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T12:18:15Z",
+    "firstPool": {
+     "id": "Bi2uGy9cNd8TcynnKPpXYUgxDsu34nPLPmRnEBYJpump",
+     "createdAt": "2026-09-21T12:18:15Z"
+    }
+   },
+   {
+    "id": "4WEJNQkPLKDZEJUoH4paG1T2EhDKYXh1QFqCrVnj1AzV",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 56,
+    "liquidity": 0.0007609127854991028,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-14T17:35:44Z",
+    "firstPool": {
+     "id": "FUD9CQ3zPTuR773z3TuYPwx62yY6xUTrENg3cSnVvFKM",
+     "createdAt": "2026-09-14T17:37:24Z"
+    }
+   },
+   {
+    "id": "96Y7qeuTUXdcFEZpmq46y3cKm35Mq7XDjYj1gmoCpump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 15,
+    "liquidity": 0.0007336101928108987,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T12:08:32Z",
+    "firstPool": {
+     "id": "96Y7qeuTUXdcFEZpmq46y3cKm35Mq7XDjYj1gmoCpump",
+     "createdAt": "2026-09-21T12:08:32Z"
+    }
+   },
+   {
+    "id": "3dfPbp6RxxDh8Cd3TvNxJmMc4wfZsV61XZZPritYpump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 14,
+    "liquidity": 0.0005819339168082367,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T09:43:58Z",
+    "firstPool": {
+     "id": "BcqpF2aFmAVHGFBPxcc16pgYHiaAAtiJYxFThDdbSDiu",
+     "createdAt": "2026-09-21T09:43:58Z"
+    }
+   },
+   {
+    "id": "47BDZCfDmaTCz6ftCfJ8WCkyvAZbmPkMu7oM2yhVpump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 12,
+    "liquidity": 6.599383552929639e-05,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T11:54:38Z",
+    "firstPool": {
+     "id": "47BDZCfDmaTCz6ftCfJ8WCkyvAZbmPkMu7oM2yhVpump",
+     "createdAt": "2026-09-21T11:54:38Z"
+    }
+   },
+   {
+    "id": "PCRLVbcyvQStrdHiTkSr7pzTntPA3cRT9nc28z6pump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 14,
+    "liquidity": 2.89169111597078e-05,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T12:19:42Z",
+    "firstPool": {
+     "id": "PCRLVbcyvQStrdHiTkSr7pzTntPA3cRT9nc28z6pump",
+     "createdAt": "2026-09-21T12:19:42Z"
+    }
+   },
+   {
+    "id": "DA3fFZf9Rvg4D5oJUnoyyZDEjKk4W9AY1vtpyWsudWKc",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 5,
+    "liquidity": 1.4997085685339768e-05,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "8kWoNrvoz43sQq85B9jxr7jbLi9sPH6WbWp48HGST9ub",
+    "mintAuthority": "8kWoNrvoz43sQq85B9jxr7jbLi9sPH6WbWp48HGST9ub",
+    "createdAt": "2026-09-12T08:54:42Z",
+    "firstPool": {
+     "id": "5dvafxAE6fWR8dai6dbbnrTJsHXTvN3zVjA7r4hm581C",
+     "createdAt": "2026-09-12T13:40:27Z"
+    }
+   },
+   {
+    "id": "CcrExUj44HwxgTcCD3LHX4cRizu5ajbQ8ijQuj5jpump",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 13,
+    "liquidity": 0.0007223081104960519,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T12:11:48Z",
+    "firstPool": {
+     "id": "CkNmQcrdVf3vMAwUjhaJ4kfSxRp5ytMU1mxd2kEEijCg",
+     "createdAt": "2026-09-21T12:11:48Z"
+    }
+   },
+   {
+    "id": "BWJcA3FAvBYPdtr4BrkQwiVzkTMkdAr88GNKVvPmbonk",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 15,
+    "liquidity": 3.5640325860825796e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-30T14:34:57Z",
+    "firstPool": {
+     "id": "BWJcA3FAvBYPdtr4BrkQwiVzkTMkdAr88GNKVvPmbonk",
+     "createdAt": "2026-09-30T14:34:57Z"
+    }
+   },
+   {
+    "id": "3zuTtX5u4CksPhCFFM4w6JaaCWq95UB1FySaomZU7777",
+    "name": "Apple xStock",
+    "symbol": "AAPLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 12,
+    "liquidity": 3.5162192631218137e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-25T04:36:26Z",
+    "firstPool": {
+     "id": "3zuTtX5u4CksPhCFFM4w6JaaCWq95UB1FySaomZU7777",
+     "createdAt": "2026-09-25T04:36:26Z"
+    }
+   }
+  ],
+  "SPYx": [
+   {
+    "id": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+    "name": "SP500 xStock",
+    "symbol": "SPYx",
+    "isVerified": true,
+    "tags": [
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa"
+    ],
+    "holderCount": 78417,
+    "liquidity": 5283940.986096492,
+    "mcap": 73800223.46254697,
+    "usdPrice": 770.5576049923117,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:41:51Z",
+    "firstPool": {
+     "id": "7sHMnvE7WqP7vQFWJGEnMT4vZg6Za9K7PpddDoXJCqME",
+     "createdAt": "2025-06-27T12:59:37Z"
+    }
+   },
+   {
+    "id": "8mpjUN6YZAZqp6TuqVztQA5r6JGVXTYxSkHP2gu5XwC",
+    "name": "SP500 xStock",
+    "symbol": "SPYX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3337.978433929827,
+    "mcap": 3112.798870419032,
+    "usdPrice": 3.112798870419032e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T04:10:54Z",
+    "firstPool": {
+     "id": "8mpjUN6YZAZqp6TuqVztQA5r6JGVXTYxSkHP2gu5XwC",
+     "createdAt": "2026-09-21T04:10:54Z"
+    }
+   },
+   {
+    "id": "2EYDEXsHXtQe5pXiNXvthFZgZYthEfTi3QLAxstKBzmp",
+    "name": "The Spy",
+    "symbol": "SPYx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3151.7842307820206,
+    "mcap": 2945.7786576139774,
+    "usdPrice": 2.9457786576139776e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-07T06:29:57Z",
+    "firstPool": {
+     "id": "2EYDEXsHXtQe5pXiNXvthFZgZYthEfTi3QLAxstKBzmp",
+     "createdAt": "2026-09-07T06:29:57Z"
+    }
+   },
+   {
+    "id": "DCfNnUWdjV33indWepahHwtwzwky1E9FANHH2P3MnP7a",
+    "name": "SPYX",
+    "symbol": "SPYX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2472.9086174832155,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-18T07:27:09Z",
+    "firstPool": {
+     "id": "DCfNnUWdjV33indWepahHwtwzwky1E9FANHH2P3MnP7a",
+     "createdAt": "2026-08-18T07:27:09Z"
+    }
+   },
+   {
+    "id": "DPz2zyktGxdrEFRbueAs41aSrJgqkhgnvi2sjEMSzqoE",
+    "name": "SPY X SPY",
+    "symbol": "SPYX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 13,
+    "liquidity": 104.64912574232162,
+    "mcap": 3071.595730135077,
+    "usdPrice": 3.0716511201757647e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-14T21:31:12Z",
+    "firstPool": {
+     "id": "DPz2zyktGxdrEFRbueAs41aSrJgqkhgnvi2sjEMSzqoE",
+     "createdAt": "2026-09-14T21:31:12Z"
+    }
+   },
+   {
+    "id": "AxjXb2cU5aLJsFvBa2pCz7v9mG61j4kHVmvyNysHoZaV",
+    "name": "SPYxFamily",
+    "symbol": "SPYX",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": 8.208536937954648,
+    "mcap": 3596.333116733995,
+    "usdPrice": 3.596333116733995e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-20T15:49:33Z",
+    "firstPool": {
+     "id": "AxjXb2cU5aLJsFvBa2pCz7v9mG61j4kHVmvyNysHoZaV",
+     "createdAt": "2026-09-20T15:49:33Z"
+    }
+   },
+   {
+    "id": "Ege1uhEr3vD7b2j3hBSfUry2JmJHvgMayQfPiBcApump",
+    "name": "SpyX AI ",
+    "symbol": "spyx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-01-07T00:37:48Z",
+    "firstPool": {
+     "id": "Ege1uhEr3vD7b2j3hBSfUry2JmJHvgMayQfPiBcApump",
+     "createdAt": "2025-01-07T00:37:48Z"
+    }
+   },
+   {
+    "id": "CnovPZuT5iQTs2UuASorZ92ssmz2yYvsAHB2A7Ntpump",
+    "name": "SP500 xStock",
+    "symbol": "SPYx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-23T02:25:28Z",
+    "firstPool": {
+     "id": "CnovPZuT5iQTs2UuASorZ92ssmz2yYvsAHB2A7Ntpump",
+     "createdAt": "2026-09-23T02:25:28Z"
+    }
+   }
+  ],
+  "MSTRx": [
+   {
+    "id": "XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": true,
+    "tags": [
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified",
+     "token-2022"
+    ],
+    "holderCount": 13646,
+    "liquidity": 1196846.4125952006,
+    "mcap": 78904055.33608647,
+    "usdPrice": 162.24864029593334,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:39:42Z",
+    "firstPool": {
+     "id": "RyhF4cksVZY7vcqJpoytHcxcGNKRp27PEGhSnEPpbGv",
+     "createdAt": "2025-06-27T12:57:40Z"
+    }
+   },
+   {
+    "id": "3fxPs6h1wCfPhphnQroXR7dcr9oprcL7hQmvpDEZgLKk",
+    "name": "MicroStrategy tokenized (xStock)",
+    "symbol": "MSTRX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 20,
+    "liquidity": 2.7678635730771837,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:58:48Z",
+    "firstPool": {
+     "id": "CKbEnVcaNiscUX7q4bHXAkP4cRzeUQR3wNuPzAMEhmeJ",
+     "createdAt": "2025-07-06T18:12:46Z"
+    }
+   },
+   {
+    "id": "8WZXfXUGRjg9RCmpJwnECyn2viqrFjHUJeyFwk1Yoyo8",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 6,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": "945nJiywmRSPntTX6UvgxeyEMPhZaz6xAApJT7e4WhvS",
+    "mintAuthority": "945nJiywmRSPntTX6UvgxeyEMPhZaz6xAApJT7e4WhvS",
+    "createdAt": "2025-08-15T22:19:37Z",
+    "firstPool": {
+     "id": "DVqq7MLX4inmUbhGy21aT46pFyvyq8zZSRp7BqZtnD9G",
+     "createdAt": "2025-08-15T22:21:00Z"
+    }
+   },
+   {
+    "id": "4Zmy26CE5u38zSu2zZas8eo5WVn6XDPKrHy1pH9nTREV",
+    "name": "Strategy",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 10,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-02T00:28:24Z",
+    "firstPool": {
+     "id": "AnfNQRXJP761V9gQt8RAmbVRXvChAg5YGVKRwtuCL6mH",
+     "createdAt": "2025-07-02T00:29:21Z"
+    }
+   },
+   {
+    "id": "6Q1wRi3kyjuuJgqjVCAoaaK19LtRPbqvxxDeS4mLa6A9",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": 0.7460657240335244,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-11T20:46:05Z",
+    "firstPool": {
+     "id": "6Q1wRi3kyjuuJgqjVCAoaaK19LtRPbqvxxDeS4mLa6A9",
+     "createdAt": "2026-09-11T20:46:05Z"
+    }
+   },
+   {
+    "id": "3UGxfb9Pwmpbd9EaLo5XQwV1z1sdfX3bcmJdUcqs3bCz",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 22,
+    "liquidity": 7.41759037671418e-05,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-11T17:33:23Z",
+    "firstPool": {
+     "id": "3UGxfb9Pwmpbd9EaLo5XQwV1z1sdfX3bcmJdUcqs3bCz",
+     "createdAt": "2026-09-11T17:33:23Z"
+    }
+   },
+   {
+    "id": "H1iYGBXd9na2zmoxJircJJdRLJ9DHzkE6BCxdEM1xHyW",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 0.005182621022914107,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-11T17:27:44Z",
+    "firstPool": {
+     "id": "H1iYGBXd9na2zmoxJircJJdRLJ9DHzkE6BCxdEM1xHyW",
+     "createdAt": "2026-09-11T17:27:44Z"
+    }
+   },
+   {
+    "id": "D1v1d2rsyL8os49nqJrWztuGBuDA9mXp4eVPYeeC5sWE",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 23,
+    "liquidity": 0.004846776106818467,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-11T20:34:25Z",
+    "firstPool": {
+     "id": "D1v1d2rsyL8os49nqJrWztuGBuDA9mXp4eVPYeeC5sWE",
+     "createdAt": "2026-09-11T20:34:25Z"
+    }
+   },
+   {
+    "id": "AocNmMLfs64GAncLAV5GGdheRgA4pbgUYP2xCoBBr3Xg",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 6,
+    "liquidity": 3.504930623667628e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-22T14:14:31Z",
+    "firstPool": {
+     "id": "4PbpxRRmtD4tFELWUa9Fckq27wr4sjW7mnWQDamjtTLj",
+     "createdAt": "2026-09-22T14:14:35Z"
+    }
+   },
+   {
+    "id": "4jNMnwBoSPJs74axzyH2i7pxh38TGbPyaBRmhFFELWbn",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 27,
+    "liquidity": 3.393426092329713e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-24T11:39:10Z",
+    "firstPool": {
+     "id": "4jNMnwBoSPJs74axzyH2i7pxh38TGbPyaBRmhFFELWbn",
+     "createdAt": "2026-09-24T11:39:10Z"
+    }
+   },
+   {
+    "id": "EGt6zJreZiWbD9qE7HsDv1vbnLdi7YM2htVNZZHKJ9UL",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 25,
+    "liquidity": 3.005385269105319e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-15T14:00:12Z",
+    "firstPool": {
+     "id": "EGt6zJreZiWbD9qE7HsDv1vbnLdi7YM2htVNZZHKJ9UL",
+     "createdAt": "2026-09-15T14:00:12Z"
+    }
+   },
+   {
+    "id": "5QSLdgmMbsG1E4tcBEiHG5PGti6w2mn9RSi6squiWHze",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 23,
+    "liquidity": 2.983359847686386e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-11T11:46:23Z",
+    "firstPool": {
+     "id": "5QSLdgmMbsG1E4tcBEiHG5PGti6w2mn9RSi6squiWHze",
+     "createdAt": "2026-09-11T11:46:23Z"
+    }
+   },
+   {
+    "id": "EBnifwr1JceWZ4wagnebMK4TMWy7S5311kmctAVYZ8zB",
+    "name": "MicroStrategy xStock",
+    "symbol": "MSTRx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 23,
+    "liquidity": 2.9910007898855086e-07,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-13T13:03:03Z",
+    "firstPool": {
+     "id": "EBnifwr1JceWZ4wagnebMK4TMWy7S5311kmctAVYZ8zB",
+     "createdAt": "2026-09-13T13:03:03Z"
+    }
+   }
+  ],
+  "COINx": [
+   {
+    "id": "Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu",
+    "name": "Coinbase xStock",
+    "symbol": "COINx",
+    "isVerified": true,
+    "tags": [
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks"
+    ],
+    "holderCount": 9753,
+    "liquidity": 777310.8902734414,
+    "mcap": 25064406.807490837,
+    "usdPrice": 184.05655451202415,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:33:51Z",
+    "firstPool": {
+     "id": "5EJLg2eGaE37RvF1yBawypaqx6jy5v7ZRSavhV8VTyeJ",
+     "createdAt": "2025-06-29T14:36:25Z"
+    }
+   },
+   {
+    "id": "De11vsfeySCxVavqZXYHQFNTcDctDGQtgLXHD2DDqKew",
+    "name": "COINx",
+    "symbol": "COINx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 6121.008768203227,
+    "mcap": 4571.902790577667,
+    "usdPrice": 4.571902790577667e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T22:05:11Z",
+    "firstPool": {
+     "id": "De11vsfeySCxVavqZXYHQFNTcDctDGQtgLXHD2DDqKew",
+     "createdAt": "2026-09-21T22:05:11Z"
+    }
+   },
+   {
+    "id": "HsVGSMEUcDvvfrKdB8fGM7zfjAr1jZpo1WWGGMNXpump",
+    "name": "CoinX",
+    "symbol": "CoinX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 3511.7477845443677,
+    "mcap": 3273.8181347946215,
+    "usdPrice": 3.273818442588775e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-10T02:19:59Z",
+    "firstPool": {
+     "id": "HsVGSMEUcDvvfrKdB8fGM7zfjAr1jZpo1WWGGMNXpump",
+     "createdAt": "2026-08-10T02:19:59Z"
+    }
+   },
+   {
+    "id": "4Zsu8Ngz84UABVQwJAgZqe5nQGGYmDR9yV5zH9phpump",
+    "name": "CoinX",
+    "symbol": "CoinX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2280.970320080397,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-14T18:05:06Z",
+    "firstPool": {
+     "id": "4Zsu8Ngz84UABVQwJAgZqe5nQGGYmDR9yV5zH9phpump",
+     "createdAt": "2026-08-14T18:05:06Z"
+    }
+   },
+   {
+    "id": "8xHpxYZ5TCATA4pV39iKbNnb2Ngz2LeGoXgs19FHpump",
+    "name": "MILEI FIRST COIN",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 16,
+    "liquidity": 1474.397464256085,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-02-17T20:00:01Z",
+    "firstPool": {
+     "id": "8xHpxYZ5TCATA4pV39iKbNnb2Ngz2LeGoXgs19FHpump",
+     "createdAt": "2025-02-17T20:00:01Z"
+    }
+   },
+   {
+    "id": "21mu4VDakiTWwSMRfWHs8xSdSSnYY76CbcWqWyJZWjip",
+    "name": "COINx",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 20.206912189588454,
+    "mcap": 3222.5933391623253,
+    "usdPrice": 3.2225933391623253e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:27:34Z",
+    "firstPool": {
+     "id": "21mu4VDakiTWwSMRfWHs8xSdSSnYY76CbcWqWyJZWjip",
+     "createdAt": "2026-09-18T20:27:34Z"
+    }
+   },
+   {
+    "id": "2jKadhyZnzG27uEyFb8G3AKKTtWr1kMFedKWjSsfe982",
+    "name": "COINx",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 18.36260451693216,
+    "mcap": 3245.201329292331,
+    "usdPrice": 3.2452013292923313e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:27:24Z",
+    "firstPool": {
+     "id": "2jKadhyZnzG27uEyFb8G3AKKTtWr1kMFedKWjSsfe982",
+     "createdAt": "2026-09-18T20:27:24Z"
+    }
+   },
+   {
+    "id": "AiAFy63ewb47vjvVCd38EsLhLhnrrahdxzCMScHvT4cv",
+    "name": "COINx",
+    "symbol": "COINx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 18.347984442372947,
+    "mcap": 3370.2329984142066,
+    "usdPrice": 3.3702329984142067e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:27:36Z",
+    "firstPool": {
+     "id": "AiAFy63ewb47vjvVCd38EsLhLhnrrahdxzCMScHvT4cv",
+     "createdAt": "2026-09-18T20:27:36Z"
+    }
+   },
+   {
+    "id": "D9qLCgybhxeva3Gk5ydx5a3LvTpxJWCiwLc4FgaHPkwQ",
+    "name": "COINX",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 18.03174261388545,
+    "mcap": 3587.4884981440878,
+    "usdPrice": 3.587488498144088e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T05:17:40Z",
+    "firstPool": {
+     "id": "D9qLCgybhxeva3Gk5ydx5a3LvTpxJWCiwLc4FgaHPkwQ",
+     "createdAt": "2026-09-18T05:17:40Z"
+    }
+   },
+   {
+    "id": "AGcmQoGLDuUJQYKwUchzzvQXMdsuxPM22tSNxKVy32rp",
+    "name": "COINx",
+    "symbol": "COINx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 17.578041786813554,
+    "mcap": 3438.0519366738254,
+    "usdPrice": 3.438051936673825e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T22:04:09Z",
+    "firstPool": {
+     "id": "AGcmQoGLDuUJQYKwUchzzvQXMdsuxPM22tSNxKVy32rp",
+     "createdAt": "2026-09-21T22:04:09Z"
+    }
+   },
+   {
+    "id": "AYU6L7nKQXjYGhZ7xpnY2XeFUDyBym3Ewpk3X2qpLonG",
+    "name": "COINx",
+    "symbol": "COINx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 16.517201580944665,
+    "mcap": 3501.5493331859066,
+    "usdPrice": 3.5015493331859068e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T22:09:23Z",
+    "firstPool": {
+     "id": "AYU6L7nKQXjYGhZ7xpnY2XeFUDyBym3Ewpk3X2qpLonG",
+     "createdAt": "2026-09-21T22:09:23Z"
+    }
+   },
+   {
+    "id": "93oS1hU7AV3Gw6Nmgxr4ghZEqGTGuDLUtq4r9BWJj73F",
+    "name": "CoinX",
+    "symbol": "CoinX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 6,
+    "liquidity": 16.26977458930439,
+    "mcap": 3357.0198738933946,
+    "usdPrice": 3.3570198738933946e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T22:03:11Z",
+    "firstPool": {
+     "id": "93oS1hU7AV3Gw6Nmgxr4ghZEqGTGuDLUtq4r9BWJj73F",
+     "createdAt": "2026-09-21T22:03:11Z"
+    }
+   },
+   {
+    "id": "9C8twBU5f8ECL1auL7M8jQaT8ixZGKYweL5Rtq7QHgjq",
+    "name": "COINx",
+    "symbol": "COINx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 14.8471773991429,
+    "mcap": 3233.4363726521738,
+    "usdPrice": 3.233436372652174e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:28:11Z",
+    "firstPool": {
+     "id": "9C8twBU5f8ECL1auL7M8jQaT8ixZGKYweL5Rtq7QHgjq",
+     "createdAt": "2026-09-18T20:28:11Z"
+    }
+   },
+   {
+    "id": "D99kydJABUdxVppFkJ6tBj26eNHaMj9pB98mKwD46xvz",
+    "name": "COINx",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 14.264996529857648,
+    "mcap": 3280.0963049624984,
+    "usdPrice": 3.2800963049624982e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:27:27Z",
+    "firstPool": {
+     "id": "D99kydJABUdxVppFkJ6tBj26eNHaMj9pB98mKwD46xvz",
+     "createdAt": "2026-09-18T20:27:27Z"
+    }
+   },
+   {
+    "id": "3NH1QWv45dfXo8aEgwo1ckV55kq5u9qwPPKcbAfiaWjT",
+    "name": "COINx",
+    "symbol": "COINX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 12.620520437107968,
+    "mcap": 3035.004153483226,
+    "usdPrice": 3.0350041534832262e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-18T20:27:30Z",
+    "firstPool": {
+     "id": "3NH1QWv45dfXo8aEgwo1ckV55kq5u9qwPPKcbAfiaWjT",
+     "createdAt": "2026-09-18T20:27:30Z"
+    }
+   }
+  ],
+  "GOOGLx": [
+   {
+    "id": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": true,
+    "tags": [
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks"
+    ],
+    "holderCount": 47454,
+    "liquidity": 622192.9442213252,
+    "mcap": 55217417.73888652,
+    "usdPrice": 343.41978859649214,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:36:43Z",
+    "firstPool": {
+     "id": "82DgdDncUX9hWjJNRG9rNAZEEq9m11Ep5RFxxXK6rME",
+     "createdAt": "2025-06-29T14:34:29Z"
+    }
+   },
+   {
+    "id": "GX5716aXbLdxWK5Lngx9Pga1bj7BiMYqwVus2tubpump",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2087.1914339395685,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-06-04T15:53:19Z",
+    "firstPool": {
+     "id": "GX5716aXbLdxWK5Lngx9Pga1bj7BiMYqwVus2tubpump",
+     "createdAt": "2026-06-04T15:53:19Z"
+    }
+   },
+   {
+    "id": "HHUTRqxLPtVPcnU4gAXyLAXWQZW5S69AC5voSGsQpump",
+    "name": "GOOGLEx(Pumpstock)",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 11,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-06-02T10:35:05Z",
+    "firstPool": {
+     "id": "HHUTRqxLPtVPcnU4gAXyLAXWQZW5S69AC5voSGsQpump",
+     "createdAt": "2026-06-02T10:35:05Z"
+    }
+   },
+   {
+    "id": "73yoN9nv94vsR5C7kP8nCTCzgBP7HDNKLbzw6tNpGU97",
+    "name": "Google Employee",
+    "symbol": "GOOGLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": 0.5695834436041647,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-30T19:26:49Z",
+    "firstPool": {
+     "id": "69FWsMzFLB92d5dfj3ETDpjUNUK9jWd6m4EPrUtruhkx",
+     "createdAt": "2026-08-30T19:26:49Z"
+    }
+   },
+   {
+    "id": "5Pu2mSEid4b9e8P5huXq716uuknKZooCqDeyMPtEZPBc",
+    "name": "Collection NO. 01",
+    "symbol": "GOOGLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-19T18:22:33Z",
+    "firstPool": {
+     "id": "GqjwkevkLHZ2jjUo2bbPSmwocGkkShA9yFkW71UwnWrK",
+     "createdAt": "2026-08-19T18:22:33Z"
+    }
+   },
+   {
+    "id": "B32W9U5rXuxwJ9vsGYjfjY4L58crcW1WuRVf2jL3rtrB",
+    "name": "Alphabet xStoc",
+    "symbol": "GOOGLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 3.0480471469000524e-07,
+    "mcap": 2919.861613490375,
+    "usdPrice": 2.919861613490375e-06,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-12T22:45:31Z",
+    "firstPool": {
+     "id": "B32W9U5rXuxwJ9vsGYjfjY4L58crcW1WuRVf2jL3rtrB",
+     "createdAt": "2026-09-12T22:45:31Z"
+    }
+   },
+   {
+    "id": "9fwQhotnrpVcR2FjFopaExcRotTPiDMfvx9kDEempump",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3038.3123938526996,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-25T04:16:57Z",
+    "firstPool": {
+     "id": "9fwQhotnrpVcR2FjFopaExcRotTPiDMfvx9kDEempump",
+     "createdAt": "2026-08-25T04:16:57Z"
+    }
+   },
+   {
+    "id": "Bh8Srxp5f9247cSfpcBrJ4K1GDntgMyc9LoJ7XLtpump",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2087.1914315046697,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-06-04T15:52:56Z",
+    "firstPool": {
+     "id": "Bh8Srxp5f9247cSfpcBrJ4K1GDntgMyc9LoJ7XLtpump",
+     "createdAt": "2026-06-04T15:52:56Z"
+    }
+   },
+   {
+    "id": "5rXwsrhyhRfdbxktcdcLzUuVryJsywwBYNjbEHUFMXck",
+    "name": "Alphabet tokenized  (xStock)",
+    "symbol": "GOOGLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 4.702643818991701,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:57:36Z",
+    "firstPool": {
+     "id": "Ge2zonAYGYvogvhoDgDrUY5DqvtdB15q4BMqeT5vDNEe",
+     "createdAt": "2025-07-06T18:06:02Z"
+    }
+   },
+   {
+    "id": "Ho3b8Vm99eassykG5AxoetRiBewKfhAPqiaNLHMu58VW",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "launchpad"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-16T23:55:41Z",
+    "firstPool": {
+     "id": "Ho3b8Vm99eassykG5AxoetRiBewKfhAPqiaNLHMu58VW",
+     "createdAt": "2025-09-16T23:55:41Z"
+    }
+   },
+   {
+    "id": "H8SMJoD7MeLsPMBabJcAxT6FLNi6D2qZXNYNvoBK6r9m",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 6,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-08-26T17:28:43Z",
+    "firstPool": {
+     "id": "21TassDCyzbEM1yC5FXkjWacxa9bNc6DkujCXLF2sJLZ",
+     "createdAt": "2025-08-26T17:30:12Z"
+    }
+   },
+   {
+    "id": "7SGRkPtb69d5roiFGnBEmJ3GbHjUokWNh2T6GLjkFgEw",
+    "name": "Alphabet tokenized  (xStock)",
+    "symbol": "GOOGLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-12-03T08:38:41Z",
+    "firstPool": {
+     "id": "7SGRkPtb69d5roiFGnBEmJ3GbHjUokWNh2T6GLjkFgEw",
+     "createdAt": "2025-12-03T08:38:41Z"
+    }
+   },
+   {
+    "id": "73xphYVQhQuhUW12LuwA8uMaeK8uaVDaL4Dru7VQhBFb",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-11-29T17:47:04Z",
+    "firstPool": {
+     "id": "73xphYVQhQuhUW12LuwA8uMaeK8uaVDaL4Dru7VQhBFb",
+     "createdAt": "2025-11-29T17:47:04Z"
+    }
+   },
+   {
+    "id": "6pTAQyphjFRd4XnM38kooG1dwmpojhrzmHpQZr5CLYvf",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 5,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-11-15T17:46:49Z",
+    "firstPool": {
+     "id": "6pTAQyphjFRd4XnM38kooG1dwmpojhrzmHpQZr5CLYvf",
+     "createdAt": "2025-11-15T17:46:49Z"
+    }
+   },
+   {
+    "id": "7dWTvgY7DzVQQXHyoevVYsvqirdK924bjkWmCsrGbpz3",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 5,
+    "liquidity": 0.3118543299287302,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-16T12:09:18Z",
+    "firstPool": {
+     "id": "7dWTvgY7DzVQQXHyoevVYsvqirdK924bjkWmCsrGbpz3",
+     "createdAt": "2026-09-16T12:09:18Z"
+    }
+   },
+   {
+    "id": "qZDE43LvHCUzTKa4EP1Gy4KZD12X8vpGM2QvyFFjBGQ",
+    "name": "Alphabet xStock",
+    "symbol": "GOOGLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 83,
+    "liquidity": 0.03303846170771543,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-14T17:28:48Z",
+    "firstPool": {
+     "id": "F3dTXHR5uxKuh4qsEMJG3gnhQ3JQUUTHmkn2Aa6k7sFA",
+     "createdAt": "2026-09-14T17:30:34Z"
+    }
+   }
+  ],
+  "METAx": [
+   {
+    "id": "Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": true,
+    "tags": [
+     "stocks",
+     "rwa",
+     "equities",
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks"
+    ],
+    "holderCount": 39920,
+    "liquidity": 772978.1960620952,
+    "mcap": 52877181.520049416,
+    "usdPrice": 728.5036336017677,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:38:40Z",
+    "firstPool": {
+     "id": "DCvt3iPeUsDE4u6kMT5qJmeZXAyJvKmAC1zQM2wA26EL",
+     "createdAt": "2025-06-29T14:42:21Z"
+    }
+   },
+   {
+    "id": "GzAKaEuL5faN4QVs1CHWerSCyw3pCQbbMbFS3enYixPY",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 4285.1836023781225,
+    "mcap": 4100.83198499537,
+    "usdPrice": 4.100831984995369e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-30T21:28:12Z",
+    "firstPool": {
+     "id": "GzAKaEuL5faN4QVs1CHWerSCyw3pCQbbMbFS3enYixPY",
+     "createdAt": "2026-09-30T21:28:12Z"
+    }
+   },
+   {
+    "id": "CbrSxzp4Xpuu1iJ3TkYxvU6ugQPKjwm38KxY6sJMpump",
+    "name": "Meta tokenized stock (xStock)",
+    "symbol": "METAX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 8,
+    "liquidity": 4424.183997624354,
+    "mcap": 5009.798119676522,
+    "usdPrice": 5.009798119676522e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-28T19:32:31Z",
+    "firstPool": {
+     "id": "CbrSxzp4Xpuu1iJ3TkYxvU6ugQPKjwm38KxY6sJMpump",
+     "createdAt": "2026-09-28T19:32:31Z"
+    }
+   },
+   {
+    "id": "AoqmYTcSL3mASFkgw9YBkP25ePeqpdTLxpy8cMgrzeAy",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2938.2895815537904,
+    "mcap": 2774.3288584875995,
+    "usdPrice": 2.774337106357926e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-16T23:03:32Z",
+    "firstPool": {
+     "id": "AoqmYTcSL3mASFkgw9YBkP25ePeqpdTLxpy8cMgrzeAy",
+     "createdAt": "2026-09-16T23:03:32Z"
+    }
+   },
+   {
+    "id": "5xirYeAauAc8AEGQfyM5JMHb7HQvg6NCwR6k1kTvpump",
+    "name": "xStocks META",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": 2568.5832278774797,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-06-06T20:17:26Z",
+    "firstPool": {
+     "id": "5xirYeAauAc8AEGQfyM5JMHb7HQvg6NCwR6k1kTvpump",
+     "createdAt": "2025-06-06T20:17:26Z"
+    }
+   },
+   {
+    "id": "BUSyrUa8kud7Sf41qQNFfVqRwojGQErZA9MqQgxUpump",
+    "name": "MetaX",
+    "symbol": "METAX",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": 2558.3590941466796,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-04-27T13:40:57Z",
+    "firstPool": {
+     "id": "BUSyrUa8kud7Sf41qQNFfVqRwojGQErZA9MqQgxUpump",
+     "createdAt": "2026-04-27T13:40:57Z"
+    }
+   },
+   {
+    "id": "6CtCbThY3a6u1L9bhrvGgx7SqJYSPQG1CNDHCe1Wpump",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 3,
+    "liquidity": 5.2741886960928674,
+    "mcap": 5.900254906727456,
+    "usdPrice": 4.9119689801304075e-09,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-30T21:56:02Z",
+    "firstPool": {
+     "id": "6CtCbThY3a6u1L9bhrvGgx7SqJYSPQG1CNDHCe1Wpump",
+     "createdAt": "2026-09-30T21:56:02Z"
+    }
+   },
+   {
+    "id": "BXqrsMtCKzsrmWoAL14HfzjmEJ4t2yfHW168W7Uwpump",
+    "name": "METAX",
+    "symbol": "METAX",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2024-10-01T03:27:55Z",
+    "firstPool": {
+     "id": "BXqrsMtCKzsrmWoAL14HfzjmEJ4t2yfHW168W7Uwpump",
+     "createdAt": "2024-10-01T03:27:55Z"
+    }
+   },
+   {
+    "id": "7Wgv1fEZixmndcxKTF4sHs16JSL2TTd5fWQSMLTPaNgn",
+    "name": "Meta tokenized (xStock)",
+    "symbol": "METAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 2.814134055032218,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:58:44Z",
+    "firstPool": {
+     "id": "H3xoU4riiuew2JpHxEmArs7zJthLWHkueijGkbt8ggCn",
+     "createdAt": "2025-07-06T18:11:36Z"
+    }
+   },
+   {
+    "id": "cRhhDy6bLhos3xjY7iF1mhXXXffYL7AfmYBVmf6VjSS",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-12-04T20:59:32Z",
+    "firstPool": {
+     "id": "cRhhDy6bLhos3xjY7iF1mhXXXffYL7AfmYBVmf6VjSS",
+     "createdAt": "2025-12-04T20:59:32Z"
+    }
+   },
+   {
+    "id": "GqdGXRvGios4tXfSbLsAuMuGmPZnW7uCBr5hWhmCqETJ",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-14T12:23:13Z",
+    "firstPool": {
+     "id": "8r4bEPgdFwgdU8fEQEXXKdFWH6CsBKAmdzsSasxE7M2K",
+     "createdAt": "2025-09-14T12:25:45Z"
+    }
+   },
+   {
+    "id": "GZXMmqz1vybsvH246Ghz47aVW6muDYHAo5TKxAqmiawK",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-14T12:49:53Z",
+    "firstPool": {
+     "id": "2uZEdmsoSMz8PH9rx6RbW6bxwY8rm4eCnaAXsRxEjCx3",
+     "createdAt": "2025-09-14T12:51:32Z"
+    }
+   },
+   {
+    "id": "FhV94DK4kBEbMUAFnY5afBCwv3NLzZA5xWQeDnWNFDRz",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-10-29T00:05:03Z",
+    "firstPool": {
+     "id": "Bn6eZ3M5JwCXZnEWfbQhER1msVCNbek76X4L7VV48gr8",
+     "createdAt": "2025-10-29T00:06:44Z"
+    }
+   },
+   {
+    "id": "A6nY7TKAx78VLeZ3QNsdjcxFoE22KGduAExSkiz4SoXR",
+    "name": "MetaX",
+    "symbol": "MetaX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 5,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-01-25T15:26:43Z",
+    "firstPool": {
+     "id": "AvraBNf7cFzt5YozPjjiba36gXTRFbEZ84Vfqkw67Kdw",
+     "createdAt": "2025-01-26T10:20:13Z"
+    }
+   },
+   {
+    "id": "7zRtFfTmULzV7MGeEWDKUNi9VQHroBkuZgHfVo4YhBUM",
+    "name": "Meta xStock",
+    "symbol": "METAx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-11-24T21:53:04Z",
+    "firstPool": {
+     "id": "7zRtFfTmULzV7MGeEWDKUNi9VQHroBkuZgHfVo4YhBUM",
+     "createdAt": "2025-11-24T21:53:04Z"
+    }
+   },
+   {
+    "id": "6DQmLoic17Tur8EUVDbwGZLS3ZwEVLY7RbNzg7pA2cxc",
+    "name": "METATECH INDUSTRIES",
+    "symbol": "METAX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-07-14T18:06:19Z",
+    "firstPool": {
+     "id": "3XxawBgAdKwXqw99pGzGAPLXp6eMhN1HVqT1qjFgeZQz",
+     "createdAt": "2026-07-14T18:34:23Z"
+    }
+   }
+  ],
+  "AMZNx": [
+   {
+    "id": "Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg",
+    "name": "Amazon xStock",
+    "symbol": "AMZNx",
+    "isVerified": true,
+    "tags": [
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities"
+    ],
+    "holderCount": 17702,
+    "liquidity": 271561.2140645583,
+    "mcap": 43290500.54986353,
+    "usdPrice": 251.25858563271706,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:30:38Z",
+    "firstPool": {
+     "id": "6m5aXAve4uh6Kt4ytKyCLWNMjd8PYP5vujwNCtycrUiD",
+     "createdAt": "2025-07-01T23:25:46Z"
+    }
+   },
+   {
+    "id": "464jMG5waabiFrRoDcdzG5oQ9zvgH1tSvsj64dWWWXSi",
+    "name": "Amazonian Coin",
+    "symbol": "AMZNX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 4,
+    "liquidity": 3605.2277579692636,
+    "mcap": 3395.694107083451,
+    "usdPrice": 3.395694107083451e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-07T23:44:35Z",
+    "firstPool": {
+     "id": "464jMG5waabiFrRoDcdzG5oQ9zvgH1tSvsj64dWWWXSi",
+     "createdAt": "2026-09-07T23:44:35Z"
+    }
+   },
+   {
+    "id": "6MMNJFB8wJW23nNbYwzurs3kQ7bH7CQ4j4QykUbVjyXH",
+    "name": "Amazon xStock",
+    "symbol": "AMZNx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 4656.252738828962,
+    "mcap": 4227.008641990428,
+    "usdPrice": 4.227008641990428e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-21T15:59:14Z",
+    "firstPool": {
+     "id": "6MMNJFB8wJW23nNbYwzurs3kQ7bH7CQ4j4QykUbVjyXH",
+     "createdAt": "2026-09-21T15:59:14Z"
+    }
+   },
+   {
+    "id": "Fr4VPMoAgCPyEtzFAficBggbBz4SnjAbbh5oRXpiYKBR",
+    "name": "Amazon tokenized  (xStock)",
+    "symbol": "AMZNX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 5.415802711346485,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:58:30Z",
+    "firstPool": {
+     "id": "5AekjRNudG6KtUhyGKpFZTM9o2E74Dr7rguWnpp8tiiR",
+     "createdAt": "2025-07-06T18:12:17Z"
+    }
+   }
+  ],
+  "QQQx": [
+   {
+    "id": "Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": true,
+    "tags": [
+     "rwa",
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks"
+    ],
+    "holderCount": 38562,
+    "liquidity": 2131733.7563089365,
+    "mcap": 63505123.16036868,
+    "usdPrice": 750.1937048042325,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:41:58Z",
+    "firstPool": {
+     "id": "EibwWLHyuFeqgU6fvi6g5FtDLF9kQsQL5HQXvcJNkDN8",
+     "createdAt": "2025-06-29T14:50:24Z"
+    }
+   },
+   {
+    "id": "3hhW4NWdF4sYUtAsfhqDJ68fg4t9TUnpqTt6twFGpump",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2998.2350480867253,
+    "mcap": 2886.122739961385,
+    "usdPrice": 2.8861227399613847e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-13T13:07:57Z",
+    "firstPool": {
+     "id": "3hhW4NWdF4sYUtAsfhqDJ68fg4t9TUnpqTt6twFGpump",
+     "createdAt": "2026-09-13T13:07:57Z"
+    }
+   },
+   {
+    "id": "7PxD8JuBVTLxz2jUDAQSYFKr4bqaBTj5cG5rwBCXpump",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 2563.2284982974647,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-03-09T11:36:59Z",
+    "firstPool": {
+     "id": "7PxD8JuBVTLxz2jUDAQSYFKr4bqaBTj5cG5rwBCXpump",
+     "createdAt": "2026-03-09T11:36:59Z"
+    }
+   },
+   {
+    "id": "FmQpaPtpKspmnHSm6oxUWaHjurjwvPeTQKdww5rrFxVr",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 2340.896063077078,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-02-25T20:18:49Z",
+    "firstPool": {
+     "id": "FmQpaPtpKspmnHSm6oxUWaHjurjwvPeTQKdww5rrFxVr",
+     "createdAt": "2026-02-25T20:18:49Z"
+    }
+   },
+   {
+    "id": "6ymekyfLpFxhwoqbzqoQvz8tF9KmtZBrZWf7Y31cmoon",
+    "name": "NASDAQ 100 xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 5,
+    "liquidity": 16.271205806312164,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-07-20T18:08:37Z",
+    "firstPool": {
+     "id": "6ymekyfLpFxhwoqbzqoQvz8tF9KmtZBrZWf7Y31cmoon",
+     "createdAt": "2026-07-20T18:08:37Z"
+    }
+   },
+   {
+    "id": "H5NMpF8U5Gve4gQDYLWFg59peokMkxBqVVuuChoDWYb4",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-08T12:03:52Z",
+    "firstPool": {
+     "id": "H5NMpF8U5Gve4gQDYLWFg59peokMkxBqVVuuChoDWYb4",
+     "createdAt": "2025-09-08T12:03:52Z"
+    }
+   },
+   {
+    "id": "BNktohvP5jmKR9CrLJGwxChcBJ5zCT7j8aYEpazJW7CE",
+    "name": "Collection NO. 01",
+    "symbol": "QQQX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-19T18:24:36Z",
+    "firstPool": {
+     "id": "G698mbcHKHvrmwGwVGmHFSCkrkMBEsyzBCMbRj7w1bGv",
+     "createdAt": "2026-08-19T18:24:36Z"
+    }
+   },
+   {
+    "id": "7Fk1qUACKRwEjqZN44ybJ8fjpD7LV9iYjMiGKC9Dmoon",
+    "name": "QQQX",
+    "symbol": "QQQX",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 1,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-19T17:43:52Z",
+    "firstPool": {
+     "id": "7Fk1qUACKRwEjqZN44ybJ8fjpD7LV9iYjMiGKC9Dmoon",
+     "createdAt": "2025-07-19T17:43:52Z"
+    }
+   },
+   {
+    "id": "5aDqdKfpgzS8riGt8PaRRcTUv3zSVWQFL3MveuS3z94G",
+    "name": "nasdaq",
+    "symbol": "QQQX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-01-29T15:40:02Z",
+    "firstPool": {
+     "id": "5aDqdKfpgzS8riGt8PaRRcTUv3zSVWQFL3MveuS3z94G",
+     "createdAt": "2026-01-29T15:40:02Z"
+    }
+   },
+   {
+    "id": "4UtCwmA4YJtZg4MJV9fDcQJR5EVgHuHfCB5AqjNDNuMA",
+    "name": "Collection NO. 01",
+    "symbol": "QQQX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-19T23:37:52Z",
+    "firstPool": {
+     "id": "E5iLHy4x7WuTCwLHPzMca7x1mfC7f1JSaWft6FwaV1uc",
+     "createdAt": "2026-08-19T23:37:52Z"
+    }
+   },
+   {
+    "id": "31kwjvTRynwYA63uBvV6oLK9nUqSfYVwVHfSi4w2pump",
+    "name": "Nasdaq xStock",
+    "symbol": "QQQx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-01T05:37:35Z",
+    "firstPool": {
+     "id": "31kwjvTRynwYA63uBvV6oLK9nUqSfYVwVHfSi4w2pump",
+     "createdAt": "2025-07-01T05:37:35Z"
+    }
+   }
+  ],
+  "CRCLx": [
+   {
+    "id": "XsueG8BtpquVJX9LVLLEGuViXUungE6WmK5YZ3p3bd1",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": true,
+    "tags": [
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa"
+    ],
+    "holderCount": 19313,
+    "liquidity": 1851765.1535729514,
+    "mcap": 67574898.57858066,
+    "usdPrice": 82.30025876544902,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:57:29Z",
+    "firstPool": {
+     "id": "G39wywquKbHK8F2wZZZFX3fcsyG91VCCbbr6WEVp5axy",
+     "createdAt": "2025-06-27T14:56:39Z"
+    }
+   },
+   {
+    "id": "633kgz6eCYNsYnjZ56ouMZYWnv128pN5WRMftaL6pump",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3574.2883223181116,
+    "mcap": 3420.2191408735985,
+    "usdPrice": 3.4202191408735983e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-29T21:10:13Z",
+    "firstPool": {
+     "id": "633kgz6eCYNsYnjZ56ouMZYWnv128pN5WRMftaL6pump",
+     "createdAt": "2026-09-29T21:10:13Z"
+    }
+   },
+   {
+    "id": "7LvyvJYDer5jGRS1LgMQv33GqmQbFuEV12YiA5JYpump",
+    "name": "CRCLX",
+    "symbol": "CRCLX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 4,
+    "liquidity": 2061.31070937942,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-05-02T08:23:06Z",
+    "firstPool": {
+     "id": "7LvyvJYDer5jGRS1LgMQv33GqmQbFuEV12YiA5JYpump",
+     "createdAt": "2026-05-02T08:23:06Z"
+    }
+   },
+   {
+    "id": "4qWRDseWcYprzNaNrs7FBrTSut3XFMmnXbd44SBopump",
+    "name": "Circle xStock",
+    "symbol": "CRCLX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 1942.2259780526808,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-06-07T10:10:52Z",
+    "firstPool": {
+     "id": "4qWRDseWcYprzNaNrs7FBrTSut3XFMmnXbd44SBopump",
+     "createdAt": "2026-06-07T10:10:52Z"
+    }
+   },
+   {
+    "id": "CRCL8irnrVwtndMDNMT5CCngxt1rspSKAHVsPRGuKmv1",
+    "name": "Just a Circle Stock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 46,
+    "liquidity": 903.5805662314897,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-07T18:18:22Z",
+    "firstPool": {
+     "id": "5STB2zuNiTstzweEs45yvTFasaWmnNh3zn9eHUjBkyu9",
+     "createdAt": "2025-07-07T18:21:19Z"
+    }
+   },
+   {
+    "id": "Z7HjNFNhcczjHSrcc9zQ4JgeXKyzGTU6x93rYvDGxSe",
+    "name": "Circle tokenized (xStock)",
+    "symbol": "CRCLX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 21,
+    "liquidity": 2.680759090379631,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:59:07Z",
+    "firstPool": {
+     "id": "AhhLS4VD3LHXVXZ267X7MFgRNSgUgX7WdK72ZAkwwJ7B",
+     "createdAt": "2025-07-06T18:14:13Z"
+    }
+   },
+   {
+    "id": "G95gHHKRWfVZm1EsWqyMhtMP1TyGdMxUfHVParcV2WTd",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-17T20:47:33Z",
+    "firstPool": {
+     "id": "G95gHHKRWfVZm1EsWqyMhtMP1TyGdMxUfHVParcV2WTd",
+     "createdAt": "2025-09-17T20:47:33Z"
+    }
+   },
+   {
+    "id": "F5iM5npahGuAPvzRdx3JA7eXnwhZqp5yd1zdf6EEPK9E",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-17T20:41:46Z",
+    "firstPool": {
+     "id": "F5iM5npahGuAPvzRdx3JA7eXnwhZqp5yd1zdf6EEPK9E",
+     "createdAt": "2025-09-17T20:41:46Z"
+    }
+   },
+   {
+    "id": "AYAe7jXgsG7yn4JmtUEFB2ivyLEjYufXY4B4XphDQSpn",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "launchpad",
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-09-17T20:35:18Z",
+    "firstPool": {
+     "id": "AYAe7jXgsG7yn4JmtUEFB2ivyLEjYufXY4B4XphDQSpn",
+     "createdAt": "2025-09-17T20:35:18Z"
+    }
+   },
+   {
+    "id": "8ooVGZotf74t2Rfp14WSs4HR8uFkeE6MFpMwnTibBzDm",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 14,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-10-12T08:31:50Z",
+    "firstPool": {
+     "id": "6mFbuJeZm8jvGVFX1URtTi4GHAr48xikKNrDTitGJHZu",
+     "createdAt": "2025-10-12T08:33:38Z"
+    }
+   },
+   {
+    "id": "5nAXkD94NG5fx9K7Mu2cG3afqHwG1XsRMoDS9WYwothx",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 10,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-10-19T02:56:16Z",
+    "firstPool": {
+     "id": "YSFa8YiHbJHWzrci7Vq2BNqW9fCQwffNvsDLzqUrnwr",
+     "createdAt": "2025-10-19T02:57:42Z"
+    }
+   },
+   {
+    "id": "3NxBzGHRqAuGBEDQGK17NnvJRmSEAVLT1hqYckS3Gixt",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-11-19T09:12:21Z",
+    "firstPool": {
+     "id": "3NxBzGHRqAuGBEDQGK17NnvJRmSEAVLT1hqYckS3Gixt",
+     "createdAt": "2025-11-19T09:12:21Z"
+    }
+   },
+   {
+    "id": "DbjiRfBBboVhTTAK2rvqdKWdRyzakAz81uscZchHG4bS",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 5,
+    "liquidity": 0.7431425669371324,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-02-02T19:13:18Z",
+    "firstPool": {
+     "id": "DbjiRfBBboVhTTAK2rvqdKWdRyzakAz81uscZchHG4bS",
+     "createdAt": "2026-02-02T19:13:18Z"
+    }
+   },
+   {
+    "id": "Fv7q3aR6gp4TqsVW2p8zmS25C2K7RnFuNwhygjKUPouC",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 3,
+    "liquidity": 0.3189271972959474,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-03-09T21:28:32Z",
+    "firstPool": {
+     "id": "Fv7q3aR6gp4TqsVW2p8zmS25C2K7RnFuNwhygjKUPouC",
+     "createdAt": "2026-03-09T21:28:32Z"
+    }
+   },
+   {
+    "id": "e3CPa9UAoQdguJP2ysu8DytLWPcHwBQMX3j9ixrUEzf",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 0.06353519405236563,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-25T14:59:03Z",
+    "firstPool": {
+     "id": "7MT8PTeyXzxPApwRkRHDJwCB3YL4X2fsXCnW63s1bETW",
+     "createdAt": "2026-08-25T14:59:14Z"
+    }
+   },
+   {
+    "id": "FG6hcpBADZ1Z7F7VP7eqSZHbDgnXrv7tC6BRa6PENDEV",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 252,
+    "liquidity": 0.03632360329915117,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-28T13:35:31Z",
+    "firstPool": {
+     "id": "6rMxWGSMsBFFkpGTuu6Woj9BXHzeBPyvWpnTrJCoxzeY",
+     "createdAt": "2026-08-28T13:36:55Z"
+    }
+   },
+   {
+    "id": "9sViyaePFXeQmEqL4YiZz3GXTLQPruzRCBraEfYcrBqH",
+    "name": "Paired with CRCLX",
+    "symbol": "CRCLX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 0.02028350320066964,
+    "mcap": 3193.875514550494,
+    "usdPrice": 3.193875514550494e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-22T13:26:08Z",
+    "firstPool": {
+     "id": "9sViyaePFXeQmEqL4YiZz3GXTLQPruzRCBraEfYcrBqH",
+     "createdAt": "2026-09-22T13:26:08Z"
+    }
+   },
+   {
+    "id": "6CCcyoRSvWUByHBEiHyL6gE6gEugwP8t6rZkQfgnr12G",
+    "name": "Circle xStock",
+    "symbol": "CRCLx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 4,
+    "liquidity": 0.007238326884973289,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-02T00:50:07Z",
+    "firstPool": {
+     "id": "6CCcyoRSvWUByHBEiHyL6gE6gEugwP8t6rZkQfgnr12G",
+     "createdAt": "2026-09-02T00:50:07Z"
+    }
+   }
+  ],
+  "HOODx": [
+   {
+    "id": "XsvNBAYkrDRNhA7wPHQfX3ZUXZyZLdnCQDfHZ56bzpg",
+    "name": "Robinhood xStock",
+    "symbol": "HOODx",
+    "isVerified": true,
+    "tags": [
+     "moonshot-verified",
+     "token-2022",
+     "verified",
+     "xstocks",
+     "stocks",
+     "rwa",
+     "equities"
+    ],
+    "holderCount": 13505,
+    "liquidity": 792995.0310892838,
+    "mcap": 67426045.76809917,
+    "usdPrice": 112.86799628605334,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+    "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+    "createdAt": "2025-06-11T09:37:13Z",
+    "firstPool": {
+     "id": "DXWbip5LducMAbDSSpLYz9Xik3253EPeAYQufQtx7LXs",
+     "createdAt": "2025-07-03T16:19:11Z"
+    }
+   },
+   {
+    "id": "ESb9YvUcick3f8KvBPLUvYzrphVZeAsAjmFWh54rpump",
+    "name": "HOOD X",
+    "symbol": "HOODX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3590.9282136931442,
+    "mcap": 3347.352574992599,
+    "usdPrice": 3.347352574992599e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-28T13:47:59Z",
+    "firstPool": {
+     "id": "ESb9YvUcick3f8KvBPLUvYzrphVZeAsAjmFWh54rpump",
+     "createdAt": "2026-09-28T13:47:59Z"
+    }
+   },
+   {
+    "id": "CeTCKPFK1NwWfsh2GiYHqt3wFkCa125x9LAJX3gDdNhD",
+    "name": "Robinhood xStock",
+    "symbol": "HOODx",
+    "isVerified": null,
+    "tags": [
+     "token-2022",
+     "unknown"
+    ],
+    "holderCount": 2,
+    "liquidity": 3551.1744570940555,
+    "mcap": 3309.433673487209,
+    "usdPrice": 3.3094336734872092e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-30T09:05:40Z",
+    "firstPool": {
+     "id": "CeTCKPFK1NwWfsh2GiYHqt3wFkCa125x9LAJX3gDdNhD",
+     "createdAt": "2026-09-30T09:05:40Z"
+    }
+   },
+   {
+    "id": "95UgkaWNHPmWdruAAkWtsQT9jebWr4QCSUGsWZZWpump",
+    "name": "Robinhood",
+    "symbol": "HOODx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 2,
+    "liquidity": 3405.3136201769285,
+    "mcap": 3871.5938568662023,
+    "usdPrice": 3.871593856866202e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-09T20:34:32Z",
+    "firstPool": {
+     "id": "95UgkaWNHPmWdruAAkWtsQT9jebWr4QCSUGsWZZWpump",
+     "createdAt": "2026-09-09T20:34:32Z"
+    }
+   },
+   {
+    "id": "FAcEK6TTTVUSPTeG2dJaQ56P8mfFbsbguWn9yYo6pump",
+    "name": "HOODx",
+    "symbol": "HOODx",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 3117.314964571741,
+    "mcap": 2905.987622416514,
+    "usdPrice": 2.906090276837653e-06,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-09-01T06:08:15Z",
+    "firstPool": {
+     "id": "FAcEK6TTTVUSPTeG2dJaQ56P8mfFbsbguWn9yYo6pump",
+     "createdAt": "2026-09-01T06:08:15Z"
+    }
+   },
+   {
+    "id": "ABbcYFGpJzXMNKu3qh6M7T9wbGi4peHaDrc2KEZCpump",
+    "name": "HoodX.pro",
+    "symbol": "HoodX",
+    "isVerified": null,
+    "tags": [
+     "unknown",
+     "token-2022"
+    ],
+    "holderCount": 1,
+    "liquidity": 2154.482975037983,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2026-08-01T17:25:38Z",
+    "firstPool": {
+     "id": "ABbcYFGpJzXMNKu3qh6M7T9wbGi4peHaDrc2KEZCpump",
+     "createdAt": "2026-08-01T17:25:38Z"
+    }
+   },
+   {
+    "id": "6b1hYYwE1dnB4ntwbd95hTNJbGKADWnBp1ztpLpspWQy",
+    "name": "Robinhood tokenized (xStock)",
+    "symbol": "HOODX",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 23,
+    "liquidity": 20.33512465594264,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-07-06T17:58:55Z",
+    "firstPool": {
+     "id": "GdHJyKroQ5Hm6dpjeVvsDLnuotFcAw1EVp2Tw3PcN6hP",
+     "createdAt": "2025-07-06T18:13:46Z"
+    }
+   },
+   {
+    "id": "5WZapiz23wU9eWKwuNjhgcaG5zdfHvGWhzJmRqpaf7CB",
+    "name": "Robinhood xStock",
+    "symbol": "HOODx",
+    "isVerified": null,
+    "tags": [
+     "unknown"
+    ],
+    "holderCount": 12,
+    "liquidity": null,
+    "mcap": null,
+    "usdPrice": null,
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "freezeAuthority": null,
+    "mintAuthority": null,
+    "createdAt": "2025-10-19T01:42:32Z",
+    "firstPool": {
+     "id": "81de89KZbcmwoMJ9zx6v864UFTFcDPdw1snua1bz1yrT",
+     "createdAt": "2025-10-19T01:43:57Z"
+    }
+   }
+  ]
+ }
+}
