@@ -27,22 +27,26 @@ export default function Hero() {
         <figure className="min-w-0 justify-self-center pb-14 lg:justify-self-end lg:py-12">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/assets/home/otc-stablecoin-exchange.jpg"
-            alt="A street-front over-the-counter exchange with a sign advertising USDT and USDC"
-            width={1041}
-            height={1200}
+            src="/assets/home/payment-check-phone-cash.jpg"
+            alt="A person checks a payment on her phone while handing over cash"
+            width={1120}
+            height={1400}
             fetchPriority="high"
             className="block h-auto w-full max-w-[460px] rounded-md border border-bg-border object-cover"
           />
           <figcaption className="mt-2 text-xs text-text-muted">
-            A stablecoin exchange counter. Photo:{" "}
-            <a href="https://commons.wikimedia.org/wiki/File:Over-the-counter-crypto-exchange.jpeg" className="hover:underline">
-              Arutoria
+            Photo:{" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:Businesswoman_making_a_payment_with_cash_while_using_a_smartphone_in_a_modern_office_setting.jpg"
+              className="hover:underline"
+            >
+              Shixart1985
             </a>
             ,{" "}
-            <a href="https://creativecommons.org/licenses/by-sa/4.0/" className="hover:underline">
-              CC BY-SA 4.0
+            <a href="https://creativecommons.org/licenses/by/2.0/" className="hover:underline">
+              CC BY 2.0
             </a>
+            , cropped
           </figcaption>
         </figure>
       </div>

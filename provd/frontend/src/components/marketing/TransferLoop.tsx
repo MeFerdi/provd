@@ -8,6 +8,7 @@ const TETHER_PATH =
 const INK = "#111111";
 const MUTED = "#6B6B6B";
 const LOSS = "#B42318";
+const OK = "#16A34A";
 
 export default function TransferLoop() {
   return (
@@ -44,15 +45,17 @@ export default function TransferLoop() {
 
           {/* 2. USDT: seller -> buyer, with the check before release */}
           <path d="M375 268 C 305 374, 215 374, 145 268" fill="none" stroke={INK} strokeWidth="2" markerEnd="url(#loop-arrow)" />
-          <rect x="196" y="328" width="128" height="32" rx="6" fill={INK} />
-          <text x="260" y="349" textAnchor="middle" fontSize="15" fontWeight="600" fill="#FFFFFF">
+          <rect x="182" y="326" width="156" height="36" rx="8" fill={INK} />
+          <circle cx="203" cy="344" r="12" fill={OK} />
+          <path d="M197.5 344.5 l4 4 l8 -8.5" fill="none" stroke="#FFFFFF" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="272" y="349.5" textAnchor="middle" fontSize="15" fontWeight="600" fill="#FFFFFF">
             Provd check
           </text>
           <text x="260" y="400" textAnchor="middle" fontSize="17" fontWeight="600" fill={INK}>
             2. Seller releases USDT
           </text>
           <text x="260" y="422" textAnchor="middle" fontSize="15" fill={MUTED}>
-            only after the check says release
+            only after the check passes
           </text>
 
           {/* 3. Reversal: KSh pulled back after release */}
