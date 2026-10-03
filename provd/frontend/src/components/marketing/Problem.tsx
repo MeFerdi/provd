@@ -1,3 +1,5 @@
+import ReleaseTimeline from "@/components/marketing/ReleaseTimeline";
+
 const LOSSES = [
   {
     title: "Reversals after release",
@@ -21,17 +23,8 @@ export default function Problem() {
   return (
     <section className="border-b border-bg-border bg-bg-surface py-20 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-14">
-        <div className="min-w-0 overflow-hidden rounded-md border border-bg-border">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/assets/home/security-operations-center.jpg"
-            width={6016}
-            height={4016}
-            alt="Operations team reviewing transactions"
-            loading="lazy"
-            decoding="async"
-            className="block h-auto max-h-[460px] w-full object-cover"
-          />
+        <div className="order-last min-w-0 lg:order-none">
+          <ReleaseTimeline />
         </div>
         <div className="min-w-0">
           <h2 className="mb-5 font-display text-[30px] leading-tight text-text-primary md:text-[42px]">
