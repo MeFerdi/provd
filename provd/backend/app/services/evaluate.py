@@ -11,6 +11,7 @@ from app.adapters.base import InvalidAddress
 from app.engine.scoring import Evaluation, canonical_json, engine_config, evaluate, record_hash, signals_for
 from app.engine.signals import OutcomeView, SignalContext
 from app.models.rails import Decision, Outcome
+from app.proof.signing import signer
 from app.schemas.actions import SCORED_CHAINS, SCORED_INTENT_TYPES, ActionIntent, ActionScore, Explanation, RiskFlag
 from app.services import billing, chain_data
 
@@ -165,6 +166,7 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 
 	stored = dict(record)
 	stored["response"] = score.model_dump(mode="json")
+	key = signer()
 	db.add(
 		Decision(
 			intent_id=intent_id,
@@ -180,6 +182,8 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 			engine_version=score.engine_version,
 			record=_jsonable(stored),
 			record_hash=score.decision_record_hash,
+			signature=key.sign(score.decision_record_hash),
+			signing_key_id=key.key_id,
 			created_at=now,
 		)
 	)

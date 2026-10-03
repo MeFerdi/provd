@@ -16,3 +16,4 @@ eth-abi==5.1.0
 eth-utils==5.1.0
 pycryptodome==3.21.0
 email-validator==2.2.0
+opentimestamps==0.4.5

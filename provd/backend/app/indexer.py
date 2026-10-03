@@ -1,4 +1,4 @@
-"""Indexer worker: keeps the public risk list and USDT top-ups current.
+"""Indexer worker: keeps the public risk list and USDT top-ups current, and seals/anchors decision batches.
 
     python -m app.indexer seed          # load bundled fixtures (risk-list snapshot) if the table is empty
     python -m app.indexer run --once    # one sync pass: freeze events + deposit matching
@@ -21,6 +21,7 @@ from app.adapters.base import AdapterUnavailable
 from app.config import get_settings
 from app.db.postgres import get_session_factory
 from app.models.rails import Checkpoint, CreditPurchase, FlaggedAddress
+from app.proof.batching import advance_anchors, seal_batch
 from app.services import billing, chain_data
 
 logger = logging.getLogger("provd.indexer")
@@ -117,6 +118,10 @@ async def run(once: bool) -> None:
 			except AdapterUnavailable as exc:
 				await db.rollback()
 				logger.warning("indexer.upstream_unavailable %s", exc)
+			batch = await seal_batch(db)
+			anchors = await advance_anchors(db)
+			if batch or anchors:
+				logger.info("indexer.proof batch=%s anchors_changed=%d", batch.id if batch else None, anchors)
 		if once:
 			return
 		await asyncio.sleep(get_settings().indexer_interval_seconds)

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Index, Integer, JSON, String, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Index, Integer, JSON, LargeBinary, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -11,7 +11,7 @@ def _now() -> datetime:
 
 
 class Decision(Base):
-	"""One evaluate call: the canonical record and its hash. Signing/anchoring fields arrive in Phase B."""
+	"""One evaluate call: the canonical record, its hash and signature, and its place in an anchor batch."""
 
 	__tablename__ = "decisions"
 	__table_args__ = (
@@ -32,7 +32,31 @@ class Decision(Base):
 	engine_version: Mapped[str] = mapped_column(String(32), nullable=False)
 	record: Mapped[dict] = mapped_column(JSON, nullable=False)
 	record_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+	signature: Mapped[str | None] = mapped_column(String(128), nullable=True)
+	signing_key_id: Mapped[str | None] = mapped_column(String(16), nullable=True)
+	batch_id: Mapped[str | None] = mapped_column(String(36), nullable=True, index=True)
+	leaf_index: Mapped[int | None] = mapped_column(Integer, nullable=True)
+	merkle_proof: Mapped[list | None] = mapped_column(JSON, nullable=True)
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
+
+
+class AnchorBatch(Base):
+	"""A Merkle batch of decision hashes and where its root is anchored."""
+
+	__tablename__ = "anchor_batches"
+	__table_args__ = (Index("ix_anchor_batches_status_sealed", "anchor_status", "sealed_at"),)
+
+	id: Mapped[str] = mapped_column(String(36), primary_key=True)
+	merkle_root: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+	leaf_count: Mapped[int] = mapped_column(Integer, nullable=False)
+	sealed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
+	anchor_method: Mapped[str] = mapped_column(String(24), nullable=False)
+	anchor_status: Mapped[str] = mapped_column(String(16), nullable=False)  # pending | anchored | not_anchored | failed
+	anchor_proof: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
+	anchor_reference: Mapped[str | None] = mapped_column(String(128), nullable=True)
+	anchor_detail: Mapped[str | None] = mapped_column(String(512), nullable=True)
+	anchored_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+	last_attempt_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
 
 class Outcome(Base):

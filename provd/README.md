@@ -26,10 +26,15 @@ indexer ──► freeze events, USDT top-up matching
   bundled as a seed fixture.
 - Pay-as-you-go: daily free quota → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
   M-Pesa top-ups confirmed by an admin; exact usage ledger.
-- Decision records: canonical JSON hashed with SHA-256, retrievable at `GET /v1/decisions/{id}`.
+- Proof layer (Phase B): every decision record is hashed (SHA-256, canonical JSON), **signed** (secp256k1,
+  key published at `GET /v1/proof/keys`), sealed into a **Merkle batch** every `BATCH_INTERVAL_SECONDS`, and the
+  batch root is **timestamped on Bitcoin via OpenTimestamps** (free, no wallet). `GET /v1/decisions/{id}` returns
+  the record, signature, inclusion proof and anchor status; `GET /v1/proof/batches/{id}/ots` serves the `.ots`
+  proof. `backend/tools/verify_decision.py` (also on the site at `/tools/verify_decision.py`) verifies a record
+  without trusting Provd.
 - Public scanner backend: `GET /v1/counterparties/tron/{address}` (no key, rate-limited).
-- Not yet: Stellar adapter (stub), decision signing + on-chain anchoring (Phase B), auto-top-up from float,
-  payout/OTC scoring (Phase C).
+- Not yet: Stellar adapter (stub), auto-top-up from float, payout/OTC scoring (Phase C). Tron-memo anchoring is
+  a documented stub (`ANCHOR_METHOD=tron_memo`) for when a funded wallet is available.
 
 ## Run locally
 ```bash
@@ -63,6 +68,10 @@ curl -s localhost:8000/v1/outcomes -H "X-API-Key: $KEY" -H 'content-type: applic
 | `app/engine/pricing.json` | Bundle prices (**placeholders** — set real prices before launch) |
 | `accounts.billing_model` | `payg` today; `subscription` is rejected until Phase C |
 | `tests/test_import_boundaries.py` | Fails if the engine imports chain-specific code |
+| `app/proof/anchors.py` | `AnchorAdapter`: OpenTimestamps (default), none, Tron memo (stub) |
+
+Production needs `DECISION_SIGNING_KEY` (32-byte hex secp256k1 key — keep it in a secrets manager; rotating it
+publishes a new key id, old records stay verifiable with the old public key).
 
 ## Roadmap
 A wedge (this) → B signed decisions + merkle anchoring → C payouts/OTC, subscriptions for global platforms,

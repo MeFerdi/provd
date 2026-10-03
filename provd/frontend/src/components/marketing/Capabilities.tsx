@@ -13,7 +13,7 @@ const CAPABILITIES = [
   },
   {
     title: "Decision records",
-    body: "Every check is stored as a hashed record you can verify later for audit. Signed, anchored proof is coming.",
+    body: "Every check is hashed, signed and timestamped on Bitcoin, so you can prove to an auditor or regulator what was checked and when — without trusting us.",
   },
   {
     title: "Pay as you go",

@@ -118,7 +118,13 @@ Response:
 
 ## `GET /v1/decisions/{intent_id}`
 
-Returns `{intent_id, record, record_hash, hash_algorithm, signature, anchor, proof_status}`. `signature` and `anchor` are `null` until signing and anchoring ship. See [decision records](/docs/decisions).
+Returns `{intent_id, record, record_hash, hash_algorithm, signature, merkle, batch, proof_status, verify}`. `merkle` and `batch` are `null` until the record is sealed into a batch (within minutes). See [decision records](/docs/decisions).
+
+### Proof
+
+- `GET /v1/proof/keys` — public keys that sign decision records.
+- `GET /v1/proof/batches/{batch_id}` — Merkle root, leaf count and anchor status.
+- `GET /v1/proof/batches/{batch_id}/ots` — OpenTimestamps proof for the root (`ots verify -d <root> batch.ots`).
 
 ## `POST /v1/outcomes`
 

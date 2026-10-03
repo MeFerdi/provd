@@ -15,13 +15,17 @@ from app.adapters.base import AdapterUnavailable, NormalizedAsset, NormalizedEve
 from app.adapters.tron import validate_tron_address
 from app.api.v1.actions import router as actions_router
 from app.api.v1.health import router as health_router
+from app.api.v1.proof import router as proof_router
+from app.proof import anchors
+from app.proof.anchors import AnchorResult
+from app.proof.batching import advance_anchors, seal_batch
 from app.dependencies import get_auth_context, get_db_session
-from app.models.rails import Account, Checkpoint, CreditPurchase, Decision, FlaggedAddress, HistoryCache, Outcome, UsageEvent
+from app.models.rails import AnchorBatch, Account, Checkpoint, CreditPurchase, Decision, FlaggedAddress, HistoryCache, Outcome, UsageEvent
 from app.schemas.auth import AuthContext
 from app.services import chain_data
 from app.services.rate_limit import reset_rate_limits
 
-TABLES = (Decision, Outcome, FlaggedAddress, HistoryCache, Checkpoint, Account, CreditPurchase, UsageEvent)
+TABLES = (AnchorBatch, Decision, Outcome, FlaggedAddress, HistoryCache, Checkpoint, Account, CreditPurchase, UsageEvent)
 FROZEN = "TQLiq3fj6CCK1aZCJuXfxVZUwy6gSB4qxi"
 EXPOSED = "TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9"
 CLEAN = "TNXoiAJ3dct8Fjg4M9fkLFh9S2v9TXc32G"
@@ -58,6 +62,23 @@ class FakeTron:
 		return NormalizedAsset("tron", DEPOSIT, "USDT", 6, "Tether", True) if ref == "USDT_TRC20" else None
 
 
+class FakeAnchor:
+	method = "fake"
+
+	def __init__(self):
+		self.fail_next = False
+		self.confirmed = False
+
+	async def submit(self, root_hex):
+		if self.fail_next:
+			self.fail_next = False
+			raise ConnectionError("calendar down")
+		return AnchorResult(status="pending", proof=b"OTS" + bytes.fromhex(root_hex))
+
+	async def upgrade(self, root_hex, proof):
+		return AnchorResult(status="anchored", proof=proof + b"!", reference="bitcoin:block:900000") if self.confirmed else AnchorResult(status="pending", proof=proof)
+
+
 @pytest.fixture()
 def env(monkeypatch):
 	monkeypatch.setenv("FREE_DAILY_CHECKS", "2")
@@ -83,6 +104,9 @@ def env(monkeypatch):
 	app = FastAPI(lifespan=lifespan)
 	app.include_router(actions_router, prefix="/v1")
 	app.include_router(health_router, prefix="/v1")
+	app.include_router(proof_router, prefix="/v1")
+	anchor = FakeAnchor()
+	anchors.set_anchor(anchor)
 	who = {"client": "platform-a"}
 
 	async def _db():
@@ -96,7 +120,9 @@ def env(monkeypatch):
 	app.dependency_overrides[get_db_session] = _db
 	app.dependency_overrides[get_auth_context] = _auth
 	with TestClient(app) as client:
+		client.anchor = anchor
 		yield client, tron, who, sessions, client.portal
+	anchors.set_anchor(None)
 	chain_data.set_adapter("tron", None)
 	get_settings.cache_clear()
 
@@ -233,3 +259,80 @@ def test_health_reports_engine_and_risk_list(env):
 	health = client.get("/v1/health").json()
 	assert health["engine_version"] and health["dependencies"]["risk_list"]["active_flagged_addresses"] == 1
 	assert health["signals"]["amount_pattern"].startswith("planned")
+
+
+def _run(portal, fn, *args, **kwargs):
+	async def call():
+		async with portal.sessions() as db:
+			return await fn(db, *args, **kwargs)
+
+	return portal.call(call)
+
+
+def test_decision_is_signed_batched_anchored_and_independently_verifiable(env, tmp_path):
+	import subprocess
+	import sys
+	from pathlib import Path
+
+	client, tron, who, sessions, portal = env
+	portal.sessions = sessions
+	decision = client.post("/v1/actions/evaluate", json=intent(EXPOSED)).json()
+	before = client.get(f"/v1/decisions/{decision['intent_id']}").json()
+	assert before["signature"]["value"] and before["merkle"] is None
+	assert before["proof_status"].startswith("signed")
+
+	client.post("/v1/actions/evaluate", json=intent(CLEAN))
+	batch = _run(portal, seal_batch, force=True)
+	assert batch.leaf_count == 2 and batch.anchor_status == "pending"
+	assert _run(portal, seal_batch) is None  # nothing new, and the interval hasn't passed
+
+	bundle = client.get(f"/v1/decisions/{decision['intent_id']}").json()
+	assert bundle["merkle"]["root"] == batch.merkle_root and bundle["proof_status"] == "anchoring"
+	key = client.get("/v1/proof/keys").json()["keys"][0]
+	assert key["public_key"] == bundle["signature"]["public_key"]
+	ots = client.get(f"/v1/proof/batches/{batch.id}/ots")
+	assert ots.status_code == 200 and ots.content == b"OTS" + bytes.fromhex(batch.merkle_root)
+
+	client.anchor.confirmed = True
+	assert _run(portal, advance_anchors, now=datetime.now(timezone.utc) + timedelta(hours=1)) == 1
+	anchored = client.get(f"/v1/proof/batches/{batch.id}").json()
+	assert anchored["anchor"]["status"] == "anchored" and anchored["anchor"]["reference"] == "bitcoin:block:900000"
+
+	tool = Path(__file__).resolve().parents[1] / "tools" / "verify_decision.py"
+	path = tmp_path / "decision.json"
+	path.write_text(json.dumps(client.get(f"/v1/decisions/{decision['intent_id']}").json()))
+	good = subprocess.run([sys.executable, str(tool), str(path), "--public-key", key["public_key"]], capture_output=True, text=True)
+	assert good.returncode == 0, good.stdout
+	tampered = json.loads(path.read_text())
+	tampered["record"]["decision"]["recommended_action"] = "release"
+	path.write_text(json.dumps(tampered))
+	bad = subprocess.run([sys.executable, str(tool), str(path)], capture_output=True, text=True)
+	assert bad.returncode == 1 and "FAIL" in bad.stdout
+
+
+def test_failed_anchor_submission_is_retried(env):
+	client, tron, who, sessions, portal = env
+	portal.sessions = sessions
+	client.post("/v1/actions/evaluate", json=intent(CLEAN))
+	client.anchor.fail_next = True
+	batch = _run(portal, seal_batch, force=True)
+	assert batch.anchor_status == "failed" and "calendar down" in batch.anchor_detail
+	assert _run(portal, advance_anchors) == 1
+	assert client.get(f"/v1/proof/batches/{batch.id}").json()["anchor"]["status"] == "pending"
+
+
+def test_unsigned_legacy_decisions_are_signed_when_batched(env):
+	from sqlalchemy import update
+
+	client, tron, who, sessions, portal = env
+	portal.sessions = sessions
+	decision = client.post("/v1/actions/evaluate", json=intent(CLEAN)).json()
+
+	async def strip(db):
+		await db.execute(update(Decision).values(signature=None, signing_key_id=None))
+		await db.commit()
+
+	_run(portal, strip)
+	_run(portal, seal_batch, force=True)
+	bundle = client.get(f"/v1/decisions/{decision['intent_id']}").json()
+	assert bundle["signature"]["value"] and bundle["merkle"]["proof"] == []

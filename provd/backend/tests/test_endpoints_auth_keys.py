@@ -54,6 +54,7 @@ def test_auth_token_issued_for_bootstrap_admin_credentials(monkeypatch):
     jwt_secret = token_urlsafe(32)
 
     monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
     monkeypatch.setenv("SECRET_KEY", jwt_secret)
     monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_ID", admin_client_id)
     monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_SECRET", admin_client_secret)
@@ -90,6 +91,7 @@ def test_auth_token_issued_for_bootstrap_client_credentials(monkeypatch):
     jwt_secret = token_urlsafe(32)
 
     monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
     monkeypatch.setenv("SECRET_KEY", jwt_secret)
     monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_ID", admin_client_id)
     monkeypatch.setenv("BOOTSTRAP_ADMIN_CLIENT_SECRET", admin_client_secret)

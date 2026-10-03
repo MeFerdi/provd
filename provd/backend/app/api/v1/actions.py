@@ -9,6 +9,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.base import InvalidAddress
+from app.api.v1.proof import proof_bundle
 from app.config import get_settings
 from app.dependencies import get_db_session, require_permissions
 from app.engine.scoring import engine_config, evaluate
@@ -74,21 +75,12 @@ async def evaluate_action(
 		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
 
-@router.get("/decisions/{intent_id}", summary="The full decision record for an evaluated intent")
+@router.get("/decisions/{intent_id}", summary="The full decision record with signature, Merkle proof and anchor")
 async def get_decision(intent_id: str, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	decision = await db.get(Decision, intent_id)
 	if decision is None or decision.account_id != _account(ctx):
 		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Decision not found")
-	record = {k: v for k, v in decision.record.items() if k != "response"}
-	return {
-		"intent_id": decision.intent_id,
-		"record": record,
-		"record_hash": decision.record_hash,
-		"hash_algorithm": "sha256 over canonical JSON (sorted keys, no whitespace)",
-		"signature": None,
-		"anchor": None,
-		"proof_status": "hashed — signed and on-chain anchored records are coming soon",
-	}
+	return await proof_bundle(db, decision)
 
 
 @router.post("/outcomes", status_code=status.HTTP_201_CREATED, summary="Report what happened after a decision")

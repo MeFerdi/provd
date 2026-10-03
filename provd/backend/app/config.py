@@ -75,6 +75,16 @@ class Settings(BaseSettings):
 
     indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
 
+    # Proof layer. The signing key is a 32-byte secp256k1 private key in hex; required outside development.
+    decision_signing_key: str = Field(default="", validation_alias=AliasChoices("DECISION_SIGNING_KEY"))
+    anchor_method: str = Field(default="opentimestamps", validation_alias=AliasChoices("ANCHOR_METHOD"))  # opentimestamps | none
+    ots_calendars: str = Field(
+        default="https://a.pool.opentimestamps.org,https://b.pool.opentimestamps.org,https://a.pool.eternitywall.com",
+        validation_alias=AliasChoices("OTS_CALENDARS"),
+    )
+    batch_interval_seconds: int = Field(default=300, validation_alias=AliasChoices("BATCH_INTERVAL_SECONDS"))
+    batch_max_decisions: int = Field(default=10000, validation_alias=AliasChoices("BATCH_MAX_DECISIONS"))
+
     @property
     def bootstrap_admin_scopes(self) -> list[str]:
         return [scope.strip() for scope in self.bootstrap_admin_scopes_raw.split(",") if scope.strip()]
@@ -99,6 +109,8 @@ class Settings(BaseSettings):
                 raise ValueError("DEV_CLIENT_ID and DEV_CLIENT_SECRET must be set when ENABLE_TEST_AUTH=true")
 
         if not self.is_non_production:
+            if len(self.decision_signing_key) != 64:
+                raise ValueError("DECISION_SIGNING_KEY (32-byte hex) must be set outside non-production environments")
             if not self.bootstrap_admin_client_id or not self.bootstrap_admin_client_secret:
                 raise ValueError("Bootstrap admin credentials must be configured outside non-production environments")
             if not self.bootstrap_client_client_id or not self.bootstrap_client_client_secret:
