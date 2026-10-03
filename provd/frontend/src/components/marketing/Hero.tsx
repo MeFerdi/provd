@@ -1,4 +1,3 @@
-import DecisionPreview from "@/components/marketing/DecisionPreview";
 import { Button } from "@/components/ui/button";
 import { FREE_MONTHLY_CHECKS } from "@/lib/pricing";
 
@@ -25,9 +24,27 @@ export default function Hero() {
           </div>
           <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
-        <div className="flex min-w-0 justify-center pb-14 lg:justify-end lg:py-16">
-          <DecisionPreview />
-        </div>
+        <figure className="min-w-0 pb-14 lg:py-16">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/home/mpesa-menu-smartphone-kenya.jpg"
+            alt="A hand holding a phone open on the M-Pesa menu"
+            width={1024}
+            height={683}
+            fetchPriority="high"
+            className="block h-auto w-full rounded-md border border-bg-border object-cover"
+          />
+          <figcaption className="mt-2 text-xs text-text-muted">
+            Photo:{" "}
+            <a href="https://www.flickr.com/photos/134037448@N03/33570510786" className="hover:underline">
+              Fiona Graham / WorldRemit
+            </a>
+            ,{" "}
+            <a href="https://creativecommons.org/licenses/by-sa/2.0/" className="hover:underline">
+              CC BY-SA 2.0
+            </a>
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
