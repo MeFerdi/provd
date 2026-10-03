@@ -4,7 +4,7 @@ import ContactSection from "@/components/marketing/ContactSection";
 
 export const metadata: Metadata = {
   title: "Get an API key — Provd",
-  description: "Talk to us about wiring Provd risk checks into your P2P desk or mobile-money ramp.",
+  description: "Talk to us about wiring Provd risk checks into your P2P desk, ramp or payout flow.",
   alternates: { canonical: "/early-access" },
 };
 

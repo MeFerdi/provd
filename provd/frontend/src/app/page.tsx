@@ -2,6 +2,7 @@ import Capabilities from "@/components/marketing/Capabilities";
 import ContactSection from "@/components/marketing/ContactSection";
 import Hero from "@/components/marketing/Hero";
 import HowItWorks from "@/components/marketing/HowItWorks";
+import Markets from "@/components/marketing/Markets";
 import Problem from "@/components/marketing/Problem";
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
       <Problem />
       <HowItWorks />
       <Capabilities />
+      <Markets />
       <ContactSection />
     </main>
   );

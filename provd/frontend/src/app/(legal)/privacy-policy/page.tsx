@@ -8,7 +8,7 @@ export const metadata = {
 const content = `
 ## Who we are
 
-Provd Technologies Ltd. ("Provd", "we") operates provd.tech and the Provd API. Provd scores P2P stablecoin trades and mobile-money ramp transactions for risk before funds are released. Contact: [hello@provd.tech](mailto:hello@provd.tech).
+Provd Technologies Ltd. ("Provd", "we") operates provd.tech and the Provd API. Provd scores P2P stablecoin trades, on- and off-ramp transactions and payouts for risk before funds are released. Contact: [hello@provd.tech](mailto:hello@provd.tech).
 
 ## What we collect
 

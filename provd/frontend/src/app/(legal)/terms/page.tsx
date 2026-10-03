@@ -8,7 +8,7 @@ export const metadata = {
 const content = `
 ## The service
 
-Provd provides risk scores, explanations, decision records and a public counterparty scanner for P2P stablecoin trades and mobile-money ramps ("the Service"). By using the Service you agree to these terms.
+Provd provides risk scores, explanations, decision records and a public counterparty scanner for P2P stablecoin trades, on- and off-ramps and payouts ("the Service"). By using the Service you agree to these terms.
 
 ## Not advice, not a guarantee
 

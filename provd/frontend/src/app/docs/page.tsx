@@ -8,7 +8,7 @@ import { docsNav } from "@/lib/nav";
 
 export const metadata = {
   title: "Docs — Provd",
-  description: "Provd API documentation: score P2P stablecoin trades and mobile-money ramps before release.",
+  description: "Provd API documentation: score P2P stablecoin trades, ramps and payouts before release.",
   alternates: { canonical: "/docs" },
 };
 

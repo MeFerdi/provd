@@ -306,6 +306,7 @@
         "type": "null"
        }
       ],
+      "description": "ISO 4217 code, e.g. KES, NGN, BRL, INR",
       "title": "Fiat Currency"
      }
     },
@@ -821,7 +822,7 @@
         "type": "null"
        }
       ],
-      "description": "mpesa | bank | \u2026",
+      "description": "Any local rail, e.g. mpesa, bank_transfer, pix, upi, spei, gcash",
       "title": "Fiat Rail"
      }
     },

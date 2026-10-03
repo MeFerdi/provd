@@ -6,15 +6,15 @@ import { CONTACT_EMAIL, SECURITY_EMAIL } from "@/lib/env";
 export const metadata: Metadata = {
   title: "About — Provd",
   description:
-    "Provd scores P2P stablecoin trades and mobile-money ramps before funds are released, explains the decision and keeps a record of it.",
+    "Provd scores P2P stablecoin trades, ramps and payouts before funds are released, explains the decision and keeps a record of it.",
   alternates: { canonical: "/about" },
 };
 
 const facts = [
   { label: "What it is", value: "A risk check that runs before a platform releases funds" },
-  { label: "Who it's for", value: "P2P stablecoin desks, mobile-money ramps and the platforms that settle through them" },
-  { label: "Live today", value: "Counterparty checks for USDT on Tron, with M-Pesa and bank rails as fiat context" },
-  { label: "Next", value: "Stellar, signed and anchored decision records, auto top-up" },
+  { label: "Who it's for", value: "P2P stablecoin desks, on- and off-ramps and payout platforms, wherever local rails meet stablecoins" },
+  { label: "Live today", value: "Checks for USDT on Tron, with any local rail as fiat context — M-Pesa, Pix, UPI, bank transfer" },
+  { label: "Next", value: "Stellar, Solana and EVM chains, card payments, auto top-up" },
 ];
 
 export default function AboutPage() {
@@ -28,12 +28,12 @@ export default function AboutPage() {
             </h1>
             <div className="max-w-2xl space-y-4 text-lg leading-relaxed text-text-secondary">
               <p>
-                Every day, P2P desks and ramps decide in seconds whether to send crypto against a mobile-money or bank
-                payment. When it goes wrong — a reversal, a fake confirmation, a hijacked number — the loss lands after
+                Every day, P2P desks and ramps decide in seconds whether to send crypto against a local payment —
+                mobile money, Pix, UPI or a bank transfer. When it goes wrong — a reversal, a fake confirmation, a hijacked number — the loss lands after
                 the funds are gone.
               </p>
               <p>
-                Provd is a small team building the check that runs before release: a score, the reasons behind it, and
+                Provd is a small team in Kenya building the check that runs before release: a score, the reasons behind it, and
                 a record you can show an auditor later. We are early. The public scanner and the API are live for USDT
                 on Tron, and we are working with a first set of platforms to decide what comes next.
               </p>

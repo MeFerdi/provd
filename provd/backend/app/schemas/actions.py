@@ -30,13 +30,13 @@ class Counterparty(BaseModel):
 
 
 class Rails(BaseModel):
-	fiat_rail: str | None = Field(default=None, max_length=32, description="mpesa | bank | …")
+	fiat_rail: str | None = Field(default=None, max_length=32, description="Any local rail, e.g. mpesa, bank_transfer, pix, upi, spei, gcash")
 	crypto_asset: str | None = Field(default=None, max_length=32, description="e.g. USDT_TRC20")
 
 
 class Amounts(BaseModel):
 	fiat: Decimal | None = Field(default=None, ge=0)
-	fiat_currency: str | None = Field(default=None, max_length=8)
+	fiat_currency: str | None = Field(default=None, max_length=8, description="ISO 4217 code, e.g. KES, NGN, BRL, INR")
 	crypto: Decimal | None = Field(default=None, ge=0)
 
 

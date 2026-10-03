@@ -105,7 +105,7 @@ export default function PricingPage() {
             <span className="text-sm text-text-muted">Monthly, billed in USD by invoice</span>
           </div>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-text-secondary">
-            For platforms paying out into Africa at steady volume. Each plan includes a set number of checks a month;
+            For platforms paying out across borders at steady volume. Each plan includes a set number of checks a month;
             after that, overage is invoiced, drawn from a prepaid balance, or stopped — your choice.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">

@@ -22,14 +22,13 @@ const CAPABILITIES: Capability[] = [
   },
   {
     title: "Pay as you go",
-    body: "Buy checks like airtime. Top up with USDT or M-Pesa. No monthly plan to sign.",
+    body: "Buy checks like airtime: top up with USDT from anywhere, or M-Pesa in Kenya. Monthly plans for payout platforms.",
   },
 ];
 
 const RAILS = [
   { label: "USDT on Tron", status: "Live" },
-  { label: "M-Pesa", status: "Fiat context" },
-  { label: "Bank rails", status: "Fiat context" },
+  { label: "Any local rail (M-Pesa, Pix, UPI, bank)", status: "Fiat context" },
   { label: "Stellar", status: "Next" },
 ];
 

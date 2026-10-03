@@ -50,7 +50,7 @@ export default function Footer() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/provd-logo.svg" alt="Provd" width={107} height={30} className="h-[30px] w-auto" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            Risk checks for P2P stablecoin trades and mobile-money ramps. Built for African rails.
+            Pre-release risk checks for stablecoin trades, ramps and payouts. Built in Kenya, for local rails everywhere.
           </p>
           <a href={`mailto:${CONTACT_EMAIL}`} className="mt-3 inline-block text-sm text-accent-secondary hover:underline">
             {CONTACT_EMAIL}

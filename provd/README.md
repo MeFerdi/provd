@@ -1,6 +1,7 @@
-# Provd — risk checks for money movement on African rails
+# Provd — pre-release risk checks for stablecoin money movement
 
-Before a platform releases funds (a P2P stablecoin trade, a mobile-money ramp), Provd scores the
+Before a platform releases funds (a P2P stablecoin trade, an on/off-ramp, a payout — on any local rail:
+M-Pesa, Pix, UPI, bank transfer), Provd scores the
 transaction, explains the decision signal by signal, and keeps a tamper-evident record of the check.
 Pay as you go: 300 free checks a month, then prepaid bundles from $20 (1k checks) topped up with USDT or M-Pesa; monthly plans for global payout platforms.
 

@@ -6,6 +6,7 @@ description: Product and API updates.
 ## 2026-10-04
 
 - Pricing: the free tier is now 300 checks a month (was 100 a day). New `1k` bundle: 1,000 checks for $20 / KES 2,600. `GET /v1/usage` returns `free_monthly_checks`, `free_used_this_month` and `free_remaining_this_month` in place of the daily fields.
+- `rails.fiat_rail` and `amounts.fiat_currency` take any local rail and currency (for example `pix`/`BRL`, `upi`/`INR`); amount baselines are learned per currency.
 - Monthly plans for global payout platforms: Payouts Starter, Payouts Pro and Enterprise, listed in `GET /v1/pricing` under `plans`.
 
 ## 2026-10-03

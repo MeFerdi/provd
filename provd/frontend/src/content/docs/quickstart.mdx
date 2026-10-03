@@ -29,7 +29,7 @@ You get a score from 0 to 1000 (higher is riskier), a risk level, flags with rea
 
 ## 2. Score the trade before you release
 
-When a buyer marks a mobile-money payment as sent and you're about to release USDT, send the trade as an intent:
+When a buyer marks their payment as sent (M-Pesa, Pix, UPI, a bank transfer) and you're about to release USDT, send the trade as an intent:
 
 ```bash
 curl -s -X POST https://api.provd.tech/v1/actions/evaluate \
@@ -51,6 +51,7 @@ curl -s -X POST https://api.provd.tech/v1/actions/evaluate \
 
 - `intent_id` is your own reference (an order id works). If you leave it out, Provd generates one.
 - `Idempotency-Key` makes retries safe: the same key returns the same decision and is charged once.
+- `fiat_rail` and `fiat_currency` take any local rail and ISO currency: `"pix"` and `"BRL"`, `"upi"` and `"INR"`, `"bank_transfer"` and `"NGN"`. Amount baselines are learned per currency from your own history.
 - `phone_hash` is optional. Hash the phone number on your side (HMAC-SHA256 with your own secret, hex-encoded). Never send raw numbers; they are rejected.
 
 ## 3. Read the decision
