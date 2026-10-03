@@ -136,9 +136,10 @@ class CreditPurchase(Base):
 	checks: Mapped[int] = mapped_column(Integer, nullable=False)
 	amount_due: Mapped[str] = mapped_column(String(32), nullable=False)  # decimal string, in `currency`
 	currency: Mapped[str] = mapped_column(String(8), nullable=False)
-	method: Mapped[str] = mapped_column(String(16), nullable=False)  # usdt_tron | mpesa
+	method: Mapped[str] = mapped_column(String(16), nullable=False)  # usdt_tron | mpesa | card
 	status: Mapped[str] = mapped_column(String(16), nullable=False, default="pending")
-	reference: Mapped[str | None] = mapped_column(String(128), nullable=True)  # tx hash or M-Pesa receipt
+	reference: Mapped[str | None] = mapped_column(String(128), nullable=True)  # tx hash, M-Pesa receipt or Paystack transaction id
+	checkout_url: Mapped[str | None] = mapped_column(String(512), nullable=True)  # card: Paystack hosted payment page
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
 	confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 

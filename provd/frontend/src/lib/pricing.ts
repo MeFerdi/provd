@@ -44,6 +44,7 @@ export const BUNDLES: Bundle[] = Object.entries(raw.bundles)
   .sort((a, b) => a.checks - b.checks);
 
 const PAYMENT_METHOD_LABELS: Record<string, string> = {
+  card: "card (Visa, Mastercard, via Paystack)",
   usdt_tron: "USDT (TRC-20)",
   mpesa: "M-Pesa",
 };
@@ -52,6 +53,11 @@ export const PAYMENT_METHODS: { id: string; label: string }[] = raw.payment_meth
   id,
   label: PAYMENT_METHOD_LABELS[id] ?? id.replace(/_/g, " "),
 }));
+
+/** "a, b or c" */
+export function joinOr(items: string[]): string {
+  return items.length < 2 ? (items[0] ?? "") : `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`;
+}
 
 export function formatUsd(value: number, fractionDigits = 0): string {
   return new Intl.NumberFormat("en-US", {

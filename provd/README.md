@@ -3,7 +3,7 @@
 Before a platform releases funds (a P2P stablecoin trade, an on/off-ramp, a payout — on any local rail:
 M-Pesa, Pix, UPI, bank transfer), Provd scores the
 transaction, explains the decision signal by signal, and keeps a tamper-evident record of the check.
-Pay as you go: 300 free checks a month, then prepaid bundles from $20 (1k checks) topped up with USDT or M-Pesa; monthly plans for global payout platforms.
+Pay as you go: 300 free checks a month, then prepaid bundles from $20 (1k checks) topped up by card (Paystack), USDT or M-Pesa; monthly plans for global payout platforms.
 
 Each platform's checks use its **own history plus public chain data**. Nothing is pooled across platforms.
 
@@ -29,7 +29,9 @@ indexer ──► freeze events, USDT top-up matching
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
   bundled as a seed fixture.
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
-  M-Pesa top-ups confirmed by an admin; exact usage ledger recording what paid for each check.
+  M-Pesa top-ups confirmed by an admin; card top-ups through Paystack Checkout (signed `charge.success`
+  webhook at `/v1/webhooks/paystack`, amount/currency checked before credit, indexer re-verifies missed
+  webhooks; off until `PAYSTACK_SECRET_KEY` is set); exact usage ledger recording what paid for each check.
 - Subscriptions (global platforms, Phase C): monthly included checks with overage on prepaid balance, invoice,
   or block; `PUT /v1/admin/accounts/{id}/billing` and a monthly statement for invoicing.
 - Proof layer (Phase B): every decision record is hashed (SHA-256, canonical JSON), **signed** (secp256k1,

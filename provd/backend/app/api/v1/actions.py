@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,7 +25,7 @@ from app.schemas.actions import (
 	RiskFlag,
 )
 from app.schemas.auth import AuthContext
-from app.services import billing, chain_data
+from app.services import billing, chain_data, paystack
 from app.services.evaluate import IntentRejected, build_context, evaluate_intent
 from app.services.rate_limit import rate_limit
 
@@ -242,7 +242,8 @@ async def pricing() -> dict:
 
 class TopupRequest(BaseModel):
 	bundle: Literal["1k", "10k", "100k", "1m"]
-	method: Literal["usdt_tron", "mpesa"]
+	method: Literal["card", "usdt_tron", "mpesa"]
+	email: EmailStr | None = Field(default=None, description="Card only: where Paystack sends the receipt")
 
 
 class TopupConfirm(BaseModel):
@@ -256,7 +257,12 @@ def _topup_view(p: CreditPurchase) -> dict:
 		"method": p.method, "status": p.status, "reference": p.reference,
 		"created_at": p.created_at.isoformat() if p.created_at else None,
 	}
-	if p.status == "pending" and p.method == "usdt_tron":
+	if p.status == "pending" and p.method == "card":
+		view["pay_url"] = p.checkout_url
+		view["instructions"] = "Open pay_url to pay by card on Paystack's secure page. Checks are credited as soon as Paystack confirms the payment."
+	elif p.status == "needs_review":
+		view["instructions"] = "The payment didn't match this top-up's amount or currency. We'll review it and contact you."
+	elif p.status == "pending" and p.method == "usdt_tron":
 		view["pay_to"] = settings.usdt_deposit_address or None
 		view["instructions"] = "Send exactly amount_due USDT (TRC-20). The exact amount identifies your payment; credit arrives after confirmation."
 	elif p.status == "pending":
@@ -268,10 +274,40 @@ def _topup_view(p: CreditPurchase) -> dict:
 @router.post("/topups", status_code=status.HTTP_201_CREATED, summary="Start a top-up (buy a check bundle)")
 async def create_topup(body: TopupRequest, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	account_id = _account(ctx)
+	if body.method == "card":
+		if not get_settings().paystack_secret_key:
+			raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Card payments are not enabled yet. Use usdt_tron or mpesa.")
+		if not body.email:
+			raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Card top-ups need an email for the receipt")
 	await billing.ensure_account(db, account_id)
 	purchase = billing.create_purchase(account_id, body.bundle, body.method)
+	if body.method == "card":
+		try:
+			checkout = await paystack.client().initialize(
+				reference=purchase.id, email=body.email, amount_subunits=paystack.subunits(purchase.amount_due),
+				currency=purchase.currency, callback_url=f"{get_settings().public_site_url.rstrip('/')}/topup/complete",
+				metadata={"account_id": account_id, "bundle": purchase.bundle, "checks": purchase.checks},
+			)
+		except paystack.PaystackUnavailable as exc:
+			await db.rollback()
+			raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Card payment provider unavailable; try again shortly") from exc
+		purchase.checkout_url = checkout.authorization_url
 	db.add(purchase)
 	await db.commit()
+	return _topup_view(purchase)
+
+
+@router.post("/topups/{purchase_id}/refresh", summary="Card: check the payment with Paystack now")
+async def refresh_topup(purchase_id: str, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
+	purchase = await db.get(CreditPurchase, purchase_id)
+	if purchase is None or purchase.account_id != _account(ctx):
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Top-up not found")
+	if purchase.method == "card" and purchase.status == "pending":
+		try:
+			paystack.settle(purchase, await paystack.client().verify(purchase.id))
+		except paystack.PaystackUnavailable as exc:
+			raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Card payment provider unavailable; try again shortly") from exc
+		await db.commit()
 	return _topup_view(purchase)
 
 
@@ -288,7 +324,7 @@ async def confirm_topup(purchase_id: str, body: TopupConfirm, db: AsyncSession =
 	purchase = await db.get(CreditPurchase, purchase_id)
 	if purchase is None:
 		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Top-up not found")
-	if purchase.status != "pending":
+	if purchase.status not in ("pending", "needs_review"):
 		raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Top-up is already {purchase.status}")
 	billing.confirm_purchase(purchase, body.reference)
 	await db.commit()

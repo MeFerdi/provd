@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import ContactSection from "@/components/marketing/ContactSection";
 import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/env";
-import { BUNDLES, FREE_MONTHLY_CHECKS, PAYMENT_METHODS, PLANS, formatKes, formatUsd } from "@/lib/pricing";
+import { BUNDLES, FREE_MONTHLY_CHECKS, PAYMENT_METHODS, PLANS, formatKes, formatUsd, joinOr } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing — Provd",
-  description: `Pay as you go. ${FREE_MONTHLY_CHECKS} free checks a month, then check bundles from ${formatUsd(BUNDLES[0].priceUsd)} topped up with ${PAYMENT_METHODS.map((m) => m.label).join(" or ")}. Monthly plans for global payout platforms.`,
+  description: `Pay as you go. ${FREE_MONTHLY_CHECKS} free checks a month, then check bundles from ${formatUsd(BUNDLES[0].priceUsd)} topped up with ${joinOr(PAYMENT_METHODS.map((m) => m.label))}. Monthly plans for global payout platforms.`,
   alternates: { canonical: "/pricing" },
 };
 
@@ -82,7 +82,7 @@ export default function PricingPage() {
             <div className="space-y-2 border-t border-bg-border px-5 py-4 text-sm leading-relaxed text-text-secondary sm:px-6">
               <p>
                 <span className="font-medium text-text-primary">Top up with</span>{" "}
-                {PAYMENT_METHODS.map((m) => m.label).join(" or ")}. Auto top-up is coming.
+                {joinOr(PAYMENT_METHODS.map((m) => m.label))}. Auto top-up is coming.
               </p>
               <p>
                 Checks are used only when a trade is actually scored. Requests for rails we don&apos;t support yet return{" "}

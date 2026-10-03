@@ -53,7 +53,7 @@ def public_price_list() -> dict:
 		"free_monthly_checks": get_settings().free_monthly_checks,
 		"bundles": {k: {**v, "per_check_usd": round(v["price_usd"] / v["checks"], 4)} for k, v in spec["bundles"].items()},
 		"plans": spec.get("plans", {}),
-		"payment_methods": ["usdt_tron", "mpesa"],
+		"payment_methods": ["card", "usdt_tron", "mpesa"],
 	}
 
 
@@ -143,7 +143,12 @@ def record_usage(db: AsyncSession, account_id: str, intent_id: str, charge: Char
 
 def create_purchase(account_id: str, bundle: str, method: str) -> CreditPurchase:
 	spec = pricing()["bundles"][bundle]
-	if method == "usdt_tron":
+	if method == "card":
+		currency = get_settings().paystack_currency.upper()
+		if currency not in ("KES", "USD"):
+			raise ValueError(f"PAYSTACK_CURRENCY {currency} has no price list; use KES or USD")
+		amount = Decimal(str(spec["price_kes" if currency == "KES" else "price_usd"]))
+	elif method == "usdt_tron":
 		# A unique amount (sub-cent tag) lets the indexer match the incoming transfer to this purchase.
 		tag = Decimal(secrets.randbelow(9999) + 1) / Decimal(1_000_000)
 		amount, currency = (Decimal(str(spec["price_usd"])) + tag).quantize(Decimal("0.000001")), "USDT"

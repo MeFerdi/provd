@@ -11,7 +11,7 @@ import argparse
 import asyncio
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 
@@ -22,7 +22,7 @@ from app.config import get_settings
 from app.db.postgres import get_session_factory
 from app.models.rails import Checkpoint, CreditPurchase, FlaggedAddress
 from app.proof.batching import advance_anchors, seal_batch
-from app.services import billing, chain_data
+from app.services import billing, chain_data, paystack
 
 logger = logging.getLogger("provd.indexer")
 SEED_DIR = Path(__file__).resolve().parent / "seed"
@@ -80,6 +80,31 @@ async def match_deposits(db) -> int:
 	return matched
 
 
+async def reconcile_card_payments(db, now: datetime | None = None) -> int:
+	"""Safety net for missed Paystack webhooks: verify pending card top-ups between 2 minutes and 24 hours old."""
+	if not get_settings().paystack_secret_key:
+		return 0
+	now = now or datetime.now(timezone.utc)
+	pending = (
+		await db.execute(
+			select(CreditPurchase).where(
+				CreditPurchase.status == "pending", CreditPurchase.method == "card",
+				CreditPurchase.created_at <= now - timedelta(minutes=2), CreditPurchase.created_at >= now - timedelta(hours=24),
+			).limit(50)
+		)
+	).scalars().all()
+	changed = 0
+	for purchase in pending:
+		try:
+			if paystack.settle(purchase, await paystack.client().verify(purchase.id)) != "pending":
+				changed += 1
+		except paystack.PaystackUnavailable as exc:
+			logger.warning("indexer.paystack_unavailable %s", exc)
+			break
+	await db.commit()
+	return changed
+
+
 async def seed(db) -> int:
 	if (await db.execute(select(func.count()).select_from(FlaggedAddress))).scalar_one():
 		return 0
@@ -118,6 +143,8 @@ async def run(once: bool) -> None:
 			except AdapterUnavailable as exc:
 				await db.rollback()
 				logger.warning("indexer.upstream_unavailable %s", exc)
+			if cards := await reconcile_card_payments(db):  # independent of Tron availability
+				logger.info("indexer.card_payments_settled %d", cards)
 			batch = await seal_batch(db)
 			anchors = await advance_anchors(db)
 			if batch or anchors:

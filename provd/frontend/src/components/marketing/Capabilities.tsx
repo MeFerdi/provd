@@ -22,7 +22,7 @@ const CAPABILITIES: Capability[] = [
   },
   {
     title: "Pay as you go",
-    body: "Buy checks like airtime: top up with USDT from anywhere, or M-Pesa in Kenya. Monthly plans for payout platforms.",
+    body: "Buy checks like airtime: pay by card or USDT from anywhere, or M-Pesa in Kenya. Monthly plans for payout platforms.",
   },
 ];
 

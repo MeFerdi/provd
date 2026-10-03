@@ -942,8 +942,22 @@
       "title": "Bundle",
       "type": "string"
      },
+     "email": {
+      "anyOf": [
+       {
+        "format": "email",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Card only: where Paystack sends the receipt",
+      "title": "Email"
+     },
      "method": {
       "enum": [
+       "card",
        "usdt_tron",
        "mpesa"
       ],
@@ -2301,6 +2315,70 @@
      }
     ],
     "summary": "Start a top-up (buy a check bundle)",
+    "tags": [
+     "actions"
+    ]
+   }
+  },
+  "/v1/topups/{purchase_id}/refresh": {
+   "post": {
+    "operationId": "refresh_topup_v1_topups__purchase_id__refresh_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "purchase_id",
+      "required": true,
+      "schema": {
+       "title": "Purchase Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "title": "Response Refresh Topup V1 Topups  Purchase Id  Refresh Post",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "security": [
+     {
+      "HTTPBearer": []
+     }
+    ],
+    "summary": "Card: check the payment with Paystack now",
     "tags": [
      "actions"
     ]

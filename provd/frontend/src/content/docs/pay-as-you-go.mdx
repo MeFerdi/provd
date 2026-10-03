@@ -1,6 +1,6 @@
 ---
 title: Pay as you go
-description: Free monthly checks, prepaid bundles from $20, top-ups with USDT or M-Pesa, and monthly plans for payout platforms.
+description: Free monthly checks, prepaid bundles from $20, top-ups by card, USDT or M-Pesa, and monthly plans for payout platforms.
 ---
 
 Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term. (Global payout platforms can ask for a monthly plan instead; see the end of this page.)
@@ -68,11 +68,12 @@ Start a top-up with the bundle and how you'll pay:
 curl -s -X POST https://api.provd.tech/v1/topups \
   -H "X-API-Key: $PROVD_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "bundle": "10k", "method": "usdt_tron" }'
+  -d '{ "bundle": "10k", "method": "card", "email": "billing@yourplatform.com" }'
 ```
 
 The response tells you exactly what to pay and where:
 
+- **`card`**: open `pay_url` and pay on Paystack's secure checkout page (Visa, Mastercard). Card top-ups are charged in KES; `amount_due` and `currency` show the exact charge, and your bank converts if your card is in another currency. `email` is required and gets the receipt. Checks are credited as soon as Paystack confirms the charge, usually within a minute. If you want to check sooner, call `POST /v1/topups/{id}/refresh`.
 - **`usdt_tron`**: send exactly `amount_due` USDT (TRC-20) to `pay_to`. The exact amount identifies your payment.
 - **`mpesa`**: pay `amount_due` KES to the paybill in `pay_to`, using the account number in `instructions`.
 

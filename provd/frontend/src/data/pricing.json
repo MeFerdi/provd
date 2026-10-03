@@ -44,6 +44,7 @@
   }
  },
  "payment_methods": [
+  "card",
   "usdt_tron",
   "mpesa"
  ]

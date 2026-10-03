@@ -7,6 +7,7 @@ from decimal import Decimal
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
@@ -16,6 +17,7 @@ from app.adapters.tron import validate_tron_address
 from app.api.v1.actions import router as actions_router
 from app.api.v1.health import router as health_router
 from app.api.v1.proof import router as proof_router
+from app.api.v1.webhooks import router as webhooks_router
 from app.proof import anchors
 from app.proof.anchors import AnchorResult
 from app.proof.batching import advance_anchors, seal_batch
@@ -105,6 +107,7 @@ def env(monkeypatch):
 	app.include_router(actions_router, prefix="/v1")
 	app.include_router(health_router, prefix="/v1")
 	app.include_router(proof_router, prefix="/v1")
+	app.include_router(webhooks_router, prefix="/v1")
 	anchor = FakeAnchor()
 	anchors.set_anchor(anchor)
 	who = {"client": "platform-a"}
@@ -429,3 +432,116 @@ def test_free_quota_resets_each_month(env):
 	usage = client.get("/v1/usage").json()
 	assert usage["free_used_this_month"] == 0 and usage["free_remaining_this_month"] == 2
 	assert client.post("/v1/actions/evaluate", json=intent(CLEAN)).status_code == 200
+
+
+class FakePaystack:
+	def __init__(self):
+		self.initialized, self.results, self.down = [], {}, False
+
+	async def initialize(self, **kwargs):
+		from app.services.paystack import Checkout, PaystackUnavailable
+
+		if self.down:
+			raise PaystackUnavailable("down")
+		self.initialized.append(kwargs)
+		return Checkout(authorization_url=f"https://checkout.paystack.com/{kwargs['reference'][:8]}", reference=kwargs["reference"])
+
+	async def verify(self, reference):
+		from app.services.paystack import Transaction
+
+		return self.results.get(reference, Transaction(reference, "abandoned", 0, "KES", ""))
+
+
+@pytest.fixture()
+def card(env, monkeypatch):
+	from app.config import get_settings
+	from app.services import paystack
+
+	monkeypatch.setenv("PAYSTACK_SECRET_KEY", "sk_test_provd")
+	monkeypatch.setenv("FREE_MONTHLY_CHECKS", "0")
+	get_settings.cache_clear()
+	fake = FakePaystack()
+	paystack.set_client(fake)
+	yield (*env, fake)
+	paystack.set_client(None)
+
+
+def _webhook(client, payload, secret="sk_test_provd"):
+	import hmac as _hmac
+
+	raw = json.dumps(payload).encode()
+	sig = _hmac.new(secret.encode(), raw, hashlib.sha512).hexdigest()
+	return client.post("/v1/webhooks/paystack", content=raw, headers={"x-paystack-signature": sig, "content-type": "application/json"})
+
+
+def test_card_topup_disabled_without_key(env):
+	client, *_ = env
+	assert client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).status_code == 503
+
+
+def test_card_topup_checkout_and_signed_webhook(card):
+	client, tron, who, sessions, portal, fake = card
+	assert client.post("/v1/topups", json={"bundle": "1k", "method": "card"}).status_code == 422
+	topup = client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).json()
+	assert topup["currency"] == "KES" and topup["amount_due"] == "2600" and topup["pay_url"].startswith("https://checkout.paystack.com/")
+	sent = fake.initialized[0]
+	assert sent["amount_subunits"] == 260000 and sent["currency"] == "KES" and sent["reference"] == topup["id"]
+	assert sent["callback_url"].endswith("/topup/complete") and sent["metadata"]["checks"] == 1000
+	assert client.post("/v1/actions/evaluate", json=intent(CLEAN)).status_code == 402
+
+	event = {"event": "charge.success", "data": {"id": 4099, "reference": topup["id"], "status": "success", "amount": 260000, "currency": "KES"}}
+	assert _webhook(client, event, secret="wrong").status_code == 401
+	assert client.get("/v1/usage").json()["balance_checks"] == 0
+	assert _webhook(client, event).status_code == 200
+	assert _webhook(client, event).status_code == 200  # Paystack retries: credited once
+	assert client.get("/v1/usage").json()["balance_checks"] == 1000
+	listed = client.get("/v1/topups").json()[0]
+	assert listed["status"] == "confirmed" and listed["reference"] == "paystack:4099" and "pay_url" not in listed
+	assert client.post("/v1/actions/evaluate", json=intent(CLEAN)).status_code == 200
+	assert _webhook(client, {"event": "charge.success", "data": {"reference": "unknown", "status": "success", "amount": 1, "currency": "KES"}}).status_code == 200
+
+
+def test_card_underpayment_goes_to_review_not_credit(card):
+	client, tron, who, sessions, portal, fake = card
+	topup = client.post("/v1/topups", json={"bundle": "10k", "method": "card", "email": "ops@example.com"}).json()
+	_webhook(client, {"event": "charge.success", "data": {"id": 7, "reference": topup["id"], "status": "success", "amount": 100, "currency": "KES"}})
+	assert client.get("/v1/topups").json()[0]["status"] == "needs_review"
+	assert client.get("/v1/usage").json()["balance_checks"] == 0
+	who["client"] = "admin"
+	assert client.post(f"/v1/admin/topups/{topup['id']}/confirm", json={"reference": "reviewed-ok"}).status_code == 200
+
+
+def test_card_refresh_reconcile_and_provider_outage(card):
+	from app.indexer import reconcile_card_payments
+	from app.models.rails import CreditPurchase
+	from app.services.paystack import Transaction
+
+	client, tron, who, sessions, portal, fake = card
+	first = client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).json()
+	assert client.post(f"/v1/topups/{first['id']}/refresh").json()["status"] == "pending"  # abandoned: buyer can retry
+	fake.results[first["id"]] = Transaction(first["id"], "success", 260000, "KES", "11")
+	who["client"] = "platform-b"
+	assert client.post(f"/v1/topups/{first['id']}/refresh").status_code == 404
+	who["client"] = "platform-a"
+	assert client.post(f"/v1/topups/{first['id']}/refresh").json()["status"] == "confirmed"
+
+	second = client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).json()
+	fake.results[second["id"]] = Transaction(second["id"], "success", 260000, "KES", "12")
+
+	async def reconcile(at):
+		async with sessions() as db:
+			return await reconcile_card_payments(db, now=at)
+
+	now = datetime.now(timezone.utc)
+	assert portal.call(reconcile, now) == 0  # too fresh: give the webhook a chance first
+	assert portal.call(reconcile, now + timedelta(minutes=5)) == 1
+	assert client.get("/v1/usage").json()["balance_checks"] == 2000
+
+	fake.down = True
+	assert client.post("/v1/topups", json={"bundle": "1k", "method": "card", "email": "ops@example.com"}).status_code == 502
+
+	async def count():
+		async with sessions() as db:
+			return len((await db.execute(select(CreditPurchase))).scalars().all())
+
+	assert portal.call(count) == 2
