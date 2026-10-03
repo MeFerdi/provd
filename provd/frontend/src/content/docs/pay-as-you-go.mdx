@@ -1,13 +1,13 @@
 ---
 title: Pay as you go
-description: Free daily checks, prepaid bundles and top-ups with USDT or M-Pesa. No monthly plan.
+description: Free monthly checks, prepaid bundles from $20, top-ups with USDT or M-Pesa, and monthly plans for payout platforms.
 ---
 
 Provd is prepaid, like airtime. You use free checks first, then checks you've bought. There is no subscription and no minimum term. (Global payout platforms can ask for a monthly plan instead; see the end of this page.)
 
 ## 1. Free quota
 
-Every account gets **100 free checks a day**, reset at 00:00 UTC. Free checks are used before your balance.
+Every account gets **300 free checks a month**, reset on the 1st at 00:00 UTC. That is enough to integrate and test; production volume runs on a bundle. Free checks are used before your balance.
 
 A scored `POST /v1/actions/evaluate` uses one check. These don't use any:
 
@@ -23,9 +23,10 @@ curl -s https://api.provd.tech/v1/usage -H "X-API-Key: $PROVD_API_KEY"
 
 ```json
 {
-  "free_daily_checks": 100,
-  "free_used_today": 37,
-  "free_remaining_today": 63,
+  "billing_model": "payg",
+  "free_monthly_checks": 300,
+  "free_used_this_month": 300,
+  "free_remaining_this_month": 0,
   "balance_checks": 9800,
   "paid_checks_30d": 200,
   "paid_units_30d": 200
@@ -38,7 +39,7 @@ When the free quota is used up and your balance is empty, evaluate returns `402 
 
 ```json
 {
-  "detail": "Free daily checks used and no prepaid balance. Buy a bundle to continue.",
+  "detail": "Free checks for this month used and no prepaid balance. Buy a bundle to continue.",
   "balance": 0,
   "units_required": 1,
   "purchase_url": "https://provd.tech/pricing",
@@ -54,9 +55,10 @@ Early-access pricing (the live list is at `GET /v1/pricing`):
 
 | Bundle | Checks | Price | Per check |
 |---|---|---|---|
-| `10k` | 10,000 | $150 | $0.015 |
-| `100k` | 100,000 | $1,000 | $0.010 |
-| `1m` | 1,000,000 | $7,000 | $0.007 |
+| `1k` | 1,000 | $20 (KES 2,600) | $0.020 |
+| `10k` | 10,000 | $150 (KES 19,500) | $0.015 |
+| `100k` | 100,000 | $1,000 (KES 130,000) | $0.010 |
+| `1m` | 1,000,000 | $7,000 (KES 910,000) | $0.007 |
 
 ## 4. Top up
 
@@ -80,4 +82,12 @@ Auto top-up (refill when your balance drops below a threshold) is coming.
 
 ## Monthly plans for global platforms
 
-Payout platforms with steady volume can have a monthly plan instead: a set number of included checks per billing month, and a choice of what happens after they're used — draw from a prepaid balance, invoice the overage, or stop with `402`. `GET /v1/usage` then returns `billing_model: "subscription"` and a `plan` block with checks used and remaining this period. Plans are set up by us; [contact us](mailto:hello@provd.tech?subject=Provd%20monthly%20plan).
+Payout platforms with steady volume can have a monthly plan instead, billed in USD by invoice:
+
+| Plan | Per month | Included checks |
+|---|---|---|
+| Payouts Starter | from $300 | 25,000 |
+| Payouts Pro | from $1,500 | 200,000 |
+| Enterprise | custom | custom |
+
+Each plan has a set number of included checks per billing month, and a choice of what happens after they're used — draw from a prepaid balance, invoice the overage, or stop with `402`. `GET /v1/usage` then returns `billing_model: "subscription"` and a `plan` block with checks used and remaining this period. Plans are set up by us; [contact us](mailto:hello@provd.tech?subject=Provd%20monthly%20plan).

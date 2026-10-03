@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     goplus_api_key: str = Field(default="", validation_alias=AliasChoices("GOPLUS_API_KEY"))
 
     # Pay-as-you-go
-    free_daily_checks: int = Field(default=100, validation_alias=AliasChoices("FREE_DAILY_CHECKS"))
+    free_monthly_checks: int = Field(default=300, validation_alias=AliasChoices("FREE_MONTHLY_CHECKS"))
     usdt_deposit_address: str = Field(default="", validation_alias=AliasChoices("USDT_DEPOSIT_ADDRESS"))
     mpesa_paybill: str = Field(default="", validation_alias=AliasChoices("MPESA_PAYBILL"))
     public_site_url: str = Field(default="https://provd.tech", validation_alias=AliasChoices("PUBLIC_SITE_URL"))

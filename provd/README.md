@@ -2,7 +2,7 @@
 
 Before a platform releases funds (a P2P stablecoin trade, a mobile-money ramp), Provd scores the
 transaction, explains the decision signal by signal, and keeps a tamper-evident record of the check.
-Pay as you go: 100 free checks a day, then prepaid bundles topped up with USDT or M-Pesa.
+Pay as you go: 300 free checks a month, then prepaid bundles from $20 (1k checks) topped up with USDT or M-Pesa; monthly plans for global payout platforms.
 
 Each platform's checks use its **own history plus public chain data**. Nothing is pooled across platforms.
 
@@ -27,7 +27,7 @@ indexer ──► freeze events, USDT top-up matching
   `asset_backing` and `venue_risk` are registered stubs (Phase E).
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
   bundled as a seed fixture.
-- Pay-as-you-go: daily free quota → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
+- Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
   M-Pesa top-ups confirmed by an admin; exact usage ledger recording what paid for each check.
 - Subscriptions (global platforms, Phase C): monthly included checks with overage on prepaid balance, invoice,
   or block; `PUT /v1/admin/accounts/{id}/billing` and a monthly statement for invoicing.

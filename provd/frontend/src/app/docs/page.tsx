@@ -27,7 +27,7 @@ export default function DocsLandingPage() {
             </h1>
             <p className="text-text-secondary text-lg">
               Send a trade before you release it and get back a score, the reasons behind it and a decision record.
-              One endpoint to start, 100 free checks a day.
+              One endpoint to start, 300 free checks a month.
             </p>
             <div className="mt-8 grid gap-4 rounded-md border border-bg-border bg-white p-6 md:grid-cols-3">
               <div>

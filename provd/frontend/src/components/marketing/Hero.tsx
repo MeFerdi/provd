@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FREE_DAILY_CHECKS } from "@/lib/pricing";
+import { FREE_MONTHLY_CHECKS } from "@/lib/pricing";
 
 export default function Hero() {
   return (
@@ -11,7 +11,7 @@ export default function Hero() {
           </h1>
           <p className="max-w-xl font-sans text-[17px] leading-[1.7] text-text-secondary sm:text-[18px]">
             Risk checks for P2P stablecoin trades and mobile-money ramps. Every decision explained, every check on
-            record. Pay as you go — {FREE_DAILY_CHECKS} free checks a day.
+            record. Pay as you go — {FREE_MONTHLY_CHECKS} free checks a month.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button href="/check" size="lg">

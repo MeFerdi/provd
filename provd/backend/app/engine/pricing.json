@@ -1,6 +1,11 @@
 {
-  "_note": "PLACEHOLDER prices for validation \u2014 the founder sets real prices. Per-check: 10k $0.015, 100k $0.010, 1m $0.007.",
+  "_note": "Early-access prices; revisit after the first 5-10 paying customers. Per-check: 1k $0.020, 10k $0.015, 100k $0.010, 1m $0.007. Plans are sold by contact (invoice/wire) and configured with PUT /v1/admin/accounts/{id}/billing.",
   "bundles": {
+    "1k": {
+      "checks": 1000,
+      "price_usd": 20,
+      "price_kes": 2600
+    },
     "10k": {
       "checks": 10000,
       "price_usd": 150,
@@ -15,6 +20,23 @@
       "checks": 1000000,
       "price_usd": 7000,
       "price_kes": 910000
+    }
+  },
+  "plans": {
+    "payouts_starter": {
+      "name": "Payouts Starter",
+      "monthly_usd": 300,
+      "monthly_included_checks": 25000
+    },
+    "payouts_pro": {
+      "name": "Payouts Pro",
+      "monthly_usd": 1500,
+      "monthly_included_checks": 200000
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "monthly_usd": null,
+      "monthly_included_checks": null
     }
   }
 }

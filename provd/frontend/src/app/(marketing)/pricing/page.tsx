@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import ContactSection from "@/components/marketing/ContactSection";
 import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/env";
-import { BUNDLES, FREE_DAILY_CHECKS, PAYMENT_METHODS, formatKes, formatUsd } from "@/lib/pricing";
+import { BUNDLES, FREE_MONTHLY_CHECKS, PAYMENT_METHODS, PLANS, formatKes, formatUsd } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing — Provd",
-  description: `Pay as you go. ${FREE_DAILY_CHECKS} free checks a day, then buy check bundles and top up with ${PAYMENT_METHODS.map((m) => m.label).join(" or ")}.`,
+  description: `Pay as you go. ${FREE_MONTHLY_CHECKS} free checks a month, then check bundles from ${formatUsd(BUNDLES[0].priceUsd)} topped up with ${PAYMENT_METHODS.map((m) => m.label).join(" or ")}. Monthly plans for global payout platforms.`,
   alternates: { canonical: "/pricing" },
 };
 
@@ -22,8 +22,8 @@ export default function PricingPage() {
             Pay for checks, not for seats.
           </h1>
           <p className="max-w-2xl text-lg leading-relaxed text-text-secondary">
-            Start with {FREE_DAILY_CHECKS} free checks a day. When you need more, buy a bundle the way you buy airtime.
-            No monthly plan, no minimum term.
+            Start with {FREE_MONTHLY_CHECKS} free checks a month. When you go live, buy a bundle the way you buy airtime,
+            from {formatUsd(BUNDLES[0].priceUsd)}. No minimum term. Global payout platforms can take a monthly plan.
           </p>
         </div>
       </section>
@@ -34,7 +34,7 @@ export default function PricingPage() {
             <h2 className="font-sans text-base font-semibold text-text-primary">Free</h2>
             <div className="mt-1 font-display text-3xl text-text-primary">$0</div>
             <ul className="mt-4 flex-1 space-y-2 text-[15px] text-text-secondary">
-              <li>{FREE_DAILY_CHECKS} API checks a day, reset daily</li>
+              <li>{FREE_MONTHLY_CHECKS} API checks a month, enough to integrate and test</li>
               <li>Public counterparty scanner on the website</li>
               <li>Decision records on every check</li>
             </ul>
@@ -99,15 +99,42 @@ export default function PricingPage() {
           </div>
         </div>
 
-        <div className="mx-auto mt-6 max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-col gap-4 rounded-md border border-bg-border bg-bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="font-sans text-base font-semibold text-text-primary">Global platforms (payouts)</h2>
-              <p className="mt-1 text-[15px] text-text-secondary">
-                Payout and OTC checks are live. Steady-volume platforms can take a monthly plan with included checks and
-                invoiced overage. Contact us.
-              </p>
-            </div>
+        <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="font-display text-2xl text-text-primary sm:text-3xl">Global payout platforms</h2>
+            <span className="text-sm text-text-muted">Monthly, billed in USD by invoice</span>
+          </div>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-text-secondary">
+            For platforms paying out into Africa at steady volume. Each plan includes a set number of checks a month;
+            after that, overage is invoiced, drawn from a prepaid balance, or stopped — your choice.
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {PLANS.map((plan) => (
+              <div key={plan.id} className="flex flex-col rounded-md border border-bg-border bg-white p-6">
+                <h3 className="font-sans text-base font-semibold text-text-primary">{plan.name}</h3>
+                <div className="mt-1 font-display text-3xl text-text-primary">
+                  {plan.monthlyUsd === null ? (
+                    "Custom"
+                  ) : (
+                    <>
+                      <span className="font-sans text-sm text-text-muted">from </span>
+                      {formatUsd(plan.monthlyUsd)}
+                      <span className="font-sans text-sm text-text-muted"> / month</span>
+                    </>
+                  )}
+                </div>
+                <p className="mt-3 flex-1 text-[15px] text-text-secondary">
+                  {plan.includedChecks === null
+                    ? "Volume, overage terms and support agreed with you."
+                    : `${plan.includedChecks.toLocaleString("en-US")} checks a month included.`}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-col gap-4 rounded-md border border-bg-border bg-bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[15px] text-text-secondary">
+              Payout and OTC checks are live. Plans are set up with you directly — tell us your volume and corridors.
+            </p>
             <a
               href={PAYOUTS_MAILTO}
               className="inline-flex h-12 shrink-0 items-center justify-center rounded-md border border-text-primary bg-white px-6 font-sans text-base font-medium text-text-primary transition-colors hover:bg-bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary"

@@ -9,9 +9,8 @@ import json
 import sys
 from pathlib import Path
 
-from app.config import get_settings
 from app.main import app
-from app.services.billing import pricing
+from app.services.billing import public_price_list
 
 
 def main() -> None:
@@ -19,12 +18,7 @@ def main() -> None:
 	out.mkdir(parents=True, exist_ok=True)
 	spec = app.openapi()
 	(out / "openapi.json").write_text(json.dumps(spec, indent=1, sort_keys=True) + "\n")
-	bundles = pricing()["bundles"]
-	(out / "pricing.json").write_text(json.dumps({
-		"free_daily_checks": get_settings().free_daily_checks,
-		"bundles": {k: {**v, "per_check_usd": round(v["price_usd"] / v["checks"], 4)} for k, v in bundles.items()},
-		"payment_methods": ["usdt_tron", "mpesa"],
-	}, indent=1) + "\n")
+	(out / "pricing.json").write_text(json.dumps(public_price_list(), indent=1) + "\n")
 	print(f"wrote {out / 'openapi.json'} ({len(spec['paths'])} paths) and {out / 'pricing.json'}")
 
 

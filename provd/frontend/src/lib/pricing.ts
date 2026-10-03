@@ -6,11 +6,24 @@
 import pricing from "@/data/pricing.json";
 
 type RawBundle = { checks: number; price_usd: number; price_kes?: number; per_check_usd?: number };
-type RawPricing = { free_daily_checks: number; bundles: Record<string, RawBundle>; payment_methods: string[] };
+type RawPlan = { name: string; monthly_usd: number | null; monthly_included_checks: number | null };
+type RawPricing = {
+  free_monthly_checks: number;
+  bundles: Record<string, RawBundle>;
+  plans?: Record<string, RawPlan>;
+  payment_methods: string[];
+};
 
 const raw = pricing as RawPricing;
 
-export const FREE_DAILY_CHECKS: number = raw.free_daily_checks;
+export const FREE_MONTHLY_CHECKS: number = raw.free_monthly_checks;
+
+export type Plan = { id: string; name: string; monthlyUsd: number | null; includedChecks: number | null };
+
+/** Monthly plans for global payout platforms, cheapest first; custom-priced plans last. */
+export const PLANS: Plan[] = Object.entries(raw.plans ?? {})
+  .map(([id, p]) => ({ id, name: p.name, monthlyUsd: p.monthly_usd, includedChecks: p.monthly_included_checks }))
+  .sort((a, b) => (a.monthlyUsd ?? Infinity) - (b.monthlyUsd ?? Infinity));
 
 export type Bundle = {
   id: string;

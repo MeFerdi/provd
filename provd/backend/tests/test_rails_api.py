@@ -81,7 +81,7 @@ class FakeAnchor:
 
 @pytest.fixture()
 def env(monkeypatch):
-	monkeypatch.setenv("FREE_DAILY_CHECKS", "2")
+	monkeypatch.setenv("FREE_MONTHLY_CHECKS", "2")
 	monkeypatch.setenv("USDT_DEPOSIT_ADDRESS", DEPOSIT)
 	from app.config import get_settings
 
@@ -162,7 +162,7 @@ def test_quota_then_402_then_topup_and_exact_ledger(env):
 	for _ in range(3):
 		assert client.post("/v1/actions/evaluate", json=intent(CLEAN)).status_code == 200
 	usage = client.get("/v1/usage").json()
-	assert usage["free_used_today"] == 2 and usage["balance_checks"] == 10_000 - 3 and usage["paid_checks_30d"] == 3
+	assert usage["free_used_this_month"] == 2 and usage["balance_checks"] == 10_000 - 3 and usage["paid_checks_30d"] == 3
 
 
 def test_usdt_topup_is_auto_matched_by_indexer(env):
@@ -189,7 +189,7 @@ def test_idempotency_and_duplicate_intent_ids(env):
 	a = client.post("/v1/actions/evaluate", json=intent(CLEAN), headers={"Idempotency-Key": "k1"}).json()
 	b = client.post("/v1/actions/evaluate", json=intent(CLEAN), headers={"Idempotency-Key": "k1"}).json()
 	assert a == b
-	assert client.get("/v1/usage").json()["free_used_today"] == 1
+	assert client.get("/v1/usage").json()["free_used_this_month"] == 1
 	client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_id="trade-1"))
 	assert client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_id="trade-1")).status_code == 422
 
@@ -200,7 +200,7 @@ def test_not_yet_supported_is_free_and_structured(env):
 		response = client.post("/v1/actions/evaluate", json=body).json()
 		assert response["recommended_action"] == "not_yet_supported"
 		assert response["risk_flags"][0]["code"] == "NOT_YET_SUPPORTED"
-	assert client.get("/v1/usage").json()["free_used_today"] == 0
+	assert client.get("/v1/usage").json()["free_used_this_month"] == 0
 	assert client.post("/v1/actions/evaluate", json=intent(CLEAN, chain="bitcoin")).status_code == 422
 
 
@@ -343,7 +343,7 @@ def test_payout_scoring_with_account_signals_and_learned_baselines(env, monkeypa
 	from app.config import get_settings
 
 	client, *_ = env
-	monkeypatch.setenv("FREE_DAILY_CHECKS", "50")
+	monkeypatch.setenv("FREE_MONTHLY_CHECKS", "50")
 	get_settings.cache_clear()
 	for _ in range(3):
 		client.post("/v1/actions/evaluate", json=intent(CLEAN, intent_type="payout", amounts={"crypto": 50}, rails={"crypto_asset": "USDT_TRC20"}))
@@ -398,3 +398,34 @@ def test_subscription_plan_overage_modes_and_statement(env):
 	assert statement["by_source"] == {"plan": {"checks": 2, "units": 2}, "overage": {"checks": 1, "units": 1}, "prepaid": {"checks": 1, "units": 1}}
 	who["client"] = "global-co"
 	assert client.get(f"/v1/admin/accounts/global-co/statement?month={month}").status_code == 403
+
+
+def test_price_list_and_monthly_free_quota(env):
+	client, *_ = env
+	prices = client.get("/v1/pricing").json()
+	assert prices["free_monthly_checks"] == 2
+	assert prices["bundles"]["1k"] == {"checks": 1000, "price_usd": 20, "price_kes": 2600, "per_check_usd": 0.02}
+	assert prices["plans"]["payouts_starter"]["monthly_usd"] == 300 and prices["plans"]["enterprise"]["monthly_usd"] is None
+	assert client.post("/v1/topups", json={"bundle": "1k", "method": "mpesa"}).json()["amount_due"] == "2600"
+
+	from app.services.billing import month_start
+
+	assert month_start(datetime(2026, 10, 31, 23, 59, tzinfo=timezone.utc)) == datetime(2026, 10, 1, tzinfo=timezone.utc)
+
+
+def test_free_quota_resets_each_month(env):
+	from app.models.rails import UsageEvent
+
+	client, tron, who, sessions, portal = env
+	last_month = datetime.now(timezone.utc).replace(day=1) - timedelta(days=1)
+
+	async def seed():
+		async with sessions() as db:
+			for i in range(2):
+				db.add(UsageEvent(id=f"old-{i}", account_id="platform-a", intent_id=f"old-{i}", units=1, free=True, source="free", created_at=last_month))
+			await db.commit()
+
+	portal.call(seed)
+	usage = client.get("/v1/usage").json()
+	assert usage["free_used_this_month"] == 0 and usage["free_remaining_this_month"] == 2
+	assert client.post("/v1/actions/evaluate", json=intent(CLEAN)).status_code == 200

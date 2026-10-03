@@ -10,7 +10,7 @@ export const SITE_URL = "https://provd.tech";
 export const SITE_NAME = "Provd";
 export const SITE_TITLE = "Provd — risk checks for African money movement";
 export const SITE_DESCRIPTION =
-  "Risk checks for P2P stablecoin trades and mobile-money ramps. Provd scores a transaction before funds are released, explains why, and keeps a record of every check. Pay as you go — 100 free checks a day.";
+  "Risk checks for P2P stablecoin trades and mobile-money ramps. Provd scores a transaction before funds are released, explains why, and keeps a record of every check. Pay as you go — 300 free checks a month, then bundles from $20.";
 
 export const CONTACT_EMAIL = "hello@provd.tech";
 export const SECURITY_EMAIL = "security@provd.tech";

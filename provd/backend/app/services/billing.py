@@ -1,4 +1,4 @@
-"""Billing: pay-as-you-go (free daily quota + prepaid bundles) and subscriptions (monthly included checks).
+"""Billing: pay-as-you-go (free monthly quota + prepaid bundles) and subscriptions (monthly included checks).
 
 Every usage event records what paid for it: free | prepaid | plan | overage.
 Balance = checks bought (confirmed purchases) − units paid from the prepaid balance.
@@ -22,7 +22,7 @@ PRICING_PATH = Path(__file__).resolve().parents[1] / "engine" / "pricing.json"
 
 
 class PaymentRequired(Exception):
-	def __init__(self, balance: int, units: int, detail: str = "Free daily checks used and no prepaid balance. Buy a bundle to continue."):
+	def __init__(self, balance: int, units: int, detail: str = "Free checks for this month used and no prepaid balance. Buy a bundle to continue."):
 		self.balance, self.units, self.detail = balance, units, detail
 
 
@@ -41,8 +41,20 @@ class Charge:
 		return self.source == "free"
 
 
-def _day_start(now: datetime) -> datetime:
-	return now.replace(hour=0, minute=0, second=0, microsecond=0)
+def month_start(now: datetime) -> datetime:
+	"""The free quota resets on the 1st of each calendar month, 00:00 UTC."""
+	return now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+
+def public_price_list() -> dict:
+	"""What GET /v1/pricing serves and what the site renders (via app.export_contract)."""
+	spec = pricing()
+	return {
+		"free_monthly_checks": get_settings().free_monthly_checks,
+		"bundles": {k: {**v, "per_check_usd": round(v["price_usd"] / v["checks"], 4)} for k, v in spec["bundles"].items()},
+		"plans": spec.get("plans", {}),
+		"payment_methods": ["usdt_tron", "mpesa"],
+	}
 
 
 async def ensure_account(db: AsyncSession, account_id: str) -> Account:
@@ -54,12 +66,12 @@ async def ensure_account(db: AsyncSession, account_id: str) -> Account:
 	return account
 
 
-async def free_used_today(db: AsyncSession, account_id: str, now: datetime | None = None) -> int:
+async def free_used_this_month(db: AsyncSession, account_id: str, now: datetime | None = None) -> int:
 	now = now or datetime.now(timezone.utc)
 	return (
 		await db.execute(
 			select(func.count(UsageEvent.id)).where(
-				UsageEvent.account_id == account_id, UsageEvent.free.is_(True), UsageEvent.created_at >= _day_start(now)
+				UsageEvent.account_id == account_id, UsageEvent.free.is_(True), UsageEvent.created_at >= month_start(now)
 			)
 		)
 	).scalar_one()
@@ -117,7 +129,7 @@ async def authorize(db: AsyncSession, account_id: str, units: int) -> Charge:
 		if account.overage == "prepaid" and await balance(db, account_id) >= units:
 			return Charge(units=units, source="prepaid")
 		raise PaymentRequired(await balance(db, account_id), units, "Monthly plan checks used. Top up a prepaid balance or contact us to raise the plan.")
-	if await free_used_today(db, account_id) < get_settings().free_daily_checks:
+	if await free_used_this_month(db, account_id) < get_settings().free_monthly_checks:
 		return Charge(units=units, source="free")
 	available = await balance(db, account_id)
 	if available < units:

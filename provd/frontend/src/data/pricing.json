@@ -1,6 +1,12 @@
 {
- "free_daily_checks": 100,
+ "free_monthly_checks": 300,
  "bundles": {
+  "1k": {
+   "checks": 1000,
+   "price_usd": 20,
+   "price_kes": 2600,
+   "per_check_usd": 0.02
+  },
   "10k": {
    "checks": 10000,
    "price_usd": 150,
@@ -18,6 +24,23 @@
    "price_usd": 7000,
    "price_kes": 910000,
    "per_check_usd": 0.007
+  }
+ },
+ "plans": {
+  "payouts_starter": {
+   "name": "Payouts Starter",
+   "monthly_usd": 300,
+   "monthly_included_checks": 25000
+  },
+  "payouts_pro": {
+   "name": "Payouts Pro",
+   "monthly_usd": 1500,
+   "monthly_included_checks": 200000
+  },
+  "enterprise": {
+   "name": "Enterprise",
+   "monthly_usd": null,
+   "monthly_included_checks": null
   }
  },
  "payment_methods": [

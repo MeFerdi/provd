@@ -21,7 +21,7 @@ export const docsNav: NavItem[] = [
   {
     title: "Pay as you go",
     href: "/docs/pay-as-you-go",
-    description: "Free daily checks, the 402 response, bundles and top-ups.",
+    description: "Free monthly checks, the 402 response, bundles, top-ups and plans.",
     category: "Getting Started",
   },
   {

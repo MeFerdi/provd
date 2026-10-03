@@ -186,12 +186,12 @@ async def usage(db: AsyncSession = Depends(get_db_session), ctx: AuthContext = D
 			"overage": account.overage,
 		}
 	else:
-		free_used = await billing.free_used_today(db, account_id)
+		free_used = await billing.free_used_this_month(db, account_id, now)
 		prepaid = by_source.get("prepaid", {"checks": 0, "units": 0})
 		result.update({
-			"free_daily_checks": get_settings().free_daily_checks,
-			"free_used_today": free_used,
-			"free_remaining_today": max(0, get_settings().free_daily_checks - free_used),
+			"free_monthly_checks": get_settings().free_monthly_checks,
+			"free_used_this_month": free_used,
+			"free_remaining_this_month": max(0, get_settings().free_monthly_checks - free_used),
 			"paid_checks_30d": prepaid["checks"],
 			"paid_units_30d": prepaid["units"],
 		})
@@ -237,16 +237,11 @@ async def statement(account_id: str, month: str = Query(pattern=r"^\d{4}-\d{2}$"
 
 @router.get("/pricing", summary="Public price list")
 async def pricing() -> dict:
-	bundles = billing.pricing()["bundles"]
-	return {
-		"free_daily_checks": get_settings().free_daily_checks,
-		"bundles": {k: {**v, "per_check_usd": round(v["price_usd"] / v["checks"], 4)} for k, v in bundles.items()},
-		"payment_methods": ["usdt_tron", "mpesa"],
-	}
+	return billing.public_price_list()
 
 
 class TopupRequest(BaseModel):
-	bundle: Literal["10k", "100k", "1m"]
+	bundle: Literal["1k", "10k", "100k", "1m"]
 	method: Literal["usdt_tron", "mpesa"]
 
 
