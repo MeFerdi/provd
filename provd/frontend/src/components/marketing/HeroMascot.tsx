@@ -33,7 +33,7 @@ function OpenHand() {
 
 export default function HeroMascot() {
   return (
-    <svg viewBox="0 0 480 500" role="img" aria-labelledby="mascot-title" className="block h-auto w-full font-sans">
+    <svg viewBox="20 20 430 470" role="img" aria-labelledby="mascot-title" className="block h-auto w-full font-sans">
       <title id="mascot-title">A smiling scoresheet walking with a Tether coin: the payment was scored and passed before release</title>
       <defs>
         <linearGradient id="board" x1="0" y1="0" x2="1" y2="1">
@@ -149,15 +149,32 @@ export default function HeroMascot() {
         ))}
       </g>
 
-      {/* carrying arm, the coin, then the hand cupping it from below with the thumb over the front rim */}
-      <path d="M306 236 Q 316 292 334 328" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
-      <image href="/assets/home/usdt-coin-3d.webp" x="300" y="198" width="150" height="126" />
-      <g>
+      {/* Carrying arm and hand: palm up, fingers curled up on the right, thumb up on the left.
+          The coin sits in the cup between them: palm and back fingers, then the coin, then thumb and fingertips. */}
+      <path d="M304 240 C 326 288, 342 308, 366 307" stroke="url(#skin)" strokeWidth="15" strokeLinecap="round" fill="none" />
+      <g id="hand-back">
+        <ellipse cx="386" cy="305" rx="24" ry="11.5" fill="url(#skin)" />
+        <path d="M368 309 q18 6 38 -1" fill="none" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="1.4" strokeLinecap="round" />
+      </g>
+      {/* coin: its lowest point (about 63% across, 97% down the image) rests in the palm at (380, 300) */}
+      <image href="/assets/home/usdt-coin-3d.webp" x="317" y="219" width="100" height="84" />
+      <g id="hand-front">
         {[0, 1, 2, 3].map((i) => (
-          <rect key={i} x={346} y={315 + i * 5.6} width={34 - i * 3} height="6.4" rx="3.2" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.25" strokeWidth="0.8" />
+          <rect
+            key={i}
+            x={386 + i * 6.4}
+            y={282 + i * 1.6}
+            width="7.2"
+            height={21 - i * 1.6}
+            rx="3.6"
+            fill="url(#skin)"
+            stroke="#7A4A2A"
+            strokeOpacity="0.28"
+            strokeWidth="0.8"
+            transform={`rotate(${8 + i * 4} ${389.6 + i * 6.4} 303)`}
+          />
         ))}
-        <ellipse cx="342" cy="328" rx="15" ry="12" fill="url(#skin)" />
-        <rect x="331" y="296" width="8" height="24" rx="4" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="0.8" transform="rotate(22 335 308)" />
+        <rect x="362" y="280" width="8.6" height="24" rx="4.3" fill="url(#skin)" stroke="#7A4A2A" strokeOpacity="0.3" strokeWidth="0.8" transform="rotate(12 366 303)" />
       </g>
     </svg>
   );
