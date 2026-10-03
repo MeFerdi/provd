@@ -10,17 +10,6 @@ const MUTED = "#6B6B6B";
 const LINE = "#E7E5E4";
 const OK = "#16A34A";
 
-/** A milled coin edge: a circle with evenly spaced notches (outer radius r, notch depth d). */
-function milledEdge(cx: number, cy: number, r: number, d: number, teeth: number): string {
-  const pts: string[] = [];
-  for (let i = 0; i < teeth * 2; i++) {
-    const a = (Math.PI * i) / teeth;
-    const rr = i % 2 === 0 ? r : r - d;
-    pts.push(`${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`);
-  }
-  return `M${pts.join(" L")} Z`;
-}
-
 /** Fine reeding lines across the rim, between radius r1 and r2. */
 function reeding(cx: number, cy: number, r1: number, r2: number, count: number): string {
   let d = "";
@@ -57,8 +46,7 @@ function OpenHand() {
 
 export default function HeroMascot() {
   return (
-    <svg viewBox="20 20 430 470" role="img" aria-labelledby="mascot-title" className="block h-auto w-full font-sans">
-      <title id="mascot-title">A smiling scoresheet walking with a Tether coin: the payment was scored and passed before release</title>
+    <svg viewBox="20 20 430 470" role="img" aria-label="A smiling scoresheet holding a Tether coin: the payment was scored and passed before release" className="block h-auto w-full font-sans">
       <defs>
         <linearGradient id="board" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#C49563" />
@@ -84,6 +72,15 @@ export default function HeroMascot() {
         <linearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#4FD3A6" />
           <stop offset="1" stopColor="#1D8A68" />
+        </linearGradient>
+        <linearGradient id="coinBevel" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#B8F2DC" stopOpacity="0.9" />
+          <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0" />
+          <stop offset="1" stopColor="#0B4D3A" stopOpacity="0.6" />
+        </linearGradient>
+        <linearGradient id="coinMark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#FFFFFF" />
+          <stop offset="1" stopColor="#DDF5EC" />
         </linearGradient>
         <radialGradient id="coinFace" cx="0.38" cy="0.32" r="0.75">
           <stop offset="0" stopColor="#4CC99B" />
@@ -187,18 +184,28 @@ export default function HeroMascot() {
 
       {/* the coin, drawn last so the hand is fully hidden behind it */}
       <g>
-        <path d={milledEdge(384, 297, 44.5, 1.3, 140)} fill="#156B52" />
-        <path d={milledEdge(380, 292, 44.5, 1.3, 140)} fill="url(#coinRim)" />
-        <path d={reeding(380, 292, 38.5, 43, 140)} stroke="#0F5A44" strokeOpacity="0.35" strokeWidth="0.9" />
-        <circle cx="380" cy="292" r="36.5" fill="url(#coinFace)" />
-        <circle cx="380" cy="292" r="36.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.28" strokeWidth="1.2" />
-        <g transform="translate(346.4 258.4) scale(2.1)" opacity="0.22">
-          <path fill="#0B4D3A" d={TETHER_PATH} transform="translate(0.6 0.7)" />
+        {/* thickness: the coin's side, with reeding visible only where it shows below/right of the face */}
+        <circle cx="384.5" cy="297.5" r="44" fill="#145F49" />
+        <path d={reeding(384.5, 297.5, 40, 44, 120)} stroke="#0B3F30" strokeOpacity="0.55" strokeWidth="0.9" />
+        {/* face: raised bevelled rim, lettering, beaded ring, embossed mark */}
+        <circle cx="380" cy="292" r="44" fill="url(#coinRim)" />
+        <circle cx="380" cy="292" r="43" fill="none" stroke="url(#coinBevel)" strokeWidth="2" />
+        <circle cx="380" cy="292" r="34.5" fill="url(#coinFace)" />
+        <circle cx="380" cy="292" r="34.5" fill="none" stroke="#0E5A43" strokeOpacity="0.55" strokeWidth="1.4" />
+        <circle cx="380" cy="292" r="35.6" fill="none" stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="0.8" />
+        <path id="coin-text-path" d="M 380 292 m -39 0 a 39 39 0 1 1 78 0 a 39 39 0 1 1 -78 0" fill="none" />
+        <text fontSize="6.4" fontWeight="700" letterSpacing="1.2" fill="#FFFFFF" fillOpacity="0.9">
+          <textPath href="#coin-text-path" startOffset="0">
+            TETHER • USDT • TETHER • USDT • TETHER • USDT •
+          </textPath>
+        </text>
+        <circle cx="380" cy="292" r="31.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.4" strokeWidth="1.3" strokeDasharray="0.01 3.1" strokeLinecap="round" />
+        <g transform="translate(347.6 259.6) scale(2.025)">
+          <path fill="#0B4D3A" fillOpacity="0.45" d={TETHER_PATH} transform="translate(0.45 0.5)" />
+          <path fill="#FFFFFF" fillOpacity="0.55" d={TETHER_PATH} transform="translate(-0.3 -0.3)" />
+          <path fill="url(#coinMark)" d={TETHER_PATH} />
         </g>
-        <g transform="translate(346.4 258.4) scale(2.1)">
-          <path fill="#FFFFFF" d={TETHER_PATH} />
-        </g>
-        <path d="M352 268 A 36 36 0 0 1 392 257" fill="none" stroke="#FFFFFF" strokeOpacity="0.45" strokeWidth="3" strokeLinecap="round" />
+        <path d="M349 270 A 38 38 0 0 1 384 254" fill="none" stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="2.4" strokeLinecap="round" />
       </g>
     </svg>
   );

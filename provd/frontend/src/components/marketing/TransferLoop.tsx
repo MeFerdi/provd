@@ -17,10 +17,9 @@ export default function TransferLoop() {
         <svg
           viewBox="0 0 520 440"
           role="img"
-          aria-labelledby="loop-title loop-desc"
+          aria-label="The P2P trade loop" aria-describedby="loop-desc"
           className="block h-auto w-full font-sans"
         >
-          <title id="loop-title">The P2P trade loop</title>
           <desc id="loop-desc">
             The buyer pays Kenyan shillings, the seller releases USDT, and the shilling payment can be reversed after
             the USDT has gone. Provd checks the trade before the USDT is released.
