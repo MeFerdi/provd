@@ -1,0 +1,21 @@
+# Provd
+
+> Provd checks stablecoin payments before a platform releases them. Built in Kenya, used with any local payment rail (M-Pesa, Pix, UPI, bank transfer). Live on USDT (Tron) and USDC and USDT (Solana).
+
+Provd is for P2P desks, non-custodial escrows, licensed on- and off-ramps and payout platforms: anyone who sends stablecoins against a payment they can't take back. Before release, the platform sends the payment to the Provd API and gets back a 0 to 1000 risk score, the reasons, a recommended action (release, manual review, hold or reject) and a signed decision record anchored to Bitcoin. Escrow contracts can verify a Provd release attestation on-chain.
+
+What a check covers: US Treasury OFAC sanctions, wallets frozen by Tether or Circle, exposure to those wallets, lookalike addresses used in address-poisoning scams, the platform's own reversal and fraud history with that counterparty, unusual amounts, and account-takeover signals the platform supplies. Each platform's outcomes are used only for its own checks and are never pooled across customers.
+
+Pricing: pay as you go, 300 free checks a month, then prepaid bundles from $20 for 1,000 checks; monthly plans for payout platforms.
+
+## Free tools
+- [Wallet risk and lookalike check](https://provd.tech/check): check a Tron or Solana wallet before you send, free, no sign-up
+- [Verify a decision](https://provd.tech/verify): check a Provd decision record's signature and Bitcoin anchor in your browser
+
+## Developers
+- [Docs](https://docs.provd.tech): quickstart, decision records, escrow integration, scores, flags and errors
+- [Playground](https://playground.provd.tech): every endpoint, with a free sandbox (opens with a sandbox key)
+
+## Company
+- [About](https://provd.tech/about), [Pricing](https://provd.tech/pricing), [Security](https://provd.tech/security)
+- Contact: hello@provd.tech

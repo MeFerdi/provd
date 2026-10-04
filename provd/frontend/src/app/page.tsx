@@ -8,7 +8,7 @@ import Markets from "@/components/marketing/Markets";
 import Problem from "@/components/marketing/Problem";
 import Segments from "@/components/marketing/Segments";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { CONTACT_EMAIL, REPO_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/env";
+import { CONTACT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/env";
 import { SITE_URLS } from "@/lib/sites";
 
 export const metadata: Metadata = {
@@ -28,7 +28,6 @@ const structuredData = {
       logo: `${SITE_URL}/provd-logo.svg`,
       email: CONTACT_EMAIL,
       foundingLocation: { "@type": "Place", name: "Kenya" },
-      sameAs: [REPO_URL],
     },
     {
       "@type": "WebSite",

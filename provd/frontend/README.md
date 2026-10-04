@@ -1,6 +1,6 @@
 # Provd Frontend
 
-This is the Next.js 14 (App Router) frontend for Provd — an AI-powered counterparty trust infrastructure for African P2P cryptocurrency markets.
+The Next.js 14 (App Router) frontend for Provd: pre-release risk checks for stablecoin money movement. It builds three static sites: provd.tech, docs.provd.tech and playground.provd.tech (see `src/lib/sites.ts`).
 
 ## Tech Stack
 - **Framework:** Next.js 14 (App Router)
