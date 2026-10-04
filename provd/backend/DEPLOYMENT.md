@@ -37,9 +37,14 @@ in Frankfurt. Settings that differ from the stage-1 plan:
 
 - `RUN_WORKER_IN_API=true` and `WEB_CONCURRENCY=1`: the free plan has no background workers, so the worker loop runs
   inside the API process (the Postgres worker lock still guarantees one pass at a time).
-- `.github/workflows/keep-api-warm.yml` pings `/v1/health` every 10 minutes: free services sleep after 15 minutes
-  without traffic, which would also pause the worker. Delete it when moving off the free plan.
-- **The free Postgres is deleted 30 days after creation and has no backups.** Move the data (`pg_dump` /
+- The API sleeps after 15 minutes without traffic and takes about a minute to wake. It is deliberately not kept
+  awake: the workspace's 750 free hours are shared with other free services, and going over suspends all of them.
+  While it sleeps the worker pauses too (anchoring, sanctions refresh, freeze sync and payment matching resume on
+  the next request).
+- Services: `provd-api` (web, Frankfurt), `provd-db` (Postgres 16), `provd-redis` (Key Value), all free. Postgres
+  and Redis accept internal connections only. `api.provd.tech` is a proxied Cloudflare CNAME to
+  `provd-api.onrender.com`, which itself rejects requests for any other host.
+- **The free Postgres expires on 3 November 2026 and has no backups.** Move the data (`pg_dump` /
   `pg_restore`) to a paid database or the VPS before then.
 - Free Key Value is memory-only: rate-limit counters reset on restart, which is acceptable.
 
