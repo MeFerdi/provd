@@ -6,15 +6,15 @@ import { CONTACT_EMAIL, SECURITY_EMAIL } from "@/lib/env";
 export const metadata: Metadata = {
   title: "About | Provd",
   description:
-    "Provd scores P2P stablecoin trades, ramps and payouts before funds are released, explains the decision and keeps a record of it.",
+    "Provd checks stablecoin trades, ramps, payouts and escrow releases before funds leave: sanctions and frozen-wallet screening, lookalike addresses and your own history, explained and signed.",
   alternates: { canonical: "/about" },
 };
 
 const facts = [
   { label: "What it is", value: "A risk check that runs before a platform releases funds" },
-  { label: "Who it's for", value: "P2P stablecoin desks, on- and off-ramps and payout platforms, wherever local rails meet stablecoins" },
-  { label: "Live today", value: "Checks for USDT on Tron, with any local rail as fiat context: M-Pesa, Pix, UPI, bank transfer" },
-  { label: "Next", value: "Stellar, Solana and EVM chains, card payments, auto top-up" },
+  { label: "Who it's for", value: "P2P desks, non-custodial escrows, licensed on- and off-ramps and payout platforms" },
+  { label: "Live today", value: "USDT on Tron and USDC/USDT on Solana: sanctions (OFAC) and frozen-wallet screening, lookalike detection, signed decision records and on-chain release attestations" },
+  { label: "Next", value: "EVM chains, more sanctions lists (UN, EU, UK), auto top-up" },
 ];
 
 export default function AboutPage() {
@@ -28,14 +28,16 @@ export default function AboutPage() {
             </h1>
             <div className="max-w-2xl space-y-4 text-lg leading-relaxed text-text-secondary">
               <p>
-                Every day, P2P desks and ramps decide in seconds whether to send crypto against a local payment:
-                mobile money, Pix, UPI or a bank transfer. When it goes wrong (a reversal, a fake confirmation, a hijacked number), the loss lands after
-                the funds are gone.
+                Every day, P2P desks, ramps, payout platforms and escrows decide in seconds whether to send stablecoins
+                against a payment: mobile money, Pix, UPI or a bank transfer. When it goes wrong (a reversal, a fake
+                confirmation, a hijacked number, a lookalike address), the loss lands after the funds are gone, and on-chain
+                there is no undo.
               </p>
               <p>
-                Provd is a small team in Kenya building the check that runs before release: a score, the reasons behind it, and
-                a record you can show an auditor later. We are early. The public scanner and the API are live for USDT
-                on Tron, and we are working with a first set of platforms to decide what comes next.
+                Provd is a small team in Kenya building the check that runs before release: a score, the reasons behind it,
+                and a signed record you can show an auditor or a bank later. Escrow contracts can verify a Provd release on-chain.
+                We are early. The public checks and the API are live on Tron and Solana, and we are working with a first set of
+                platforms to decide what comes next.
               </p>
             </div>
           </div>

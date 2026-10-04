@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import Markdown from "@/components/ui/markdown";
 import { Section } from "@/components/ui/section";
 
-export const LEGAL_LAST_UPDATED = "2 October 2026";
+export const LEGAL_LAST_UPDATED = "4 October 2026";
 
 export function LegalPage({ title, content }: { title: string; content: string }) {
   return (

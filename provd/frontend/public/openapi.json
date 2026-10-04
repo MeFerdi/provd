@@ -109,6 +109,7 @@
         "type": "null"
        }
       ],
+      "description": "Reserved; up to 4 KB of JSON",
       "title": "Asset"
      },
      "chain": {
@@ -116,6 +117,7 @@
       "type": "string"
      },
      "context": {
+      "description": "Your own reference data, stored with the decision and never scored; up to 4 KB of JSON",
       "title": "Context",
       "type": "object"
      },
@@ -141,18 +143,28 @@
       "anyOf": [
        {
         "maxLength": 64,
+        "pattern": "^[A-Za-z0-9._:-]{1,64}$",
         "type": "string"
        },
        {
         "type": "null"
        }
       ],
-      "description": "Your id; generated if omitted",
+      "description": "Your id (letters, digits, . _ : -); generated if omitted",
       "title": "Intent Id"
      },
      "intent_type": {
       "title": "Intent Type",
       "type": "string"
+     },
+     "known_counterparties": {
+      "description": "Addresses you've paid or traded with before (your address book). Used to catch lookalike (address-poisoning) destinations. Provd also learns them from your released checks.",
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 500,
+      "title": "Known Counterparties",
+      "type": "array"
      },
      "rails": {
       "$ref": "#/components/schemas/Rails"
@@ -166,6 +178,7 @@
         "type": "null"
        }
       ],
+      "description": "Reserved; up to 4 KB of JSON",
       "title": "Venue"
      }
     },
@@ -313,172 +326,18 @@
     "title": "Amounts",
     "type": "object"
    },
-   "ApiKeyCreateRequest": {
+   "AttestationRequest": {
     "properties": {
-     "client_id": {
+     "amount_base_units": {
+      "description": "Amount to release, in the token's smallest unit (USDT/USDC: 6 decimals)",
+      "exclusiveMaximum": 1.8446744073709552e+19,
+      "exclusiveMinimum": 0.0,
+      "title": "Amount Base Units",
+      "type": "integer"
+     },
+     "chain_id": {
       "anyOf": [
        {
-        "maxLength": 36,
-        "type": "string"
-       },
-       {
-        "type": "null"
-       }
-      ],
-      "description": "Platform this key belongs to; usage is metered per client",
-      "title": "Client Id"
-     },
-     "name": {
-      "maxLength": 100,
-      "minLength": 2,
-      "title": "Name",
-      "type": "string"
-     },
-     "scopes": {
-      "items": {
-       "type": "string"
-      },
-      "title": "Scopes",
-      "type": "array"
-     }
-    },
-    "required": [
-     "name"
-    ],
-    "title": "ApiKeyCreateRequest",
-    "type": "object"
-   },
-   "ApiKeyCreateResponse": {
-    "properties": {
-     "active": {
-      "default": true,
-      "title": "Active",
-      "type": "boolean"
-     },
-     "api_key": {
-      "title": "Api Key",
-      "type": "string"
-     },
-     "created_at": {
-      "format": "date-time",
-      "title": "Created At",
-      "type": "string"
-     },
-     "id": {
-      "title": "Id",
-      "type": "string"
-     },
-     "name": {
-      "title": "Name",
-      "type": "string"
-     },
-     "prefix": {
-      "title": "Prefix",
-      "type": "string"
-     },
-     "scopes": {
-      "items": {
-       "type": "string"
-      },
-      "title": "Scopes",
-      "type": "array"
-     }
-    },
-    "required": [
-     "id",
-     "name",
-     "prefix",
-     "scopes",
-     "created_at",
-     "api_key"
-    ],
-    "title": "ApiKeyCreateResponse",
-    "type": "object"
-   },
-   "ApiKeyResponse": {
-    "properties": {
-     "active": {
-      "default": true,
-      "title": "Active",
-      "type": "boolean"
-     },
-     "created_at": {
-      "format": "date-time",
-      "title": "Created At",
-      "type": "string"
-     },
-     "id": {
-      "title": "Id",
-      "type": "string"
-     },
-     "name": {
-      "title": "Name",
-      "type": "string"
-     },
-     "prefix": {
-      "title": "Prefix",
-      "type": "string"
-     },
-     "scopes": {
-      "items": {
-       "type": "string"
-      },
-      "title": "Scopes",
-      "type": "array"
-     }
-    },
-    "required": [
-     "id",
-     "name",
-     "prefix",
-     "scopes",
-     "created_at"
-    ],
-    "title": "ApiKeyResponse",
-    "type": "object"
-   },
-   "BillingUpdate": {
-    "properties": {
-     "billing_model": {
-      "enum": [
-       "payg",
-       "subscription"
-      ],
-      "title": "Billing Model",
-      "type": "string"
-     },
-     "monthly_included_checks": {
-      "anyOf": [
-       {
-        "minimum": 0.0,
-        "type": "integer"
-       },
-       {
-        "type": "null"
-       }
-      ],
-      "title": "Monthly Included Checks"
-     },
-     "overage": {
-      "anyOf": [
-       {
-        "enum": [
-         "prepaid",
-         "invoice",
-         "block"
-        ],
-        "type": "string"
-       },
-       {
-        "type": "null"
-       }
-      ],
-      "title": "Overage"
-     },
-     "period_anchor_day": {
-      "anyOf": [
-       {
-        "maximum": 28.0,
         "minimum": 1.0,
         "type": "integer"
        },
@@ -486,75 +345,63 @@
         "type": "null"
        }
       ],
-      "title": "Period Anchor Day"
+      "description": "evm: the chain id the escrow contract runs on (Tron mainnet: 728126428)",
+      "title": "Chain Id"
      },
-     "plan_name": {
+     "program_id": {
       "anyOf": [
        {
-        "maxLength": 64,
+        "maxLength": 44,
         "type": "string"
        },
        {
         "type": "null"
        }
       ],
-      "title": "Plan Name"
+      "description": "solana: the escrow program that will verify it",
+      "title": "Program Id"
+     },
+     "target": {
+      "description": "evm: EIP-712 for EVM/Tron (TVM) contracts; solana: for Solana programs",
+      "enum": [
+       "evm",
+       "solana"
+      ],
+      "title": "Target",
+      "type": "string"
+     },
+     "token_decimals": {
+      "default": 6,
+      "maximum": 18.0,
+      "minimum": 0.0,
+      "title": "Token Decimals",
+      "type": "integer"
+     },
+     "ttl_seconds": {
+      "default": 600,
+      "description": "How long the attestation stays valid",
+      "minimum": 30.0,
+      "title": "Ttl Seconds",
+      "type": "integer"
+     },
+     "verifying_contract": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "evm: the escrow contract that will verify the attestation (0x...)",
+      "title": "Verifying Contract"
      }
     },
     "required": [
-     "billing_model"
+     "target",
+     "amount_base_units"
     ],
-    "title": "BillingUpdate",
-    "type": "object"
-   },
-   "ClientCreateRequest": {
-    "properties": {
-     "name": {
-      "maxLength": 150,
-      "minLength": 2,
-      "title": "Name",
-      "type": "string"
-     }
-    },
-    "required": [
-     "name"
-    ],
-    "title": "ClientCreateRequest",
-    "type": "object"
-   },
-   "ClientResponse": {
-    "properties": {
-     "active": {
-      "title": "Active",
-      "type": "boolean"
-     },
-     "created_at": {
-      "format": "date-time",
-      "title": "Created At",
-      "type": "string"
-     },
-     "id": {
-      "title": "Id",
-      "type": "string"
-     },
-     "name": {
-      "title": "Name",
-      "type": "string"
-     },
-     "updated_at": {
-      "format": "date-time",
-      "title": "Updated At",
-      "type": "string"
-     }
-    },
-    "required": [
-     "id",
-     "name",
-     "active",
-     "created_at",
-     "updated_at"
-    ],
-    "title": "ClientResponse",
+    "title": "AttestationRequest",
     "type": "object"
    },
    "Counterparty": {
@@ -577,6 +424,7 @@
       "anyOf": [
        {
         "maxLength": 128,
+        "pattern": "^[A-Za-z0-9:._-]{1,128}$",
         "type": "string"
        },
        {
@@ -721,6 +569,139 @@
     "title": "HTTPValidationError",
     "type": "object"
    },
+   "LookalikeMatch": {
+    "properties": {
+     "address": {
+      "title": "Address",
+      "type": "string"
+     },
+     "prefix": {
+      "description": "Matching leading characters",
+      "title": "Prefix",
+      "type": "integer"
+     },
+     "suffix": {
+      "description": "Matching trailing characters",
+      "title": "Suffix",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "address",
+     "prefix",
+     "suffix"
+    ],
+    "title": "LookalikeMatch",
+    "type": "object"
+   },
+   "LookalikeReport": {
+    "properties": {
+     "address": {
+      "title": "Address",
+      "type": "string"
+     },
+     "chain": {
+      "title": "Chain",
+      "type": "string"
+     },
+     "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+     },
+     "dust_sender": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Sends dust to many wallets and never receives real value; null if history unavailable",
+      "title": "Dust Sender"
+     },
+     "lookalike_of": {
+      "items": {
+       "$ref": "#/components/schemas/LookalikeMatch"
+      },
+      "title": "Lookalike Of",
+      "type": "array"
+     },
+     "reasons": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Reasons",
+      "type": "array"
+     },
+     "risk_level": {
+      "enum": [
+       "low",
+       "medium",
+       "high",
+       "critical"
+      ],
+      "title": "Risk Level",
+      "type": "string"
+     },
+     "verdict": {
+      "enum": [
+       "lookalike",
+       "suspicious",
+       "no_match"
+      ],
+      "title": "Verdict",
+      "type": "string"
+     }
+    },
+    "required": [
+     "chain",
+     "address",
+     "verdict",
+     "risk_level",
+     "lookalike_of",
+     "dust_sender",
+     "reasons",
+     "checked_at"
+    ],
+    "title": "LookalikeReport",
+    "type": "object"
+   },
+   "LookalikeRequest": {
+    "properties": {
+     "address": {
+      "description": "The address you're about to pay",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9]{25,64}$",
+      "title": "Address",
+      "type": "string"
+     },
+     "chain": {
+      "enum": [
+       "tron",
+       "solana"
+      ],
+      "title": "Chain",
+      "type": "string"
+     },
+     "known": {
+      "description": "Addresses you've paid before",
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 200,
+      "title": "Known",
+      "type": "array"
+     }
+    },
+    "required": [
+     "chain",
+     "address"
+    ],
+    "title": "LookalikeRequest",
+    "type": "object"
+   },
    "OutcomeReport": {
     "properties": {
      "chain": {
@@ -732,6 +713,7 @@
       "anyOf": [
        {
         "maxLength": 64,
+        "pattern": "^[A-Za-z0-9._:-]{1,64}$",
         "type": "string"
        },
        {
@@ -782,6 +764,7 @@
       "anyOf": [
        {
         "maxLength": 128,
+        "pattern": "^[A-Za-z0-9:._-]{1,128}$",
         "type": "string"
        },
        {
@@ -857,77 +840,6 @@
      "reason"
     ],
     "title": "RiskFlag",
-    "type": "object"
-   },
-   "TokenRequest": {
-    "properties": {
-     "client_id": {
-      "minLength": 3,
-      "title": "Client Id",
-      "type": "string"
-     },
-     "client_secret": {
-      "minLength": 3,
-      "title": "Client Secret",
-      "type": "string"
-     }
-    },
-    "required": [
-     "client_id",
-     "client_secret"
-    ],
-    "title": "TokenRequest",
-    "type": "object"
-   },
-   "TokenResponse": {
-    "properties": {
-     "access_token": {
-      "title": "Access Token",
-      "type": "string"
-     },
-     "expires_in": {
-      "title": "Expires In",
-      "type": "integer"
-     },
-     "role": {
-      "default": "user",
-      "title": "Role",
-      "type": "string"
-     },
-     "scopes": {
-      "items": {
-       "type": "string"
-      },
-      "title": "Scopes",
-      "type": "array"
-     },
-     "token_type": {
-      "default": "bearer",
-      "title": "Token Type",
-      "type": "string"
-     }
-    },
-    "required": [
-     "access_token",
-     "expires_in"
-    ],
-    "title": "TokenResponse",
-    "type": "object"
-   },
-   "TopupConfirm": {
-    "properties": {
-     "reference": {
-      "description": "Tron tx hash or M-Pesa receipt number",
-      "maxLength": 128,
-      "minLength": 4,
-      "title": "Reference",
-      "type": "string"
-     }
-    },
-    "required": [
-     "reference"
-    ],
-    "title": "TopupConfirm",
     "type": "object"
    },
    "TopupRequest": {
@@ -1019,31 +931,6 @@
  },
  "openapi": "3.1.0",
  "paths": {
-  "/": {
-   "get": {
-    "operationId": "root__get",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "additionalProperties": {
-          "type": "string"
-         },
-         "title": "Response Root  Get",
-         "type": "object"
-        }
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Root",
-    "tags": [
-     "meta"
-    ]
-   }
-  },
   "/v1/actions/evaluate": {
    "post": {
     "operationId": "evaluate_action_v1_actions_evaluate_post",
@@ -1055,7 +942,8 @@
       "schema": {
        "anyOf": [
         {
-         "maxLength": 128,
+         "maxLength": 64,
+         "pattern": "^[A-Za-z0-9._:-]{1,64}$",
          "type": "string"
         },
         {
@@ -1072,7 +960,7 @@
       "schema": {
        "anyOf": [
         {
-         "maxLength": 4096,
+         "maxLength": 1024,
          "type": "string"
         },
         {
@@ -1142,228 +1030,6 @@
     ]
    }
   },
-  "/v1/admin/accounts/{account_id}/billing": {
-   "put": {
-    "operationId": "set_billing_v1_admin_accounts__account_id__billing_put",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "account_id",
-      "required": true,
-      "schema": {
-       "title": "Account Id",
-       "type": "string"
-      }
-     },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "requestBody": {
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/BillingUpdate"
-       }
-      }
-     },
-     "required": true
-    },
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "title": "Response Set Billing V1 Admin Accounts  Account Id  Billing Put",
-         "type": "object"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Admin: set an account's billing model or plan",
-    "tags": [
-     "actions"
-    ]
-   }
-  },
-  "/v1/admin/accounts/{account_id}/statement": {
-   "get": {
-    "operationId": "statement_v1_admin_accounts__account_id__statement_get",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "account_id",
-      "required": true,
-      "schema": {
-       "title": "Account Id",
-       "type": "string"
-      }
-     },
-     {
-      "in": "query",
-      "name": "month",
-      "required": true,
-      "schema": {
-       "pattern": "^\\d{4}-\\d{2}$",
-       "title": "Month",
-       "type": "string"
-      }
-     },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "title": "Response Statement V1 Admin Accounts  Account Id  Statement Get",
-         "type": "object"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Admin: usage by source for a calendar month (for invoicing)",
-    "tags": [
-     "actions"
-    ]
-   }
-  },
-  "/v1/admin/topups/{purchase_id}/confirm": {
-   "post": {
-    "operationId": "confirm_topup_v1_admin_topups__purchase_id__confirm_post",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "purchase_id",
-      "required": true,
-      "schema": {
-       "title": "Purchase Id",
-       "type": "string"
-      }
-     },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "requestBody": {
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/TopupConfirm"
-       }
-      }
-     },
-     "required": true
-    },
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "title": "Response Confirm Topup V1 Admin Topups  Purchase Id  Confirm Post",
-         "type": "object"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Admin: confirm a reconciled payment and credit the account",
-    "tags": [
-     "actions"
-    ]
-   }
-  },
   "/v1/assets/{chain}/{ref}": {
    "get": {
     "operationId": "asset_report_v1_assets__chain___ref__get",
@@ -1413,284 +1079,6 @@
     "summary": "Asset verification (Phase E)",
     "tags": [
      "actions"
-    ]
-   }
-  },
-  "/v1/auth/token": {
-   "post": {
-    "operationId": "issue_token_v1_auth_token_post",
-    "requestBody": {
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/TokenRequest"
-       }
-      }
-     },
-     "required": true
-    },
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/TokenResponse"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "summary": "Issue bearer token",
-    "tags": [
-     "auth"
-    ]
-   }
-  },
-  "/v1/clients": {
-   "get": {
-    "operationId": "list_clients_v1_clients_get",
-    "parameters": [
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "items": {
-          "$ref": "#/components/schemas/ClientResponse"
-         },
-         "title": "Response List Clients V1 Clients Get",
-         "type": "array"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "List all clients",
-    "tags": [
-     "clients"
-    ]
-   },
-   "post": {
-    "operationId": "create_client_v1_clients_post",
-    "parameters": [
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "requestBody": {
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/ClientCreateRequest"
-       }
-      }
-     },
-     "required": true
-    },
-    "responses": {
-     "201": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/ClientResponse"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Register a new client",
-    "tags": [
-     "clients"
-    ]
-   }
-  },
-  "/v1/clients/{client_id}": {
-   "delete": {
-    "operationId": "deactivate_client_v1_clients__client_id__delete",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "client_id",
-      "required": true,
-      "schema": {
-       "title": "Client Id",
-       "type": "string"
-      }
-     },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "responses": {
-     "204": {
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Deactivate a client",
-    "tags": [
-     "clients"
-    ]
-   },
-   "get": {
-    "operationId": "get_client_v1_clients__client_id__get",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "client_id",
-      "required": true,
-      "schema": {
-       "title": "Client Id",
-       "type": "string"
-      }
-     },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/ClientResponse"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Get client by ID",
-    "tags": [
-     "clients"
     ]
    }
   },
@@ -1809,88 +1197,19 @@
     ]
    }
   },
-  "/v1/health": {
-   "get": {
-    "operationId": "health_v1_health_get",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "title": "Response Health V1 Health Get",
-         "type": "object"
-        }
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Engine version, signal coverage and dependency status",
-    "tags": [
-     "health"
-    ]
-   }
-  },
-  "/v1/keys": {
-   "get": {
-    "operationId": "list_api_keys_v1_keys_get",
-    "parameters": [
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "items": {
-          "$ref": "#/components/schemas/ApiKeyResponse"
-         },
-         "title": "Response List Api Keys V1 Keys Get",
-         "type": "array"
-        }
-       }
-      },
-      "description": "Successful Response"
-     },
-     "422": {
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      },
-      "description": "Validation Error"
-     }
-    },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "List API keys",
-    "tags": [
-     "keys"
-    ]
-   },
+  "/v1/decisions/{intent_id}/attestation": {
    "post": {
-    "operationId": "create_api_key_v1_keys_post",
+    "operationId": "create_attestation_v1_decisions__intent_id__attestation_post",
     "parameters": [
+     {
+      "in": "path",
+      "name": "intent_id",
+      "required": true,
+      "schema": {
+       "title": "Intent Id",
+       "type": "string"
+      }
+     },
      {
       "in": "header",
       "name": "X-API-Key",
@@ -1912,7 +1231,7 @@
      "content": {
       "application/json": {
        "schema": {
-        "$ref": "#/components/schemas/ApiKeyCreateRequest"
+        "$ref": "#/components/schemas/AttestationRequest"
        }
       }
      },
@@ -1923,7 +1242,8 @@
       "content": {
        "application/json": {
         "schema": {
-         "$ref": "#/components/schemas/ApiKeyCreateResponse"
+         "title": "Response Create Attestation V1 Decisions  Intent Id  Attestation Post",
+         "type": "object"
         }
        }
       },
@@ -1945,44 +1265,58 @@
       "HTTPBearer": []
      }
     ],
-    "summary": "Create API key",
+    "summary": "Signed release attestation for an escrow contract",
     "tags": [
-     "keys"
+     "attestations"
     ]
    }
   },
-  "/v1/keys/{key_id}": {
-   "delete": {
-    "operationId": "deactivate_api_key_v1_keys__key_id__delete",
-    "parameters": [
-     {
-      "in": "path",
-      "name": "key_id",
-      "required": true,
-      "schema": {
-       "title": "Key Id",
-       "type": "string"
+  "/v1/health": {
+   "get": {
+    "description": "Deliberately minimal: what's public is whether the service is up and which engine scored.\nInternals (signals, dependencies, risk-list size) are on the admin health endpoint.",
+    "operationId": "health_v1_health_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "title": "Response Health V1 Health Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Service status (public): up or degraded, and the engine version",
+    "tags": [
+     "health"
+    ]
+   }
+  },
+  "/v1/lookalike": {
+   "post": {
+    "description": "Before you paste an address: does it imitate one you've paid, and does it behave like a poisoning bot?",
+    "operationId": "lookalike_check_v1_lookalike_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LookalikeRequest"
+       }
       }
      },
-     {
-      "in": "header",
-      "name": "X-API-Key",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "X-Api-Key"
-      }
-     }
-    ],
+     "required": true
+    },
     "responses": {
-     "204": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LookalikeReport"
+        }
+       }
+      },
       "description": "Successful Response"
      },
      "422": {
@@ -1996,14 +1330,9 @@
       "description": "Validation Error"
      }
     },
-    "security": [
-     {
-      "HTTPBearer": []
-     }
-    ],
-    "summary": "Deactivate API key",
+    "summary": "Free lookalike-address check (no key, rate-limited)",
     "tags": [
-     "keys"
+     "actions"
     ]
    }
   },
@@ -2193,7 +1522,7 @@
       "description": "Successful Response"
      }
     },
-    "summary": "Public keys that sign decision records",
+    "summary": "Public keys that sign decision records and release attestations",
     "tags": [
      "proof"
     ]

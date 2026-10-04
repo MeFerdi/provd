@@ -1,67 +1,86 @@
-version: '3.9'
+# Single-host production stack: API, background worker, Postgres and Redis.
+# (The website is a static export served separately, e.g. Cloudflare Pages.)
+#
+# No secret lives in this file or in the image. Before `docker compose -f docker-compose.prod.yml up -d`:
+#   1. Put every secret in ./secrets/ as one file each (chmod 600, never committed; see backend/DEPLOYMENT.md):
+#        secret_key  database_url  postgres_password  decision_signing_key  attestation_signing_key
+#        bootstrap_admin_client_id  bootstrap_admin_client_secret
+#        bootstrap_client_client_id  bootstrap_client_client_secret  paystack_secret_key
+#      `python -m app.secret_store generate` prints fresh values for the ones Provd creates itself.
+#   2. Put non-secret settings (CORS_ORIGINS, ALLOWED_HOSTS, ...) in backend/.env.production (git-ignored).
+# On a managed platform, set the same names in its secret store instead and skip this file.
+x-backend: &backend
+  build: ./backend
+  restart: unless-stopped
+  env_file: ./backend/.env.production
+  environment: &backend_env
+    APP_ENV: production
+    RATE_LIMIT_BACKEND: redis
+    REDIS_URL: redis://redis:6379/0
+    SECRET_KEY_FILE: /run/secrets/secret_key
+    DATABASE_URL_FILE: /run/secrets/database_url
+    DECISION_SIGNING_KEY_FILE: /run/secrets/decision_signing_key
+    ATTESTATION_SIGNING_KEY_FILE: /run/secrets/attestation_signing_key
+    BOOTSTRAP_ADMIN_CLIENT_ID_FILE: /run/secrets/bootstrap_admin_client_id
+    BOOTSTRAP_ADMIN_CLIENT_SECRET_FILE: /run/secrets/bootstrap_admin_client_secret
+    BOOTSTRAP_CLIENT_CLIENT_ID_FILE: /run/secrets/bootstrap_client_client_id
+    BOOTSTRAP_CLIENT_CLIENT_SECRET_FILE: /run/secrets/bootstrap_client_client_secret
+    PAYSTACK_SECRET_KEY_FILE: /run/secrets/paystack_secret_key
+  secrets: [secret_key, database_url, decision_signing_key, attestation_signing_key, bootstrap_admin_client_id,
+            bootstrap_admin_client_secret, bootstrap_client_client_id, bootstrap_client_client_secret, paystack_secret_key]
+
 services:
-  frontend:
-    build: ./frontend
-    command: npm run start
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./frontend/.env.local.example
-    networks:
-      - provd_network
-  backend:
-    build: ./backend
-    command: gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
-    ports:
-      - "8000:8000"
-    env_file:
-      - ./backend/.env.example
-    depends_on:
-      - postgres
-      - redis
-      - ml
-    networks:
-      - provd_network
-  ml:
-    build: ./ml
-    command: python serve.py
-    ports:
-      - "8001:8001"
-    env_file:
-      - ./ml/.env.example
-    networks:
-      - provd_network
   postgres:
     image: postgres:16
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: provd
-      POSTGRES_PASSWORD: provd
       POSTGRES_DB: provd
-    ports:
-      - "127.0.0.1:5433:5432"
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - provd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U provd"]
+      interval: 5s
+      retries: 20
   redis:
     image: redis:7
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      - provd_network
-  celery_worker:
-    build: ./backend
-    command: celery -A app.tasks.celery_app worker --loglevel=info
+    restart: unless-stopped
+  migrate:
+    <<: *backend
+    restart: "no"
+    command: sh -c "alembic upgrade head && python -m app.indexer seed"
     depends_on:
-      - redis
-    env_file:
-      - ./backend/.env.example
-    networks:
-      - provd_network
+      postgres:
+        condition: service_healthy
+  api:
+    <<: *backend
+    ports:
+      - "127.0.0.1:8000:8000"   # behind a reverse proxy / tunnel; never exposed directly
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+  worker:
+    <<: *backend
+    command: python -m app.indexer run
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+secrets:
+  secret_key: { file: ./secrets/secret_key }
+  database_url: { file: ./secrets/database_url }
+  postgres_password: { file: ./secrets/postgres_password }
+  decision_signing_key: { file: ./secrets/decision_signing_key }
+  attestation_signing_key: { file: ./secrets/attestation_signing_key }
+  bootstrap_admin_client_id: { file: ./secrets/bootstrap_admin_client_id }
+  bootstrap_admin_client_secret: { file: ./secrets/bootstrap_admin_client_secret }
+  bootstrap_client_client_id: { file: ./secrets/bootstrap_client_client_id }
+  bootstrap_client_client_secret: { file: ./secrets/bootstrap_client_client_secret }
+  paystack_secret_key: { file: ./secrets/paystack_secret_key }
+
 volumes:
   pgdata:
-networks:
-  provd_network:
-    driver: bridge

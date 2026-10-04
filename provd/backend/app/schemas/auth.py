@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field
 
 
 class TokenRequest(BaseModel):
-	client_id: str = Field(min_length=3)
-	client_secret: str = Field(min_length=3)
+	client_id: str = Field(min_length=3, max_length=128)
+	client_secret: str = Field(min_length=3, max_length=256)
 
 
 class TokenResponse(BaseModel):

@@ -10,7 +10,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.base import AdapterUnavailable, ChainAdapter, NormalizedHistory, NormalizedTransfer
-from app.adapters.stubs import EvmAdapter, SolanaAdapter, StellarAdapter
+from app.adapters.solana import SolanaAdapter
+from app.adapters.stubs import EvmAdapter, StellarAdapter
 from app.adapters.tron import TronAdapter
 from app.config import get_settings
 from app.models.rails import FlaggedAddress, HistoryCache
@@ -24,7 +25,12 @@ def adapter_for(chain: str) -> ChainAdapter:
 	settings = get_settings()
 	if chain == "tron":
 		return TronAdapter(settings.trongrid_url, settings.usdt_trc20_contract, settings.trongrid_api_key, settings.http_timeout_seconds)
-	return {"stellar": StellarAdapter, "solana": SolanaAdapter, "evm": EvmAdapter}[chain]()
+	if chain == "solana":
+		return SolanaAdapter(
+			settings.solana_rpc_url, settings.solana_index_rpc_url, settings.http_timeout_seconds,
+			settings.solana_max_transactions, settings.solana_history_window_limited,
+		)
+	return {"stellar": StellarAdapter, "evm": EvmAdapter}[chain]()
 
 
 def set_adapter(chain: str, adapter: ChainAdapter | None) -> None:
@@ -36,24 +42,22 @@ def set_adapter(chain: str, adapter: ChainAdapter | None) -> None:
 
 
 def _serialize(history: NormalizedHistory) -> dict:
-	return {
-		"truncated": history.truncated,
-		"transfers": [
-			[t.tx_hash, t.timestamp.isoformat(), t.from_address, t.to_address, t.asset, format(t.amount, "f")]
-			for t in history.transfers
-		],
-	}
+	def rows(transfers):
+		return [[t.tx_hash, t.timestamp.isoformat(), t.from_address, t.to_address, t.asset, format(t.amount, "f")] for t in transfers]
+
+	return {"truncated": history.truncated, "transfers": rows(history.transfers), "native": rows(history.native_transfers)}
 
 
 def _deserialize(chain: str, address: str, payload: dict) -> NormalizedHistory:
+	def transfers(rows):
+		return [NormalizedTransfer(chain, h, datetime.fromisoformat(ts), f, t, asset, Decimal(amount)) for h, ts, f, t, asset, amount in rows]
+
 	return NormalizedHistory(
 		chain=chain,
 		address=address,
 		truncated=payload.get("truncated", False),
-		transfers=[
-			NormalizedTransfer(chain, h, datetime.fromisoformat(ts), f, t, asset, Decimal(amount))
-			for h, ts, f, t, asset, amount in payload.get("transfers", [])
-		],
+		transfers=transfers(payload.get("transfers", [])),
+		native_transfers=transfers(payload.get("native", [])),
 	)
 
 
@@ -97,6 +101,16 @@ async def public_flags(db: AsyncSession, chain: str, addresses: set[str]) -> dic
 		)
 		found.update(dict(rows.all()))
 	return found
+
+
+async def flag_references(db: AsyncSession, chain: str, addresses: set[str]) -> dict[str, str]:
+	"""References (e.g. the sanctioned entity) for flagged addresses, without any internal suffixes."""
+	if not addresses:
+		return {}
+	rows = await db.execute(
+		select(FlaggedAddress.address, FlaggedAddress.reference).where(FlaggedAddress.chain == chain, FlaggedAddress.address.in_(sorted(addresses)))
+	)
+	return {a: (r or "").split("|prev:")[0] for a, r in rows.all() if r}
 
 
 async def token_security(chain: str, contract: str) -> tuple[dict | None, str | None]:

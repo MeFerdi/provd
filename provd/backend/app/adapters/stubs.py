@@ -2,7 +2,6 @@
 fails loudly; the evaluate API returns `not_yet_supported` for these chains before reaching them.
 
 - StellarAdapter: Horizon (`/accounts/{id}/payments`, `/operations`); assets are code+issuer.
-- SolanaAdapter: SPL token transfers via an indexed RPC (Helius/QuickNode); mint/freeze authority.
 - EvmAdapter: ERC-20 Transfer logs via an archive-capable RPC or indexer.
 """
 from app.adapters.base import NormalizedAsset, NormalizedEvent, NormalizedHistory
@@ -26,10 +25,6 @@ class _Stub:
 
 class StellarAdapter(_Stub):
 	chain = "stellar"
-
-
-class SolanaAdapter(_Stub):
-	chain = "solana"
 
 
 class EvmAdapter(_Stub):

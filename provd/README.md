@@ -18,16 +18,29 @@ indexer ──► freeze events, USDT top-up matching
 
 ## What's in the MVP (Phase A)
 - `POST /v1/actions/evaluate` for `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on **Tron
-  (USDT-TRC20)**. Other chains and intent types are accepted and return `not_yet_supported` (not charged).
+  (USDT-TRC20)** and **Solana (USDC and USDT)**. Other chains and intent types are accepted and return
+  `not_yet_supported` (not charged).
 - Signals: `counterparty_graph` (frozen-address list + direct exposure, weighted by volume share; exposure to
   wallets the platform confirmed as fraud), `reversal_behavior` (the platform's own reversals/fraud reports and
   check velocity), `token_safety` (ramp intents; GoPlus, degrades with a coverage flag), and since Phase C:
   `amount_pattern` (spikes vs the counterparty's history, platform p99 outliers, structuring under thresholds),
   `float_and_timing` (rapid pass-through, off-hours, float strain) and `account_takeover_proxies` (SIM swap /
   device / credential / new-destination timestamps supplied by the platform's provider in `account_signals`).
+  `lookalike_destination` catches address poisoning on Tron and Solana: destinations that imitate a payee
+  (learned from released checks or sent as `known_counterparties`) and addresses that only send dust
+  (`app/engine/lookalike.py`, dependency-free). Free public version: `POST /v1/lookalike`.
   `asset_backing` and `venue_risk` are registered stubs (Phase E).
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
-  bundled as a seed fixture.
+  bundled as a seed fixture; on Solana, owners of USDC and USDT accounts frozen by Circle and Tether, snapshotted
+  hourly by the indexer.
+- Sanctions: digital currency addresses on the US Treasury OFAC SDN list (Tron, Solana, EVM), refreshed daily
+  from the official XML and bundled as a seed snapshot (`app/services/sanctions.py`). Sanctions take precedence
+  over issuer freezes; flags `SANCTIONED_ADDRESS` (reject) and `SANCTIONS_EXPOSURE` (hold).
+- Release attestations for non-custodial escrows: `POST /v1/decisions/{intent_id}/attestation` (EIP-712 for
+  EVM/Tron, keccak layout for Solana), signed with a separate key; Solidity `ProvdReleaseVerifier` + example escrow
+  and an end-to-end test on a local chain in `contracts/`.
+- Solana adapter (`app/adapters/solana.py`): wallet and associated-token-account histories over any Solana RPC
+  (free public endpoints keep about a day; set `SOLANA_RPC_URL` to Helius or Alchemy for full history).
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
   card and M-Pesa top-ups through Paystack Checkout (M-Pesa falls back to a manual paybill confirmed by an
   admin when Paystack isn't configured) (signed `charge.success`
@@ -47,12 +60,16 @@ indexer ──► freeze events, USDT top-up matching
 
 ## Run locally
 ```bash
-cp backend/.env.example backend/.env      # set BOOTSTRAP_ADMIN_CLIENT_ID/SECRET for admin calls
+(cd backend && python3 -m app.secret_store init)   # git-ignored .env files with fresh random dev secrets
 docker compose up --build                 # postgres + migrate + seed + API (:8000, docs at /docs) + indexer
 cd frontend && npm install && npm run dev # site on :3000
 ```
 Without Docker for the API: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt &&
 .venv/bin/alembic upgrade head && .venv/bin/python -m app.indexer seed && .venv/bin/python app/main.py`.
+
+Secrets are declared in one place, `backend/app/secret_store.py`, and never written in code, compose files or the
+repository. `python -m app.secret_store check` lists which are set (never their values); production reads them from
+the platform's secret store, as `NAME` or as a file at `NAME_FILE`.
 Port busy? `POSTGRES_HOST_PORT=5435 docker compose up` and match `DATABASE_URL`.
 
 Tests: `cd backend && .venv/bin/pip install aiosqlite && .venv/bin/python -m pytest`

@@ -8,6 +8,10 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Literal
 
+import json
+import re
+import unicodedata
+
 from pydantic import BaseModel, Field, field_validator
 
 KNOWN_CHAINS = {"tron", "stellar", "solana", "evm"}
@@ -15,8 +19,48 @@ KNOWN_INTENT_TYPES = {
 	"p2p_trade", "ramp_conversion", "payout", "otc_settlement",
 	"swap", "deposit", "payment", "asset_verify", "venue_assess",
 }
-SCORED_CHAINS = {"tron"}
+SCORED_CHAINS = {"tron", "solana"}
 SCORED_INTENT_TYPES = {"p2p_trade", "ramp_conversion", "payout", "otc_settlement"}
+
+# Identifiers callers choose (intent ids, idempotency keys): letters, digits and . _ : -
+SAFE_ID = r"^[A-Za-z0-9._:-]{1,64}$"
+_SAFE_ID_RE = re.compile(SAFE_ID)
+
+
+def clean_text(value: str, max_length: int) -> str:
+	"""Strip control and invisible format characters (bidi overrides, zero-width) and cap the length.
+	Caller-supplied text ends up in signed records that people and tools read later."""
+	kept = "".join(ch for ch in value if unicodedata.category(ch)[0] != "C" or ch in "\n\t")
+	return kept[:max_length]
+
+
+def bounded_json(value: dict | None, *, max_bytes: int = 4096, max_depth: int = 4, max_keys: int = 50, max_str: int = 500) -> dict | None:
+	"""Validate free-form JSON from callers: size, depth, key count, plain values only; text is cleaned."""
+	if value is None:
+		return None
+
+	def walk(node, depth: int):
+		if depth > max_depth:
+			raise ValueError(f"nested deeper than {max_depth} levels")
+		if isinstance(node, dict):
+			if len(node) > max_keys:
+				raise ValueError(f"more than {max_keys} keys")
+			return {clean_text(str(k), 64): walk(v, depth + 1) for k, v in node.items()}
+		if isinstance(node, list):
+			if len(node) > max_keys:
+				raise ValueError(f"more than {max_keys} items")
+			return [walk(v, depth + 1) for v in node]
+		if isinstance(node, str):
+			return clean_text(node, max_str)
+		if node is None or isinstance(node, (bool, int, float)):
+			return node
+		raise ValueError("only JSON values are allowed")
+
+	cleaned = walk(value, 1)
+	if len(json.dumps(cleaned, ensure_ascii=False).encode()) > max_bytes:
+		raise ValueError(f"larger than {max_bytes} bytes")
+	return cleaned
+
 
 RiskLevel = Literal["low", "medium", "high", "critical"]
 RecommendedAction = Literal["release", "hold", "reject", "manual_review", "not_yet_supported"]
@@ -24,7 +68,7 @@ Severity = Literal["info", "low", "medium", "high", "critical"]
 
 
 class Counterparty(BaseModel):
-	wallet_address: str | None = Field(default=None, max_length=128)
+	wallet_address: str | None = Field(default=None, max_length=128, pattern=r"^[A-Za-z0-9:._-]{1,128}$")
 	# Hash the phone number client-side (e.g. HMAC-SHA256 with your own key). Raw numbers are rejected.
 	phone_hash: str | None = Field(default=None, min_length=32, max_length=128, pattern=r"^[0-9a-fA-F]+$")
 
@@ -55,17 +99,37 @@ class AccountSignals(BaseModel):
 
 
 class ActionIntent(BaseModel):
-	intent_id: str | None = Field(default=None, max_length=64, description="Your id; generated if omitted")
+	intent_id: str | None = Field(default=None, max_length=64, pattern=SAFE_ID, description="Your id (letters, digits, . _ : -); generated if omitted")
 	chain: str
 	intent_type: str
 	counterparty: Counterparty
 	rails: Rails = Field(default_factory=Rails)
 	amounts: Amounts = Field(default_factory=Amounts)
+	known_counterparties: list[str] = Field(
+		default_factory=list,
+		max_length=500,
+		description="Addresses you've paid or traded with before (your address book). Used to catch lookalike "
+		"(address-poisoning) destinations. Provd also learns them from your released checks.",
+	)
 	account_signals: AccountSignals | None = None
 	float_available: Decimal | None = Field(default=None, ge=0, description="Your available float for this rail, in amounts.fiat_currency (payout/OTC)")
-	venue: dict | None = None
-	asset: dict | None = None
-	context: dict = Field(default_factory=dict)
+	venue: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")
+	asset: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")
+	context: dict = Field(default_factory=dict, description="Your own reference data, stored with the decision and never scored; up to 4 KB of JSON")
+
+	@field_validator("known_counterparties")
+	@classmethod
+	def _known(cls, value: list[str]) -> list[str]:
+		pattern = re.compile(r"^[A-Za-z0-9]{25,64}$")
+		bad = [v for v in value if not pattern.match(v or "")]
+		if bad:
+			raise ValueError(f"{len(bad)} entries aren't addresses (letters and digits, 25 to 64 characters)")
+		return sorted(set(value))
+
+	@field_validator("venue", "asset", "context")
+	@classmethod
+	def _bounded(cls, value: dict | None) -> dict | None:
+		return bounded_json(value)
 
 	@field_validator("chain")
 	@classmethod
@@ -111,9 +175,9 @@ class ActionScore(BaseModel):
 
 
 class OutcomeReport(BaseModel):
-	intent_id: str | None = Field(default=None, max_length=64)
+	intent_id: str | None = Field(default=None, max_length=64, pattern=SAFE_ID)
 	chain: str = "tron"
-	wallet_address: str | None = Field(default=None, max_length=128)
+	wallet_address: str | None = Field(default=None, max_length=128, pattern=r"^[A-Za-z0-9:._-]{1,128}$")
 	phone_hash: str | None = Field(default=None, min_length=32, max_length=128, pattern=r"^[0-9a-fA-F]+$")
 	outcome: Literal["completed", "reversed", "refunded", "chargeback", "fraud_confirmed", "fake_confirmation"]
 	occurred_at: datetime | None = None
@@ -129,4 +193,33 @@ class CounterpartyReport(BaseModel):
 	activity: dict
 	signal_coverage: dict[str, str]
 	engine_version: str
+	checked_at: datetime
+
+
+class LookalikeRequest(BaseModel):
+	chain: Literal["tron", "solana"]
+	address: str = Field(max_length=64, pattern=r"^[A-Za-z0-9]{25,64}$", description="The address you're about to pay")
+	known: list[str] = Field(default_factory=list, max_length=200, description="Addresses you've paid before")
+
+	@field_validator("known")
+	@classmethod
+	def _known(cls, value: list[str]) -> list[str]:
+		pattern = re.compile(r"^[A-Za-z0-9]{25,64}$")
+		return sorted({v for v in value if pattern.match(v or "")})
+
+
+class LookalikeMatch(BaseModel):
+	address: str
+	prefix: int = Field(description="Matching leading characters")
+	suffix: int = Field(description="Matching trailing characters")
+
+
+class LookalikeReport(BaseModel):
+	chain: str
+	address: str
+	verdict: Literal["lookalike", "suspicious", "no_match"]
+	risk_level: RiskLevel
+	lookalike_of: list[LookalikeMatch]
+	dust_sender: bool | None = Field(description="Sends dust to many wallets and never receives real value; null if history unavailable")
+	reasons: list[str]
 	checked_at: datetime

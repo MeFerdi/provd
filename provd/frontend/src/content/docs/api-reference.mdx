@@ -32,17 +32,32 @@ Send an `Idempotency-Key` header on evaluate: retries with the same key return t
 | `401` / `403` | Missing, invalid or inactive API key. |
 | `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |
 | `404` | Decision or `intent_id` not found for your account. |
+| `413` | Request body larger than 64 KB. |
 | `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
-| `429` | Too many requests. Wait a minute and retry. |
+| `429` | Rate limit reached. Wait for the number of seconds in the `Retry-After` header and retry. |
 | `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
 
-Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron`. Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
+Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron` (USDT) and `solana` (USDC and USDT). Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
+
+## Limits
+
+| What | Limit |
+|---|---|
+| Calls with your API key | 600 per minute per key |
+| Public endpoints (counterparty check, pricing, proof) | 120 per minute per IP; the counterparty check 20 per minute |
+| Request body | 64 KB |
+| `intent_id`, `Idempotency-Key` | Up to 64 characters: letters, digits and `. _ : -` |
+| `context` | Up to 4 KB of JSON, 4 levels deep, 50 keys. Stored with the decision, never scored |
+| `X-Platform-Context` | Up to 1 KB |
+
+Need higher limits? Monthly plans include them; [contact us](mailto:hello@provd.tech).
 
 ## Optional inputs that sharpen a score
 
 | Field | Used by | What to send |
 |---|---|---|
 | `amounts.crypto` or `amounts.fiat` + `fiat_currency` | `amount_pattern` | The amount. Provd learns your own baselines from it: per counterparty, and your 90-day p99 per intent type. |
+| `known_counterparties` | `lookalike_destination` | Addresses you've paid or traded with (your address book, up to 500). Provd also learns them from your released checks. Catches lookalike (address-poisoning) destinations from the first call. |
 | `float_available` | `float_and_timing` | Your available float on this rail, in `amounts.fiat_currency` (payouts, OTC). |
 | `account_signals` | `account_takeover_proxies` | Timestamps from your SIM-swap, device-trust or KYC provider: `sim_swap_at`, `device_changed_at`, `credentials_changed_at`, `payout_destination_added_at`, `account_created_at`, plus `provider`. Provd doesn't detect these itself; send what you have. |
 
@@ -61,6 +76,8 @@ Signals with nothing to work on report `none` in `signal_coverage` and add no ri
 
 | Code | Severity | Meaning |
 |---|---|---|
+| `SANCTIONED_ADDRESS` | critical | The counterparty wallet is on the US Treasury OFAC sanctions (SDN) list; the reason names the listed entity. |
+| `SANCTIONS_EXPOSURE` | high | The wallet transacted directly with addresses on the OFAC sanctions list. Never discounted as incidental. |
 | `CP_ADDRESS_FROZEN` | critical | The counterparty wallet is itself on a public risk list (for example, frozen by Tether). |
 | `CP_FLAGGED_EXPOSURE` | high | The wallet transacted directly with wallets on a public risk list. |
 | `CP_INCIDENTAL_EXPOSURE` | medium | Exposure to listed wallets is a small share of volume across many counterparties, as with exchanges. |
@@ -70,6 +87,8 @@ Signals with nothing to work on report `none` in `signal_coverage` and add no ri
 | `OWN_FRAUD_HISTORY` | critical | You reported confirmed fraud or a fake payment confirmation from this counterparty in the last 180 days. |
 | `OWN_REVERSAL_HISTORY` | medium or high | You reported reversals, refunds or chargebacks from this counterparty in the last 180 days. |
 | `VELOCITY_SPIKE` | medium | Unusually many checks for this counterparty in the last 24 hours. |
+| `LOOKALIKE_DESTINATION` | high or critical | The destination shares its first and last characters with an address you've paid, but is a different address: the address-poisoning trick. Critical when 4+ characters match at both ends. |
+| `DUST_SENDER` | high | The destination only sends tiny "dust" amounts to other wallets and never receives real value, typical of poisoning bots. |
 | `AMOUNT_SPIKE` | medium or high | Much larger (5x+, 20x+ for high) than this counterparty's largest previous amount with you. |
 | `AMOUNT_ABOVE_PLATFORM_P99` | medium | Larger than 99% of your amounts for this intent type over 90 days (needs 30+ decisions). |
 | `AMOUNT_STRUCTURING` | high | Three or more amounts just under a reporting threshold for this counterparty in 24 hours. |
@@ -83,6 +102,31 @@ Signals with nothing to work on report `none` in `signal_coverage` and add no ri
 | `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |
 | `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |
 | `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |
+
+## Sanctions screening
+
+Every check screens the wallet and its direct counterparties against the digital currency addresses on the US
+Treasury OFAC SDN list (Tron, Solana and EVM addresses), refreshed daily from the official publication. A match is a
+strong risk signal for your own compliance process, not a legal determination, and other lists (UN, EU, UK) aren't
+included yet.
+
+## Free lookalike check
+
+`POST /v1/lookalike` needs no key (rate-limited like the counterparty check). Send the address you're about to pay
+and the addresses you've paid before; get back whether it imitates one of them and whether it behaves like a
+poisoning bot. The same check runs inside every scored request as `lookalike_destination`.
+
+```bash
+curl -s https://api.provd.tech/v1/lookalike -H "Content-Type: application/json" \
+  -d '{"chain":"solana","address":"EKYWHE68zW33SkFNmcqPneowxagcsgjpqYmLVs4yvJKC","known":["EKYWxPNqtscvebruQdj7HkPL6CyFLJamwNnrLgi1vJKC"]}'
+```
+
+## Release attestations
+
+`POST /v1/decisions/{intent_id}/attestation` returns a signed release a smart contract can verify on-chain: EIP-712
+for EVM and Tron (TVM) contracts, a keccak layout for Solana programs. Only for `release` decisions under 24 hours
+old, for the scored wallet and at most the scored amount, valid for up to one hour, bound to one contract or program.
+See [Non-custodial and escrow releases](/docs/non-custodial).
 
 ## Decision records
 

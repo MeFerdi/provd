@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import os
+import secrets
 
-# Settings validate at import time; give the suite a dev secret unless the caller set one.
-os.environ.setdefault("SECRET_KEY", "test-secret-key-that-is-at-least-32-characters")
+# Settings validate at import time; give the suite a random secret unless the caller set one.
+os.environ.setdefault("SECRET_KEY", secrets.token_urlsafe(48))
 
 from datetime import datetime, timezone
 

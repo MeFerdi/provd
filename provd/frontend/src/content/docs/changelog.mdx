@@ -5,6 +5,10 @@ description: Product and API updates.
 
 ## 2026-10-04
 
+- Release attestations: `POST /v1/decisions/{intent_id}/attestation` signs a release that an escrow contract verifies on-chain (EIP-712 on EVM and Tron; keccak layout on Solana). Solidity verifier and example escrow in the repository; signer address at `GET /v1/proof/keys`.
+- Sanctions screening: wallets and their direct counterparties are screened against the US Treasury OFAC SDN list (`SANCTIONED_ADDRESS`, `SANCTIONS_EXPOSURE`), refreshed daily.
+- Solana: checks for USDC and USDT on Solana (`"chain": "solana"`), including Circle's and Tether's frozen accounts on Solana.
+- Lookalike destinations: a new signal, `lookalike_destination`, catches address poisoning on Solana and Tron (`LOOKALIKE_DESTINATION`, `DUST_SENDER`). Send `known_counterparties` or let Provd learn your payees from released checks. Free public version: `POST /v1/lookalike` and provd.tech/check#lookalike.
 - M-Pesa top-ups now go through Paystack checkout (`pay_url`) and are credited automatically; send an `email` with `"method": "mpesa"`.
 - Card top-ups: `POST /v1/topups` with `"method": "card"` and an `email` returns a Paystack checkout link (`pay_url`). Checks are credited when Paystack confirms the charge. `POST /v1/topups/{id}/refresh` checks a card payment on demand.
 - Pricing: the free tier is now 300 checks a month (was 100 a day). New `1k` bundle: 1,000 checks for $20 / KES 2,600. `GET /v1/usage` returns `free_monthly_checks`, `free_used_this_month` and `free_remaining_this_month` in place of the daily fields.

@@ -44,8 +44,9 @@ class NormalizedEvent:
 class NormalizedHistory:
 	chain: str
 	address: str
-	transfers: list[NormalizedTransfer] = field(default_factory=list)
-	truncated: bool = False  # True when only the most recent N transfers were read
+	transfers: list[NormalizedTransfer] = field(default_factory=list)  # stablecoin transfers (counted in volumes)
+	truncated: bool = False  # True when only the most recent N transfers (or a recent window) were read
+	native_transfers: list[NormalizedTransfer] = field(default_factory=list)  # gas-token transfers (e.g. SOL), not in volumes
 
 	@property
 	def counterparties(self) -> set[str]:

@@ -14,7 +14,7 @@ See the full project structure and setup instructions in this README.
 
 ## Getting Started
 
-1. Copy `.env.example` to `.env` and fill in required variables.
+1. Create local secrets: `cd provd/backend && python3 -m app.secret_store init` (writes git-ignored `.env` files with fresh random values; no secret is ever committed).
 2. Run `docker-compose up` to start all services.
 3. Access:
    - Frontend: http://localhost:3000

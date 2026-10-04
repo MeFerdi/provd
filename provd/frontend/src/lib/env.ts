@@ -10,7 +10,7 @@ export const SITE_URL = "https://provd.tech";
 export const SITE_NAME = "Provd";
 export const SITE_TITLE = "Provd: pre-release risk checks for stablecoin money movement";
 export const SITE_DESCRIPTION =
-  "Risk checks for P2P stablecoin trades, on- and off-ramps and payouts, on any local payment rail. Provd scores a transaction before funds are released, explains why, and keeps a record of every check. Pay as you go, with 300 free checks a month, then bundles from $20.";
+  "Pre-release risk checks for P2P desks, ramps, payout platforms and non-custodial escrows, on Tron and Solana. Sanctions and frozen-wallet screening, lookalike-address protection and your own history, explained and signed. Pay as you go, with 300 free checks a month.";
 
 export const CONTACT_EMAIL = "hello@provd.tech";
 export const SECURITY_EMAIL = "security@provd.tech";

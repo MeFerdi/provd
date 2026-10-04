@@ -31,6 +31,12 @@ export const docsNav: NavItem[] = [
     category: "Getting Started",
   },
   {
+    title: "Non-custodial and escrow releases",
+    href: "/docs/non-custodial",
+    description: "Where Provd fits when a contract releases funds that can't be clawed back.",
+    category: "Getting Started",
+  },
+  {
     title: "Verify a decision",
     href: "/verify",
     description: "Check a decision record's hash, signature and Merkle proof in your browser.",
