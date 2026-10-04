@@ -26,17 +26,17 @@ export default function DocsLandingPage() {
               Provd API documentation.
             </h1>
             <p className="text-text-secondary text-lg">
-              Send a trade before you release it and get back a score, the reasons behind it and a decision record.
-              One endpoint to start, 300 free checks a month.
+              Send a trade or payout before you release it and get back a score, the reasons behind it and a signed
+              decision record; escrow contracts can verify a release on-chain. One endpoint to start, 300 free checks a month.
             </p>
             <div className="mt-8 grid gap-4 rounded-md border border-bg-border bg-white p-6 md:grid-cols-3">
               <div>
                 <div className="font-sans font-semibold text-text-primary">Quickstart</div>
-                <div className="mt-2 text-sm text-text-secondary">Score a USDT-on-Tron P2P trade and report the outcome.</div>
+                <div className="mt-2 text-sm text-text-secondary">Score a P2P trade on Tron or Solana and report the outcome.</div>
               </div>
               <div>
-                <div className="font-sans font-semibold text-text-primary">Pay as you go</div>
-                <div className="mt-2 text-sm text-text-secondary">Free quota, the 402 response, bundles and top-ups.</div>
+                <div className="font-sans font-semibold text-text-primary">Escrow integration</div>
+                <div className="mt-2 text-sm text-text-secondary">Check before release; release attestations for contracts.</div>
               </div>
               <div>
                 <div className="font-sans font-semibold text-text-primary">API Reference</div>

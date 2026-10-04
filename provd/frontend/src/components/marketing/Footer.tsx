@@ -9,6 +9,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: "Product",
     links: [
       { href: "/check", label: "Counterparty check" },
+      { href: "/check#lookalike", label: "Lookalike check" },
       { href: "/verify", label: "Verify a decision" },
       { href: "/pricing", label: "Pricing" },
       { href: "/early-access", label: "Get an API key" },
@@ -19,6 +20,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "/docs/quickstart", label: "Quickstart" },
       { href: "/docs/pay-as-you-go", label: "Pay as you go" },
+      { href: "/docs/non-custodial", label: "Escrow integration" },
       { href: "/docs/api-reference", label: "API reference" },
     ],
   },
@@ -50,7 +52,7 @@ export default function Footer() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/provd-logo.svg" alt="Provd" width={107} height={30} className="h-[30px] w-auto" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            Pre-release risk checks for stablecoin trades, ramps and payouts. Built in Kenya, for local rails everywhere.
+            Pre-release risk checks for stablecoin trades, ramps, payouts and escrows. Built in Kenya, for local rails everywhere.
           </p>
           <a href={`mailto:${CONTACT_EMAIL}`} className="mt-3 inline-block text-sm text-accent-secondary hover:underline">
             {CONTACT_EMAIL}

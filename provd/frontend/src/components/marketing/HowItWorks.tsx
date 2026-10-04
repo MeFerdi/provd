@@ -7,12 +7,12 @@ const STEPS = [
   {
     title: "Evaluate",
     icon: "/assets/rating.png",
-    body: "Provd checks the counterparty's transfer graph against public risk lists such as Tether's frozen addresses, plus your own reversal history.",
+    body: "Provd screens the wallet and its counterparties against sanctions and issuer-frozen lists, catches lookalike addresses, and weighs your own history.",
   },
   {
     title: "Decide",
     icon: "/fraud-alert.png",
-    body: "You get a score from 0 to 1000, flags, a recommended action (release, manual review, hold or reject) and a decision record you can verify.",
+    body: "A score from 0 to 1000, the reasons, a recommended action (release, manual review, hold or reject) and a signed record. Escrow contracts can verify a release on-chain.",
   },
 ];
 

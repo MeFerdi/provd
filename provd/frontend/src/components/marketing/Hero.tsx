@@ -11,9 +11,9 @@ export default function Hero() {
             Score money movement before it&apos;s released.
           </h1>
           <p className="max-w-xl font-sans text-[17px] leading-[1.7] text-text-secondary sm:text-[18px]">
-            Risk checks for P2P stablecoin trades, on- and off-ramps and payouts, wherever local payment rails meet
-            stablecoins. Every decision explained, every check on record. Pay as you go, with{" "}
-            {FREE_MONTHLY_CHECKS} free checks a month.
+            Risk checks for P2P desks, ramps, payout platforms and non-custodial escrows, before stablecoins leave.
+            Sanctions and frozen-wallet screening, lookalike-address protection and your own history, explained and
+            signed. Pay as you go, with {FREE_MONTHLY_CHECKS} free checks a month.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button href="/check" size="lg">
@@ -23,7 +23,7 @@ export default function Hero() {
               Read the quickstart
             </Button>
           </div>
-          <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
+          <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, USDC and USDT on Solana, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
         <figure className="w-full min-w-0 max-w-[440px] justify-self-center pb-14 lg:justify-self-end lg:py-12">
           <HeroMascot />
