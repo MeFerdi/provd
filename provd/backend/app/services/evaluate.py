@@ -173,44 +173,63 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 
 	if intent.chain not in SCORED_CHAINS or intent.intent_type not in SCORED_INTENT_TYPES:
 		score, record = _not_supported(intent, intent_id, now, started)
-		charge, wallet = None, intent.counterparty.wallet_address
+		wallet = intent.counterparty.wallet_address
 	else:
 		names = signals_for(intent.intent_type)
 		units = max(1, sum(engine_config()["signals"][n]["cost_units"] for n in names))
-		charge = await billing.authorize(db, account_id, units)  # before any upstream calls
-		ctx = await build_context(db, account_id, intent, now)
-		wallet = ctx.wallet
-		evaluation = evaluate(ctx)
-		flags = [RiskFlag(code=f.code, severity=f.severity, reason=f.reason) for f in evaluation.flags]
-		explain = _explain(evaluation)
-		record = {
-			"intent_id": intent_id,
-			"intent": intent.model_dump(mode="json", exclude={"intent_id"}),
-			"signals": [e.model_dump() for e in explain],
-			"signal_coverage": evaluation.coverage,
-			"decision": {
-				"score": evaluation.score,
-				"risk_level": evaluation.risk_level,
-				"recommended_action": evaluation.recommended_action,
-				"risk_flags": [f.model_dump() for f in flags],
-			},
-			"engine_version": engine_config()["engine_version"],
-			"created_at": now,
-		}
-		score = ActionScore(
-			intent_id=intent_id,
-			score=evaluation.score,
-			risk_level=evaluation.risk_level,
-			risk_flags=flags,
-			recommended_action=evaluation.recommended_action,
-			explainability=explain,
-			signal_coverage=evaluation.coverage,
-			decision_record_hash=record_hash(record),
-			engine_version=engine_config()["engine_version"],
-			latency_ms=round((time.perf_counter() - started) * 1000),
-			created_at=now,
-		)
+		charge = await billing.reserve(db, account_id, units, intent_id)  # before any upstream calls
+		try:
+			return await _score_and_store(db, account_id, intent, intent_id, idempotency_key, now, started)
+		except BaseException:
+			await db.rollback()
+			await billing.release(db, charge)
+			raise
+	return await _store(db, account_id, intent, intent_id, idempotency_key, score, record, wallet, now)
 
+
+async def _score_and_store(
+	db: AsyncSession, account_id: str, intent: ActionIntent, intent_id: str, idempotency_key: str | None,
+	now: datetime, started: float,
+) -> ActionScore:
+	ctx = await build_context(db, account_id, intent, now)
+	evaluation = evaluate(ctx)
+	flags = [RiskFlag(code=f.code, severity=f.severity, reason=f.reason) for f in evaluation.flags]
+	explain = _explain(evaluation)
+	record = {
+		"intent_id": intent_id,
+		"intent": intent.model_dump(mode="json", exclude={"intent_id"}),
+		"signals": [e.model_dump() for e in explain],
+		"signal_coverage": evaluation.coverage,
+		"decision": {
+			"score": evaluation.score,
+			"risk_level": evaluation.risk_level,
+			"recommended_action": evaluation.recommended_action,
+			"risk_flags": [f.model_dump() for f in flags],
+		},
+		"engine_version": engine_config()["engine_version"],
+		"created_at": now,
+	}
+	score = ActionScore(
+		intent_id=intent_id,
+		score=evaluation.score,
+		risk_level=evaluation.risk_level,
+		risk_flags=flags,
+		recommended_action=evaluation.recommended_action,
+		explainability=explain,
+		signal_coverage=evaluation.coverage,
+		decision_record_hash=record_hash(record),
+		engine_version=engine_config()["engine_version"],
+		latency_ms=round((time.perf_counter() - started) * 1000),
+		created_at=now,
+	)
+	return await _store(db, account_id, intent, intent_id, idempotency_key, score, record, ctx.wallet, now)
+
+
+async def _store(
+	db: AsyncSession, account_id: str, intent: ActionIntent, intent_id: str, idempotency_key: str | None,
+	score: ActionScore, record: dict, wallet: str | None, now: datetime,
+) -> ActionScore:
+	"""Sign and store the decision. Usage was already recorded by billing.reserve()."""
 	stored = dict(record)
 	stored["response"] = score.model_dump(mode="json")
 	key = signer()
@@ -236,8 +255,6 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 			created_at=now,
 		)
 	)
-	if charge:
-		billing.record_usage(db, account_id, intent_id, charge)
 	await db.commit()
 	return score
 

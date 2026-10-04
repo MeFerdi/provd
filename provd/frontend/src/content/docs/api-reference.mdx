@@ -32,11 +32,25 @@ Send an `Idempotency-Key` header on evaluate: retries with the same key return t
 | `401` / `403` | Missing, invalid or inactive API key. |
 | `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |
 | `404` | Decision or `intent_id` not found for your account. |
+| `413` | Request body larger than 64 KB. |
 | `422` | Invalid body, invalid address, unsupported chain on the public check, or a reused `intent_id`. Body: `{"detail": "…"}`. |
-| `429` | Too many requests. Wait a minute and retry. |
+| `429` | Rate limit reached. Wait for the number of seconds in the `Retry-After` header and retry. |
 | `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
 
 Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron`. Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
+
+## Limits
+
+| What | Limit |
+|---|---|
+| Calls with your API key | 600 per minute per key |
+| Public endpoints (counterparty check, pricing, proof) | 120 per minute per IP; the counterparty check 20 per minute |
+| Request body | 64 KB |
+| `intent_id`, `Idempotency-Key` | Up to 64 characters: letters, digits and `. _ : -` |
+| `context` | Up to 4 KB of JSON, 4 levels deep, 50 keys. Stored with the decision, never scored |
+| `X-Platform-Context` | Up to 1 KB |
+
+Need higher limits? Monthly plans include them; [contact us](mailto:hello@provd.tech).
 
 ## Optional inputs that sharpen a score
 

@@ -15,6 +15,7 @@ from app import indexer
 from app.adapters.base import AdapterUnavailable, NormalizedAsset, NormalizedEvent, NormalizedHistory, NormalizedTransfer
 from app.adapters.tron import validate_tron_address
 from app.api.v1.actions import router as actions_router
+from app.api.v1.health import admin_router as health_admin_router
 from app.api.v1.health import router as health_router
 from app.api.v1.proof import router as proof_router
 from app.api.v1.webhooks import router as webhooks_router
@@ -106,6 +107,7 @@ def env(monkeypatch):
 	app = FastAPI(lifespan=lifespan)
 	app.include_router(actions_router, prefix="/v1")
 	app.include_router(health_router, prefix="/v1")
+	app.include_router(health_admin_router, prefix="/v1")
 	app.include_router(proof_router, prefix="/v1")
 	app.include_router(webhooks_router, prefix="/v1")
 	anchor = FakeAnchor()
@@ -258,11 +260,16 @@ def test_public_scanner_and_validation(env):
 
 
 def test_health_reports_engine_and_risk_list(env):
-	client, *_ = env
+	client, tron, who, *_ = env
 	health = client.get("/v1/health").json()
-	assert health["engine_version"] and health["dependencies"]["risk_list"]["active_flagged_addresses"] == 1
-	assert health["signals"]["amount_pattern"] == "enabled"
-	assert health["signals"]["asset_backing"].startswith("planned")
+	assert health["status"] == "ok" and health["engine_version"]
+	assert "signals" not in health and "dependencies" not in health  # internals are admin-only
+	assert client.get("/v1/admin/health").status_code == 403
+	who["client"] = "admin"
+	details = client.get("/v1/admin/health").json()
+	assert details["dependencies"]["risk_list"]["active_flagged_addresses"] == 1
+	assert details["signals"]["amount_pattern"] == "enabled"
+	assert details["signals"]["asset_backing"].startswith("planned")
 
 
 def _run(portal, fn, *args, **kwargs):

@@ -16,6 +16,7 @@ from app.engine.scoring import engine_config, evaluate
 from app.models.rails import CreditPurchase, Decision, Outcome, UsageEvent
 from app.schemas.actions import (
 	KNOWN_CHAINS,
+	SAFE_ID,
 	SCORED_CHAINS,
 	ActionIntent,
 	ActionScore,
@@ -23,11 +24,12 @@ from app.schemas.actions import (
 	Explanation,
 	OutcomeReport,
 	RiskFlag,
+	clean_text,
 )
 from app.schemas.auth import AuthContext
 from app.services import billing, chain_data, paystack
 from app.services.evaluate import IntentRejected, build_context, evaluate_intent
-from app.services.rate_limit import rate_limit
+from app.services.rate_limit import public_limit, rate_limit
 
 router = APIRouter(tags=["actions"])
 
@@ -46,13 +48,13 @@ def _purchase_url() -> str:
 @router.post("/actions/evaluate", response_model=ActionScore, summary="Score a money movement before release")
 async def evaluate_action(
 	intent: ActionIntent,
-	idempotency_key: str | None = Header(default=None, alias="Idempotency-Key", max_length=128),
-	x_platform_context: str | None = Header(default=None, alias="X-Platform-Context", max_length=4096),
+	idempotency_key: str | None = Header(default=None, alias="Idempotency-Key", max_length=64, pattern=SAFE_ID),
+	x_platform_context: str | None = Header(default=None, alias="X-Platform-Context", max_length=1024),
 	db: AsyncSession = Depends(get_db_session),
 	ctx: AuthContext = Depends(_evaluator),
 ):
 	if x_platform_context:  # forward-compat: stored with the intent, not scored
-		intent.context = {**intent.context, "_platform_context": x_platform_context}
+		intent.context = {**intent.context, "_platform_context": clean_text(x_platform_context, 1024)}
 	try:
 		return await evaluate_intent(db, _account(ctx), intent, idempotency_key)
 	except billing.PaymentRequired as exc:
@@ -118,7 +120,7 @@ async def report_outcome(report: OutcomeReport, db: AsyncSession = Depends(get_d
 	"/counterparties/{chain}/{address}",
 	response_model=CounterpartyReport,
 	summary="Public counterparty risk report (no key, rate-limited)",
-	dependencies=[Depends(rate_limit("scanner", lambda: get_settings().scanner_rate_limit_per_minute, 60))],
+	dependencies=[Depends(public_limit), Depends(rate_limit("scanner", lambda: get_settings().scanner_rate_limit_per_minute, 60))],
 )
 async def counterparty_report(chain: str, address: str, db: AsyncSession = Depends(get_db_session)) -> CounterpartyReport:
 	if chain not in KNOWN_CHAINS:
@@ -158,7 +160,7 @@ async def counterparty_report(chain: str, address: str, db: AsyncSession = Depen
 	)
 
 
-@router.get("/assets/{chain}/{ref}", summary="Asset verification (Phase E)")
+@router.get("/assets/{chain}/{ref}", summary="Asset verification (Phase E)", dependencies=[Depends(public_limit)])
 async def asset_report(chain: str, ref: str) -> dict:
 	raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset verification is not available yet")
 
@@ -207,7 +209,7 @@ class BillingUpdate(BaseModel):
 	period_anchor_day: int | None = Field(default=None, ge=1, le=28)
 
 
-@router.put("/admin/accounts/{account_id}/billing", summary="Admin: set an account's billing model or plan")
+@router.put("/admin/accounts/{account_id}/billing", include_in_schema=False, summary="Admin: set an account's billing model or plan")
 async def set_billing(account_id: str, body: BillingUpdate, db: AsyncSession = Depends(get_db_session), _: AuthContext = Depends(_billing_admin)) -> dict:
 	if body.billing_model == "subscription" and (body.monthly_included_checks is None or body.overage is None):
 		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Subscriptions need monthly_included_checks and overage")
@@ -222,7 +224,7 @@ async def set_billing(account_id: str, body: BillingUpdate, db: AsyncSession = D
 	        "monthly_included_checks": account.monthly_included_checks, "overage": account.overage, "period_anchor_day": account.period_anchor_day}
 
 
-@router.get("/admin/accounts/{account_id}/statement", summary="Admin: usage by source for a calendar month (for invoicing)")
+@router.get("/admin/accounts/{account_id}/statement", include_in_schema=False, summary="Admin: usage by source for a calendar month (for invoicing)")
 async def statement(account_id: str, month: str = Query(pattern=r"^\d{4}-\d{2}$"), db: AsyncSession = Depends(get_db_session), _: AuthContext = Depends(_billing_admin)) -> dict:
 	year, mon = (int(x) for x in month.split("-"))
 	start = datetime(year, mon, 1, tzinfo=timezone.utc)
@@ -235,7 +237,7 @@ async def statement(account_id: str, month: str = Query(pattern=r"^\d{4}-\d{2}$"
 	return {"account_id": account_id, "month": month, "by_source": {s: {"checks": c, "units": int(u)} for s, c, u in rows.all()}}
 
 
-@router.get("/pricing", summary="Public price list")
+@router.get("/pricing", summary="Public price list", dependencies=[Depends(public_limit)])
 async def pricing() -> dict:
 	return billing.public_price_list()
 
@@ -320,7 +322,7 @@ async def list_topups(db: AsyncSession = Depends(get_db_session), ctx: AuthConte
 	return [_topup_view(p) for p in rows.scalars().all()]
 
 
-@router.post("/admin/topups/{purchase_id}/confirm", summary="Admin: confirm a reconciled payment and credit the account")
+@router.post("/admin/topups/{purchase_id}/confirm", include_in_schema=False, summary="Admin: confirm a reconciled payment and credit the account")
 async def confirm_topup(purchase_id: str, body: TopupConfirm, db: AsyncSession = Depends(get_db_session), _: AuthContext = Depends(_billing_admin)) -> dict:
 	purchase = await db.get(CreditPurchase, purchase_id)
 	if purchase is None:

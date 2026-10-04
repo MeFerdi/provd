@@ -102,18 +102,18 @@ Move to a hyperscaler when customers require it (security questionnaires, data r
 Also at this stage: our own Tron full node (no upstream rate limits, lower latency), a per-customer
 dedicated deployment option for large payout platforms, SOC 2 readiness, and an external penetration test.
 
-## Code changes before running more than one API instance
+## Changes made for multi-instance readiness (done)
 
-These are small and should land before stage 2 (or before stage 1 if traffic arrives quickly):
+| # | Change | Where |
+|---|---|---|
+| 1 | Pooled database connections (`DB_POOL_SIZE`, `DB_MAX_OVERFLOW`); `DB_PGBOUNCER=true` for transaction-mode PgBouncer | `app/db/postgres.py` |
+| 2 | Shared Redis rate limits by default in production; the app refuses in-memory limits with more than one worker | `app/config.py`, `app/services/rate_limit.py` |
+| 3 | Worker singleton via a Postgres advisory lock; a second worker skips its pass | `app/indexer.py` |
+| 4 | Paid checks reserved under an account row lock, refunded if the evaluation fails | `app/services/billing.py`, `app/services/evaluate.py` |
+| 5 | Workers from `WEB_CONCURRENCY`, graceful shutdown, no `Server` header, container health check | `Dockerfile`, `app/gunicorn_worker.py` |
+| 6 | JSON logs (`LOG_FORMAT=json`), sanitised request ids, Sentry without personal data | `app/observability.py` |
 
-| # | Change | Where | Why |
-|---|---|---|---|
-| 1 | Use a real connection pool (configurable size) instead of `NullPool` | `app/db/postgres.py` | A new connection per request costs 10 to 50 ms and exhausts Postgres connections under load |
-| 2 | Default `RATE_LIMIT_BACKEND=redis` in production | `app/config.py`, env | In-memory counters are per instance, so limits multiply with instances |
-| 3 | Make the worker a guaranteed singleton: take a Postgres advisory lock at the start of each pass and skip the pass if another worker holds it | `app/indexer.py` | Two workers could seal overlapping batches or double-process a checkpoint |
-| 4 | Lock the account row while authorising a paid check (`SELECT ... FOR UPDATE` on `accounts`) | `app/services/billing.py` | Two simultaneous checks could both pass when one prepaid check is left |
-| 5 | Set `WEB_CONCURRENCY` (gunicorn reads it for the worker count) and add `--graceful-timeout` to the command | env, `Dockerfile` | One process per container unless set |
-| 6 | Structured JSON logs with a request id; Sentry SDK | `app/main.py` | Debugging in production |
+Security hardening that came with these changes is described in `SECURITY.md`.
 
 ## Backups and recovery
 

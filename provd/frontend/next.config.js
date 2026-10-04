@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   output: "export",
+  // Ship minified code only; never publish source maps.
+  productionBrowserSourceMaps: false,
   images: {
     unoptimized: true,
   },

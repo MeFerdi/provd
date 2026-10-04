@@ -6,8 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.dependencies import get_db_session
 from app.models.rails import AnchorBatch, Decision
 from app.proof.signing import ALGORITHM, signer
+from app.services.rate_limit import public_limit
 
-router = APIRouter(prefix="/proof", tags=["proof"])
+router = APIRouter(prefix="/proof", tags=["proof"], dependencies=[Depends(public_limit)])
 
 MERKLE_ALGORITHM = "leaf=SHA256(0x00||record_hash); node=SHA256(0x01||left||right); odd node promoted"
 VERIFY_STEPS = [

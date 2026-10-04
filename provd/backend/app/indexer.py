@@ -11,15 +11,16 @@ import argparse
 import asyncio
 import json
 import logging
+from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 
 from app.adapters.base import AdapterUnavailable
 from app.config import get_settings
-from app.db.postgres import get_session_factory
+from app.db.postgres import get_postgres_engine, get_session_factory
 from app.models.rails import Checkpoint, CreditPurchase, FlaggedAddress
 from app.proof.batching import advance_anchors, seal_batch
 from app.services import billing, chain_data, paystack
@@ -132,9 +133,38 @@ async def snapshot(db) -> int:
 	return len(rows)
 
 
-async def run(once: bool) -> None:
+# Arbitrary constant identifying "the Provd worker" for pg_try_advisory_lock.
+WORKER_LOCK_KEY = 0x50524F5644  # "PROVD"
+
+
+@asynccontextmanager
+async def worker_lock():
+	"""Yield True if this process holds the worker lock for the pass, False if another worker does.
+
+	The checkpoint, Merkle sealing and payment matching must only ever run in one process. A session-level
+	Postgres advisory lock on a dedicated connection guarantees that across machines; it's released when the
+	pass ends or the connection drops (e.g. the worker crashes). Non-Postgres databases (tests) skip it."""
+	engine = get_postgres_engine()
+	if engine.dialect.name != "postgresql":
+		yield True
+		return
+	async with engine.connect() as conn:
+		acquired = bool((await conn.execute(text("SELECT pg_try_advisory_lock(:k)"), {"k": WORKER_LOCK_KEY})).scalar())
+		try:
+			yield acquired
+		finally:
+			if acquired:
+				await conn.execute(text("SELECT pg_advisory_unlock(:k)"), {"k": WORKER_LOCK_KEY})
+				await conn.commit()
+
+
+async def run_pass() -> bool:
+	"""One indexer pass. Returns False if another worker holds the lock (nothing done)."""
 	sessions = get_session_factory()
-	while True:
+	async with worker_lock() as acquired:
+		if not acquired:
+			logger.info("indexer.skip another worker holds the lock")
+			return False
 		async with sessions() as db:
 			try:
 				events = await sync_freeze_events(db)
@@ -149,6 +179,12 @@ async def run(once: bool) -> None:
 			anchors = await advance_anchors(db)
 			if batch or anchors:
 				logger.info("indexer.proof batch=%s anchors_changed=%d", batch.id if batch else None, anchors)
+	return True
+
+
+async def run(once: bool) -> None:
+	while True:
+		await run_pass()
 		if once:
 			return
 		await asyncio.sleep(get_settings().indexer_interval_seconds)

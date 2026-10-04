@@ -18,10 +18,19 @@ class Settings(BaseSettings):
 
     secret_key: str = Field(default="", validation_alias=AliasChoices("SECRET_KEY", "JWT_SECRET_KEY"))
     jwt_algorithm: str = Field(default="HS256", validation_alias=AliasChoices("JWT_ALGORITHM"))
+    jwt_issuer: str = Field(default="provd-api", validation_alias=AliasChoices("JWT_ISSUER"))
+    jwt_audience: str = Field(default="provd-api", validation_alias=AliasChoices("JWT_AUDIENCE"))
     access_token_expire_minutes: int = Field(default=60, validation_alias=AliasChoices("JWT_EXPIRE_MINUTES"))
     enable_test_auth: bool = Field(default=False, validation_alias=AliasChoices("ENABLE_TEST_AUTH"))
 
     database_url: str = Field(default="postgresql+asyncpg://provd:provd@postgres:5432/provd")
+    # Connection pool per process. Behind PgBouncer (transaction mode) set DB_PGBOUNCER=true: the app then
+    # opens no pool of its own and disables asyncpg's prepared-statement cache.
+    db_pool_size: int = Field(default=5, ge=1, le=50, validation_alias=AliasChoices("DB_POOL_SIZE"))
+    db_max_overflow: int = Field(default=5, ge=0, le=50, validation_alias=AliasChoices("DB_MAX_OVERFLOW"))
+    db_pool_recycle_seconds: int = Field(default=1800, validation_alias=AliasChoices("DB_POOL_RECYCLE_SECONDS"))
+    db_pool_timeout_seconds: int = Field(default=10, validation_alias=AliasChoices("DB_POOL_TIMEOUT_SECONDS"))
+    db_pgbouncer: bool = Field(default=False, validation_alias=AliasChoices("DB_PGBOUNCER"))
     redis_url: str = Field(default="redis://redis:6379/0")
 
     dev_client_id: str = Field(default="", validation_alias=AliasChoices("DEV_CLIENT_ID"))
@@ -49,12 +58,37 @@ class Settings(BaseSettings):
     ml_service_url: str = Field(default="http://127.0.0.1:8085", validation_alias=AliasChoices("ML_SERVICE_URL", "ML_INFERENCE_URL"))
     ml_inference_timeout_seconds: float = Field(default=2.0, validation_alias=AliasChoices("ML_INFERENCE_TIMEOUT_SECONDS"))
 
-    cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+    # HTTP surface. Browsers only need the public endpoints (scanner, pricing, proof keys); API-key calls are
+    # server-to-server, so CORS never sends credentials.
+    cors_origins_raw: str = Field(
+        default="http://localhost:3000,http://127.0.0.1:3000", validation_alias=AliasChoices("CORS_ORIGINS")
+    )
+    allowed_hosts_raw: str = Field(default="*", validation_alias=AliasChoices("ALLOWED_HOSTS"))
+    expose_api_docs: bool | None = Field(default=None, validation_alias=AliasChoices("EXPOSE_API_DOCS"))
+    max_request_body_bytes: int = Field(default=65_536, validation_alias=AliasChoices("MAX_REQUEST_BODY_BYTES"))
+    log_format: str = Field(default="text", validation_alias=AliasChoices("LOG_FORMAT"))  # text | json
 
-    rate_limit_backend: str = Field(default="memory", validation_alias=AliasChoices("RATE_LIMIT_BACKEND"))
+    # Rate limiting. "auto" = redis in production, memory elsewhere.
+    rate_limit_backend: str = Field(default="auto", validation_alias=AliasChoices("RATE_LIMIT_BACKEND"))
+    allow_in_memory_rate_limit: bool = Field(default=False, validation_alias=AliasChoices("ALLOW_IN_MEMORY_RATE_LIMIT"))
+    # Worker processes per instance (gunicorn reads the same variable). In-memory counters are per process,
+    # so they're only allowed with a single worker.
+    web_concurrency: int = Field(default=1, ge=1, validation_alias=AliasChoices("WEB_CONCURRENCY"))
+    # Client IP behind proxies: a header set by the edge (e.g. CF-Connecting-IP) or the Nth address from the
+    # right of X-Forwarded-For (N = trusted proxy hops). Never trust the leftmost X-Forwarded-For value.
     trust_proxy_headers: bool = Field(default=False, validation_alias=AliasChoices("TRUST_PROXY_HEADERS"))
+    client_ip_header: str = Field(default="", validation_alias=AliasChoices("CLIENT_IP_HEADER"))
+    trusted_proxy_hops: int = Field(default=1, ge=1, le=5, validation_alias=AliasChoices("TRUSTED_PROXY_HOPS"))
 
     scanner_rate_limit_per_minute: int = Field(default=20, validation_alias=AliasChoices("SCANNER_RATE_LIMIT_PER_MINUTE"))
+    public_rate_limit_per_minute: int = Field(default=120, validation_alias=AliasChoices("PUBLIC_RATE_LIMIT_PER_MINUTE"))
+    api_key_rate_limit_per_minute: int = Field(default=600, validation_alias=AliasChoices("API_KEY_RATE_LIMIT_PER_MINUTE"))
+    auth_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("AUTH_RATE_LIMIT_PER_MINUTE"))
+    auth_lockout_failures: int = Field(default=5, validation_alias=AliasChoices("AUTH_LOCKOUT_FAILURES"))
+    auth_lockout_minutes: int = Field(default=15, validation_alias=AliasChoices("AUTH_LOCKOUT_MINUTES"))
+    invalid_credentials_per_minute: int = Field(default=20, validation_alias=AliasChoices("INVALID_CREDENTIALS_PER_MINUTE"))
+    webhook_rate_limit_per_minute: int = Field(default=300, validation_alias=AliasChoices("WEBHOOK_RATE_LIMIT_PER_MINUTE"))
+    global_rate_limit_per_minute: int = Field(default=3000, validation_alias=AliasChoices("GLOBAL_RATE_LIMIT_PER_MINUTE"))
 
     # Tron access (TronGrid). The API key is optional; without one TronGrid rate-limits hard.
     trongrid_url: str = Field(default="https://api.trongrid.io", validation_alias=AliasChoices("TRONGRID_URL"))
@@ -77,6 +111,8 @@ class Settings(BaseSettings):
     paystack_secret_key: str = Field(default="", validation_alias=AliasChoices("PAYSTACK_SECRET_KEY"))
     paystack_url: str = Field(default="https://api.paystack.co", validation_alias=AliasChoices("PAYSTACK_URL"))
     paystack_currency: str = Field(default="KES", validation_alias=AliasChoices("PAYSTACK_CURRENCY"))
+    # Optional allow-list of Paystack webhook source IPs (comma-separated). Signatures are always verified.
+    paystack_webhook_ips_raw: str = Field(default="", validation_alias=AliasChoices("PAYSTACK_WEBHOOK_IPS"))
 
 
     indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
@@ -100,6 +136,28 @@ class Settings(BaseSettings):
         return [scope.strip() for scope in self.bootstrap_client_scopes_raw.split(",") if scope.strip()]
 
     @property
+    def cors_origins(self) -> list[str]:
+        return [o.strip() for o in self.cors_origins_raw.split(",") if o.strip()]
+
+    @property
+    def allowed_hosts(self) -> list[str]:
+        return [h.strip() for h in self.allowed_hosts_raw.split(",") if h.strip()]
+
+    @property
+    def paystack_webhook_ips(self) -> set[str]:
+        return {ip.strip() for ip in self.paystack_webhook_ips_raw.split(",") if ip.strip()}
+
+    @property
+    def api_docs_enabled(self) -> bool:
+        return self.is_non_production if self.expose_api_docs is None else self.expose_api_docs
+
+    @property
+    def effective_rate_limit_backend(self) -> str:
+        if self.rate_limit_backend == "auto":
+            return "memory" if self.is_non_production else "redis"
+        return self.rate_limit_backend
+
+    @property
     def is_non_production(self) -> bool:
         return self.app_env.lower() in {"dev", "development", "local", "test", "testing"}
 
@@ -107,6 +165,10 @@ class Settings(BaseSettings):
     def validate_security_posture(self) -> "Settings":
         if not self.secret_key or len(self.secret_key) < 32:
             raise ValueError("JWT secret key must be configured with at least 32 characters")
+        if self.jwt_algorithm not in {"HS256", "HS384", "HS512"}:
+            raise ValueError("JWT_ALGORITHM must be HS256, HS384 or HS512")
+        if self.rate_limit_backend not in {"auto", "memory", "redis"}:
+            raise ValueError("RATE_LIMIT_BACKEND must be auto, memory or redis")
 
         if self.enable_test_auth:
             if not self.is_non_production:
@@ -121,6 +183,18 @@ class Settings(BaseSettings):
                 raise ValueError("Bootstrap admin credentials must be configured outside non-production environments")
             if not self.bootstrap_client_client_id or not self.bootstrap_client_client_secret:
                 raise ValueError("Bootstrap client credentials must be configured outside non-production environments")
+            if not self.cors_origins or "*" in self.cors_origins:
+                raise ValueError("CORS_ORIGINS must list explicit origins in production (no '*')")
+            if not self.allowed_hosts or "*" in self.allowed_hosts:
+                raise ValueError("ALLOWED_HOSTS must list explicit hostnames in production (no '*')")
+            if self.effective_rate_limit_backend == "memory":
+                if not self.allow_in_memory_rate_limit:
+                    raise ValueError("Use RATE_LIMIT_BACKEND=redis in production (or ALLOW_IN_MEMORY_RATE_LIMIT=true for a single instance)")
+                if self.web_concurrency > 1:
+                    raise ValueError("In-memory rate limits are per process; with WEB_CONCURRENCY > 1 use RATE_LIMIT_BACKEND=redis")
+            for name in ("bootstrap_admin_client_secret", "bootstrap_client_client_secret"):
+                if len(getattr(self, name)) < 24:
+                    raise ValueError(f"{name.upper()} must be at least 24 characters in production")
 
         return self
 

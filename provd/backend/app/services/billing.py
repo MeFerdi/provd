@@ -35,6 +35,7 @@ def pricing() -> dict:
 class Charge:
 	units: int
 	source: str  # free | prepaid | plan | overage
+	usage_id: str | None = None  # the reserved usage event, once committed
 
 	@property
 	def free(self) -> bool:
@@ -60,9 +61,16 @@ def public_price_list() -> dict:
 async def ensure_account(db: AsyncSession, account_id: str) -> Account:
 	account = await db.get(Account, account_id)
 	if account is None:
-		account = Account(id=account_id, billing_model="payg")
-		db.add(account)
-		await db.flush()
+		if db.bind.dialect.name == "postgresql":
+			# Two first requests can race to create the account; let one win quietly.
+			from sqlalchemy.dialects.postgresql import insert
+
+			await db.execute(insert(Account).values(id=account_id, billing_model="payg").on_conflict_do_nothing(index_elements=["id"]))
+			account = await db.get(Account, account_id)
+		else:
+			account = Account(id=account_id, billing_model="payg")
+			db.add(account)
+			await db.flush()
 	return account
 
 
@@ -139,6 +147,32 @@ async def authorize(db: AsyncSession, account_id: str, units: int) -> Charge:
 
 def record_usage(db: AsyncSession, account_id: str, intent_id: str, charge: Charge) -> None:
 	db.add(UsageEvent(id=str(uuid4()), account_id=account_id, intent_id=intent_id, units=charge.units, free=charge.free, source=charge.source))
+
+
+async def reserve(db: AsyncSession, account_id: str, units: int, intent_id: str) -> Charge:
+	"""Authorise and record a check atomically, then release the lock straight away.
+
+	The account row is locked (SELECT ... FOR UPDATE) while the balance or quota is read and the usage is
+	written, so concurrent checks can't spend the same last check twice. Committing here keeps the lock
+	for milliseconds rather than for the whole evaluation (which waits on chain data). If the evaluation
+	then fails, call release() to refund."""
+	await ensure_account(db, account_id)
+	await db.execute(select(Account).where(Account.id == account_id).with_for_update())
+	charge = await authorize(db, account_id, units)
+	usage = UsageEvent(id=str(uuid4()), account_id=account_id, intent_id=intent_id, units=charge.units, free=charge.free, source=charge.source)
+	db.add(usage)
+	await db.commit()
+	charge.usage_id = usage.id
+	return charge
+
+
+async def release(db: AsyncSession, charge: Charge) -> None:
+	"""Refund a reservation whose evaluation didn't complete."""
+	if charge.usage_id:
+		usage = await db.get(UsageEvent, charge.usage_id)
+		if usage is not None:
+			await db.delete(usage)
+			await db.commit()
 
 
 def create_purchase(account_id: str, bundle: str, method: str) -> CreditPurchase:
