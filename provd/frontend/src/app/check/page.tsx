@@ -5,9 +5,9 @@ import { CheckClient } from "@/components/check/CheckClient";
 import { LookalikePanel } from "@/components/check/LookalikePanel";
 
 export const metadata: Metadata = {
-  title: "Counterparty check | Provd",
+  title: "Free crypto wallet risk check for USDT and USDC (Tron, Solana) | Provd",
   description:
-    "Free risk check for Tron and Solana wallets: exposure to frozen wallets, recent stablecoin activity, a 0 to 1000 risk score, and a lookalike-address check against address poisoning.",
+    "Check a Tron or Solana wallet before you send: OFAC sanctions, wallets frozen by Tether or Circle, risky counterparties and a 0 to 1000 risk score. Plus a lookalike-address check against address poisoning. Free, no sign-up.",
   alternates: { canonical: "/check" },
 };
 

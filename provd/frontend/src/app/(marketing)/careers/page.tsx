@@ -7,6 +7,7 @@ import { CONTACT_EMAIL } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Careers | Provd",
   description: "Provd is not hiring yet.",
+  alternates: { canonical: "/careers" },
 };
 
 export default function CareersPage() {
