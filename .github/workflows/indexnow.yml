@@ -1,0 +1,21 @@
+# After the sites redeploy from main, tell IndexNow search engines (Bing and others) which pages exist.
+name: Notify search engines
+on:
+  push:
+    branches: [main]
+    paths: ["provd/frontend/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait for Cloudflare Pages to publish the new build
+        run: sleep 300
+      - run: node provd/frontend/scripts/indexnow.mjs

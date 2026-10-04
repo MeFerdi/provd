@@ -3,6 +3,7 @@ import { LegalPage } from "@/components/legal/LegalPage";
 export const metadata = {
   title: "Cookie Policy | Provd",
   description: "Provd does not use tracking cookies.",
+  alternates: { canonical: "/cookie-policy" },
 };
 
 const content = `

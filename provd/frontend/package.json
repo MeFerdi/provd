@@ -18,7 +18,8 @@
     "start": "next start",
     "lint": "next lint --dir src && next lint sites/docs --dir app && next lint sites/playground --dir app",
     "type-check": "tsc --noEmit && tsc --noEmit -p sites/docs && tsc --noEmit -p sites/playground",
-    "check:verify": "node scripts/check-verify.mjs"
+    "check:verify": "node scripts/check-verify.mjs",
+    "seo:indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",

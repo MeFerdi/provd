@@ -8,3 +8,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Cross-Origin-Opener-Policy: same-origin
+
+# Fallback: keep the pages.dev copy out of search results (a Bulk Redirect also sends it to the real domain).
+https://provd-playground.pages.dev/*
+  X-Robots-Tag: noindex

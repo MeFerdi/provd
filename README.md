@@ -1,6 +1,6 @@
 # Provd
 
-AI-powered counterparty trust infrastructure for African P2P cryptocurrency markets.
+Pre-release risk checks for stablecoin money movement: P2P trades, ramps, payouts and escrow releases, on Tron and Solana, for any local payment rail. Built in Kenya.
 
 ## Monorepo Structure
 
