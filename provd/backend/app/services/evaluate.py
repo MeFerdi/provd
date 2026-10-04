@@ -46,6 +46,8 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		ctx.history, ctx.history_error = await chain_data.history(db, intent.chain, wallet)
 	peers = ctx.history.counterparties if ctx.history else set()
 	ctx.public_flags = await chain_data.public_flags(db, intent.chain, peers | ({wallet} if wallet else set()))
+	sanctioned = {a for a, source in ctx.public_flags.items() if source == "ofac_sdn"}
+	ctx.flag_references = await chain_data.flag_references(db, intent.chain, sanctioned)
 
 	if account_id:
 		identity = [c for c in (

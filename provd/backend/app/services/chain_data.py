@@ -103,6 +103,16 @@ async def public_flags(db: AsyncSession, chain: str, addresses: set[str]) -> dic
 	return found
 
 
+async def flag_references(db: AsyncSession, chain: str, addresses: set[str]) -> dict[str, str]:
+	"""References (e.g. the sanctioned entity) for flagged addresses, without any internal suffixes."""
+	if not addresses:
+		return {}
+	rows = await db.execute(
+		select(FlaggedAddress.address, FlaggedAddress.reference).where(FlaggedAddress.chain == chain, FlaggedAddress.address.in_(sorted(addresses)))
+	)
+	return {a: (r or "").split("|prev:")[0] for a, r in rows.all() if r}
+
+
 async def token_security(chain: str, contract: str) -> tuple[dict | None, str | None]:
 	settings = get_settings()
 	headers = {"Authorization": settings.goplus_api_key} if settings.goplus_api_key else {}

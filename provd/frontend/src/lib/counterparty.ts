@@ -145,6 +145,7 @@ export function isTxHash(ref: string): boolean {
 }
 
 const SOURCE_LABELS: Record<string, string> = {
+  ofac_sdn: "US Treasury OFAC sanctions list",
   tether_usdt_freeze: "Tether frozen-address list",
   tether_usdt_freeze_solana: "Tether frozen-address list (Solana)",
   circle_usdc_freeze_solana: "Circle frozen-address list (Solana)",

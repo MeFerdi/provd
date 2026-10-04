@@ -1,0 +1,66 @@
+---
+title: Non-custodial and escrow releases
+description: Where Provd fits when a smart contract or escrow releases funds and nobody can claw them back.
+---
+
+In a non-custodial P2P escrow or a contract-driven ramp, the platform never holds the keys. Once the contract
+releases the crypto, it's gone: no freeze, no reversal, whatever a court later orders. So the only useful check is
+the one that runs **before** the release. That's the point Provd is built for.
+
+## Pattern 1: an arbiter or relayer signs the release (works today)
+
+Most non-custodial escrows still have a service that triggers or co-signs the release: an arbiter key, a relayer,
+or the backend that submits the transaction. Call Provd there, and only sign when the decision says release.
+
+```ts
+async function releaseEscrow(escrow: Escrow) {
+  const decision = await fetch("https://api.provd.tech/v1/actions/evaluate", {
+    method: "POST",
+    headers: { "X-API-Key": process.env.PROVD_API_KEY!, "Content-Type": "application/json", "Idempotency-Key": escrow.id },
+    body: JSON.stringify({
+      intent_id: escrow.id,
+      chain: escrow.chain,                      // "tron" or "solana"
+      intent_type: "p2p_trade",
+      counterparty: { wallet_address: escrow.buyerWallet },
+      amounts: { crypto: escrow.amount },
+      known_counterparties: escrow.buyerPreviousWallets, // optional: catches lookalike destinations
+    }),
+  }).then((r) => r.json());
+
+  await db.escrows.update(escrow.id, { provdIntentId: decision.intent_id, provdRecordHash: decision.decision_record_hash });
+
+  switch (decision.recommended_action) {
+    case "release":       return signAndSubmitRelease(escrow);
+    case "manual_review":
+    case "hold":          return queueForReview(escrow, decision.risk_flags);   // a person decides, with the reasons
+    case "reject":        return refundSeller(escrow, decision.risk_flags);     // never release
+  }
+}
+```
+
+- Use the escrow id as `intent_id` and `Idempotency-Key`: retries return the same decision and aren't charged twice.
+- Store `decision_record_hash` with the escrow. If the release is ever disputed, `GET /v1/decisions/{intent_id}` returns
+  the signed record and its Bitcoin anchor, which anyone can verify at [Verify a decision](/verify).
+- Choose what `hold` means in your flow: a review queue, a time lock, or asking the buyer for more verification.
+
+## Pattern 2: the user signs the release in their wallet (works today)
+
+When the seller releases from their own wallet in your app, call Provd from your backend before showing the
+release button, and show the reasons in the app. The free [lookalike check](/check#lookalike) (`POST /v1/lookalike`)
+is useful here too: it warns the user if the address they're about to pay imitates one they've paid before.
+
+## What the decision covers
+
+- The destination wallet and its direct counterparties against the US Treasury OFAC sanctions list and the addresses
+  Tether and Circle have frozen.
+- Lookalike destinations (address poisoning) and addresses that only send dust.
+- Your own history with this counterparty: reversals, confirmed fraud, unusual amounts.
+- Account-takeover signals you pass in (SIM swap, new device), if your platform has them.
+
+## Next: on-chain verifiable release attestations (not live yet)
+
+For releases triggered by the contract itself, with no service in between, the contract would need to check Provd's
+decision on-chain. Provd already signs every decision with a secp256k1 key, the curve Ethereum and Solana programs can
+verify. The planned extension is a compact, signed release attestation (escrow id, destination, amount, decision,
+expiry) that a contract can verify before releasing, making Provd a release co-signer. If you're building a
+non-custodial escrow and want this, [talk to us](mailto:hello@provd.tech?subject=Release%20attestations).

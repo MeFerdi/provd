@@ -45,6 +45,7 @@ class SignalContext:
 	history: NormalizedHistory | None = None
 	history_error: str | None = None
 	public_flags: dict[str, str] = field(default_factory=dict)  # address -> source, for the wallet + its counterparties
+	flag_references: dict[str, str] = field(default_factory=dict)  # address -> reference (e.g. the sanctioned entity)
 	platform_flagged: set[str] = field(default_factory=set)  # wallets this platform confirmed as fraudulent
 	own_outcomes: list[OutcomeView] = field(default_factory=list)  # this platform's outcomes for this counterparty
 	recent_decisions_24h: int = 0
@@ -84,6 +85,15 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 		result.reason = "No counterparty wallet supplied."
 		return result
 
+	if ctx.public_flags.get(wallet) == SANCTIONS:
+		result.contribution = 1000
+		result.value = "address_sanctioned"
+		entity = ctx.flag_references.get(wallet, "")
+		result.reason = "The counterparty wallet is on the US Treasury OFAC sanctions list" + (f" ({entity})." if entity else ".")
+		result.flags.append(Flag("SANCTIONED_ADDRESS", "critical", result.reason))
+		result.source_refs.append(SANCTIONS)
+		return result
+
 	if wallet in ctx.public_flags:
 		source = ctx.public_flags[wallet]
 		result.contribution = 1000
@@ -108,12 +118,28 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 		return result
 
 	total_volume = sum((t.amount for t in history.transfers), 0)
-	frozen_peers = {cp for cp in history.counterparties if cp in ctx.public_flags}
+	sanctioned_peers = {cp for cp in history.counterparties if ctx.public_flags.get(cp) == SANCTIONS}
+	frozen_peers = {cp for cp in history.counterparties if cp in ctx.public_flags} - sanctioned_peers
 	platform_peers = {cp for cp in history.counterparties if cp in ctx.platform_flagged}
 	frozen_txs = [t for t in history.transfers if (t.from_address in frozen_peers or t.to_address in frozen_peers)]
 	frozen_volume = sum((t.amount for t in frozen_txs), 0)
 	points = 0
 	reasons = []
+
+	if sanctioned_peers:
+		# Direct exposure to sanctioned addresses is never discounted as incidental.
+		sanctioned_txs = [t for t in history.transfers if t.from_address in sanctioned_peers or t.to_address in sanctioned_peers]
+		sanctioned_volume = sum((t.amount for t in sanctioned_txs), 0)
+		entities = sorted({ctx.flag_references.get(cp, "").split(": ", 1)[-1] for cp in sanctioned_peers} - {""})
+		msg = (
+			f"Transacted directly with {len(sanctioned_peers)} address(es) on the US Treasury OFAC sanctions list "
+			f"({_pct(sanctioned_volume, total_volume)} of recent {_stable(ctx)} volume)"
+			+ (f": {', '.join(entities[:3])}." if entities else ".")
+		)
+		points += min(800, 550 + 150 * (len(sanctioned_peers) - 1))
+		reasons.append(msg)
+		result.flags.append(Flag("SANCTIONS_EXPOSURE", "high", msg))
+		result.source_refs += [t.tx_hash for t in sanctioned_txs[:5]]
 
 	if frozen_peers:
 		share = (frozen_volume / total_volume) if total_volume else 0
@@ -355,7 +381,9 @@ def account_takeover_proxies(ctx: SignalContext) -> SignalResult:
 	return result
 
 
+SANCTIONS = "ofac_sdn"
 SOURCE_NAMES = {
+	"ofac_sdn": "US Treasury OFAC sanctions list",
 	"tether_usdt_freeze": "frozen by Tether, USDT on Tron",
 	"tether_usdt_freeze_solana": "frozen by Tether, USDT on Solana",
 	"circle_usdc_freeze_solana": "frozen by Circle, USDC on Solana",

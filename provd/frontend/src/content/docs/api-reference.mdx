@@ -76,6 +76,8 @@ Signals with nothing to work on report `none` in `signal_coverage` and add no ri
 
 | Code | Severity | Meaning |
 |---|---|---|
+| `SANCTIONED_ADDRESS` | critical | The counterparty wallet is on the US Treasury OFAC sanctions (SDN) list; the reason names the listed entity. |
+| `SANCTIONS_EXPOSURE` | high | The wallet transacted directly with addresses on the OFAC sanctions list. Never discounted as incidental. |
 | `CP_ADDRESS_FROZEN` | critical | The counterparty wallet is itself on a public risk list (for example, frozen by Tether). |
 | `CP_FLAGGED_EXPOSURE` | high | The wallet transacted directly with wallets on a public risk list. |
 | `CP_INCIDENTAL_EXPOSURE` | medium | Exposure to listed wallets is a small share of volume across many counterparties, as with exchanges. |
@@ -100,6 +102,13 @@ Signals with nothing to work on report `none` in `signal_coverage` and add no ri
 | `TOKEN_HONEYPOT`, `TOKEN_BLACKLIST_FUNCTION`, `TOKEN_MINTABLE`, `TOKEN_PAUSABLE` | varies | Risky token contract properties (`ramp_conversion` only). |
 | `REDUCED_SIGNAL_COVERAGE` | info | A data source was unavailable, so a signal ran on partial data. |
 | `NOT_YET_SUPPORTED` | info | The chain or intent type isn't scored yet. |
+
+## Sanctions screening
+
+Every check screens the wallet and its direct counterparties against the digital currency addresses on the US
+Treasury OFAC SDN list (Tron, Solana and EVM addresses), refreshed daily from the official publication. A match is a
+strong risk signal for your own compliance process, not a legal determination, and other lists (UN, EU, UK) aren't
+included yet.
 
 ## Free lookalike check
 

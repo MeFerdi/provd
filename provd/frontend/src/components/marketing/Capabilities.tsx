@@ -8,8 +8,8 @@ const CAPABILITIES: Capability[] = [
     body: "Score a transaction before funds move, with a signal-by-signal explanation of what raised or lowered the risk.",
   },
   {
-    title: "Counterparty checks on USDT-Tron",
-    body: "Each wallet is checked against the 7,700+ addresses Tether has frozen, and against the wallets it has traded with.",
+    title: "Counterparty and sanctions checks",
+    body: "Each wallet, on Tron or Solana, is checked against the US Treasury (OFAC) sanctions list and the addresses Tether and Circle have frozen, and against the wallets it has traded with.",
   },
   {
     title: "Your history counts",

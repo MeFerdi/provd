@@ -33,6 +33,9 @@ indexer ──► freeze events, USDT top-up matching
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
   bundled as a seed fixture; on Solana, owners of USDC and USDT accounts frozen by Circle and Tether, snapshotted
   hourly by the indexer.
+- Sanctions: digital currency addresses on the US Treasury OFAC SDN list (Tron, Solana, EVM), refreshed daily
+  from the official XML and bundled as a seed snapshot (`app/services/sanctions.py`). Sanctions take precedence
+  over issuer freezes; flags `SANCTIONED_ADDRESS` (reject) and `SANCTIONS_EXPOSURE` (hold).
 - Solana adapter (`app/adapters/solana.py`): wallet and associated-token-account histories over any Solana RPC
   (free public endpoints keep about a day; set `SOLANA_RPC_URL` to Helius or Alchemy for full history).
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
