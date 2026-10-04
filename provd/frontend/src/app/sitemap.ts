@@ -18,6 +18,7 @@ const STATIC_PATHS = [
   "/terms",
   "/data-processing",
   "/cookie-policy",
+  "/security",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

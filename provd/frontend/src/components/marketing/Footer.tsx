@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { CONTACT_EMAIL, SECURITY_EMAIL } from "@/lib/env";
+import { CONTACT_EMAIL } from "@/lib/env";
 
 type FooterLink = { href: string; label: string; external?: boolean };
 
@@ -21,6 +21,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
       { href: "/docs/quickstart", label: "Quickstart" },
       { href: "/docs/pay-as-you-go", label: "Pay as you go" },
       { href: "/docs/non-custodial", label: "Escrow integration" },
+      { href: "/docs/decisions", label: "Decision records" },
       { href: "/docs/api-reference", label: "API reference" },
     ],
   },
@@ -29,7 +30,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "/about", label: "About" },
       { href: `mailto:${CONTACT_EMAIL}`, label: "Contact", external: true },
-      { href: `mailto:${SECURITY_EMAIL}`, label: "Security disclosure", external: true },
+      { href: "/security", label: "Security" },
       { href: "/careers", label: "Careers" },
     ],
   },
