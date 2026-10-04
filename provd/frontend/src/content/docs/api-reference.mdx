@@ -121,6 +121,13 @@ curl -s https://api.provd.tech/v1/lookalike -H "Content-Type: application/json" 
   -d '{"chain":"solana","address":"EKYWHE68zW33SkFNmcqPneowxagcsgjpqYmLVs4yvJKC","known":["EKYWxPNqtscvebruQdj7HkPL6CyFLJamwNnrLgi1vJKC"]}'
 ```
 
+## Release attestations
+
+`POST /v1/decisions/{intent_id}/attestation` returns a signed release a smart contract can verify on-chain: EIP-712
+for EVM and Tron (TVM) contracts, a keccak layout for Solana programs. Only for `release` decisions under 24 hours
+old, for the scored wallet and at most the scored amount, valid for up to one hour, bound to one contract or program.
+See [Non-custodial and escrow releases](/docs/non-custodial).
+
 ## Decision records
 
 `GET /v1/decisions/{intent_id}` returns the signed record behind a score, with its Merkle proof and Bitcoin anchor once sealed. `merkle` and `batch` are `null` until the record joins a batch (within minutes). See [decision records](/docs/decisions), or paste a record into [Verify a decision](/verify).

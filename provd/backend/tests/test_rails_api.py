@@ -15,6 +15,7 @@ from app import indexer
 from app.adapters.base import AdapterUnavailable, NormalizedAsset, NormalizedEvent, NormalizedHistory, NormalizedTransfer
 from app.adapters.tron import validate_tron_address
 from app.api.v1.actions import router as actions_router
+from app.api.v1.attestations import router as attestations_router
 from app.api.v1.health import admin_router as health_admin_router
 from app.api.v1.health import router as health_router
 from app.api.v1.proof import router as proof_router
@@ -23,12 +24,12 @@ from app.proof import anchors
 from app.proof.anchors import AnchorResult
 from app.proof.batching import advance_anchors, seal_batch
 from app.dependencies import get_auth_context, get_db_session
-from app.models.rails import AnchorBatch, Account, Checkpoint, CreditPurchase, Decision, FlaggedAddress, HistoryCache, Outcome, UsageEvent
+from app.models.rails import AnchorBatch, Account, Checkpoint, CreditPurchase, Decision, FlaggedAddress, HistoryCache, Outcome, ReleaseAttestation, UsageEvent
 from app.schemas.auth import AuthContext
 from app.services import chain_data
 from app.services.rate_limit import reset_rate_limits
 
-TABLES = (AnchorBatch, Decision, Outcome, FlaggedAddress, HistoryCache, Checkpoint, Account, CreditPurchase, UsageEvent)
+TABLES = (AnchorBatch, Decision, Outcome, FlaggedAddress, HistoryCache, Checkpoint, Account, CreditPurchase, UsageEvent, ReleaseAttestation)
 FROZEN = "TQLiq3fj6CCK1aZCJuXfxVZUwy6gSB4qxi"
 EXPOSED = "TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9"
 CLEAN = "TNXoiAJ3dct8Fjg4M9fkLFh9S2v9TXc32G"
@@ -110,6 +111,7 @@ def env(monkeypatch):
 	app.include_router(health_admin_router, prefix="/v1")
 	app.include_router(proof_router, prefix="/v1")
 	app.include_router(webhooks_router, prefix="/v1")
+	app.include_router(attestations_router, prefix="/v1")
 	anchor = FakeAnchor()
 	anchors.set_anchor(anchor)
 	who = {"client": "platform-a"}

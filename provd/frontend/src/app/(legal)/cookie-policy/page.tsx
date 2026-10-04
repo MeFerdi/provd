@@ -15,8 +15,9 @@ Provd does not use advertising or analytics cookies.
 | Name | Where | Purpose |
 |---|---|---|
 | \`provd.theme\` | Local storage | Remembers your light/dark theme choice |
+| \`provd.recentChecks\` | Local storage | Your last few counterparty checks on /check, so you can run them again (up to 8; clear them with the Clear button) |
 
-This value stays in your browser and is never sent to us. You can clear it at any time from your browser settings.
+These values stay in your browser and are never sent to us. You can clear them at any time from your browser settings.
 
 ## Our hosting provider
 

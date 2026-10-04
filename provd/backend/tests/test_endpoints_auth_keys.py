@@ -55,6 +55,7 @@ def test_auth_token_issued_for_bootstrap_admin_credentials(monkeypatch):
 
     monkeypatch.setenv("APP_ENV", "production")
     monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
+    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", "22" * 32)
     monkeypatch.setenv("CORS_ORIGINS", "https://provd.tech")
     monkeypatch.setenv("ALLOWED_HOSTS", "api.provd.tech,testserver")
     monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")
@@ -96,6 +97,7 @@ def test_auth_token_issued_for_bootstrap_client_credentials(monkeypatch):
 
     monkeypatch.setenv("APP_ENV", "production")
     monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
+    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", "22" * 32)
     monkeypatch.setenv("CORS_ORIGINS", "https://provd.tech")
     monkeypatch.setenv("ALLOWED_HOSTS", "api.provd.tech,testserver")
     monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")

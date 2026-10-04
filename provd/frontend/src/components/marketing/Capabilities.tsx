@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-type Capability = { title: string; body: string; link?: { href: string; label: string } };
+type Capability = { title: string; body: string; link?: { href: string; label: string }; wide?: boolean };
 
 const CAPABILITIES: Capability[] = [
   {
@@ -12,6 +12,11 @@ const CAPABILITIES: Capability[] = [
     body: "Each wallet, on Tron or Solana, is checked against the US Treasury (OFAC) sanctions list and the addresses Tether and Circle have frozen, and against the wallets it has traded with.",
   },
   {
+    title: "Lookalike-address protection",
+    body: "Flags payouts to addresses that imitate one you've paid (address poisoning) and addresses that only send dust. Free to try on any address.",
+    link: { href: "/check#lookalike", label: "Try the lookalike check" },
+  },
+  {
     title: "Your history counts",
     body: "Report reversals and confirmed fraud, and future checks learn from them. Your data stays yours and is never pooled with other platforms.",
   },
@@ -21,15 +26,23 @@ const CAPABILITIES: Capability[] = [
     link: { href: "/verify", label: "Verify a decision" },
   },
   {
+    title: "Release attestations",
+    body: "For non-custodial escrows: a signed release your contract verifies on-chain before paying out, on Tron and Solana.",
+    link: { href: "/docs/non-custodial", label: "Escrow integration" },
+  },
+  {
     title: "Pay as you go",
-    body: "Buy checks like airtime: pay by card or USDT from anywhere, or M-Pesa in Kenya. Monthly plans for payout platforms.",
+    body: "Buy checks like airtime: pay by card or USDT from anywhere, or M-Pesa in Kenya. 300 free checks a month, bundles from $20, and monthly plans for payout platforms. Attestations and the public checks are free.",
+    link: { href: "/pricing", label: "See pricing" },
+    wide: true,
   },
 ];
 
 const RAILS = [
   { label: "USDT on Tron", status: "Live" },
+  { label: "USDC and USDT on Solana", status: "Live" },
   { label: "Any local rail (M-Pesa, Pix, UPI, bank)", status: "Fiat context" },
-  { label: "Stellar", status: "Next" },
+  { label: "EVM chains", status: "Next" },
 ];
 
 export default function Capabilities() {
@@ -40,8 +53,8 @@ export default function Capabilities() {
           What you get.
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {CAPABILITIES.map(({ title, body, link }) => (
-            <div key={title} className="rounded-md border border-bg-border bg-white p-6">
+          {CAPABILITIES.map(({ title, body, link, wide }) => (
+            <div key={title} className={`rounded-md border border-bg-border bg-white p-6 ${wide ? "lg:col-span-2" : ""}`}>
               <h3 className="font-sans text-lg font-semibold text-text-primary">{title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-text-secondary">{body}</p>
               {link ? (

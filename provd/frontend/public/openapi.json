@@ -326,6 +326,84 @@
     "title": "Amounts",
     "type": "object"
    },
+   "AttestationRequest": {
+    "properties": {
+     "amount_base_units": {
+      "description": "Amount to release, in the token's smallest unit (USDT/USDC: 6 decimals)",
+      "exclusiveMaximum": 1.8446744073709552e+19,
+      "exclusiveMinimum": 0.0,
+      "title": "Amount Base Units",
+      "type": "integer"
+     },
+     "chain_id": {
+      "anyOf": [
+       {
+        "minimum": 1.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "evm: the chain id the escrow contract runs on (Tron mainnet: 728126428)",
+      "title": "Chain Id"
+     },
+     "program_id": {
+      "anyOf": [
+       {
+        "maxLength": 44,
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "solana: the escrow program that will verify it",
+      "title": "Program Id"
+     },
+     "target": {
+      "description": "evm: EIP-712 for EVM/Tron (TVM) contracts; solana: for Solana programs",
+      "enum": [
+       "evm",
+       "solana"
+      ],
+      "title": "Target",
+      "type": "string"
+     },
+     "token_decimals": {
+      "default": 6,
+      "maximum": 18.0,
+      "minimum": 0.0,
+      "title": "Token Decimals",
+      "type": "integer"
+     },
+     "ttl_seconds": {
+      "default": 600,
+      "description": "How long the attestation stays valid",
+      "minimum": 30.0,
+      "title": "Ttl Seconds",
+      "type": "integer"
+     },
+     "verifying_contract": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "evm: the escrow contract that will verify the attestation (0x...)",
+      "title": "Verifying Contract"
+     }
+    },
+    "required": [
+     "target",
+     "amount_base_units"
+    ],
+    "title": "AttestationRequest",
+    "type": "object"
+   },
    "Counterparty": {
     "properties": {
      "phone_hash": {
@@ -1119,6 +1197,80 @@
     ]
    }
   },
+  "/v1/decisions/{intent_id}/attestation": {
+   "post": {
+    "operationId": "create_attestation_v1_decisions__intent_id__attestation_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "intent_id",
+      "required": true,
+      "schema": {
+       "title": "Intent Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "header",
+      "name": "X-API-Key",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Api-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AttestationRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "title": "Response Create Attestation V1 Decisions  Intent Id  Attestation Post",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "security": [
+     {
+      "HTTPBearer": []
+     }
+    ],
+    "summary": "Signed release attestation for an escrow contract",
+    "tags": [
+     "attestations"
+    ]
+   }
+  },
   "/v1/health": {
    "get": {
     "description": "Deliberately minimal: what's public is whether the service is up and which engine scored.\nInternals (signals, dependencies, risk-list size) are on the admin health endpoint.",
@@ -1370,7 +1522,7 @@
       "description": "Successful Response"
      }
     },
-    "summary": "Public keys that sign decision records",
+    "summary": "Public keys that sign decision records and release attestations",
     "tags": [
      "proof"
     ]

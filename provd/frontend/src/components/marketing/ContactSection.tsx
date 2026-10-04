@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/env";
 
 const MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Provd API key")}&body=${encodeURIComponent(
-  "Platform:\nWhat you settle (P2P, ramp, payouts):\nRough monthly volume:\n"
+  "Platform:\nWhat you settle (P2P, ramp, payouts, escrow):\nRough monthly volume:\n"
 )}`;
 
 export default function ContactSection({ id = "contact", asPageTitle = false }: { id?: string; asPageTitle?: boolean }) {

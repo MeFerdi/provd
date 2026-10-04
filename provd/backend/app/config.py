@@ -131,6 +131,11 @@ class Settings(BaseSettings):
         default="https://a.pool.opentimestamps.org,https://b.pool.opentimestamps.org,https://a.pool.eternitywall.com",
         validation_alias=AliasChoices("OTS_CALENDARS"),
     )
+    # Release attestations (on-chain verifiable). A separate secp256k1 key from decision records, so the two
+    # signature formats can never be confused. Required outside development.
+    attestation_signing_key: str = Field(default="", validation_alias=AliasChoices("ATTESTATION_SIGNING_KEY"))
+    attestation_max_ttl_seconds: int = Field(default=3600, ge=60, le=86400, validation_alias=AliasChoices("ATTESTATION_MAX_TTL_SECONDS"))
+    attestation_max_decision_age_seconds: int = Field(default=86400, ge=60, validation_alias=AliasChoices("ATTESTATION_MAX_DECISION_AGE_SECONDS"))
     batch_interval_seconds: int = Field(default=300, validation_alias=AliasChoices("BATCH_INTERVAL_SECONDS"))
     batch_max_decisions: int = Field(default=10000, validation_alias=AliasChoices("BATCH_MAX_DECISIONS"))
 
@@ -186,6 +191,8 @@ class Settings(BaseSettings):
         if not self.is_non_production:
             if len(self.decision_signing_key) != 64:
                 raise ValueError("DECISION_SIGNING_KEY (32-byte hex) must be set outside non-production environments")
+            if len(self.attestation_signing_key) != 64 or self.attestation_signing_key == self.decision_signing_key:
+                raise ValueError("ATTESTATION_SIGNING_KEY (32-byte hex, different from DECISION_SIGNING_KEY) must be set in production")
             if not self.bootstrap_admin_client_id or not self.bootstrap_admin_client_secret:
                 raise ValueError("Bootstrap admin credentials must be configured outside non-production environments")
             if not self.bootstrap_client_client_id or not self.bootstrap_client_client_secret:

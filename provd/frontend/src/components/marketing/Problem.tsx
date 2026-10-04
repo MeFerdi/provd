@@ -14,6 +14,10 @@ const LOSSES = [
     body: "Someone else now controls the phone number, and the account behind it.",
   },
   {
+    title: "Lookalike addresses",
+    body: "A scammer's address starts and ends like one you've paid, and sits in your history waiting to be copied.",
+  },
+  {
     title: "Repeat bad counterparties",
     body: "The same wallet or number comes back under a new account and does it again.",
   },
@@ -31,7 +35,7 @@ export default function Problem() {
             Platforms release first and find out later.
           </h2>
           <p className="text-[16px] leading-relaxed text-text-secondary sm:text-[17px]">
-            P2P desks and ramps settle in seconds, but the losses arrive afterwards:
+            Desks, ramps and escrows release in seconds, and on-chain there&apos;s no undo. The losses arrive afterwards:
           </p>
           <dl className="mt-5 divide-y divide-bg-border border-y border-bg-border">
             {LOSSES.map((l) => (

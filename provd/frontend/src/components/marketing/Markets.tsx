@@ -29,7 +29,7 @@ export default function Markets() {
                 history, so a normal trade in Lagos and a normal trade in São Paulo are each judged against what&apos;s
                 normal for you there.
               </p>
-              <p className="text-text-primary">Built in Kenya. Live today on USDT (Tron), for any local rail.</p>
+              <p className="text-text-primary">Built in Kenya. Live today on USDT (Tron) and USDC/USDT (Solana), for any local rail.</p>
             </div>
           </div>
           <ul className="grid min-w-0 gap-px self-start overflow-hidden rounded-md border border-bg-border bg-bg-border sm:grid-cols-2">

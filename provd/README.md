@@ -36,6 +36,9 @@ indexer ──► freeze events, USDT top-up matching
 - Sanctions: digital currency addresses on the US Treasury OFAC SDN list (Tron, Solana, EVM), refreshed daily
   from the official XML and bundled as a seed snapshot (`app/services/sanctions.py`). Sanctions take precedence
   over issuer freezes; flags `SANCTIONED_ADDRESS` (reject) and `SANCTIONS_EXPOSURE` (hold).
+- Release attestations for non-custodial escrows: `POST /v1/decisions/{intent_id}/attestation` (EIP-712 for
+  EVM/Tron, keccak layout for Solana), signed with a separate key; Solidity `ProvdReleaseVerifier` + example escrow
+  and an end-to-end test on a local chain in `contracts/`.
 - Solana adapter (`app/adapters/solana.py`): wallet and associated-token-account histories over any Solana RPC
   (free public endpoints keep about a day; set `SOLANA_RPC_URL` to Helius or Alchemy for full history).
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
