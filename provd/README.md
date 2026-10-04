@@ -62,8 +62,13 @@ indexer ──► freeze events, USDT top-up matching
 ```bash
 (cd backend && python3 -m app.secret_store init)   # git-ignored .env files with fresh random dev secrets
 docker compose up --build                 # postgres + migrate + seed + API (:8000, docs at /docs) + indexer
-cd frontend && npm install && npm run dev # site on :3000
+cd frontend && npm install && npm run dev # provd.tech on :3000
+npm run dev:docs                          # docs.provd.tech on :3001
+npm run dev:playground                    # playground.provd.tech on :3002 (needs CORS_ORIGINS to include it)
 ```
+The frontend builds three static sites from one codebase (`frontend/src/lib/sites.ts`): the main site
+(`src/app`), the docs (`sites/docs`, guides only) and the playground (`sites/playground`). The endpoint reference
+isn't published on any of them: the playground loads it from `GET /v1/developer/reference` with a sandbox key.
 Without Docker for the API: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt &&
 .venv/bin/alembic upgrade head && .venv/bin/python -m app.indexer seed && .venv/bin/python app/main.py`.
 
@@ -79,6 +84,8 @@ Tests: `cd backend && .venv/bin/pip install aiosqlite && .venv/bin/python -m pyt
 TOKEN=$(curl -s localhost:8000/v1/auth/token -H 'content-type: application/json' \
   -d '{"client_id":"<admin id>","client_secret":"<admin secret>"}' | jq -r .access_token)
 CLIENT=$(curl -s localhost:8000/v1/clients -H "Authorization: Bearer $TOKEN" -H 'content-type: application/json' -d '{"name":"Acme P2P"}' | jq -r .id)
+# Every platform gets two keys: sandbox (sbx_..., test wallets, free; for the playground and their tests) and live.
+SANDBOX=$(curl -s localhost:8000/v1/keys -H "Authorization: Bearer $TOKEN" -H 'content-type: application/json' -d "{\"name\":\"sandbox\",\"client_id\":\"$CLIENT\",\"environment\":\"sandbox\"}" | jq -r .api_key)
 KEY=$(curl -s localhost:8000/v1/keys -H "Authorization: Bearer $TOKEN" -H 'content-type: application/json' -d "{\"name\":\"prod\",\"client_id\":\"$CLIENT\"}" | jq -r .api_key)
 curl -s localhost:8000/v1/actions/evaluate -H "X-API-Key: $KEY" -H 'content-type: application/json' \
   -d '{"chain":"tron","intent_type":"p2p_trade","counterparty":{"wallet_address":"TJ7E73Hs7aeeLDFMmySj9MGhXNronC6qc9"},"rails":{"fiat_rail":"mpesa","crypto_asset":"USDT_TRC20"}}'
@@ -93,7 +100,8 @@ curl -s localhost:8000/v1/outcomes -H "X-API-Key: $KEY" -H 'content-type: applic
 | `app/engine/config.json` | Signal registry: weights, cost units, intents, enabled/planned |
 | `app/engine/pricing.json` | Bundle prices (**placeholders** — set real prices before launch) |
 | `accounts.billing_model` | `payg` or `subscription` (plan, included checks, overage mode) |
-| `app/export_contract.py` | Writes the OpenAPI spec + price list into the frontend — re-run after API changes |
+| `app/export_contract.py` | Writes the price list into the frontend (the spec only with `--spec`, for local use) |
+| `app/services/sandbox.py` | Sandbox test wallets and scenarios behind `sbx_` keys |
 | `tests/test_import_boundaries.py` | Fails if the engine imports chain-specific code |
 | `app/proof/anchors.py` | `AnchorAdapter`: OpenTimestamps (default), none, Tron memo (stub) |
 

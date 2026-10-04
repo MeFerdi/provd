@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { docsUrl } from "@/lib/sites";
 
 type Capability = { title: string; body: string; link?: { href: string; label: string }; wide?: boolean };
 
@@ -28,7 +29,7 @@ const CAPABILITIES: Capability[] = [
   {
     title: "Release attestations",
     body: "For non-custodial escrows: a signed release your contract verifies on-chain before paying out, on Tron and Solana.",
-    link: { href: "/docs/non-custodial", label: "Escrow integration" },
+    link: { href: docsUrl("/non-custodial"), label: "Escrow integration" },
   },
   {
     title: "Pay as you go",

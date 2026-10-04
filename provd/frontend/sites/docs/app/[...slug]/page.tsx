@@ -5,24 +5,28 @@ import { Container } from "@/components/ui/container";
 import { fileExists, listFilesRecursive } from "@/lib/content/fs";
 import { docsPathForSlug, renderMdxFile } from "@/lib/content/mdx";
 
+const DOCS_ROOT = path.join(process.cwd(), "src", "content", "docs");
+
 type Props = {
   params: { slug: string[] };
 };
 
 export async function generateStaticParams() {
-  const docsRoot = path.join(process.cwd(), "src", "content", "docs");
-  const files = await listFilesRecursive(docsRoot, [".mdx"]);
+  const files = await listFilesRecursive(DOCS_ROOT, [".mdx"]);
+  return files.map((file) => ({
+    slug: path.relative(DOCS_ROOT, file).replace(/\\/g, "/").replace(/\.mdx$/, "").split("/"),
+  }));
+}
 
-  const appDocsRoot = path.join(process.cwd(), "src", "app", "docs");
-  const params = await Promise.all(
-    files.map(async (file) => {
-      const relative = path.relative(docsRoot, file).replace(/\\/g, "/").replace(/\.mdx$/, "");
-      // Pages with their own route (e.g. the generated API reference) must not be overwritten here.
-      const dedicated = await fileExists(path.join(appDocsRoot, relative, "page.tsx"));
-      return dedicated ? null : { slug: relative.split("/") };
-    })
-  );
-  return params.filter((p): p is { slug: string[] } => p !== null);
+export async function generateMetadata({ params }: Props) {
+  const mdxPath = docsPathForSlug(params.slug);
+  if (!(await fileExists(mdxPath))) return {};
+  const { frontmatter } = await renderMdxFile(mdxPath);
+  return {
+    title: `${frontmatter.title ?? params.slug.at(-1)} | Provd Docs`,
+    description: frontmatter.description,
+    alternates: { canonical: `/${params.slug.join("/")}` },
+  };
 }
 
 export default async function DocSlugPage({ params }: Props) {

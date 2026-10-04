@@ -1,7 +1,10 @@
 ---
-title: API Reference
-description: Every public endpoint, generated from the OpenAPI spec, plus the risk scale, flag codes and errors.
+title: Scores, flags and errors
+description: Authentication, the risk scale, every flag code, errors and limits. The full endpoint reference, with a sandbox to try each call, is in the playground.
 ---
+
+The endpoint-by-endpoint reference (every path, field and response) is in the [playground](/docs/api-reference),
+which opens with your sandbox key. This page covers what every integration needs.
 
 ## Base URL
 
@@ -14,7 +17,17 @@ All requests and responses are JSON. Timestamps are ISO 8601 in UTC.
 
 ## Authentication
 
-Endpoints marked **API key** take your key in the `X-API-Key` header. Public endpoints need no key and are rate-limited per IP.
+Calls that score or read your data take your key in the `X-API-Key` header. Public endpoints need no key and are rate-limited per IP.
+
+Every account has two kinds of key:
+
+| Key | Starts with | Use it | What it does |
+|---|---|---|---|
+| Sandbox | `sbx_` | The playground, your tests and CI | Scores fixed test wallets for free. Nothing is charged, no live data is read, records are never anchored, and sandbox attestations are rejected by contracts that trust Provd's live signer. |
+| Live | anything else | **Only from your server** | Scores real payments. Live keys are refused when sent from a browser (a request with an `Origin` header), so a key in a web page can't be used. |
+
+Keep both in your secret store, never in code or in an app. The two keys see separate data: sandbox decisions
+and outcomes never appear in your live account.
 
 ```bash
 curl -s https://api.provd.tech/v1/actions/evaluate \
@@ -29,7 +42,7 @@ Send an `Idempotency-Key` header on evaluate: retries with the same key return t
 
 | Status | When |
 |---|---|
-| `401` / `403` | Missing, invalid or inactive API key. |
+| `401` / `403` | Missing, invalid or inactive API key; a live key sent from a browser; or a top-up with a sandbox key. |
 | `402` | Free quota (or monthly plan) used and no balance. The body has `balance`, `units_required`, `purchase_url` and `topup_endpoint`. See [pay as you go](/docs/pay-as-you-go). |
 | `404` | Decision or `intent_id` not found for your account. |
 | `413` | Request body larger than 64 KB. |
@@ -37,13 +50,14 @@ Send an `Idempotency-Key` header on evaluate: retries with the same key return t
 | `429` | Rate limit reached. Wait for the number of seconds in the `Retry-After` header and retry. |
 | `5xx` | Our side, or the chain data provider. Safe to retry with the same `Idempotency-Key`. |
 
-Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron` (USDT) and `solana` (USDC and USDT). Chains and intent types we know but don't score yet (`stellar`, `solana`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
+Scored today: `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on `tron` (USDT) and `solana` (USDC and USDT). Chains and intent types we know but don't score yet (`stellar`, `evm`; `swap`, `deposit`, `payment`…) are accepted and return `recommended_action: "not_yet_supported"` with a `NOT_YET_SUPPORTED` flag. They are not charged.
 
 ## Limits
 
 | What | Limit |
 |---|---|
-| Calls with your API key | 600 per minute per key |
+| Calls with your live key | 600 per minute per key |
+| Calls with your sandbox key | 60 per minute per key |
 | Public endpoints (counterparty check, pricing, proof) | 120 per minute per IP; the counterparty check 20 per minute |
 | Request body | 64 KB |
 | `intent_id`, `Idempotency-Key` | Up to 64 characters: letters, digits and `. _ : -` |

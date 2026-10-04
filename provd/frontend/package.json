@@ -4,13 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/generate-search-index.mjs",
+    "dev:docs": "node scripts/prepare-sites.mjs && NEXT_PUBLIC_MAIN_URL=http://localhost:3000 NEXT_PUBLIC_DOCS_URL=http://localhost:3001 NEXT_PUBLIC_PLAYGROUND_URL=http://localhost:3002 next dev sites/docs -p 3001",
+    "dev:playground": "node scripts/prepare-sites.mjs && NEXT_PUBLIC_MAIN_URL=http://localhost:3000 NEXT_PUBLIC_DOCS_URL=http://localhost:3001 NEXT_PUBLIC_PLAYGROUND_URL=http://localhost:3002 next dev sites/playground -p 3002",
+    "prebuild": "node scripts/prepare-sites.mjs",
     "build": "next build",
+    "build:docs": "node scripts/prepare-sites.mjs && next build sites/docs",
+    "build:playground": "node scripts/prepare-sites.mjs && next build sites/playground",
+    "build:all": "npm run build && npm run build:docs && npm run build:playground",
     "pages:build": "npm run build",
     "pages:deploy": "wrangler pages deploy out",
+    "pages:deploy:docs": "wrangler pages deploy sites/docs/out --project-name provd-docs",
+    "pages:deploy:playground": "wrangler pages deploy sites/playground/out --project-name provd-playground",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit",
+    "lint": "next lint --dir src && next lint sites/docs --dir app && next lint sites/playground --dir app",
+    "type-check": "tsc --noEmit && tsc --noEmit -p sites/docs && tsc --noEmit -p sites/playground",
     "check:verify": "node scripts/check-verify.mjs"
   },
   "dependencies": {

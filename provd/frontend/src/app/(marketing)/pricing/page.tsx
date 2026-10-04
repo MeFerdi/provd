@@ -4,6 +4,7 @@ import ContactSection from "@/components/marketing/ContactSection";
 import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/env";
 import { BUNDLES, FREE_MONTHLY_CHECKS, PAYMENT_METHODS, PLANS, formatKes, formatUsd, joinOr } from "@/lib/pricing";
+import { docsUrl } from "@/lib/sites";
 
 export const metadata: Metadata = {
   title: "Pricing | Provd",
@@ -90,7 +91,7 @@ export default function PricingPage() {
               </p>
               <p>
                 How the free quota, balance and top-ups fit together:{" "}
-                <a href="/docs/pay-as-you-go" className="text-accent-secondary hover:underline">
+                <a href={docsUrl("/pay-as-you-go")} className="text-accent-secondary hover:underline">
                   pay as you go
                 </a>
                 .

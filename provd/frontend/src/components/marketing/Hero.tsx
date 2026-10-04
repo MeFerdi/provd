@@ -1,6 +1,7 @@
 import HeroMascot from "@/components/marketing/HeroMascot";
 import { Button } from "@/components/ui/button";
 import { FREE_MONTHLY_CHECKS } from "@/lib/pricing";
+import { docsUrl } from "@/lib/sites";
 
 export default function Hero() {
   return (
@@ -19,7 +20,7 @@ export default function Hero() {
             <Button href="/check" size="lg">
               Run a free counterparty check
             </Button>
-            <Button href="/docs/quickstart" size="lg" variant="secondary">
+            <Button href={docsUrl("/quickstart")} size="lg" variant="secondary">
               Read the quickstart
             </Button>
           </div>

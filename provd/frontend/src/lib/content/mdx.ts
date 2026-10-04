@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import { compileMDX } from "next-mdx-remote/rsc";
 
 import { formatContentDate } from "@/lib/content/date";
+import { siteHref } from "@/lib/sites";
 
 export type MdxFrontmatter = {
   title?: string;
@@ -30,7 +31,20 @@ export function headingId(children: React.ReactNode): string {
     .replace(/^-|-$/g, "");
 }
 
-/** Headings get ids so pages can link to sections (e.g. /docs/api-reference#errors). */
+/**
+ * Docs content links to `/docs/<page>` for other docs pages and to plain site paths (`/check`, `/verify`,
+ * `/contracts/...`) for provd.tech. On docs.provd.tech, docs pages live at the root, everything else is on the
+ * main site, and the endpoint reference (`/docs/api-reference`) is the playground.
+ */
+export function docsContentHref(href: string): string {
+  if (!href.startsWith("/") || href.startsWith("//")) return href;
+  if (href === "/docs/api-reference" || href.startsWith("/docs/api-reference#")) return siteHref("docs", "playground", "/");
+  if (href === "/docs" || href.startsWith("/docs#")) return href.slice(5) || "/";
+  if (href.startsWith("/docs/")) return href.slice(5);
+  return siteHref("docs", "main", href);
+}
+
+/** Headings get ids so pages can link to sections (e.g. /reference#errors). */
 const headingComponents = {
   h2: ({ children }: { children?: React.ReactNode }) => createElement("h2", { id: headingId(children), className: "scroll-mt-24" }, children),
   h3: ({ children }: { children?: React.ReactNode }) => createElement("h3", { id: headingId(children), className: "scroll-mt-24" }, children),
@@ -56,7 +70,10 @@ export async function renderMdxFile(filePath: string) {
         remarkPlugins: [remarkGfm],
       },
     },
-    components: headingComponents,
+    components: {
+      ...headingComponents,
+      a: ({ href = "", children }: { href?: string; children?: React.ReactNode }) => createElement("a", { href: docsContentHref(href) }, children),
+    },
   });
 
   return {

@@ -5,8 +5,14 @@ description: Send a USDT-on-Tron trade to Provd before you release it, read the 
 
 ## What you need
 
-- An API key. Email [hello@provd.tech](mailto:hello@provd.tech) and we'll send one. Every key includes 300 free checks a month.
+- Your keys. Email [hello@provd.tech](mailto:hello@provd.tech) and we'll send two: a **sandbox key** (starts with
+  `sbx_`) and a **live key**. Every live key includes 300 free checks a month; sandbox checks are always free.
 - The counterparty's Tron wallet address for a trade you're about to settle.
+
+**Start in the sandbox.** Run every step below with your sandbox key first: it scores fixed test wallets (a clean
+wallet, a lookalike, a sanctioned wallet and more) so you can build and test each outcome without real data or
+charges. The [playground](/docs/api-reference) lists the test wallets and lets you try each call in the browser. Then
+swap in your live key, on your server only.
 
 Base URLs:
 
@@ -116,4 +122,5 @@ The next time that wallet, phone hash or a wallet that traded with it comes back
 
 - [Pay as you go](/docs/pay-as-you-go): free quota, balance and top-ups.
 - [Decision records](/docs/decisions): fetch and verify the record behind a decision.
-- [API reference](/docs/api-reference): every endpoint, field and flag code.
+- [Scores, flags and errors](/docs/reference): the risk scale, every flag code, errors and limits.
+- [Playground](/docs/api-reference): every endpoint and field, with a sandbox to try each call.

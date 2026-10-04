@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { docsUrl } from "@/lib/sites";
 
 type Segment = { title: string; pain: string; provd: string; link?: { href: string; label: string } };
 
@@ -15,7 +16,7 @@ const SEGMENTS: Segment[] = [
     pain: "Once your contract releases, the funds are gone: no freeze, no clawback, whatever happens next.",
     provd:
       "The check runs before the release. Your arbiter signs only when Provd says release, or your contract verifies a signed Provd release attestation on-chain.",
-    link: { href: "/docs/non-custodial", label: "How it fits your escrow" },
+    link: { href: docsUrl("/non-custodial"), label: "How it fits your escrow" },
   },
   {
     title: "Licensed on- and off-ramps",

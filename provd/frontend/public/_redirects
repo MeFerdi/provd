@@ -1,0 +1,8 @@
+# The docs moved to docs.provd.tech and the endpoint reference to the playground (Cloudflare Pages format).
+/docs/api-reference   https://playground.provd.tech/   301
+/docs/api-reference/  https://playground.provd.tech/   301
+/docs                 https://docs.provd.tech/         301
+/docs/                https://docs.provd.tech/         301
+/docs/*               https://docs.provd.tech/:splat   301
+/playground           https://playground.provd.tech/   301
+/openapi.json         https://playground.provd.tech/   301

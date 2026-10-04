@@ -31,3 +31,12 @@ provd/venv
 # Secret files for docker-compose.prod.yml (never committed)
 provd/secrets/
 secrets/
+
+# Docs and playground sites: build output and the shared assets copied in by scripts/prepare-sites.mjs
+provd/frontend/sites/*/.next
+provd/frontend/sites/*/out
+provd/frontend/sites/*/next-env.d.ts
+provd/frontend/sites/*/public/provd-logo.svg
+provd/frontend/sites/*/public/provd.svg
+provd/frontend/sites/*/public/og-image.png
+provd/frontend/sites/docs/public/search-index.json
