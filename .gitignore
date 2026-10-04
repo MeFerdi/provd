@@ -40,3 +40,4 @@ provd/frontend/sites/*/public/provd-logo.svg
 provd/frontend/sites/*/public/provd.svg
 provd/frontend/sites/*/public/og-image.png
 provd/frontend/sites/docs/public/search-index.json
+provd/frontend/sites/*/tsconfig.tsbuildinfo

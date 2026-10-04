@@ -13,7 +13,7 @@ Provd Technologies Ltd. ("Provd", "we"), a company based in Kenya, operates prov
 
 ## What we collect
 
-**Account and contact details.** When you email us or get an API key we keep your name, work email and organisation, and use them to run your account and contact you about Provd.
+**Account and contact details.** When you email us or get an API key we keep your name, work email and organisation, and use them to run your account and contact you about Provd. When you create a sandbox key on our website we keep the email you enter (we don't verify it), the optional name and company, and a salted hash of your IP address to limit abuse; we never store the IP address itself or the key, only a hash of the key.
 
 **Payments.** When you buy checks, we keep the purchase (bundle, amount, currency, status and payment reference). Card and M-Pesa payments are processed by Paystack on its own secure pages: we never see or store card numbers or M-Pesa PINs, and we receive only the email you give for the receipt and the payment result. For USDT top-ups we record the incoming transaction on the public blockchain.
 

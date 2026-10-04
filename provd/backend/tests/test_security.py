@@ -12,7 +12,7 @@ from sqlalchemy.pool import StaticPool
 from app.dependencies import get_db_session
 from app.secret_store import generate as generate_secrets
 from app.models.api_key import ApiKey
-from app.models.client import Client
+from app.models.client import Client, DeveloperSignup
 from app.services import chain_data
 from app.services.hasher import sha256_hex
 from app.services.rate_limit import reset_rate_limits
@@ -57,7 +57,7 @@ def make_client(monkeypatch):
 		async def lifespan(_):
 			# Created inside the app's own event loop (aiosqlite connections are loop-bound).
 			async with engine.begin() as conn:
-				await conn.run_sync(lambda sync: [t.__table__.create(sync) for t in (*TABLES, Client, ApiKey)])
+				await conn.run_sync(lambda sync: [t.__table__.create(sync) for t in (*TABLES, Client, ApiKey, DeveloperSignup)])
 			async with sessions() as db:
 				db.add(Client(id="client-1", name="Platform One", active=True))
 				db.add(ApiKey(id="key-1", client_id="client-1", name="k", prefix=raw_key[:8], key_hash=sha256_hex(raw_key), scopes=["actions:evaluate"], active=True))

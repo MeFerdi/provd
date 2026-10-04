@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { KeyRound, Lock, Play } from "lucide-react";
 
+import { SandboxSignup } from "@/components/developer/SandboxSignup";
 import { ApiOperationIndex, ApiOperations } from "@/components/docs/ApiOperations";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -126,17 +127,19 @@ function Gate({ onOpen, error, busy }: { onOpen: (key: string) => void; error: s
           The key stays in this tab&apos;s memory and is sent only to the Provd API. Closing or reloading the page forgets it.
         </p>
       </form>
-      <p className="mt-6 text-sm text-text-secondary">
-        No key yet? Email{" "}
-        <a href="mailto:hello@provd.tech" className="text-accent-secondary hover:underline">
-          hello@provd.tech
-        </a>{" "}
-        and you&apos;ll get a sandbox key and a live key. Meanwhile, the{" "}
-        <a href={siteHref("playground", "docs", "/")} className="text-accent-secondary hover:underline">
-          docs
-        </a>{" "}
-        explain every concept.
-      </p>
+      <section aria-labelledby="no-key" className="mt-6 rounded-md border border-bg-border bg-bg-surface p-6">
+        <h2 id="no-key" className="font-sans text-lg font-semibold text-text-primary">
+          No key yet? Get one in seconds.
+        </h2>
+        <p className="mb-5 mt-1 text-sm text-text-secondary">
+          Free sandbox key, no card and no call. The{" "}
+          <a href={siteHref("playground", "docs", "/")} className="text-accent-secondary hover:underline">
+            docs
+          </a>{" "}
+          explain every concept.
+        </p>
+        <SandboxSignup site="playground" onKey={onOpen} />
+      </section>
     </div>
   );
 }
