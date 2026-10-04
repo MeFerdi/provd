@@ -3,7 +3,7 @@ import ast
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1] / "app"
-CHAIN_NATIVE = {"app.adapters.tron", "app.adapters.stubs"}
+CHAIN_NATIVE = {"app.adapters.tron", "app.adapters.solana", "app.adapters.stubs"}
 ENGINE_DIRS = [APP / "engine"]
 
 

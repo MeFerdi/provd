@@ -33,7 +33,8 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		except InvalidAddress as exc:
 			raise IntentRejected(str(exc)) from exc
 
-	ctx = SignalContext(intent_type=intent.intent_type, wallet=wallet, now=now)
+	ctx = SignalContext(intent_type=intent.intent_type, wallet=wallet, now=now, chain=intent.chain)
+	ctx.known_counterparties = set(intent.known_counterparties)
 	ctx.amount, ctx.amount_unit = normalized_amount(intent)
 	if intent.float_available is not None:
 		ctx.float_available = float(intent.float_available)
@@ -63,6 +64,7 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		)
 		ctx.platform_flagged = {w for (w,) in flagged.all()} - ({wallet} if wallet else set())
 		await _load_baselines(db, account_id, intent, wallet, ctx)
+		ctx.known_counterparties |= await _known_counterparties(db, account_id, intent.chain)
 		if wallet:
 			ctx.recent_decisions_24h = (
 				await db.execute(
@@ -78,6 +80,30 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		if ctx.asset is None:
 			ctx.token_report, ctx.token_error = await chain_data.token_security(intent.chain, intent.rails.crypto_asset)
 	return ctx
+
+
+async def _known_counterparties(db: AsyncSession, account_id: str, chain: str, limit: int = 5000) -> set[str]:
+	"""Addresses this platform actually paid: released checks and completed outcomes, never rejected or held
+	ones (a rejected lookalike must not become 'known', or the real payee would later look like its copy)."""
+	released = await db.execute(
+		select(Decision.wallet_address).where(
+			Decision.account_id == account_id, Decision.chain == chain,
+			Decision.recommended_action == "release", Decision.wallet_address.is_not(None),
+		).distinct().limit(limit)
+	)
+	completed = await db.execute(
+		select(Outcome.wallet_address).where(
+			Outcome.account_id == account_id, Outcome.outcome == "completed", Outcome.wallet_address.is_not(None),
+		).distinct().limit(limit)
+	)
+	bad = await db.execute(
+		select(Outcome.wallet_address).where(
+			Outcome.account_id == account_id,
+			Outcome.outcome.in_(["fraud_confirmed", "fake_confirmation", "reversed", "chargeback"]),
+			Outcome.wallet_address.is_not(None),
+		)
+	)
+	return ({w for (w,) in released.all()} | {w for (w,) in completed.all()}) - {w for (w,) in bad.all()}
 
 
 def normalized_amount(intent: ActionIntent) -> tuple[float | None, str | None]:

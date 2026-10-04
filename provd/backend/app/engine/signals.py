@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 from app.adapters.base import NormalizedAsset, NormalizedHistory
+from app.engine.lookalike import FIXED_PREFIX, dust_profile, find_lookalikes, short
 
 BAD_OUTCOMES = {"fraud_confirmed", "fake_confirmation"}
 INCIDENTAL_SHARE = 0.01  # <1% of volume …
@@ -31,6 +32,8 @@ class SignalContext:
 	intent_type: str
 	wallet: str | None
 	now: datetime
+	chain: str = "tron"
+	known_counterparties: set[str] = field(default_factory=set)  # addresses this platform used before + its address book
 	amount: float | None = None
 	amount_unit: str | None = None
 	platform_amounts: list[float] = field(default_factory=list)  # this platform, same intent type + unit, 90 days
@@ -85,7 +88,7 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 		source = ctx.public_flags[wallet]
 		result.contribution = 1000
 		result.value = "address_flagged"
-		result.reason = f"The counterparty wallet itself is on a public risk list ({source})."
+		result.reason = f"The counterparty wallet itself is on a public risk list ({SOURCE_NAMES.get(source, source)})."
 		result.flags.append(Flag("CP_ADDRESS_FROZEN", "critical", result.reason))
 		result.source_refs.append(source)
 		return result
@@ -100,7 +103,7 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 	if not history.transfers:
 		result.contribution = 120
 		result.value = 0
-		result.reason = "No USDT transfers found for this wallet."
+		result.reason = f"No {_stable(ctx)} transfers found for this wallet."
 		result.flags.append(Flag("CP_NO_HISTORY", "low", result.reason))
 		return result
 
@@ -116,7 +119,7 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 		share = (frozen_volume / total_volume) if total_volume else 0
 		msg = (
 			f"Transacted directly with {len(frozen_peers)} wallet(s) on a public risk list "
-			f"({_pct(frozen_volume, total_volume)} of recent USDT volume)."
+			f"({_pct(frozen_volume, total_volume)} of recent {_stable(ctx)} volume)."
 		)
 		if share < INCIDENTAL_SHARE and len(history.counterparties) >= INCIDENTAL_MIN_COUNTERPARTIES:
 			# High-traffic wallets (exchanges, payment processors) touch listed wallets incidentally.
@@ -137,7 +140,7 @@ def counterparty_graph(ctx: SignalContext) -> SignalResult:
 	first_seen = history.first_seen
 	if first_seen and not history.truncated and (ctx.now - first_seen) < timedelta(days=7) and len(history.transfers) < 5:
 		points += 150
-		msg = f"New wallet: first USDT activity {max((ctx.now - first_seen).days, 0)} day(s) ago, {len(history.transfers)} transfer(s)."
+		msg = f"New wallet: first {_stable(ctx)} activity {max((ctx.now - first_seen).days, 0)} day(s) ago, {len(history.transfers)} transfer(s)."
 		reasons.append(msg)
 		result.flags.append(Flag("CP_NEW_WALLET", "low", msg))
 
@@ -287,7 +290,7 @@ def float_and_timing(ctx: SignalContext) -> SignalResult:
 		if arrived and arrived >= 0.8 * ctx.amount:
 			points += 300
 			minutes = max(1, int(min((ctx.now - t.timestamp).total_seconds() for t in window) // 60))
-			msg = f"{arrived:,.2f} USDT arrived in this wallet in the last hour (latest {minutes} min ago) and covers this amount, a possible pass-through."
+			msg = f"{arrived:,.2f} {_stable(ctx)} arrived in this wallet in the last hour (latest {minutes} min ago) and covers this amount, a possible pass-through."
 			reasons.append(msg)
 			result.flags.append(Flag("RAPID_PASS_THROUGH", "high", msg))
 			result.source_refs += [t.tx_hash for t in window[:5]]
@@ -352,6 +355,65 @@ def account_takeover_proxies(ctx: SignalContext) -> SignalResult:
 	return result
 
 
+SOURCE_NAMES = {
+	"tether_usdt_freeze": "frozen by Tether, USDT on Tron",
+	"tether_usdt_freeze_solana": "frozen by Tether, USDT on Solana",
+	"circle_usdc_freeze_solana": "frozen by Circle, USDC on Solana",
+}
+
+
+def _stable(ctx: SignalContext) -> str:
+	"""The stablecoins we read on this chain, for reasons."""
+	return "USDC/USDT" if ctx.chain == "solana" else "USDT"
+
+
+def lookalike_destination(ctx: SignalContext) -> SignalResult:
+	"""Address poisoning: is the destination a near-copy of an address this platform has used, or an address
+	that only sends dust? See app/engine/lookalike.py."""
+	result = SignalResult(name="lookalike_destination", coverage="full")
+	if not ctx.wallet:
+		result.coverage = "none"
+		result.reason = "No destination wallet supplied."
+		return result
+	points, reasons = 0, []
+	matches = find_lookalikes(ctx.wallet, ctx.known_counterparties, ctx.chain)
+	if matches:
+		best = matches[0]
+		strong = best.strength == "strong"
+		points += 900 if strong else 550
+		msg = (
+			f"Looks like {short(best.known)}, an address you've used before, but it's a different address "
+			f"(same first {best.prefix + FIXED_PREFIX.get(ctx.chain, 0)} and last {best.suffix} characters). "
+			"This is how address-poisoning scams work: check the full address before sending."
+		)
+		reasons.append(msg)
+		result.flags.append(Flag("LOOKALIKE_DESTINATION", "critical" if strong else "high", msg))
+		result.source_refs += [m.known for m in matches[:3]]
+	elif not ctx.known_counterparties:
+		result.coverage = "partial"
+
+	if ctx.history is not None:
+		profile = dust_profile(ctx.wallet, ctx.history.transfers + ctx.history.native_transfers)
+		if profile.looks_like_poisoner:
+			points += 400
+			msg = (
+				f"This address has sent tiny 'dust' amounts to {profile.recipients} different wallets and never received "
+				"real value: typical of address-poisoning bots."
+			)
+			reasons.append(msg)
+			result.flags.append(Flag("DUST_SENDER", "high", msg))
+	elif result.coverage == "full":
+		result.coverage = "partial"
+
+	result.contribution = min(points, 1000)
+	result.value = len(matches)
+	result.reason = " ".join(reasons) or (
+		f"Not a lookalike of any of the {len(ctx.known_counterparties)} addresses you've used, and no dust-sending pattern."
+		if ctx.known_counterparties else "No dust-sending pattern. Send known_counterparties (or keep checking payouts) to compare against your payees."
+	)
+	return result
+
+
 def not_implemented(name: str):
 	def _signal(_ctx: SignalContext) -> SignalResult:
 		return SignalResult(name=name, coverage="not_implemented")
@@ -360,6 +422,7 @@ def not_implemented(name: str):
 
 
 REGISTRY = {
+	"lookalike_destination": lookalike_destination,
 	"counterparty_graph": counterparty_graph,
 	"reversal_behavior": reversal_behavior,
 	"token_safety": token_safety,

@@ -97,6 +97,13 @@ class Settings(BaseSettings):
     http_timeout_seconds: float = Field(default=10.0, validation_alias=AliasChoices("HTTP_TIMEOUT_SECONDS"))
     history_cache_seconds: int = Field(default=600, validation_alias=AliasChoices("HISTORY_CACHE_SECONDS"))
 
+    # Solana. Free public RPCs keep about a day of history (enough for lookalike detection); use a Helius or
+    # Alchemy URL for full history. The index RPC serves getProgramAccounts (issuer-frozen accounts) for the worker.
+    solana_rpc_url: str = Field(default="https://solana-rpc.publicnode.com", validation_alias=AliasChoices("SOLANA_RPC_URL"))
+    solana_index_rpc_url: str = Field(default="https://api.mainnet-beta.solana.com", validation_alias=AliasChoices("SOLANA_INDEX_RPC_URL"))
+    solana_history_window_limited: bool = Field(default=True, validation_alias=AliasChoices("SOLANA_HISTORY_WINDOW_LIMITED"))
+    solana_max_transactions: int = Field(default=30, ge=5, le=200, validation_alias=AliasChoices("SOLANA_MAX_TRANSACTIONS"))
+
     # Token safety (GoPlus). Optional; on outage or missing key the signal degrades with a coverage flag.
     goplus_url: str = Field(default="https://api.gopluslabs.io", validation_alias=AliasChoices("GOPLUS_URL"))
     goplus_api_key: str = Field(default="", validation_alias=AliasChoices("GOPLUS_API_KEY"))

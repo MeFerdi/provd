@@ -157,6 +157,15 @@
       "title": "Intent Type",
       "type": "string"
      },
+     "known_counterparties": {
+      "description": "Addresses you've paid or traded with before (your address book). Used to catch lookalike (address-poisoning) destinations. Provd also learns them from your released checks.",
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 500,
+      "title": "Known Counterparties",
+      "type": "array"
+     },
      "rails": {
       "$ref": "#/components/schemas/Rails"
      },
@@ -480,6 +489,139 @@
      }
     },
     "title": "HTTPValidationError",
+    "type": "object"
+   },
+   "LookalikeMatch": {
+    "properties": {
+     "address": {
+      "title": "Address",
+      "type": "string"
+     },
+     "prefix": {
+      "description": "Matching leading characters",
+      "title": "Prefix",
+      "type": "integer"
+     },
+     "suffix": {
+      "description": "Matching trailing characters",
+      "title": "Suffix",
+      "type": "integer"
+     }
+    },
+    "required": [
+     "address",
+     "prefix",
+     "suffix"
+    ],
+    "title": "LookalikeMatch",
+    "type": "object"
+   },
+   "LookalikeReport": {
+    "properties": {
+     "address": {
+      "title": "Address",
+      "type": "string"
+     },
+     "chain": {
+      "title": "Chain",
+      "type": "string"
+     },
+     "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+     },
+     "dust_sender": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Sends dust to many wallets and never receives real value; null if history unavailable",
+      "title": "Dust Sender"
+     },
+     "lookalike_of": {
+      "items": {
+       "$ref": "#/components/schemas/LookalikeMatch"
+      },
+      "title": "Lookalike Of",
+      "type": "array"
+     },
+     "reasons": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Reasons",
+      "type": "array"
+     },
+     "risk_level": {
+      "enum": [
+       "low",
+       "medium",
+       "high",
+       "critical"
+      ],
+      "title": "Risk Level",
+      "type": "string"
+     },
+     "verdict": {
+      "enum": [
+       "lookalike",
+       "suspicious",
+       "no_match"
+      ],
+      "title": "Verdict",
+      "type": "string"
+     }
+    },
+    "required": [
+     "chain",
+     "address",
+     "verdict",
+     "risk_level",
+     "lookalike_of",
+     "dust_sender",
+     "reasons",
+     "checked_at"
+    ],
+    "title": "LookalikeReport",
+    "type": "object"
+   },
+   "LookalikeRequest": {
+    "properties": {
+     "address": {
+      "description": "The address you're about to pay",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9]{25,64}$",
+      "title": "Address",
+      "type": "string"
+     },
+     "chain": {
+      "enum": [
+       "tron",
+       "solana"
+      ],
+      "title": "Chain",
+      "type": "string"
+     },
+     "known": {
+      "description": "Addresses you've paid before",
+      "items": {
+       "type": "string"
+      },
+      "maxItems": 200,
+      "title": "Known",
+      "type": "array"
+     }
+    },
+    "required": [
+     "chain",
+     "address"
+    ],
+    "title": "LookalikeRequest",
     "type": "object"
    },
    "OutcomeReport": {
@@ -997,6 +1139,48 @@
     "summary": "Service status (public): up or degraded, and the engine version",
     "tags": [
      "health"
+    ]
+   }
+  },
+  "/v1/lookalike": {
+   "post": {
+    "description": "Before you paste an address: does it imitate one you've paid, and does it behave like a poisoning bot?",
+    "operationId": "lookalike_check_v1_lookalike_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LookalikeRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LookalikeReport"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Free lookalike-address check (no key, rate-limited)",
+    "tags": [
+     "actions"
     ]
    }
   },

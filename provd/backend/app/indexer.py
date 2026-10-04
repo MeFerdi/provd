@@ -39,6 +39,41 @@ async def _checkpoint(db, name: str) -> Checkpoint:
 	return cp
 
 
+SOLANA_FREEZE_CHECKPOINT = "solana:stablecoin_frozen_snapshot"
+SOLANA_FREEZE_INTERVAL = timedelta(hours=1)
+
+
+async def sync_solana_frozen(db, now: datetime | None = None, force: bool = False) -> tuple[int, int]:
+	"""Snapshot the owners of frozen USDC/USDT token accounts on Solana into the risk list (at most hourly).
+	Returns (newly flagged, unflagged)."""
+	now = now or datetime.now(timezone.utc)
+	cp = await _checkpoint(db, SOLANA_FREEZE_CHECKPOINT)
+	if not force and cp.cursor and now - _aware(cp.updated_at) < SOLANA_FREEZE_INTERVAL:
+		return 0, 0
+	current = await chain_data.adapter_for("solana").frozen_owners()
+	rows = {r.address: r for r in (await db.execute(select(FlaggedAddress).where(FlaggedAddress.chain == "solana"))).scalars().all()}
+	added = removed = 0
+	for owner, source in current.items():
+		row = rows.get(owner)
+		if row is None:
+			db.add(FlaggedAddress(chain="solana", address=owner, source=source, reference=None, flagged_at=now, active=True))
+			added += 1
+		elif not row.active:
+			row.active, row.flagged_at = True, now
+			added += 1
+	for owner, row in rows.items():
+		if row.active and owner not in current and row.source.endswith("_solana"):
+			row.active = False
+			removed += 1
+	cp.cursor, cp.updated_at = str(len(current)), now
+	await db.commit()
+	return added, removed
+
+
+def _aware(value: datetime) -> datetime:
+	return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+
+
 async def sync_freeze_events(db) -> int:
 	cp = await _checkpoint(db, FREEZE_CHECKPOINT)
 	events, cursor = await chain_data.adapter_for("tron").fetch_events(cp.cursor)
@@ -175,6 +210,13 @@ async def run_pass() -> bool:
 				logger.warning("indexer.upstream_unavailable %s", exc)
 			if cards := await reconcile_card_payments(db):  # independent of Tron availability
 				logger.info("indexer.card_payments_settled %d", cards)
+			try:
+				added, removed = await sync_solana_frozen(db)
+				if added or removed:
+					logger.info("indexer.solana_frozen added=%d removed=%d", added, removed)
+			except AdapterUnavailable as exc:
+				await db.rollback()
+				logger.warning("indexer.solana_unavailable %s", exc)
 			batch = await seal_batch(db)
 			anchors = await advance_anchors(db)
 			if batch or anchors:

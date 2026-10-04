@@ -12,7 +12,9 @@ from app.adapters.base import InvalidAddress
 from app.api.v1.proof import proof_bundle
 from app.config import get_settings
 from app.dependencies import get_db_session, require_permissions
+from app.engine.lookalike import FIXED_PREFIX, find_lookalikes
 from app.engine.scoring import engine_config, evaluate
+from app.engine.signals import SignalContext, lookalike_destination
 from app.models.rails import CreditPurchase, Decision, Outcome, UsageEvent
 from app.schemas.actions import (
 	KNOWN_CHAINS,
@@ -21,6 +23,9 @@ from app.schemas.actions import (
 	ActionIntent,
 	ActionScore,
 	CounterpartyReport,
+	LookalikeMatch,
+	LookalikeReport,
+	LookalikeRequest,
 	Explanation,
 	OutcomeReport,
 	RiskFlag,
@@ -157,6 +162,38 @@ async def counterparty_report(chain: str, address: str, db: AsyncSession = Depen
 		signal_coverage={r.name: r.coverage for r in graph},
 		engine_version=engine_config()["engine_version"],
 		checked_at=now,
+	)
+
+
+@router.post(
+	"/lookalike",
+	response_model=LookalikeReport,
+	summary="Free lookalike-address check (no key, rate-limited)",
+	dependencies=[Depends(public_limit), Depends(rate_limit("scanner", lambda: get_settings().scanner_rate_limit_per_minute, 60))],
+)
+async def lookalike_check(body: LookalikeRequest, db: AsyncSession = Depends(get_db_session)) -> LookalikeReport:
+	"""Before you paste an address: does it imitate one you've paid, and does it behave like a poisoning bot?"""
+	adapter = chain_data.adapter_for(body.chain)
+	try:
+		address = adapter.validate_address(body.address)
+	except InvalidAddress as exc:
+		raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
+	now = datetime.now(timezone.utc)
+	sctx = SignalContext(intent_type="payout", wallet=address, now=now, chain=body.chain, known_counterparties=set(body.known))
+	sctx.history, sctx.history_error = await chain_data.history(db, body.chain, address)
+	await db.commit()
+	result = lookalike_destination(sctx)
+	matches = find_lookalikes(address, body.known, body.chain)
+	dust = any(f.code == "DUST_SENDER" for f in result.flags) if sctx.history is not None else None
+	verdict = "lookalike" if matches else ("suspicious" if dust else "no_match")
+	risk = "critical" if any(f.severity == "critical" for f in result.flags) else "high" if result.flags else "low"
+	reasons = [f.reason for f in result.flags] or [result.reason]
+	if sctx.history is None:
+		reasons.append("On-chain history unavailable; checked against your list only.")
+	return LookalikeReport(
+		chain=body.chain, address=address, verdict=verdict, risk_level=risk,
+		lookalike_of=[LookalikeMatch(address=m.known, prefix=m.prefix + FIXED_PREFIX.get(body.chain, 0), suffix=m.suffix) for m in matches],
+		dust_sender=dust, reasons=reasons, checked_at=now,
 	)
 
 

@@ -10,11 +10,15 @@ import {
   type CounterpartyReport,
   CheckError,
   actionForLevel,
-  fetchTronCounterparty,
+  CHAIN_LABEL,
+  STABLE_LABEL,
+  detectChain,
+  explorerAddress,
+  explorerName,
+  explorerTx,
+  fetchCounterparty,
   isTxHash,
   sourceLabel,
-  tronscanAddress,
-  tronscanTx,
 } from "@/lib/counterparty";
 import { type RecentCheck, clearRecentChecks, readRecentChecks, rememberCheck } from "@/lib/recent-checks";
 
@@ -28,6 +32,11 @@ const EXAMPLES = [
     address: "TAhQxLpYMyUdxFqePrQpWJe4tydcC1Ysi4",
     label: "An exposed wallet",
     note: "Traded directly with frozen wallets.",
+  },
+  {
+    address: "2QGKoP9qvmZrf6SxtVVWHhWSvKHXTeBdCfirCRXVJG1m",
+    label: "A frozen Solana wallet",
+    note: "Its USDT is frozen by Tether on Solana.",
   },
 ];
 
@@ -61,9 +70,14 @@ export function CheckClient() {
       setState({ kind: "idle" });
       return;
     }
+    const chain = detectChain(queryAddress);
+    if (!chain) {
+      setState({ kind: "error", address: queryAddress, message: "That doesn't look like a Tron or Solana wallet address." });
+      return;
+    }
     const controller = new AbortController();
     setState({ kind: "loading", address: queryAddress });
-    fetchTronCounterparty(queryAddress, controller.signal)
+    fetchCounterparty(chain, queryAddress, controller.signal)
       .then((report) => {
         setState({ kind: "done", report });
         setRecent(
@@ -102,15 +116,15 @@ export function CheckClient() {
   return (
     <div className="min-w-0">
       <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row" role="search">
-        <label htmlFor="tron-address" className="sr-only">
-          Tron wallet address
+        <label htmlFor="wallet-address" className="sr-only">
+          Tron or Solana wallet address
         </label>
         <input
-          id="tron-address"
+          id="wallet-address"
           name="address"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Tron wallet address, starting with T"
+          placeholder="Tron or Solana wallet address"
           autoComplete="off"
           autoCapitalize="off"
           autoCorrect="off"
@@ -129,7 +143,7 @@ export function CheckClient() {
         </Button>
       </form>
       <p className="mt-3 text-sm text-text-muted">
-        USDT on Tron. Free, no account needed.
+        USDT on Tron, USDC and USDT on Solana. Free, no account needed.
       </p>
 
       <div className="mt-10" aria-live="polite">
@@ -151,7 +165,7 @@ export function CheckClient() {
         ) : null}
         {state.kind === "loading" ? (
           <div className="rounded-md border border-bg-border bg-white p-6 text-text-secondary">
-            Reading recent USDT transfers for <span className="break-all font-mono text-text-primary">{state.address}</span>…
+            Reading recent stablecoin transfers for <span className="break-all font-mono text-text-primary">{state.address}</span>…
           </div>
         ) : null}
         {state.kind === "error" ? (
@@ -186,7 +200,7 @@ function Examples({ onPick }: { onPick: (address: string) => void }) {
   return (
     <div>
       <h2 className="font-sans text-base font-semibold text-text-primary">Try an example</h2>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+      <div className="mt-3 grid gap-3 sm:grid-cols-3">
         {EXAMPLES.map((ex) => (
           <button
             key={ex.address}
@@ -265,7 +279,7 @@ function EmptyState() {
       <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-text-secondary">
         <li>A risk score from 0 to 1000 (higher is riskier) and a level: low, medium, high or critical.</li>
         <li>Each flag with the reason it fired, such as direct exposure to wallets Tether has frozen.</li>
-        <li>The transactions behind the score, linked to Tronscan, and a summary of recent USDT activity.</li>
+        <li>The transactions behind the score, linked to Tronscan or Solscan, and a summary of recent stablecoin activity.</li>
         <li>A link you can share with a colleague.</li>
       </ul>
     </div>
@@ -279,10 +293,10 @@ function fmtDate(iso: string | null): string {
   return d.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }) + " UTC";
 }
 
-function fmtUsdt(value: string): string {
+function fmtStable(value: string, unit: string): string {
   const n = Number(value);
   if (!Number.isFinite(n)) return value;
-  return `${n.toLocaleString("en-US", { maximumFractionDigits: 2 })} USDT`;
+  return `${n.toLocaleString("en-US", { maximumFractionDigits: 2 })} ${unit}`;
 }
 
 function humanize(s: string): string {
@@ -345,6 +359,7 @@ function ScoreBar({ score }: { score: number }) {
 
 function Report({ report }: { report: CounterpartyReport }) {
   const { activity } = report;
+  const stable = STABLE_LABEL[report.chain as keyof typeof STABLE_LABEL] ?? "Stablecoin";
   const coverage = Object.entries(report.signal_coverage ?? {});
   const txRefs = Array.from(
     new Set(report.explainability.flatMap((e) => e.source_refs).filter((ref) => isTxHash(ref)))
@@ -355,15 +370,15 @@ function Report({ report }: { report: CounterpartyReport }) {
       <section className="rounded-md border border-bg-border bg-white p-5 sm:p-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <p className="text-sm text-text-muted">Counterparty · USDT on Tron</p>
+            <p className="text-sm text-text-muted">Counterparty · {CHAIN_LABEL[report.chain as keyof typeof CHAIN_LABEL] ?? report.chain}</p>
             <a
-              href={tronscanAddress(report.address)}
+              href={explorerAddress(report.chain, report.address)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-1 inline-flex max-w-full items-start gap-1.5 break-all font-mono text-[15px] text-text-primary hover:underline sm:text-base"
             >
               {report.address}
-              <ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0 text-text-muted" aria-label="Open on Tronscan" />
+              <ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0 text-text-muted" aria-label={`Open on ${explorerName(report.chain)}`} />
             </a>
             <p className="mt-2 text-sm text-text-muted">
               Checked {fmtDate(report.checked_at)} · engine {report.engine_version}
@@ -440,7 +455,7 @@ function Report({ report }: { report: CounterpartyReport }) {
               {txRefs.map((hash) => (
                 <li key={hash} className="min-w-0">
                   <a
-                    href={tronscanTx(hash)}
+                    href={explorerTx(report.chain, hash)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="break-all font-mono text-sm text-accent-secondary hover:underline"
@@ -457,14 +472,14 @@ function Report({ report }: { report: CounterpartyReport }) {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.6fr)]">
         <section className="rounded-md border border-bg-border bg-white">
           <h2 className="border-b border-bg-border px-5 py-3.5 font-sans text-base font-semibold text-text-primary sm:px-6">
-            Recent USDT activity
+            Recent {STABLE_LABEL[report.chain as keyof typeof STABLE_LABEL] ?? "stablecoin"} activity
           </h2>
           <dl className="grid grid-cols-2 gap-x-6 gap-y-4 px-5 py-4 text-[15px] sm:px-6">
             {[
               ["Transfers read", activity.transfers_read.toLocaleString("en-US")],
               ["Distinct counterparties", activity.distinct_counterparties.toLocaleString("en-US")],
-              ["USDT in", fmtUsdt(activity.usdt_in)],
-              ["USDT out", fmtUsdt(activity.usdt_out)],
+              [`${stable} in`, fmtStable(activity.usdt_in, stable)],
+              [`${stable} out`, fmtStable(activity.usdt_out, stable)],
               ["First seen", fmtDate(activity.first_seen)],
               ["Last seen", fmtDate(activity.last_seen)],
             ].map(([label, value]) => (
@@ -476,8 +491,9 @@ function Report({ report }: { report: CounterpartyReport }) {
           </dl>
           {activity.most_recent_only ? (
             <p className="border-t border-bg-border px-5 py-3 text-sm text-text-muted sm:px-6">
-              Busy wallet: only the most recent transfers were read, so first seen may be later than the real first
-              transfer.
+              {report.chain === "solana"
+                ? "Recent activity only: the free Solana data source keeps about a day of history, so first seen may be later than the real first transfer."
+                : "Busy wallet: only the most recent transfers were read, so first seen may be later than the real first transfer."}
             </p>
           ) : null}
         </section>

@@ -19,7 +19,7 @@ KNOWN_INTENT_TYPES = {
 	"p2p_trade", "ramp_conversion", "payout", "otc_settlement",
 	"swap", "deposit", "payment", "asset_verify", "venue_assess",
 }
-SCORED_CHAINS = {"tron"}
+SCORED_CHAINS = {"tron", "solana"}
 SCORED_INTENT_TYPES = {"p2p_trade", "ramp_conversion", "payout", "otc_settlement"}
 
 # Identifiers callers choose (intent ids, idempotency keys): letters, digits and . _ : -
@@ -105,11 +105,26 @@ class ActionIntent(BaseModel):
 	counterparty: Counterparty
 	rails: Rails = Field(default_factory=Rails)
 	amounts: Amounts = Field(default_factory=Amounts)
+	known_counterparties: list[str] = Field(
+		default_factory=list,
+		max_length=500,
+		description="Addresses you've paid or traded with before (your address book). Used to catch lookalike "
+		"(address-poisoning) destinations. Provd also learns them from your released checks.",
+	)
 	account_signals: AccountSignals | None = None
 	float_available: Decimal | None = Field(default=None, ge=0, description="Your available float for this rail, in amounts.fiat_currency (payout/OTC)")
 	venue: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")
 	asset: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")
 	context: dict = Field(default_factory=dict, description="Your own reference data, stored with the decision and never scored; up to 4 KB of JSON")
+
+	@field_validator("known_counterparties")
+	@classmethod
+	def _known(cls, value: list[str]) -> list[str]:
+		pattern = re.compile(r"^[A-Za-z0-9]{25,64}$")
+		bad = [v for v in value if not pattern.match(v or "")]
+		if bad:
+			raise ValueError(f"{len(bad)} entries aren't addresses (letters and digits, 25 to 64 characters)")
+		return sorted(set(value))
 
 	@field_validator("venue", "asset", "context")
 	@classmethod
@@ -178,4 +193,33 @@ class CounterpartyReport(BaseModel):
 	activity: dict
 	signal_coverage: dict[str, str]
 	engine_version: str
+	checked_at: datetime
+
+
+class LookalikeRequest(BaseModel):
+	chain: Literal["tron", "solana"]
+	address: str = Field(max_length=64, pattern=r"^[A-Za-z0-9]{25,64}$", description="The address you're about to pay")
+	known: list[str] = Field(default_factory=list, max_length=200, description="Addresses you've paid before")
+
+	@field_validator("known")
+	@classmethod
+	def _known(cls, value: list[str]) -> list[str]:
+		pattern = re.compile(r"^[A-Za-z0-9]{25,64}$")
+		return sorted({v for v in value if pattern.match(v or "")})
+
+
+class LookalikeMatch(BaseModel):
+	address: str
+	prefix: int = Field(description="Matching leading characters")
+	suffix: int = Field(description="Matching trailing characters")
+
+
+class LookalikeReport(BaseModel):
+	chain: str
+	address: str
+	verdict: Literal["lookalike", "suspicious", "no_match"]
+	risk_level: RiskLevel
+	lookalike_of: list[LookalikeMatch]
+	dust_sender: bool | None = Field(description="Sends dust to many wallets and never receives real value; null if history unavailable")
+	reasons: list[str]
 	checked_at: datetime

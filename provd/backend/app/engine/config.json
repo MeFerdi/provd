@@ -1,5 +1,5 @@
 {
-  "engine_version": "2026.10.1",
+  "engine_version": "2026.10.2",
   "thresholds": {
     "medium": 250,
     "high": 500,
@@ -20,6 +20,17 @@
       "enabled": true,
       "weight": 1.0,
       "cost_units": 1,
+      "intents": [
+        "p2p_trade",
+        "ramp_conversion",
+        "payout",
+        "otc_settlement"
+      ]
+    },
+    "lookalike_destination": {
+      "enabled": true,
+      "weight": 1.0,
+      "cost_units": 0,
       "intents": [
         "p2p_trade",
         "ramp_conversion",

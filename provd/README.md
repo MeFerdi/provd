@@ -18,16 +18,23 @@ indexer ──► freeze events, USDT top-up matching
 
 ## What's in the MVP (Phase A)
 - `POST /v1/actions/evaluate` for `p2p_trade`, `ramp_conversion`, `payout` and `otc_settlement` on **Tron
-  (USDT-TRC20)**. Other chains and intent types are accepted and return `not_yet_supported` (not charged).
+  (USDT-TRC20)** and **Solana (USDC and USDT)**. Other chains and intent types are accepted and return
+  `not_yet_supported` (not charged).
 - Signals: `counterparty_graph` (frozen-address list + direct exposure, weighted by volume share; exposure to
   wallets the platform confirmed as fraud), `reversal_behavior` (the platform's own reversals/fraud reports and
   check velocity), `token_safety` (ramp intents; GoPlus, degrades with a coverage flag), and since Phase C:
   `amount_pattern` (spikes vs the counterparty's history, platform p99 outliers, structuring under thresholds),
   `float_and_timing` (rapid pass-through, off-hours, float strain) and `account_takeover_proxies` (SIM swap /
   device / credential / new-destination timestamps supplied by the platform's provider in `account_signals`).
+  `lookalike_destination` catches address poisoning on Tron and Solana: destinations that imitate a payee
+  (learned from released checks or sent as `known_counterparties`) and addresses that only send dust
+  (`app/engine/lookalike.py`, dependency-free). Free public version: `POST /v1/lookalike`.
   `asset_backing` and `venue_risk` are registered stubs (Phase E).
 - Risk list: every Tron address **Tether froze on USDT** (7,700+), synced by the indexer from on-chain events and
-  bundled as a seed fixture.
+  bundled as a seed fixture; on Solana, owners of USDC and USDT accounts frozen by Circle and Tether, snapshotted
+  hourly by the indexer.
+- Solana adapter (`app/adapters/solana.py`): wallet and associated-token-account histories over any Solana RPC
+  (free public endpoints keep about a day; set `SOLANA_RPC_URL` to Helius or Alchemy for full history).
 - Pay-as-you-go: monthly free quota (`FREE_MONTHLY_CHECKS`, default 300) → 402 with a purchase link; bundles; USDT top-ups auto-matched by unique amount;
   card and M-Pesa top-ups through Paystack Checkout (M-Pesa falls back to a manual paybill confirmed by an
   admin when Paystack isn't configured) (signed `charge.success`

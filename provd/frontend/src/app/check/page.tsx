@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { CheckClient } from "@/components/check/CheckClient";
+import { LookalikePanel } from "@/components/check/LookalikePanel";
 
 export const metadata: Metadata = {
   title: "Counterparty check | Provd",
   description:
-    "Free risk check for a Tron wallet: exposure to addresses Tether has frozen, recent USDT activity and a 0–1000 risk score, explained.",
+    "Free risk check for Tron and Solana wallets: exposure to frozen wallets, recent stablecoin activity, a 0 to 1000 risk score, and a lookalike-address check against address poisoning.",
   alternates: { canonical: "/check" },
 };
 
@@ -18,12 +19,15 @@ export default function CheckPage() {
           Check a counterparty before you release.
         </h1>
         <p className="mb-8 max-w-2xl text-lg leading-relaxed text-text-secondary">
-          Paste the Tron wallet you are about to send USDT to. Provd reads its recent transfers and checks who it has
-          dealt with against the 7,700+ wallets Tether has frozen.
+          Paste the wallet you are about to pay, on Tron or Solana. Provd reads its recent transfers and checks who it
+          has dealt with against the wallets Tether and Circle have frozen.
         </p>
         <Suspense fallback={<div className="h-12 rounded-md border border-bg-border bg-bg-surface" />}>
           <CheckClient />
         </Suspense>
+        <div className="mt-14">
+          <LookalikePanel />
+        </div>
       </div>
     </main>
   );
