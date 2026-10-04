@@ -1,0 +1,7 @@
+# Local secret scanning (gitleaks), matching .gitguardian.yaml: `gitleaks git .` and `gitleaks dir provd`.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public blockchain data (wallet and token-account addresses), not secrets"
+paths = ['''provd/research/solana-measurement/data/.*''']

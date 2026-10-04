@@ -31,7 +31,8 @@ const deploy = async (file, name, ...args) => {
   const d = await f.deploy(...args); await d.waitForDeployment(); return d;
 };
 
-const PROVD_KEY = "4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318";
+// A throwaway signing key, generated fresh for every run: no key is ever stored in the repository.
+const PROVD_KEY = ethers.Wallet.createRandom().privateKey.slice(2);
 const probe = JSON.parse(execFileSync(process.env.PY, [ "sign.py", PROVD_KEY, "1", ethers.ZeroAddress, ethers.ZeroAddress, "1", "1", "00".repeat(32), "x" ], { env: { ...process.env } }).toString());
 const token = await deploy("MockToken.sol", "MockToken");
 const escrow = await deploy("ExampleEscrow.sol", "ExampleEscrow", await token.getAddress(), probe.signer);

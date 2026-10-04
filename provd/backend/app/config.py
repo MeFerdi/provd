@@ -4,8 +4,12 @@ from pathlib import Path
 from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app.secret_store import SECRETS, load_secret_files, looks_like_placeholder
+
 class Settings(BaseSettings):
-    # backend/.env, found regardless of the directory the process starts in.
+    # Secrets are declared in app/secret_store.py and come from the environment, NAME_FILE files or, in
+    # development only, backend/.env (found regardless of the directory the process starts in). No secret has
+    # a default value here.
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parents[1] / ".env", env_file_encoding="utf-8", extra="ignore"
     )
@@ -23,7 +27,8 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = Field(default=60, validation_alias=AliasChoices("JWT_EXPIRE_MINUTES"))
     enable_test_auth: bool = Field(default=False, validation_alias=AliasChoices("ENABLE_TEST_AUTH"))
 
-    database_url: str = Field(default="postgresql+asyncpg://provd:provd@postgres:5432/provd")
+    # Credentials come from the environment; the default has none.
+    database_url: str = Field(default="postgresql+asyncpg://localhost:5432/provd", validation_alias=AliasChoices("DATABASE_URL"))
     # Connection pool per process. Behind PgBouncer (transaction mode) set DB_PGBOUNCER=true: the app then
     # opens no pool of its own and disables asyncpg's prepared-statement cache.
     db_pool_size: int = Field(default=5, ge=1, le=50, validation_alias=AliasChoices("DB_POOL_SIZE"))
@@ -209,10 +214,17 @@ class Settings(BaseSettings):
             for name in ("bootstrap_admin_client_secret", "bootstrap_client_client_secret"):
                 if len(getattr(self, name)) < 24:
                     raise ValueError(f"{name.upper()} must be at least 24 characters in production")
+            if "database_url" not in self.model_fields_set:
+                raise ValueError("DATABASE_URL must be set from the secret store in production")
+            for secret in SECRETS:
+                value = getattr(self, secret.name.lower(), "")
+                if isinstance(value, str) and value and looks_like_placeholder(value):
+                    raise ValueError(f"{secret.name} is an example or placeholder value; set a real one in the secret store")
 
         return self
 
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
+    load_secret_files()
     return Settings()

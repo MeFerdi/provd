@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
 from app.dependencies import get_db_session
+from app.secret_store import generate as generate_secrets
 from app.models.api_key import ApiKey
 from app.models.client import Client
 from app.services import chain_data
@@ -17,7 +18,7 @@ from app.services.hasher import sha256_hex
 from app.services.rate_limit import reset_rate_limits
 from tests.test_rails_api import CLEAN, TABLES, FakeTron
 
-ADMIN_ID, ADMIN_SECRET = "sec-admin", "admin-secret-" + "x" * 24
+ADMIN_ID, ADMIN_SECRET = "sec-admin", token_urlsafe(32)
 
 
 @pytest.fixture()
@@ -247,10 +248,13 @@ def test_public_health_hides_internals(make_client):
 def _production_env(**extra):
 	return {
 		"APP_ENV": "production",
-		"DECISION_SIGNING_KEY": "11" * 32,
-		"ATTESTATION_SIGNING_KEY": "22" * 32,
+		"DATABASE_URL": "postgresql+asyncpg://provd:" + token_urlsafe(24) + "@db:5432/provd",
+		"DECISION_SIGNING_KEY": generate_secrets()["DECISION_SIGNING_KEY"],
+		"ATTESTATION_SIGNING_KEY": generate_secrets()["ATTESTATION_SIGNING_KEY"],
+		"BOOTSTRAP_ADMIN_CLIENT_ID": ADMIN_ID,
+		"BOOTSTRAP_ADMIN_CLIENT_SECRET": ADMIN_SECRET,
 		"BOOTSTRAP_CLIENT_CLIENT_ID": "sec-client",
-		"BOOTSTRAP_CLIENT_CLIENT_SECRET": "client-secret-" + "y" * 24,
+		"BOOTSTRAP_CLIENT_CLIENT_SECRET": token_urlsafe(32),
 		"CORS_ORIGINS": "https://provd.tech",
 		"ALLOWED_HOSTS": "api.provd.tech",
 		"RATE_LIMIT_BACKEND": "memory",

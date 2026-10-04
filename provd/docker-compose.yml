@@ -1,13 +1,14 @@
 # Local stack: postgres + migrations + seed fixtures + API + indexer.
-#   cp backend/.env.example backend/.env
-#   docker compose up --build        # API on :8000, docs at /docs
+#   (cd backend && python -m app.secret_store init)   # creates backend/.env and .env with random dev secrets
+#   docker compose up --build                         # API on :8000, docs at /docs
+# No passwords live in this file: POSTGRES_PASSWORD comes from .env (git-ignored).
 services:
   postgres:
     image: postgres:16
     restart: unless-stopped
     environment:
       POSTGRES_USER: provd
-      POSTGRES_PASSWORD: provd
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run (cd backend && python -m app.secret_store init) to create .env}
       POSTGRES_DB: provd
     ports:
       - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
@@ -22,7 +23,7 @@ services:
     command: sh -c "alembic upgrade head && python -m app.indexer seed"
     env_file: ./backend/.env
     environment: &db_env
-      DATABASE_URL: postgresql+asyncpg://provd:provd@postgres:5432/provd
+      DATABASE_URL: postgresql+asyncpg://provd:${POSTGRES_PASSWORD}@postgres:5432/provd
     depends_on:
       postgres:
         condition: service_healthy

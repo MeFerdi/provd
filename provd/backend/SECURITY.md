@@ -92,6 +92,14 @@ the right-hand side of `X-Forwarded-For`, never the client-controlled leftmost v
   shared rate-limit backend.
 - Secrets live in the hosting platform's secret store (or KMS for the signing key, see `DEPLOYMENT.md`), never
   in the image or repository. The container runs as a non-root user.
+- Every secret is declared once, in `app/secret_store.py`, and read from the environment (`NAME`) or a mounted
+  file (`NAME_FILE`, for Docker and Kubernetes secrets). No secret has a default in code; compose files take the
+  database password from a git-ignored file. Local development secrets are random per machine
+  (`python -m app.secret_store init`), and test keys are generated at run time.
+- Production refuses to start if a secret is missing, too short, or an example/placeholder value, or if
+  `DATABASE_URL` wasn't set explicitly.
+- The repository is scanned for secrets (GitGuardian; `.gitguardian.yaml` and `.gitleaks.toml` list the only
+  exclusions, public blockchain data).
 - Sentry is configured without personal data; logs carry request ids, not request bodies.
 - The background worker is a guaranteed singleton (Postgres advisory lock), so batches and payment matching
   are never processed twice.

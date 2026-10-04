@@ -7,6 +7,7 @@ from app.api.v1.auth import router as auth_router
 from app.api.v1.keys import router as keys_router
 from app.config import Settings
 from app.dependencies import get_app_settings
+from app.secret_store import generate as generate_secrets
 from tests.conftest import FakeAsyncSession, build_client
 
 
@@ -54,8 +55,9 @@ def test_auth_token_issued_for_bootstrap_admin_credentials(monkeypatch):
     jwt_secret = token_urlsafe(32)
 
     monkeypatch.setenv("APP_ENV", "production")
-    monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
-    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", "22" * 32)
+    monkeypatch.setenv("DATABASE_URL", "postgresql+asyncpg://provd:" + token_urlsafe(24) + "@db:5432/provd")
+    monkeypatch.setenv("DECISION_SIGNING_KEY", generate_secrets()["DECISION_SIGNING_KEY"])
+    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", generate_secrets()["ATTESTATION_SIGNING_KEY"])
     monkeypatch.setenv("CORS_ORIGINS", "https://provd.tech")
     monkeypatch.setenv("ALLOWED_HOSTS", "api.provd.tech,testserver")
     monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")
@@ -96,8 +98,9 @@ def test_auth_token_issued_for_bootstrap_client_credentials(monkeypatch):
     jwt_secret = token_urlsafe(32)
 
     monkeypatch.setenv("APP_ENV", "production")
-    monkeypatch.setenv("DECISION_SIGNING_KEY", "11" * 32)
-    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", "22" * 32)
+    monkeypatch.setenv("DATABASE_URL", "postgresql+asyncpg://provd:" + token_urlsafe(24) + "@db:5432/provd")
+    monkeypatch.setenv("DECISION_SIGNING_KEY", generate_secrets()["DECISION_SIGNING_KEY"])
+    monkeypatch.setenv("ATTESTATION_SIGNING_KEY", generate_secrets()["ATTESTATION_SIGNING_KEY"])
     monkeypatch.setenv("CORS_ORIGINS", "https://provd.tech")
     monkeypatch.setenv("ALLOWED_HOSTS", "api.provd.tech,testserver")
     monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")

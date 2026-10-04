@@ -28,3 +28,6 @@ __pycache__/
 .venv/
 provd/venv
 
+# Secret files for docker-compose.prod.yml (never committed)
+provd/secrets/
+secrets/

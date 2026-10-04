@@ -1,0 +1,8 @@
+# GitGuardian / ggshield configuration.
+# Secrets never live in this repository: they're declared in provd/backend/app/secret_store.py and come from the
+# hosting platform's secret store. The paths below hold public blockchain data (wallet and token-account
+# addresses), which secret scanners mistake for API keys.
+version: 2
+secret:
+  ignored_paths:
+    - "provd/research/solana-measurement/data/**"

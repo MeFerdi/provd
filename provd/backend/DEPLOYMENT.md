@@ -59,7 +59,24 @@ Protection Act covers cross-border transfers; Provd stores hashed phone identifi
 | `RATE_LIMIT_BACKEND` | `redis` | Shared counters once there is more than one API instance |
 | `TRUST_PROXY_HEADERS` | `true` behind Cloudflare | Correct client IPs for rate limits |
 | `DATABASE_URL` | managed Postgres, TLS required | |
-| `DECISION_SIGNING_KEY`, `SECRET_KEY`, `PAYSTACK_SECRET_KEY`, `TRONGRID_API_KEY`, `USDT_DEPOSIT_ADDRESS` | from the secrets store | |
+| Every secret in `app/secret_store.py` | from the secrets store | See "Secrets" below |
+
+### Secrets
+
+All secrets are declared in `backend/app/secret_store.py`; nothing else in the code, images or compose files
+holds one. Required in production: `SECRET_KEY`, `DATABASE_URL`, `DECISION_SIGNING_KEY`,
+`ATTESTATION_SIGNING_KEY` (different from the decision key) and the two bootstrap client id/secret pairs.
+Optional: `PAYSTACK_SECRET_KEY`, `TRONGRID_API_KEY`, `GOPLUS_API_KEY`, `SOLANA_RPC_URL` (Helius/Alchemy URLs embed a
+key), `REDIS_URL`, `SENTRY_DSN`.
+
+1. Generate the ones Provd creates itself: `python -m app.secret_store generate` (prints fresh values once; paste
+   them straight into the secret store and clear your terminal).
+2. Set each one in the platform's secret store as `NAME`, or mount it as a file and set `NAME_FILE` to its path
+   (Docker/Kubernetes secrets; `docker-compose.prod.yml` shows this for a single host).
+3. Check on the server: `python -m app.secret_store check` lists what's set, never the values. The app refuses to
+   start in production with a missing, short or placeholder secret.
+4. Rotate: `SECRET_KEY` (signs out admin sessions) and the bootstrap secrets any time; signing keys as described
+   under backups below; provider keys in the provider's dashboard, then here.
 
 ### Release pipeline (GitHub Actions)
 

@@ -60,12 +60,16 @@ indexer ──► freeze events, USDT top-up matching
 
 ## Run locally
 ```bash
-cp backend/.env.example backend/.env      # set BOOTSTRAP_ADMIN_CLIENT_ID/SECRET for admin calls
+(cd backend && python3 -m app.secret_store init)   # git-ignored .env files with fresh random dev secrets
 docker compose up --build                 # postgres + migrate + seed + API (:8000, docs at /docs) + indexer
 cd frontend && npm install && npm run dev # site on :3000
 ```
 Without Docker for the API: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt &&
 .venv/bin/alembic upgrade head && .venv/bin/python -m app.indexer seed && .venv/bin/python app/main.py`.
+
+Secrets are declared in one place, `backend/app/secret_store.py`, and never written in code, compose files or the
+repository. `python -m app.secret_store check` lists which are set (never their values); production reads them from
+the platform's secret store, as `NAME` or as a file at `NAME_FILE`.
 Port busy? `POSTGRES_HOST_PORT=5435 docker compose up` and match `DATABASE_URL`.
 
 Tests: `cd backend && .venv/bin/pip install aiosqlite && .venv/bin/python -m pytest`
