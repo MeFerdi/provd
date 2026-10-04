@@ -5,15 +5,16 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { CONTACT_EMAIL } from "@/lib/env";
 import { docsNav } from "@/lib/nav";
+import { siteHref } from "@/lib/sites";
 
 export const metadata = {
-  title: "Docs | Provd",
-  description: "Provd API documentation: score P2P stablecoin trades, ramps and payouts before release.",
-  alternates: { canonical: "/docs" },
+  title: "Provd Docs",
+  description: "Provd API documentation: score stablecoin trades, ramps, payouts and escrow releases before funds leave.",
+  alternates: { canonical: "/" },
 };
 
 export default function DocsLandingPage() {
-  const quickLinks = docsNav.filter((item) => item.href !== "/docs");
+  const quickLinks = docsNav.filter((item) => item.href !== "/");
   const gettingStarted = quickLinks.filter((item) => item.category === "Getting Started");
   const reference = quickLinks.filter((item) => item.category === "Reference");
 
@@ -27,7 +28,8 @@ export default function DocsLandingPage() {
             </h1>
             <p className="text-text-secondary text-lg">
               Send a trade or payout before you release it and get back a score, the reasons behind it and a signed
-              decision record; escrow contracts can verify a release on-chain. One endpoint to start, 300 free checks a month.
+              decision record; escrow contracts can verify a release on-chain. Build against the free sandbox, then go
+              live with one endpoint and 300 free checks a month.
             </p>
             <div className="mt-8 grid gap-4 rounded-md border border-bg-border bg-white p-6 md:grid-cols-3">
               <div>
@@ -39,16 +41,16 @@ export default function DocsLandingPage() {
                 <div className="mt-2 text-sm text-text-secondary">Check before release; release attestations for contracts.</div>
               </div>
               <div>
-                <div className="font-sans font-semibold text-text-primary">API Reference</div>
-                <div className="mt-2 text-sm text-text-secondary">Endpoints, risk scale, flag codes and errors.</div>
+                <div className="font-sans font-semibold text-text-primary">Playground</div>
+                <div className="mt-2 text-sm text-text-secondary">Every endpoint, with a sandbox to try each call.</div>
               </div>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="/docs/quickstart" size="lg">
+              <Button href="/quickstart" size="lg">
                 Open the quickstart
               </Button>
-              <Button href="/docs/api-reference" size="lg" variant="secondary">
-                Open API reference
+              <Button href={siteHref("docs", "playground", "/")} size="lg" variant="secondary">
+                Open the playground
               </Button>
             </div>
           </div>
@@ -100,8 +102,9 @@ export default function DocsLandingPage() {
                   <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-secondary hover:underline">
                     {CONTACT_EMAIL}
                   </a>
-                  . To see what Provd returns first, try the{" "}
-                  <Link href="/check" className="text-accent-secondary hover:underline">
+                  : you get a sandbox key to build with and a live key for your server. To see what Provd returns first,
+                  try the{" "}
+                  <Link href={siteHref("docs", "main", "/check")} className="text-accent-secondary hover:underline">
                     public counterparty check
                   </Link>
                   .

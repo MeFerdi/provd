@@ -88,6 +88,7 @@ class Settings(BaseSettings):
     scanner_rate_limit_per_minute: int = Field(default=20, validation_alias=AliasChoices("SCANNER_RATE_LIMIT_PER_MINUTE"))
     public_rate_limit_per_minute: int = Field(default=120, validation_alias=AliasChoices("PUBLIC_RATE_LIMIT_PER_MINUTE"))
     api_key_rate_limit_per_minute: int = Field(default=600, validation_alias=AliasChoices("API_KEY_RATE_LIMIT_PER_MINUTE"))
+    sandbox_rate_limit_per_minute: int = Field(default=60, validation_alias=AliasChoices("SANDBOX_RATE_LIMIT_PER_MINUTE"))
     auth_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("AUTH_RATE_LIMIT_PER_MINUTE"))
     auth_lockout_failures: int = Field(default=5, validation_alias=AliasChoices("AUTH_LOCKOUT_FAILURES"))
     auth_lockout_minutes: int = Field(default=15, validation_alias=AliasChoices("AUTH_LOCKOUT_MINUTES"))
@@ -128,6 +129,8 @@ class Settings(BaseSettings):
 
 
     indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
+    # Run the background worker inside the API process (hosts with no separate worker, e.g. Render free).
+    run_worker_in_api: bool = Field(default=False, validation_alias=AliasChoices("RUN_WORKER_IN_API"))
 
     # Proof layer. The signing key is a 32-byte secp256k1 private key in hex; required outside development.
     decision_signing_key: str = Field(default="", validation_alias=AliasChoices("DECISION_SIGNING_KEY"))

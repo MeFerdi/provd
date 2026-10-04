@@ -5,8 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db_session
 from app.models.rails import AnchorBatch, Decision
-from app.proof.attestations import attestation_signer
-from app.proof.signing import ALGORITHM, signer
+from app.proof.attestations import attestation_signer, sandbox_attestation_signer
+from app.proof.signing import ALGORITHM, sandbox_signer, signer, signer_for
+from app.services.sandbox import is_sandbox_account
 from app.services.rate_limit import public_limit
 
 router = APIRouter(prefix="/proof", tags=["proof"], dependencies=[Depends(public_limit)])
@@ -38,7 +39,7 @@ def _batch_view(batch: AnchorBatch) -> dict:
 
 async def proof_bundle(db: AsyncSession, decision: Decision) -> dict:
 	batch = await db.get(AnchorBatch, decision.batch_id) if decision.batch_id else None
-	key = signer()
+	key = signer_for(decision.account_id)
 	return {
 		"intent_id": decision.intent_id,
 		"record": {k: v for k, v in decision.record.items() if k != "response"},
@@ -58,7 +59,8 @@ async def proof_bundle(db: AsyncSession, decision: Decision) -> dict:
 		} if batch else None,
 		"batch": _batch_view(batch) if batch else None,
 		"proof_status": (
-			"anchored" if batch and batch.anchor_status == "anchored"
+			"sandbox: signed with the sandbox key, never anchored" if is_sandbox_account(decision.account_id)
+			else "anchored" if batch and batch.anchor_status == "anchored"
 			else "anchoring" if batch and batch.anchor_status in ("pending", "failed")
 			else "batched (not anchored)" if batch
 			else "signed: joins the next batch within minutes"
@@ -78,6 +80,11 @@ async def keys() -> dict:
 			"address": release.address,
 			"public_key": release.public_key_hex,
 			"algorithm": "ecdsa-secp256k1-keccak256 (EIP-712 on EVM/Tron; keccak layout on Solana)",
+		},
+		# Sandbox records and attestations are signed with these. Never configure them in a live contract.
+		"sandbox": {
+			"keys": [{"key_id": sandbox_signer().key_id, "algorithm": ALGORITHM, "public_key": sandbox_signer().public_key_hex, "encoding": "SEC1 compressed, hex"}],
+			"attestation_signer": {"key_id": sandbox_attestation_signer().key_id, "address": sandbox_attestation_signer().address, "public_key": sandbox_attestation_signer().public_key_hex},
 		},
 	}
 

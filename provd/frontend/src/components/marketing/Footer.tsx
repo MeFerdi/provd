@@ -1,51 +1,52 @@
 import Link from "next/link";
 
 import { CONTACT_EMAIL } from "@/lib/env";
+import { type SiteId, type SiteLink, siteHref } from "@/lib/sites";
 
-type FooterLink = { href: string; label: string; external?: boolean };
+type FooterLink = SiteLink & { label: string; external?: boolean };
 
 const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
-      { href: "/check", label: "Counterparty check" },
-      { href: "/check#lookalike", label: "Lookalike check" },
-      { href: "/verify", label: "Verify a decision" },
-      { href: "/pricing", label: "Pricing" },
-      { href: "/early-access", label: "Get an API key" },
+      { site: "main", path: "/check", label: "Counterparty check" },
+      { site: "main", path: "/check#lookalike", label: "Lookalike check" },
+      { site: "main", path: "/verify", label: "Verify a decision" },
+      { site: "main", path: "/pricing", label: "Pricing" },
+      { site: "main", path: "/early-access", label: "Get an API key" },
     ],
   },
   {
-    title: "Docs",
+    title: "Developers",
     links: [
-      { href: "/docs/quickstart", label: "Quickstart" },
-      { href: "/docs/pay-as-you-go", label: "Pay as you go" },
-      { href: "/docs/non-custodial", label: "Escrow integration" },
-      { href: "/docs/decisions", label: "Decision records" },
-      { href: "/docs/api-reference", label: "API reference" },
+      { site: "docs", path: "/quickstart", label: "Quickstart" },
+      { site: "docs", path: "/non-custodial", label: "Escrow integration" },
+      { site: "docs", path: "/decisions", label: "Decision records" },
+      { site: "docs", path: "/reference", label: "Scores, flags and errors" },
+      { site: "playground", path: "/", label: "Playground and sandbox" },
     ],
   },
   {
     title: "Company",
     links: [
-      { href: "/about", label: "About" },
-      { href: `mailto:${CONTACT_EMAIL}`, label: "Contact", external: true },
-      { href: "/security", label: "Security" },
-      { href: "/careers", label: "Careers" },
+      { site: "main", path: "/about", label: "About" },
+      { site: "main", path: `mailto:${CONTACT_EMAIL}`, label: "Contact", external: true },
+      { site: "main", path: "/security", label: "Security" },
+      { site: "main", path: "/careers", label: "Careers" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { href: "/privacy-policy", label: "Privacy Policy" },
-      { href: "/terms", label: "Terms of Service" },
-      { href: "/data-processing", label: "Data Processing" },
-      { href: "/cookie-policy", label: "Cookie Policy" },
+      { site: "main", path: "/privacy-policy", label: "Privacy Policy" },
+      { site: "main", path: "/terms", label: "Terms of Service" },
+      { site: "main", path: "/data-processing", label: "Data Processing" },
+      { site: "main", path: "/cookie-policy", label: "Cookie Policy" },
     ],
   },
 ];
 
-export default function Footer() {
+export default function Footer({ site = "main" }: { site?: SiteId }) {
   return (
     <footer className="border-t border-bg-border bg-bg-surface px-4 pb-8 pt-14 text-text-secondary sm:px-6">
       <div className="mx-auto mb-10 grid max-w-7xl grid-cols-2 gap-10 md:grid-cols-5">
@@ -65,13 +66,13 @@ export default function Footer() {
             <div className="mb-3 text-sm font-semibold text-text-primary">{col.title}</div>
             <ul className="space-y-2 text-sm">
               {col.links.map((l) => (
-                <li key={l.href}>
+                <li key={l.label}>
                   {l.external ? (
-                    <a href={l.href} className="hover:text-text-primary hover:underline">
+                    <a href={l.path} className="hover:text-text-primary hover:underline">
                       {l.label}
                     </a>
                   ) : (
-                    <Link href={l.href} className="hover:text-text-primary hover:underline">
+                    <Link href={siteHref(site, l.site, l.path)} className="hover:text-text-primary hover:underline">
                       {l.label}
                     </Link>
                   )}

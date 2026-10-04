@@ -100,7 +100,16 @@ async def get_auth_context(
 		api_key = result.scalar_one_or_none()
 		if api_key is None:
 			raise await _reject(ip, "Invalid API key")
-		await enforce(f"key:{api_key.id}", settings.api_key_rate_limit_per_minute, 60)
+		environment = getattr(api_key, "environment", None) or "live"
+		if environment == "live" and request.headers.get("origin"):
+			# Browsers always send Origin on cross-site calls; servers don't. A live key in a web page can be
+			# copied by anyone who opens it, so live keys only work server-to-server. Use a sandbox key in the browser.
+			raise HTTPException(
+				status_code=status.HTTP_403_FORBIDDEN,
+				detail="Live API keys can't be used from a browser. Call Provd from your server, or use a sandbox key in the playground.",
+			)
+		limit = settings.sandbox_rate_limit_per_minute if environment == "sandbox" else settings.api_key_rate_limit_per_minute
+		await enforce(f"key:{api_key.id}", limit, 60)
 
 		return AuthContext(
 			principal_id=api_key.id,
@@ -108,6 +117,7 @@ async def get_auth_context(
 			scopes=api_key.scopes or [],
 			role="service",
 			client_id=api_key.client_id,
+			environment=environment,
 		)
 
 	raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication required", headers={"WWW-Authenticate": "Bearer"})
@@ -127,3 +137,12 @@ def require_permissions(required_scopes: list[str], allowed_roles: list[str] | N
 		return ctx
 
 	return _checker
+
+
+def account_id(ctx: AuthContext) -> str:
+	"""The account a request acts for. Sandbox keys act for a separate sandbox account, so test decisions,
+	outcomes and attestations never mix with live ones."""
+	from app.services import sandbox
+
+	base = ctx.client_id or ctx.principal_id
+	return sandbox.account_id(base) if ctx.environment == "sandbox" else base

@@ -21,3 +21,5 @@ class AuthContext(BaseModel):
 	role: str = "user"
 	# The platform (client) an API key belongs to; usage is metered and data isolated per client.
 	client_id: str | None = None
+	# "sandbox" for sandbox API keys: free checks against test wallets, in a separate account.
+	environment: str = "live"

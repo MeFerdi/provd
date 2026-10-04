@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.adapters.base import InvalidAddress
 from app.api.v1.proof import proof_bundle
 from app.config import get_settings
-from app.dependencies import get_db_session, require_permissions
+from app.dependencies import account_id, get_db_session, require_permissions
 from app.engine.lookalike import FIXED_PREFIX, find_lookalikes
 from app.engine.scoring import engine_config, evaluate
 from app.engine.signals import SignalContext, lookalike_destination
@@ -43,7 +43,12 @@ _billing_admin = require_permissions(["billing:admin"], allowed_roles=["admin"])
 
 
 def _account(ctx: AuthContext) -> str:
-	return ctx.client_id or ctx.principal_id
+	return account_id(ctx)
+
+
+def _live_only(ctx: AuthContext) -> None:
+	if ctx.environment == "sandbox":
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Top-ups aren't available in the sandbox: sandbox checks are free. Use a live key from your server.")
 
 
 def _purchase_url() -> str:
@@ -205,6 +210,8 @@ async def asset_report(chain: str, ref: str) -> dict:
 @router.get("/usage", summary="Quota, plan, prepaid balance and recent usage")
 async def usage(db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
 	account_id = _account(ctx)
+	if ctx.environment == "sandbox":
+		return {"environment": "sandbox", "billing_model": "sandbox", "detail": "Sandbox checks are free and unlimited (rate-limited); nothing is metered."}
 	account = await billing.ensure_account(db, account_id)
 	now = datetime.now(timezone.utc)
 	rows = await db.execute(
@@ -313,6 +320,7 @@ def _topup_view(p: CreditPurchase) -> dict:
 
 @router.post("/topups", status_code=status.HTTP_201_CREATED, summary="Start a top-up (buy a check bundle)")
 async def create_topup(body: TopupRequest, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
+	_live_only(ctx)
 	account_id = _account(ctx)
 	if body.method == "card" and not paystack.enabled():
 		raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Card payments are not enabled yet. Use usdt_tron or mpesa.")
@@ -339,6 +347,7 @@ async def create_topup(body: TopupRequest, db: AsyncSession = Depends(get_db_ses
 
 @router.post("/topups/{purchase_id}/refresh", summary="Card / M-Pesa via Paystack: check the payment now")
 async def refresh_topup(purchase_id: str, db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> dict:
+	_live_only(ctx)
 	purchase = await db.get(CreditPurchase, purchase_id)
 	if purchase is None or purchase.account_id != _account(ctx):
 		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Top-up not found")
@@ -353,6 +362,7 @@ async def refresh_topup(purchase_id: str, db: AsyncSession = Depends(get_db_sess
 
 @router.get("/topups", summary="Your top-ups")
 async def list_topups(db: AsyncSession = Depends(get_db_session), ctx: AuthContext = Depends(_evaluator)) -> list[dict]:
+	_live_only(ctx)
 	rows = await db.execute(
 		select(CreditPurchase).where(CreditPurchase.account_id == _account(ctx)).order_by(CreditPurchase.created_at.desc()).limit(50)
 	)

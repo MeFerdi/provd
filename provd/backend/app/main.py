@@ -1,5 +1,6 @@
+import asyncio
 import sys
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 
 if __package__ in (None, ""):
@@ -20,9 +21,20 @@ from app.services.rate_limit import public_limit
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+	# Hosts without a separate worker process (e.g. Render's free plan) run the worker loop inside the API.
+	# Each pass takes the Postgres worker lock, so extra API processes or instances never run it twice.
+	worker = None
+	if get_settings().run_worker_in_api:
+		from app.indexer import run
+
+		worker = asyncio.create_task(run(once=False), name="provd-worker")
 	try:
 		yield
 	finally:
+		if worker is not None:
+			worker.cancel()
+			with suppress(asyncio.CancelledError):
+				await worker
 		await close_postgres()
 
 

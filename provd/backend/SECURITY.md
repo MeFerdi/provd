@@ -86,6 +86,19 @@ the right-hand side of `X-Forwarded-For`, never the client-controlled leftmost v
 - The website (`frontend/public/_headers`): strict CSP (own origin plus the API only, no third-party scripts),
   HSTS, `DENY` framing.
 
+### Sandbox, playground and live keys
+
+- Keys are either **live** or **sandbox** (`sbx_`). Sandbox keys act for a separate account, score fixed test
+  wallets, never read live chain data, are never billed, metered or anchored, and sign with keys derived one-way
+  from the live keys. A sandbox attestation has a different signer address, so a contract that trusts Provd's
+  live signer rejects it.
+- Live keys are refused from browsers (any request with an `Origin` header): a live key in a web page would be
+  readable by anyone who opens it. The playground only accepts sandbox keys, refuses anything else before sending
+  it, and holds the key in memory only (no storage, cookies or URL).
+- The endpoint reference isn't published on the public sites; `GET /v1/developer/reference` serves it to API-key
+  holders. Hiding it is not the protection (every non-public endpoint needs a key); it keeps the reference for
+  integrators.
+
 ### Secrets and operations
 
 - Production refuses to start without strong secrets, explicit CORS origins and hosts, a signing key, and a

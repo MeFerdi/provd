@@ -23,6 +23,7 @@ def _to_response(api_key: ApiKey) -> ApiKeyResponse:
 		scopes=api_key.scopes,
 		created_at=api_key.created_at,
 		active=api_key.active,
+		environment=getattr(api_key, "environment", None) or "live",
 	)
 
 
@@ -44,7 +45,8 @@ async def create_api_key(
 	if payload.client_id and await db.get(Client, payload.client_id) is None:
 		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
 	key_id = str(uuid4())
-	raw_key = token_urlsafe(32)
+	# Sandbox keys are recognisable at a glance (and by secret scanners); live keys stay opaque.
+	raw_key = ("sbx_" if payload.environment == "sandbox" else "") + token_urlsafe(32)
 	key_hash = sha256_hex(raw_key)
 	prefix = raw_key[:8]
 
@@ -56,6 +58,7 @@ async def create_api_key(
 		scopes=payload.scopes,
 		client_id=payload.client_id,
 		active=True,
+		environment=payload.environment,
 	)
 	db.add(api_key)
 	await db.commit()
@@ -68,6 +71,7 @@ async def create_api_key(
 		scopes=payload.scopes,
 		created_at=api_key.created_at,
 		active=True,
+		environment=api_key.environment,
 		api_key=raw_key,
 	)
 

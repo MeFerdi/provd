@@ -1,12 +1,12 @@
 /**
- * Turns the generated OpenAPI spec (src/data/openapi.json, written by the backend's
- * `python -m app.export_contract`) into a model the API reference renders at build time.
+ * Turns an OpenAPI spec into the model the endpoint reference renders. The spec isn't bundled into any
+ * public site: the playground fetches it from GET /v1/developer/reference with the developer's key and
+ * passes it to `referenceFromSpec`.
  *
  * Nothing here knows about specific endpoints or schemas: the spec is walked generically, so a
  * regenerated file with new paths, tags, fields or $refs shows up without code changes. The only
  * hand-kept rules are which path prefixes are internal and which need an API key.
  */
-import spec from "@/data/openapi.json";
 import { HTTP_METHODS, authForPath, isInternalPath, operationAnchor } from "@/lib/openapi-rules.mjs";
 
 export { authForPath, isInternalPath, operationAnchor };
@@ -82,7 +82,8 @@ export type TagGroup = { name: string; title: string; description?: string; oper
 /** Auth is documented separately, so this header parameter is not repeated in every table. */
 const AUTH_HEADERS = new Set(["x-api-key", "authorization"]);
 
-const components = ((spec as Json).components ?? {}) as { schemas?: Record<string, SchemaObject> };
+// The spec being walked. Set by referenceFromSpec, which walks synchronously.
+let components: { schemas?: Record<string, SchemaObject> } = {};
 
 function resolveRef(ref: string): { name: string; schema: SchemaObject } | null {
   const m = /^#\/components\/schemas\/(.+)$/.exec(ref);
@@ -309,10 +310,18 @@ function buildOperation(path: string, method: string, op: Json, pathItem: Json):
   };
 }
 
-/** All public operations, grouped by their first tag, in spec order. */
-export function publicOperationGroups(): TagGroup[] {
-  const paths = ((spec as Json).paths ?? {}) as Record<string, Json>;
-  const declared = (((spec as Json).tags as { name: string; description?: string }[]) ?? []).filter(Boolean);
+export type SpecInfo = { title: string; version: string; openapi: string };
+
+/** All public operations of `spec`, grouped by their first tag, in spec order, plus the spec's info. */
+export function referenceFromSpec(spec: unknown): { groups: TagGroup[]; info: SpecInfo } {
+  const root = (spec ?? {}) as Json;
+  components = (root.components ?? {}) as { schemas?: Record<string, SchemaObject> };
+  return { groups: publicOperationGroups(root), info: specInfo(root) };
+}
+
+function publicOperationGroups(spec: Json): TagGroup[] {
+  const paths = (spec.paths ?? {}) as Record<string, Json>;
+  const declared = ((spec.tags as { name: string; description?: string }[]) ?? []).filter(Boolean);
   const groups = new Map<string, TagGroup>();
   for (const t of declared) groups.set(t.name, { name: t.name, title: titleCase(t.name), description: t.description, operations: [] });
 
@@ -329,8 +338,10 @@ export function publicOperationGroups(): TagGroup[] {
   return Array.from(groups.values()).filter((g) => g.operations.length);
 }
 
-export const specInfo = {
-  title: String(((spec as Json).info as Json | undefined)?.title ?? "API"),
-  version: String(((spec as Json).info as Json | undefined)?.version ?? ""),
-  openapi: String((spec as Json).openapi ?? ""),
-};
+function specInfo(spec: Json): SpecInfo {
+  return {
+    title: String((spec.info as Json | undefined)?.title ?? "API"),
+    version: String((spec.info as Json | undefined)?.version ?? ""),
+    openapi: String(spec.openapi ?? ""),
+  };
+}

@@ -11,9 +11,9 @@ from app.adapters.base import InvalidAddress
 from app.engine.scoring import Evaluation, canonical_json, engine_config, evaluate, record_hash, signals_for
 from app.engine.signals import AmountView, OutcomeView, SignalContext
 from app.models.rails import Decision, Outcome
-from app.proof.signing import signer
+from app.proof.signing import signer_for
 from app.schemas.actions import SCORED_CHAINS, SCORED_INTENT_TYPES, ActionIntent, ActionScore, Explanation, RiskFlag
-from app.services import billing, chain_data
+from app.services import billing, chain_data, sandbox
 
 
 class IntentRejected(ValueError):
@@ -42,12 +42,23 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		signals = intent.account_signals.model_dump(exclude={"provider"}, exclude_none=True)
 		ctx.account_signals = {k: _aware(v) for k, v in signals.items()}
 		ctx.account_signal_provider = intent.account_signals.provider
+	test_mode = sandbox.is_sandbox_account(account_id)
 	if wallet:
-		ctx.history, ctx.history_error = await chain_data.history(db, intent.chain, wallet)
+		if test_mode:
+			ctx.history = sandbox.history(intent.chain, wallet, now)
+		else:
+			ctx.history, ctx.history_error = await chain_data.history(db, intent.chain, wallet)
 	peers = ctx.history.counterparties if ctx.history else set()
-	ctx.public_flags = await chain_data.public_flags(db, intent.chain, peers | ({wallet} if wallet else set()))
+	checked = peers | ({wallet} if wallet else set())
+	if test_mode:
+		ctx.public_flags = sandbox.public_flags(intent.chain, checked)
+	else:
+		ctx.public_flags = await chain_data.public_flags(db, intent.chain, checked)
 	sanctioned = {a for a, source in ctx.public_flags.items() if source == "ofac_sdn"}
-	ctx.flag_references = await chain_data.flag_references(db, intent.chain, sanctioned)
+	if test_mode:
+		ctx.flag_references = sandbox.flag_references(sanctioned)
+	else:
+		ctx.flag_references = await chain_data.flag_references(db, intent.chain, sanctioned)
 
 	if account_id:
 		identity = [c for c in (
@@ -80,7 +91,10 @@ async def build_context(db: AsyncSession, account_id: str | None, intent: Action
 		ctx.asset_ref = intent.rails.crypto_asset
 		ctx.asset = await adapter.asset_metadata(intent.rails.crypto_asset)
 		if ctx.asset is None:
-			ctx.token_report, ctx.token_error = await chain_data.token_security(intent.chain, intent.rails.crypto_asset)
+			if test_mode:
+				ctx.token_report, ctx.token_error = None, "token checks aren't simulated in the sandbox"
+			else:
+				ctx.token_report, ctx.token_error = await chain_data.token_security(intent.chain, intent.rails.crypto_asset)
 	return ctx
 
 
@@ -202,6 +216,8 @@ async def evaluate_intent(db: AsyncSession, account_id: str, intent: ActionInten
 	if intent.chain not in SCORED_CHAINS or intent.intent_type not in SCORED_INTENT_TYPES:
 		score, record = _not_supported(intent, intent_id, now, started)
 		wallet = intent.counterparty.wallet_address
+	elif sandbox.is_sandbox_account(account_id):  # free: no reservation, no usage
+		return await _score_and_store(db, account_id, intent, intent_id, idempotency_key, now, started)
 	else:
 		names = signals_for(intent.intent_type)
 		units = max(1, sum(engine_config()["signals"][n]["cost_units"] for n in names))
@@ -237,6 +253,8 @@ async def _score_and_store(
 		"engine_version": engine_config()["engine_version"],
 		"created_at": now,
 	}
+	if sandbox.is_sandbox_account(account_id):
+		record["environment"] = "sandbox"  # part of the signed hash: a sandbox record can never pass as live
 	score = ActionScore(
 		intent_id=intent_id,
 		score=evaluation.score,
@@ -260,7 +278,7 @@ async def _store(
 	"""Sign and store the decision. Usage was already recorded by billing.reserve()."""
 	stored = dict(record)
 	stored["response"] = score.model_dump(mode="json")
-	key = signer()
+	key = signer_for(account_id)
 	db.add(
 		Decision(
 			intent_id=intent_id,

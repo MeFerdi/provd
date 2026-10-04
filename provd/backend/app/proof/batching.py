@@ -11,6 +11,7 @@ from app.models.rails import AnchorBatch, Decision
 from app.proof import merkle
 from app.proof.anchors import AnchorResult, anchor_adapter
 from app.proof.signing import signer
+from app.services.sandbox import SANDBOX_PREFIX
 
 logger = logging.getLogger("provd.proof")
 UPGRADE_EVERY = timedelta(minutes=20)
@@ -43,7 +44,8 @@ async def seal_batch(db: AsyncSession, now: datetime | None = None, force: bool 
 	decisions = (
 		await db.execute(
 			select(Decision)
-			.where(Decision.batch_id.is_(None))
+			# Sandbox decisions are never batched or anchored to Bitcoin.
+			.where(Decision.batch_id.is_(None), Decision.account_id.not_like(f"{SANDBOX_PREFIX}%"))
 			.order_by(Decision.created_at, Decision.intent_id)
 			.limit(settings.batch_max_decisions)
 		)

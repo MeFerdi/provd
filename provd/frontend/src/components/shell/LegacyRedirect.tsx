@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 export function LegacyRedirect({ to, label }: { to: string; label: string }) {
   const router = useRouter();
   useEffect(() => {
-    router.replace(to);
+    // Another Provd site (e.g. docs.provd.tech) needs a full navigation; same-site paths use the router.
+    if (/^https?:\/\//.test(to)) window.location.replace(to);
+    else router.replace(to);
   }, [router, to]);
 
   return (

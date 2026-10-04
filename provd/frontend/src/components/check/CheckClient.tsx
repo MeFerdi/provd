@@ -21,6 +21,7 @@ import {
   sourceLabel,
 } from "@/lib/counterparty";
 import { type RecentCheck, clearRecentChecks, readRecentChecks, rememberCheck } from "@/lib/recent-checks";
+import { docsUrl } from "@/lib/sites";
 
 const EXAMPLES = [
   {
@@ -515,7 +516,7 @@ function Report({ report }: { report: CounterpartyReport }) {
 
       <p className="text-sm leading-relaxed text-text-secondary">
         Scores use public data only. Platforms add their own history via the API.{" "}
-        <a href="/docs/quickstart" className="text-accent-secondary hover:underline">
+        <a href={docsUrl("/quickstart")} className="text-accent-secondary hover:underline">
           Score a full trade with the API
         </a>
         .

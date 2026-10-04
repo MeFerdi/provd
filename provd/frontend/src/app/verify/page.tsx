@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { VerifyClient } from "@/components/verify/VerifyClient";
+import { docsUrl } from "@/lib/sites";
 
 export const metadata: Metadata = {
   title: "Verify a decision | Provd",
@@ -69,7 +70,7 @@ python verify_decision.py decision.json \\
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-text-secondary">
               More on how records are built:{" "}
-              <a href="/docs/decisions" className="text-accent-secondary hover:underline">
+              <a href={docsUrl("/decisions")} className="text-accent-secondary hover:underline">
                 decision records
               </a>
               .

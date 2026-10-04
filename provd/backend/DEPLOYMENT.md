@@ -8,8 +8,9 @@ a month. Prices are rough monthly estimates in USD and change often **[verify be
 ```
                     Cloudflare (DNS, TLS, WAF, rate limits)
                         |                         |
-          provd.tech (static site)        api.provd.tech
-          Cloudflare Pages                        |
+   provd.tech, docs.provd.tech,           api.provd.tech
+   playground.provd.tech (static sites,           |
+   Cloudflare Pages)                              |
                                        API service (FastAPI, N instances)
                                           |        |          |
                                Postgres (managed)  Redis   Secrets / KMS
@@ -26,7 +27,40 @@ a month. Prices are rough monthly estimates in USD and change often **[verify be
 | Worker | `python -m app.indexer run`: freeze events, USDT top-up matching, card payment reconciliation, Merkle sealing, OTS anchoring | Vertically; one copy only |
 | Postgres | Decisions, outcomes, billing, risk list, history cache, batches | Managed instance; read replica later; partition `decisions` by month later |
 | Redis | Shared rate-limit counters (scanner, public endpoints); later, hot caches | Managed, small |
-| Static site | `frontend` (Next.js static export) | CDN, effectively unlimited |
+| Static sites | `frontend`: provd.tech (`out/`), docs.provd.tech (`sites/docs/out`), playground.provd.tech (`sites/playground/out`) | CDN, effectively unlimited |
+
+## Interim: Render free plan
+
+Until the VPS, the API runs on Render's free plan: one Docker web service (`provd/backend`, start command
+`./start.sh`, which runs migrations and the seed before the server), a free Postgres and a free Key Value (Redis),
+in Frankfurt. Settings that differ from the stage-1 plan:
+
+- `RUN_WORKER_IN_API=true` and `WEB_CONCURRENCY=1`: the free plan has no background workers, so the worker loop runs
+  inside the API process (the Postgres worker lock still guarantees one pass at a time).
+- `.github/workflows/keep-api-warm.yml` pings `/v1/health` every 10 minutes: free services sleep after 15 minutes
+  without traffic, which would also pause the worker. Delete it when moving off the free plan.
+- **The free Postgres is deleted 30 days after creation and has no backups.** Move the data (`pg_dump` /
+  `pg_restore`) to a paid database or the VPS before then.
+- Free Key Value is memory-only: rate-limit counters reset on restart, which is acceptable.
+
+## The three websites
+
+One codebase (`frontend/`), three Cloudflare Pages projects. Each builds with `NEXT_PUBLIC_API_URL=https://api.provd.tech`.
+
+| Site | Pages project | Build command | Output | Custom domain |
+|---|---|---|---|---|
+| Marketing, checks, verify, pricing, legal | existing project | `npm run build` | `out` | `provd.tech` |
+| Docs (guides and concepts, no endpoint list) | `provd-docs` | `npm run build:docs` | `sites/docs/out` | `docs.provd.tech` |
+| Playground (endpoint reference + sandbox) | `provd-playground` | `npm run build:playground` | `sites/playground/out` | `playground.provd.tech` |
+
+- Root directory for all three: `provd/frontend`. Adding the custom domain in each Pages project creates its DNS
+  record in Cloudflare.
+- The API must allow the playground's origin: `CORS_ORIGINS=https://provd.tech,https://www.provd.tech,https://playground.provd.tech`.
+- `provd.tech/docs/*` redirects to `docs.provd.tech` and `/docs/api-reference` to the playground (`public/_redirects`).
+- The endpoint reference is served only by `GET /v1/developer/reference` (API key required). In production the API's
+  own `/docs` and `/v1/openapi.json` stay off (`EXPOSE_API_DOCS` unset).
+- Every customer gets two keys: a sandbox key (`"environment": "sandbox"`, prefix `sbx_`) for the playground and
+  their tests, and a live key for their server. Live keys are refused from browsers.
 
 ## Stage 1: launch (now to about 10 customers, up to ~100,000 checks a month)
 
@@ -37,7 +71,7 @@ Goal: reliable, cheap, almost no ops work for one founder.
 | API + worker | **Render**: one Web Service (Docker) + one Background Worker, deploy from GitHub | Fly.io (has a Johannesburg region), Railway | $15 to $50 |
 | Postgres | **Render Postgres** (daily backups, point-in-time recovery on paid plans) | Neon, Supabase, DigitalOcean Managed Postgres | $20 to $50 |
 | Redis | Render Key Value (small) | Upstash | $0 to $10 |
-| Static site | **Cloudflare Pages** | Vercel, Netlify | $0 |
+| Static sites | **Cloudflare Pages**, three projects (see "The three websites") | Vercel, Netlify | $0 |
 | DNS, TLS, WAF | **Cloudflare** (free plan; proxy `api.provd.tech`) | | $0 |
 | Secrets | Platform environment variables (encrypted at rest); `DECISION_SIGNING_KEY` set once, never in git | 1Password / Doppler | $0 |
 | Errors | **Sentry** (free tier) | | $0 |

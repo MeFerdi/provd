@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from typing import Literal
+
 from pydantic import BaseModel, Field, field_validator
 
 # Scopes an API key may carry. No wildcards: every permission is granted explicitly.
@@ -22,6 +24,7 @@ class ApiKeyCreateRequest(BaseModel):
 	name: str = Field(min_length=2, max_length=100)
 	scopes: list[str] = Field(default_factory=lambda: ["actions:evaluate"], min_length=1, max_length=len(KNOWN_SCOPES))
 	client_id: str | None = Field(default=None, max_length=36, description="Platform this key belongs to; usage is metered per client")
+	environment: Literal["live", "sandbox"] = Field(default="live", description="sandbox keys score test wallets for free; see /v1/developer/reference")
 
 	@field_validator("scopes")
 	@classmethod
@@ -39,6 +42,7 @@ class ApiKeyResponse(BaseModel):
 	scopes: list[str]
 	created_at: datetime
 	active: bool = True
+	environment: str = "live"
 
 
 class ApiKeyCreateResponse(ApiKeyResponse):

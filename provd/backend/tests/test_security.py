@@ -308,3 +308,47 @@ def test_failed_evaluation_refunds_the_reserved_check(make_client):
 	failed = client.post("/v1/actions/evaluate", json=_intent(intent_id="boom-1"), headers={"X-API-Key": key})
 	assert failed.status_code == 500 and failed.json() == {"detail": "Internal server error", "request_id": failed.headers["x-request-id"]}
 	assert client.get("/v1/usage", headers={"X-API-Key": key}).json()["free_used_this_month"] == 0
+
+
+# --- in-process worker ----------------------------------------------------------------------------------
+
+def test_worker_can_run_inside_the_api_and_stops_with_it(monkeypatch):
+	import asyncio
+
+	import app.indexer as indexer
+	import app.main as main
+	from app.config import get_settings
+
+	calls = []
+
+	async def fake_pass():
+		calls.append(1)
+		if len(calls) == 1:
+			raise RuntimeError("database restarting")  # a failed pass must not stop the loop
+		return True
+
+	async def no_close():
+		return None
+
+	monkeypatch.setenv("RUN_WORKER_IN_API", "true")
+	monkeypatch.setenv("INDEXER_INTERVAL_SECONDS", "0")
+	get_settings.cache_clear()
+	monkeypatch.setattr(indexer, "run_pass", fake_pass)
+	monkeypatch.setattr(main, "close_postgres", no_close)
+
+	async def scenario():
+		async with main.lifespan(None):
+			for _ in range(200):
+				if len(calls) >= 3:
+					break
+				await asyncio.sleep(0.01)
+		stopped_at = len(calls)
+		await asyncio.sleep(0.05)
+		return stopped_at
+
+	try:
+		stopped_at = asyncio.run(scenario())
+	finally:
+		get_settings.cache_clear()
+	assert stopped_at >= 3  # kept going after the failed pass
+	assert len(calls) == stopped_at  # and stopped with the app

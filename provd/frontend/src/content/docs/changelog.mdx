@@ -5,6 +5,10 @@ description: Product and API updates.
 
 ## 2026-10-04
 
+- Sandbox keys (`sbx_…`): free checks against fixed test wallets on Tron and Solana (clean, lookalike, sanctioned, exposure, frozen, dust, new), isolated from your live account, never charged or anchored. Sandbox records say `"environment": "sandbox"` and sandbox attestations are signed by a separate address, so live contracts reject them.
+- Live keys now work only from your server: requests with a live key from a browser (with an `Origin` header) get `403`.
+- The docs moved to docs.provd.tech, and the endpoint reference to playground.provd.tech, which opens with your sandbox key and lets you try each call.
+
 - Release attestations: `POST /v1/decisions/{intent_id}/attestation` signs a release that an escrow contract verifies on-chain (EIP-712 on EVM and Tron; keccak layout on Solana). Solidity verifier and example escrow in the repository; signer address at `GET /v1/proof/keys`.
 - Sanctions screening: wallets and their direct counterparties are screened against the US Treasury OFAC SDN list (`SANCTIONED_ADDRESS`, `SANCTIONS_EXPOSURE`), refreshed daily.
 - Solana: checks for USDC and USDT on Solana (`"chain": "solana"`), including Circle's and Tether's frozen accounts on Solana.
