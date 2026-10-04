@@ -182,14 +182,24 @@ def _scalar(raw: bytes) -> int:
 	return value
 
 
-@lru_cache(maxsize=1)
-def attestation_signer() -> AttestationSigner:
+def _live_material() -> bytes:
 	settings = get_settings()
 	if settings.attestation_signing_key:
-		scalar = _scalar(bytes.fromhex(settings.attestation_signing_key))
-	else:
-		logger.warning("ATTESTATION_SIGNING_KEY not set; using a development key derived from SECRET_KEY")
-		scalar = _scalar(hashlib.sha256(b"provd-dev-attestation-key|" + settings.secret_key.encode()).digest())
+		return bytes.fromhex(settings.attestation_signing_key)
+	logger.warning("ATTESTATION_SIGNING_KEY not set; using a development key derived from SECRET_KEY")
+	return hashlib.sha256(b"provd-dev-attestation-key|" + settings.secret_key.encode()).digest()
+
+
+@lru_cache(maxsize=1)
+def attestation_signer() -> AttestationSigner:
+	return AttestationSigner(ec.derive_private_key(_scalar(_live_material()), ec.SECP256K1()))
+
+
+@lru_cache(maxsize=1)
+def sandbox_attestation_signer() -> AttestationSigner:
+	"""Signs sandbox attestations. A different address from the live signer, so contracts that trust Provd's
+	live signer reject every sandbox attestation."""
+	scalar = _scalar(hashlib.sha256(b"provd-sandbox-attestation-key|" + _live_material()).digest())
 	return AttestationSigner(ec.derive_private_key(scalar, ec.SECP256K1()))
 
 

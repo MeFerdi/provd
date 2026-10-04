@@ -58,13 +58,28 @@ def _scalar(raw: bytes) -> int:
 	return value
 
 
-@lru_cache(maxsize=1)
-def signer() -> DecisionSigner:
+def _live_material() -> bytes:
 	settings = get_settings()
 	if settings.decision_signing_key:
-		scalar = _scalar(bytes.fromhex(settings.decision_signing_key))
-	else:
-		# Development only (config validation requires a real key outside dev): derive from SECRET_KEY.
-		logger.warning("DECISION_SIGNING_KEY not set; using a development key derived from SECRET_KEY")
-		scalar = _scalar(hashlib.sha256(b"provd-dev-decision-key|" + settings.secret_key.encode()).digest())
+		return bytes.fromhex(settings.decision_signing_key)
+	# Development only (config validation requires a real key outside dev): derive from SECRET_KEY.
+	logger.warning("DECISION_SIGNING_KEY not set; using a development key derived from SECRET_KEY")
+	return hashlib.sha256(b"provd-dev-decision-key|" + settings.secret_key.encode()).digest()
+
+
+@lru_cache(maxsize=1)
+def signer() -> DecisionSigner:
+	return DecisionSigner(ec.derive_private_key(_scalar(_live_material()), ec.SECP256K1()))
+
+
+@lru_cache(maxsize=1)
+def sandbox_signer() -> DecisionSigner:
+	"""Signs sandbox decision records: a one-way derivation of the live key, so it can't reveal or equal it."""
+	scalar = _scalar(hashlib.sha256(b"provd-sandbox-decision-key|" + _live_material()).digest())
 	return DecisionSigner(ec.derive_private_key(scalar, ec.SECP256K1()))
+
+
+def signer_for(account_id: str | None) -> DecisionSigner:
+	from app.services.sandbox import is_sandbox_account
+
+	return sandbox_signer() if is_sandbox_account(account_id) else signer()

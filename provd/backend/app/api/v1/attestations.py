@@ -10,10 +10,11 @@ from pydantic import BaseModel, Field, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
-from app.dependencies import get_db_session, require_permissions
+from app.dependencies import account_id, get_db_session, require_permissions
 from app.models.rails import Decision, ReleaseAttestation
 from app.proof import attestations as att
 from app.schemas.auth import AuthContext
+from app.services.sandbox import is_sandbox_account
 
 router = APIRouter(prefix="/decisions", tags=["attestations"])
 _evaluator = require_permissions(["actions:evaluate"])
@@ -42,7 +43,7 @@ class AttestationRequest(BaseModel):
 
 
 def _account(ctx: AuthContext) -> str:
-	return ctx.client_id or ctx.principal_id
+	return account_id(ctx)
 
 
 def _aware(value: datetime) -> datetime:
@@ -78,7 +79,8 @@ async def create_attestation(
 	intent_hash = att.intent_id_hash(intent_id)
 	recipient = att.recipient_bytes32(decision.chain, decision.wallet_address)
 	record_hash = bytes.fromhex(decision.record_hash)
-	key = att.attestation_signer()
+	test_mode = is_sandbox_account(decision.account_id)
+	key = att.sandbox_attestation_signer() if test_mode else att.attestation_signer()
 
 	if body.target == "evm":
 		typed = att.evm_typed_data(body.chain_id, body.verifying_contract, intent_hash, recipient, body.amount_base_units, expires_at, record_hash)
@@ -113,6 +115,7 @@ async def create_attestation(
 	await db.commit()
 	return {
 		"intent_id": intent_id,
+		"environment": "sandbox" if test_mode else "live",
 		"target": body.target,
 		"recipient": decision.wallet_address,
 		"amount_base_units": str(body.amount_base_units),

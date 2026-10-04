@@ -10,6 +10,7 @@ class ApiKey(Base):
 	__tablename__ = "api_keys"
 	__table_args__ = (
 		CheckConstraint("char_length(prefix) >= 4", name="ck_api_keys_prefix_length"),
+		CheckConstraint("environment IN ('live', 'sandbox')", name="ck_api_keys_environment"),
 		Index("ix_api_keys_active_created_at", "active", "created_at"),
 		Index("ix_api_keys_client_active", "client_id", "active"),
 	)
@@ -20,6 +21,8 @@ class ApiKey(Base):
 	prefix: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
 	key_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)
 	scopes: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=list)
+	# "live" keys score real payments; "sandbox" keys score fixed test wallets for free (app/services/sandbox.py).
+	environment: Mapped[str] = mapped_column(String(8), nullable=False, default="live", server_default="live")
 	active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
 	updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))

@@ -88,6 +88,7 @@ class Settings(BaseSettings):
     scanner_rate_limit_per_minute: int = Field(default=20, validation_alias=AliasChoices("SCANNER_RATE_LIMIT_PER_MINUTE"))
     public_rate_limit_per_minute: int = Field(default=120, validation_alias=AliasChoices("PUBLIC_RATE_LIMIT_PER_MINUTE"))
     api_key_rate_limit_per_minute: int = Field(default=600, validation_alias=AliasChoices("API_KEY_RATE_LIMIT_PER_MINUTE"))
+    sandbox_rate_limit_per_minute: int = Field(default=60, validation_alias=AliasChoices("SANDBOX_RATE_LIMIT_PER_MINUTE"))
     auth_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("AUTH_RATE_LIMIT_PER_MINUTE"))
     auth_lockout_failures: int = Field(default=5, validation_alias=AliasChoices("AUTH_LOCKOUT_FAILURES"))
     auth_lockout_minutes: int = Field(default=15, validation_alias=AliasChoices("AUTH_LOCKOUT_MINUTES"))
