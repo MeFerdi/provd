@@ -157,3 +157,23 @@ class UsageEvent(Base):
 	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)
 
 
+
+
+class ReleaseAttestation(Base):
+	"""Every release attestation Provd signed: what it authorised, for which escrow, until when."""
+
+	__tablename__ = "release_attestations"
+	__table_args__ = (Index("ix_release_attestations_intent", "intent_id"),)
+
+	id: Mapped[str] = mapped_column(String(36), primary_key=True)
+	intent_id: Mapped[str] = mapped_column(String(64), nullable=False)
+	account_id: Mapped[str] = mapped_column(String(36), nullable=False)
+	target: Mapped[str] = mapped_column(String(16), nullable=False)  # evm | solana
+	domain: Mapped[str] = mapped_column(String(128), nullable=False)  # chain id + contract, or program id
+	recipient: Mapped[str] = mapped_column(String(128), nullable=False)
+	amount_base_units: Mapped[str] = mapped_column(String(40), nullable=False)
+	digest: Mapped[str] = mapped_column(String(64), nullable=False)
+	signature: Mapped[str] = mapped_column(String(130), nullable=False)
+	signer: Mapped[str] = mapped_column(String(42), nullable=False)
+	expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+	created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=_now)

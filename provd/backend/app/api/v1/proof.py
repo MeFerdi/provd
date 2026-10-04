@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db_session
 from app.models.rails import AnchorBatch, Decision
+from app.proof.attestations import attestation_signer
 from app.proof.signing import ALGORITHM, signer
 from app.services.rate_limit import public_limit
 
@@ -66,10 +67,19 @@ async def proof_bundle(db: AsyncSession, decision: Decision) -> dict:
 	}
 
 
-@router.get("/keys", summary="Public keys that sign decision records")
+@router.get("/keys", summary="Public keys that sign decision records and release attestations")
 async def keys() -> dict:
 	key = signer()
-	return {"keys": [{"key_id": key.key_id, "algorithm": ALGORITHM, "public_key": key.public_key_hex, "encoding": "SEC1 compressed, hex"}]}
+	release = attestation_signer()
+	return {
+		"keys": [{"key_id": key.key_id, "algorithm": ALGORITHM, "public_key": key.public_key_hex, "encoding": "SEC1 compressed, hex"}],
+		"attestation_signer": {
+			"key_id": release.key_id,
+			"address": release.address,
+			"public_key": release.public_key_hex,
+			"algorithm": "ecdsa-secp256k1-keccak256 (EIP-712 on EVM/Tron; keccak layout on Solana)",
+		},
+	}
 
 
 @router.get("/batches/{batch_id}", summary="A Merkle batch and its anchor status")

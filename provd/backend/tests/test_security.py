@@ -248,6 +248,7 @@ def _production_env(**extra):
 	return {
 		"APP_ENV": "production",
 		"DECISION_SIGNING_KEY": "11" * 32,
+		"ATTESTATION_SIGNING_KEY": "22" * 32,
 		"BOOTSTRAP_CLIENT_CLIENT_ID": "sec-client",
 		"BOOTSTRAP_CLIENT_CLIENT_SECRET": "client-secret-" + "y" * 24,
 		"CORS_ORIGINS": "https://provd.tech",

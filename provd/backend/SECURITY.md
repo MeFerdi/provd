@@ -9,6 +9,7 @@ Report vulnerabilities to security@provd.tech.
 |---|---|
 | API keys and the admin credentials | Access to scoring, billing and customer data |
 | The decision-signing key | Anyone holding it could forge decision records |
+| The attestation-signing key | Escrow contracts release funds on its signature; anyone holding it could authorise releases |
 | Decision records and outcomes | Customers' trade history; signed proof they rely on |
 | Prepaid balances and plans | Money |
 | The scoring engine (weights, thresholds) | Product value; knowing them precisely helps an attacker shape transactions to pass |
@@ -56,6 +57,16 @@ the right-hand side of `X-Forwarded-For`, never the client-controlled leftmost v
 - Wallet addresses are fully validated on scored chains (Tron checksum) and limited to safe characters on others;
   database access goes through the ORM with bound parameters.
 - Validation errors never echo submitted values; unexpected errors return a generic message and a request id.
+
+### Release attestations
+
+- Signed with their own key (`ATTESTATION_SIGNING_KEY`), never the decision-record key, so a signature in one
+  format can never be passed off as the other. Production refuses to start without it, or if it equals the record key.
+- Issued only for the caller's own `release` decisions under 24 hours old, for the scored wallet and at most the
+  scored amount, valid for at most an hour, and bound to one chain and contract (or Solana program). Every issued
+  attestation is recorded.
+- Contracts must check expiry and mark attestations used; `ProvdReleaseVerifier` does both and rejects malleable
+  (high-s) signatures. Rotating the key means updating `provdSigner` in deployed contracts.
 
 ### Payments
 

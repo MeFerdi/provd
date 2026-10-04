@@ -1,0 +1,8 @@
+{
+  "name": "provd-release-attestation-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Compiles the Provd verifier and example escrow, deploys them on Ganache, signs attestations with Provd's Python code and checks every rule.",
+  "scripts": { "test": "node e2e.mjs" },
+  "devDependencies": { "ethers": "^6.13.0", "ganache": "^7.9.0", "solc": "0.8.24" }
+}

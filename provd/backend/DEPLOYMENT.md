@@ -79,7 +79,7 @@ Protection Act covers cross-border transfers; Provd stores hashed phone identifi
 | Postgres: bigger instance, point-in-time recovery, one read replica for reporting and the public scanner | Keep evaluate fast while analytics run |
 | Partition `decisions` by month; archive records older than 13 months to object storage (Cloudflare R2 or S3, Parquet) with their proofs | A decision record is a few KB: 1M checks a month adds several GB. Keep records for as long as customers' audits require **[verify retention]** |
 | TronGrid paid plan (or a second provider) and a longer history cache | Upstream rate limits become the bottleneck before our CPU does |
-| **Signing key in a cloud KMS** (AWS KMS and Google Cloud KMS both offer secp256k1 signing keys) | The private key never sits in an environment variable |
+| **Signing keys in a cloud KMS** (AWS KMS and Google Cloud KMS both offer secp256k1 signing keys): the decision-record key and, first, the attestation key, since escrow contracts release funds on its signature | The private keys never sit in an environment variable |
 | Metrics: OpenTelemetry to Grafana Cloud (free tier) or Datadog; dashboards for evaluate latency p50/p95, 402 rate, upstream errors, batch lag, anchor lag | Know about problems before customers do |
 | Status page | Payout platforms will ask |
 | Staging environment with its own database and keys | Safe testing of releases and pricing changes |
