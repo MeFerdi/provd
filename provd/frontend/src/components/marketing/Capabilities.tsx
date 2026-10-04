@@ -15,7 +15,7 @@ const CAPABILITIES: Capability[] = [
   {
     title: "Lookalike-address protection",
     body: "Flags payouts to addresses that imitate one you've paid (address poisoning) and addresses that only send dust. Free to try on any address.",
-    link: { href: "/check#lookalike", label: "Try the lookalike check" },
+    link: { href: "/address-poisoning-check", label: "Try the address poisoning check" },
   },
   {
     title: "Your history counts",

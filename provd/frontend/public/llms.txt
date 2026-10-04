@@ -9,7 +9,8 @@ What a check covers: US Treasury OFAC sanctions, wallets frozen by Tether or Cir
 Pricing: pay as you go, 300 free checks a month, then prepaid bundles from $20 for 1,000 checks; monthly plans for payout platforms.
 
 ## Free tools
-- [Wallet risk and lookalike check](https://provd.tech/check): check a Tron or Solana wallet before you send, free, no sign-up
+- [Wallet risk check](https://provd.tech/check): check a Tron or Solana wallet before you send (sanctions, frozen wallets, risky counterparties), free, no sign-up
+- [Address poisoning check](https://provd.tech/address-poisoning-check): is the address you're about to pay a lookalike of one you've paid before? Free, with how the scam works and how often it happens
 - [Verify a decision](https://provd.tech/verify): check a Provd decision record's signature and Bitcoin anchor in your browser
 
 ## Developers

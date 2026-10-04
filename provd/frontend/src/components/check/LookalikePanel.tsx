@@ -69,7 +69,10 @@ export function LookalikePanel() {
       <h2 className="font-sans text-xl font-semibold text-text-primary">Is this the address you meant?</h2>
       <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-text-secondary">
         Scammers create addresses that start and end like ones you&apos;ve paid, then send you a tiny amount so the copy sits
-        in your history. Paste the address you&apos;re about to pay and the addresses you&apos;ve paid before.
+        in your history. Paste the address you&apos;re about to pay and the addresses you&apos;ve paid before.{" "}
+        <a href="/address-poisoning-check#how" className="text-accent-secondary hover:underline">
+          How the scam works
+        </a>
       </p>
 
       <form

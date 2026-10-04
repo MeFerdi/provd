@@ -10,7 +10,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: "Product",
     links: [
       { site: "main", path: "/check", label: "Counterparty check" },
-      { site: "main", path: "/check#lookalike", label: "Lookalike check" },
+      { site: "main", path: "/address-poisoning-check", label: "Address poisoning check" },
       { site: "main", path: "/verify", label: "Verify a decision" },
       { site: "main", path: "/pricing", label: "Pricing" },
       { site: "main", path: "/early-access", label: "Get an API key" },

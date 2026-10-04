@@ -46,7 +46,7 @@ async function releaseEscrow(escrow: Escrow) {
 ## Pattern 2: the user signs the release in their wallet (works today)
 
 When the seller releases from their own wallet in your app, call Provd from your backend before showing the
-release button, and show the reasons in the app. The free [lookalike check](/check#lookalike) (`POST /v1/lookalike`)
+release button, and show the reasons in the app. The free [address poisoning check](/address-poisoning-check) (`POST /v1/lookalike`)
 is useful here too: it warns the user if the address they're about to pay imitates one they've paid before.
 
 ## What the decision covers

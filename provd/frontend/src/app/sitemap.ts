@@ -7,6 +7,7 @@ export const dynamic = "force-static";
 const STATIC_PATHS = [
   "/",
   "/check",
+  "/address-poisoning-check",
   "/verify",
   "/pricing",
   "/early-access",
