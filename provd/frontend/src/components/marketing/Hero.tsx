@@ -9,12 +9,11 @@ export default function Hero() {
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center lg:gap-14">
         <div className="min-w-0 max-w-2xl lg:py-16">
           <h1 className="mb-6 font-display text-[40px] leading-[1.05] text-text-primary sm:text-[52px] lg:text-[60px]">
-            Score money movement before it&apos;s released.
+            Catch the bad payment before the stablecoins leave.
           </h1>
           <p className="max-w-xl font-sans text-[17px] leading-[1.7] text-text-secondary sm:text-[18px]">
-            Risk checks for P2P desks, ramps, payout platforms and non-custodial escrows, before stablecoins leave.
-            Sanctions and frozen-wallet screening, lookalike-address protection and your own history, explained and
-            signed. Pay as you go, with {FREE_MONTHLY_CHECKS} free checks a month.
+            Provd checks P2P trades, payouts and escrow releases for sanctioned or frozen wallets, lookalike addresses
+            and your own fraud history, in one API call. Every answer comes with its reasons and a signed record.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button href="/check" size="lg">
@@ -24,7 +23,10 @@ export default function Hero() {
               Read the quickstart
             </Button>
           </div>
-          <p className="mt-5 font-sans text-sm text-text-muted">Live today: USDT on Tron, USDC and USDT on Solana, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
+          <p className="mt-4 font-sans text-sm text-text-secondary">
+            {FREE_MONTHLY_CHECKS} free checks a month, then pay as you go.
+          </p>
+          <p className="mt-2 font-sans text-sm text-text-muted">Live today: USDT on Tron, USDC and USDT on Solana, alongside M-Pesa, Pix, UPI, bank transfer or any local rail.</p>
         </div>
         <figure className="w-full min-w-0 max-w-[440px] justify-self-center pb-14 lg:justify-self-end lg:py-12">
           <HeroMascot />
