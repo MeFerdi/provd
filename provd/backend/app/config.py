@@ -129,6 +129,8 @@ class Settings(BaseSettings):
 
 
     indexer_interval_seconds: int = Field(default=60, validation_alias=AliasChoices("INDEXER_INTERVAL_SECONDS"))
+    # Run the background worker inside the API process (hosts with no separate worker, e.g. Render free).
+    run_worker_in_api: bool = Field(default=False, validation_alias=AliasChoices("RUN_WORKER_IN_API"))
 
     # Proof layer. The signing key is a 32-byte secp256k1 private key in hex; required outside development.
     decision_signing_key: str = Field(default="", validation_alias=AliasChoices("DECISION_SIGNING_KEY"))

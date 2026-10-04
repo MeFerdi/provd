@@ -29,6 +29,20 @@ a month. Prices are rough monthly estimates in USD and change often **[verify be
 | Redis | Shared rate-limit counters (scanner, public endpoints); later, hot caches | Managed, small |
 | Static sites | `frontend`: provd.tech (`out/`), docs.provd.tech (`sites/docs/out`), playground.provd.tech (`sites/playground/out`) | CDN, effectively unlimited |
 
+## Interim: Render free plan
+
+Until the VPS, the API runs on Render's free plan: one Docker web service (`provd/backend`, start command
+`./start.sh`, which runs migrations and the seed before the server), a free Postgres and a free Key Value (Redis),
+in Frankfurt. Settings that differ from the stage-1 plan:
+
+- `RUN_WORKER_IN_API=true` and `WEB_CONCURRENCY=1`: the free plan has no background workers, so the worker loop runs
+  inside the API process (the Postgres worker lock still guarantees one pass at a time).
+- `.github/workflows/keep-api-warm.yml` pings `/v1/health` every 10 minutes: free services sleep after 15 minutes
+  without traffic, which would also pause the worker. Delete it when moving off the free plan.
+- **The free Postgres is deleted 30 days after creation and has no backups.** Move the data (`pg_dump` /
+  `pg_restore`) to a paid database or the VPS before then.
+- Free Key Value is memory-only: rate-limit counters reset on restart, which is acceptable.
+
 ## The three websites
 
 One codebase (`frontend/`), three Cloudflare Pages projects. Each builds with `NEXT_PUBLIC_API_URL=https://api.provd.tech`.

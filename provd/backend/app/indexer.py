@@ -317,7 +317,14 @@ async def run_pass() -> bool:
 
 async def run(once: bool) -> None:
 	while True:
-		await run_pass()
+		try:
+			await run_pass()
+		except asyncio.CancelledError:
+			raise
+		except Exception:  # noqa: BLE001 - one failed pass (e.g. the database restarting) must not stop the worker
+			if once:
+				raise
+			logger.exception("indexer.pass_failed; retrying next interval")
 		if once:
 			return
 		await asyncio.sleep(get_settings().indexer_interval_seconds)
