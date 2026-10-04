@@ -89,6 +89,11 @@ class Settings(BaseSettings):
     public_rate_limit_per_minute: int = Field(default=120, validation_alias=AliasChoices("PUBLIC_RATE_LIMIT_PER_MINUTE"))
     api_key_rate_limit_per_minute: int = Field(default=600, validation_alias=AliasChoices("API_KEY_RATE_LIMIT_PER_MINUTE"))
     sandbox_rate_limit_per_minute: int = Field(default=60, validation_alias=AliasChoices("SANDBOX_RATE_LIMIT_PER_MINUTE"))
+    # Self-serve sandbox keys from the website. Sandbox keys can't spend money or read live data, so signup needs
+    # no review; these caps bound abuse (per visitor IP per hour, and across everyone per day).
+    self_serve_signup_enabled: bool = Field(default=True, validation_alias=AliasChoices("SELF_SERVE_SIGNUP_ENABLED"))
+    signup_per_ip_per_hour: int = Field(default=5, validation_alias=AliasChoices("SIGNUP_PER_IP_PER_HOUR"))
+    signup_daily_cap: int = Field(default=200, validation_alias=AliasChoices("SIGNUP_DAILY_CAP"))
     auth_rate_limit_per_minute: int = Field(default=10, validation_alias=AliasChoices("AUTH_RATE_LIMIT_PER_MINUTE"))
     auth_lockout_failures: int = Field(default=5, validation_alias=AliasChoices("AUTH_LOCKOUT_FAILURES"))
     auth_lockout_minutes: int = Field(default=15, validation_alias=AliasChoices("AUTH_LOCKOUT_MINUTES"))

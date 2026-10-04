@@ -18,6 +18,13 @@ export default function ContactSection({ id = "contact", asPageTitle = false }: 
             Tell us what your platform settles and roughly how much. We&apos;ll send a key and help you wire the first
             check into your release flow.
           </p>
+          <p className="mt-4 text-[16px] leading-relaxed text-text-secondary">
+            Want to build first?{" "}
+            <a href="/early-access#sandbox" className="text-accent-secondary hover:underline">
+              Get a sandbox key in seconds
+            </a>
+            : it scores test wallets for free.
+          </p>
         </div>
         <div className="min-w-0 rounded-md border border-bg-border bg-white p-6">
           <p className="text-sm text-text-secondary">Email us</p>
