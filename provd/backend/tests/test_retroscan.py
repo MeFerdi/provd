@@ -45,7 +45,7 @@ def db(monkeypatch):
 		# aiosqlite connections belong to one event loop: set up and scan in the same one.
 		async def go():
 			await setup()
-			await retroscan.run(argparse.Namespace(deep=50, concurrency=2, refresh=False, **kw))
+			await retroscan.run(argparse.Namespace(deep=50, concurrency=2, refresh=False, **{"framework": "fatf", **kw}))
 			await engine.dispose()
 
 		asyncio.run(go())
@@ -91,7 +91,7 @@ def test_full_scan_finds_every_kind_and_maps_it(tmp_path, db, monkeypatch):
 	assert summary["findings"][0]["severity"] == "critical"  # most severe first
 	assert json.loads((out / "signature.json").read_text())["status"] == "unsigned draft"
 	report = (out / "report.html").read_text()
-	assert "Acme Ramp" in report and "Transaction monitoring" in report and "<script" not in report
+	assert "Acme Ramp" in report and "Ongoing monitoring of transactions" in report and "FATF" in report and "<script" not in report
 	assert len(list(csv.DictReader((out / "findings.csv").open()))) == len(summary["findings"])
 
 
@@ -121,7 +121,7 @@ def test_payee_names_and_details_are_escaped_in_the_report():
 		"lists": {"addresses_by_list": {}, "sanctions_list_updated": None, "tron_freezes_updated": None, "solana_freezes_updated": None},
 	}
 	finding = retroscan.Finding("amount", "medium", "tron", "T<script>", "<img src=x onerror=alert(1)>", "monitoring", related="<i>")
-	page = retroscan.render_html("<script>alert(1)</script>", summary, [finding], {"status": "unsigned draft", "sha256": "0"})
+	page = retroscan.render_html("<script>alert(1)</script>", summary, [finding], {"status": "unsigned draft", "sha256": "0"}, "kenya")
 	assert "<script>" not in page and "<img" not in page and "&lt;script&gt;" in page
 
 

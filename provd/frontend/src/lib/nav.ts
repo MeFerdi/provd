@@ -40,6 +40,12 @@ export const docsNav: NavItem[] = [
     category: "Getting Started",
   },
   {
+    title: "Compliance evidence packs",
+    href: "/evidence-packs",
+    description: "Show a regulator, bank or auditor how you screened every release, with signed records.",
+    category: "Getting Started",
+  },
+  {
     title: "Scores, flags and errors",
     href: "/reference",
     description: "Keys, the risk scale, every flag code, errors and limits.",

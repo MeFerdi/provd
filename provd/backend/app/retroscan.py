@@ -3,7 +3,7 @@
 A ramp or OTC desk exports its payouts (or counterparties) for a period, say the last 90 days. The scan reports
 which of those wallets were sanctioned or frozen, which traded with sanctioned or frozen wallets, which payees
 imitate other payees (address poisoning), and which payments were unusually large. Each finding is mapped to the
-obligation it relates to under Kenya's VASP regime. It's run by Provd on a prospect's data, privately: the input
+obligation it relates to: FATF's standards by default, or a jurisdiction profile (--framework kenya). It's run by Provd on a prospect's data, privately: the input
 and the report never leave the machine it runs on.
 
     python -m app.retroscan payouts.csv --client "Acme Ramp" --out reports/acme
@@ -35,6 +35,7 @@ from sqlalchemy import func, select
 
 from app.adapters.base import InvalidAddress
 from app.adapters.solana import validate_solana_address
+from app.compliance_frameworks import DISCLAIMER, MONITORING, RECORDS, REPORTING, SANCTIONS, framework as get_framework
 from app.config import get_settings
 from app.db.postgres import get_session_factory
 from app.engine.lookalike import FIXED_PREFIX, find_lookalikes
@@ -53,25 +54,6 @@ DEEP_FLAGS = {
 	"SANCTIONED_ADDRESS", "SANCTIONS_EXPOSURE", "CP_ADDRESS_FROZEN", "CP_FLAGGED_EXPOSURE",
 	"CP_INCIDENTAL_EXPOSURE", "DUST_SENDER", "RAPID_PASS_THROUGH",
 }
-
-# What each kind of finding relates to. Summaries of published legal commentary, not legal advice.
-OBLIGATIONS = {
-	"sanctions": (
-		"Sanctions and targeted financial sanctions screening",
-		"VASP Regulations 2026 (LN 134/2026), AML/CFT duties; revised targeted financial sanctions rules (Sep 2026): "
-		"freeze within hours, report within 24 hours.",
-	),
-	"monitoring": (
-		"Transaction monitoring and suspicious-transaction escalation",
-		"VASP Regulations 2026 (LN 134/2026); Proceeds of Crime and Anti-Money Laundering Act s.44 (suspicious "
-		"transaction reports to the Financial Reporting Centre).",
-	),
-	"records": (
-		"Record all platform activity and keep records for 7 years",
-		"VASP Regulations 2026 (LN 134/2026).",
-	),
-}
-
 
 @dataclass
 class Payee:
@@ -175,9 +157,9 @@ async def list_hits(payees: dict[tuple[str, str], Payee]) -> list[Finding]:
 			for address, source in sorted(flags.items()):
 				if source == "ofac_sdn":
 					listed = f" Listed entity: {references[address]}." if references.get(address) else ""
-					findings.append(Finding("sanctioned", "critical", chain, address, f"On the {SOURCE_NAMES[source]}.{listed}", "sanctions"))
+					findings.append(Finding("sanctioned", "critical", chain, address, f"On the {SOURCE_NAMES[source]}.{listed}", SANCTIONS))
 				else:
-					findings.append(Finding("frozen", "critical", chain, address, f"Wallet is {SOURCE_NAMES.get(source, source)}.", "monitoring"))
+					findings.append(Finding("frozen", "critical", chain, address, f"Wallet is {SOURCE_NAMES.get(source, source)}.", MONITORING))
 	return findings
 
 
@@ -205,7 +187,7 @@ def lookalike_pairs(payees: dict[tuple[str, str], Payee]) -> list[Finding]:
 						"lookalike", severity, chain, suspect.address,
 						f"Shares its first {match.prefix + skip} and last {match.suffix} characters with another payee "
 						f"({suspect.payments} vs {real.payments} payments). One of them is probably a poisoning lookalike.",
-						"monitoring", related=real.address,
+						MONITORING, related=real.address,
 					))
 	return findings
 
@@ -241,7 +223,7 @@ async def deep_scan(payees: list[Payee], concurrency: int) -> tuple[list[Finding
 					"CP_FLAGGED_EXPOSURE": "exposure", "CP_INCIDENTAL_EXPOSURE": "exposure", "DUST_SENDER": "dust",
 					"RAPID_PASS_THROUGH": "pass_through",
 				}[flag.code]
-				obligation = "sanctions" if flag.code.startswith("SANCTION") else "monitoring"
+				obligation = SANCTIONS if flag.code.startswith("SANCTION") else MONITORING
 				findings.append(Finding(kind, flag.severity, payee.chain, payee.address, flag.reason, obligation))
 
 	await asyncio.gather(*(one(p) for p in payees))
@@ -267,7 +249,7 @@ def amount_outliers(payments: list[dict]) -> list[Finding]:
 				findings.append(Finding(
 					"amount", "medium", r["chain"], r["address"],
 					f"Payment of {r['amount']} {currency}{when} is {float(r['amount']) / median:.0f}x the median payment in this file ({median:g} {currency}).",
-					"monitoring", related=r["reference"] or None,
+					MONITORING, related=r["reference"] or None,
 				))
 	return findings
 
@@ -324,20 +306,25 @@ KIND_LABEL = {
 }
 
 
-def render_html(client: str, summary: dict, findings: list[Finding], signature: dict) -> str:
+def render_html(client: str, summary: dict, findings: list[Finding], signature: dict, framework: str | None = None) -> str:
 	e = html.escape
 	s = summary
+	fw = get_framework(framework)
+	titles = {k: v[0] for k, v in fw["obligations"].items()}
 	rows = "".join(
 		f"<tr class='sev-{f.severity}'><td>{e(f.severity)}</td><td>{e(KIND_LABEL[f.kind])}</td><td>{e(f.chain)}</td>"
 		f"<td class='mono'>{e(f.address)}</td><td>{e(f.detail)}{(' Related: <span class=mono>' + e(f.related) + '</span>') if f.related else ''}</td>"
-		f"<td>{e(OBLIGATIONS[f.obligation][0])}</td></tr>"
+		f"<td>{e(titles[f.obligation])}</td></tr>"
 		for f in findings
 	) or "<tr><td colspan='6'>No findings.</td></tr>"
 	counts = "".join(f"<div class='card'><div class='n'>{v}</div><div>{e(k)}</div></div>" for k, v in s["findings_by_kind"].items()) or "<div class='card'><div class='n'>0</div><div>findings</div></div>"
+	going_forward = {
+		REPORTING: "Covered going forward: draft reports from each decision",
+		RECORDS: "Covered going forward: a signed record for every check",
+	}
 	obligations = "".join(
-		f"<tr><td>{e(title)}</td><td>{e(source)}</td><td>"
-		f"{'Covered going forward: a signed record for every check' if key == 'records' else s['findings_by_obligation'].get(key, 0)}</td></tr>"
-		for key, (title, source) in OBLIGATIONS.items()
+		f"<tr><td>{e(title)}</td><td>{e(source)}</td><td>{going_forward.get(key) or s['findings_by_obligation'].get(key, 0)}</td></tr>"
+		for key, (title, source) in fw["obligations"].items()
 	)
 	lists = "".join(f"<li>{e(k)}: {v:,} addresses</li>" for k, v in s["lists"]["addresses_by_list"].items())
 	sig = (
@@ -374,9 +361,10 @@ every payee was checked against the sanctions and issuer-freeze lists, and again
 
 <h2>What the findings relate to</h2>
 <table><thead><tr><th>Obligation</th><th>Source</th><th>Findings</th></tr></thead><tbody>{obligations}</tbody></table>
+<p class="muted">Framework: {e(fw['name'])}</p>
 <p class="note">How Provd covers these going forward: every payout is checked before release and gets a signed decision record
-(kept for 7 years, verifiable by anyone), with exports for suspicious-transaction reporting. Summaries of published legal
-commentary, not legal advice: confirm your obligations with your advisers.</p>
+(kept as long as you need, verifiable by anyone), and evidence packs for any period include draft suspicious-transaction
+reports. {e(DISCLAIMER)}</p>
 
 <h2>Method and data</h2>
 <ul>
@@ -385,7 +373,7 @@ Sanctions list updated {e(s['lists']['sanctions_list_updated'] or 'unknown')}; T
 <li>Exposure: each analysed wallet's recent USDT/USDC transfers and direct counterparties, from public blockchain data.</li>
 <li>Lookalikes: payees sharing at least 3 leading and 3 trailing characters with another payee (Tron's fixed leading "T" excluded).</li>
 <li>Amounts: payments at or above the 99th percentile and at least 10x the median for their currency (20+ payments needed).</li>
-<li>Not covered here: Kenya's domestic targeted-sanctions list, the platform's own fraud and reversal history, SIM-swap signals.</li>
+<li>Not covered here: name-based sanctions screening of customers (done at KYC), the platform's own fraud and reversal history, SIM-swap signals.</li>
 <li>Rows skipped: {s['rows_rejected']}. Payees not analysed because chain data was unavailable: {s['scan_errors']}.</li>
 </ul>
 
@@ -422,6 +410,7 @@ async def run(args: argparse.Namespace) -> None:
 		by_obligation[f.obligation] += 1
 	summary = {
 		"client": args.client,
+		"framework": get_framework(args.framework)["name"],
 		"generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
 		"engine_version": engine_config()["engine_version"],
 		"input_file": src.name,
@@ -446,7 +435,7 @@ async def run(args: argparse.Namespace) -> None:
 		writer = csv.DictWriter(handle, fieldnames=["severity", "kind", "chain", "address", "related", "detail", "obligation"])
 		writer.writeheader()
 		writer.writerows(f.row() for f in findings)
-	(out / "report.html").write_text(render_html(args.client, summary, findings, signature), encoding="utf-8")
+	(out / "report.html").write_text(render_html(args.client, summary, findings, signature, args.framework), encoding="utf-8")
 	if rejected or errors:
 		(out / "skipped.txt").write_text("\n".join(rejected + errors) + "\n")
 	print(f"{len(findings)} findings; report: {out / 'report.html'} ({signature['status']})", file=sys.stderr)
@@ -460,6 +449,7 @@ def main() -> None:
 	parser.add_argument("--deep", type=int, default=300, help="How many payees get full on-chain analysis, highest value first (default 300)")
 	parser.add_argument("--concurrency", type=int, default=4, help="Parallel chain lookups (default 4)")
 	parser.add_argument("--refresh", action="store_true", help="Update the sanctions and freeze lists before scanning")
+	parser.add_argument("--framework", default="fatf", help="Obligations to map findings to: fatf (default, global) or kenya")
 	asyncio.run(run(parser.parse_args()))
 
 

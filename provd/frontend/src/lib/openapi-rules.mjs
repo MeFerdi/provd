@@ -5,7 +5,7 @@
 export const INTERNAL_PREFIXES = ["/v1/auth", "/v1/clients", "/v1/keys", "/v1/admin", "/v1/assets", "/v1/developer", "/v1/webhooks"];
 
 /** Endpoints that take `X-API-Key`. Everything else that is shown is public. */
-export const KEYED_PREFIXES = ["/v1/actions", "/v1/decisions", "/v1/outcomes", "/v1/usage", "/v1/topups"];
+export const KEYED_PREFIXES = ["/v1/actions", "/v1/decisions", "/v1/outcomes", "/v1/usage", "/v1/topups", "/v1/evidence"];
 
 /** Endpoints a sandbox key can't use (billing is live-only). */
 export const LIVE_ONLY_PREFIXES = ["/v1/topups"];

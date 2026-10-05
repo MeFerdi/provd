@@ -1,0 +1,70 @@
+---
+title: Compliance evidence packs
+description: Show a regulator, a bank or an auditor how you screened every release over a period, with signed records they can verify themselves.
+---
+
+Licensed platforms are asked the same questions everywhere: do you screen for sanctions, do you monitor transactions,
+do you report suspicious ones, and can you prove it from your records? An evidence pack answers all four for any
+period, from the checks you already run through Provd.
+
+## What's in a pack
+
+- **Coverage:** how many releases were checked before the funds left, and how many were released, held, rejected or
+  sent to review, by chain, type and asset.
+- **Exceptions:** every hold, reject and review, with the reasons and the outcome you reported afterwards.
+- **Draft suspicious-transaction reports** for releases you refused on critical grounds (for example a sanctioned or
+  frozen wallet) and for releases you later confirmed as fraud. Each draft carries the facts from the decision record:
+  wallet, amount, date, indicators, the action taken and the evidence. Your compliance officer completes the
+  subject's details from your KYC and files it through your financial intelligence unit's channel (goAML in many
+  countries).
+- **How this evidences each obligation**, mapped to the **FATF Recommendations** by default: targeted financial
+  sanctions (R.6, R.7), ongoing monitoring (R.10), suspicious transaction reporting (R.20) and record keeping (R.11),
+  as applied to virtual asset service providers by R.15. Jurisdiction profiles add the local instruments (today:
+  `kenya`).
+- **Every decision record** for the period, signed and anchored to Bitcoin, exportable for your retention archive.
+- **A signature over the whole pack**, so anyone can tell it hasn't been edited.
+
+Drafts are drafts and the mapping isn't legal advice: confirm your obligations with your advisers.
+
+## Get a pack
+
+A printable report (open it and print to PDF):
+
+```bash
+curl -s "https://api.provd.tech/v1/evidence?from=2026-07-01&to=2026-09-30&format=html" \
+  -H "X-API-Key: $PROVD_API_KEY" -o evidence-q3.html
+```
+
+The same pack as JSON, mapped to a jurisdiction profile:
+
+```bash
+curl -s "https://api.provd.tech/v1/evidence?from=2026-07-01&to=2026-09-30&framework=kenya" \
+  -H "X-API-Key: $PROVD_API_KEY"
+```
+
+Every record in the period, one per line, for your archive:
+
+```bash
+curl -s "https://api.provd.tech/v1/evidence/records?from=2026-07-01&to=2026-09-30" \
+  -H "X-API-Key: $PROVD_API_KEY" -o records-q3.jsonl
+```
+
+- `from` and `to` are UTC dates, both included; a pack covers up to 400 days (default: the last 30).
+- Call it from your server with your live key. With your sandbox key you get a pack of your sandbox checks, marked as
+  sandbox data.
+- Packs are free and rate-limited (30 an hour).
+
+## Make packs complete
+
+A pack can only show what Provd saw:
+
+- **Check every release,** not a sample: coverage is the first thing an examiner reads.
+- **Report outcomes** (`POST /v1/outcomes`): reversals, chargebacks, confirmed fraud and fake payment confirmations.
+  Confirmed fraud turns into a draft report, and outcomes sharpen your future checks.
+- **Send the amount and asset** with each check, so volumes and unusual-amount checks are right.
+
+## Verify a pack
+
+The `signature` covers the SHA-256 of the pack's canonical JSON (sorted keys, no whitespace) without the `signature`
+field, signed with Provd's key from `GET /v1/proof/keys`. Each exported record verifies on its own, in the browser at
+[Verify a decision](/verify) or with the steps in [Decision records](/docs/decisions).
