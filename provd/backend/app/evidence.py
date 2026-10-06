@@ -64,6 +64,11 @@ def _flags(decision: Decision) -> list[dict]:
 	return list(((decision.record or {}).get("decision") or {}).get("risk_flags") or [])
 
 
+def _customer(decision: Decision) -> dict:
+	"""The platform's KYC reference for this check, if it sent one (an id, never personal data)."""
+	return dict(((decision.record or {}).get("intent") or {}).get("customer") or {})
+
+
 async def _latest_outcomes(db: AsyncSession, account_id: str, intent_ids: list[str]) -> dict[str, Outcome]:
 	latest: dict[str, Outcome] = {}
 	for i in range(0, len(intent_ids), 500):
@@ -85,6 +90,13 @@ def _str_draft(d: Decision, flags: list[dict], outcome: Outcome | None, anchor_s
 		grounds = f"The platform later confirmed this transaction as {what}. {grounds}".strip()
 		indicators.append(f"OUTCOME_{outcome.outcome.upper()}")
 	action = {"reject": "Release refused before the funds left", "hold": "Release held for review"}.get(d.recommended_action, "Released")
+	customer = _customer(d)
+	identity = (
+		f"subject name and identification: from KYC case {customer['kyc_reference']}"
+		+ (f" ({customer['kyc_provider']})" if customer.get("kyc_provider") else "")
+		if customer.get("kyc_reference")
+		else "subject name and identification (from your KYC)"
+	)
 	return {
 		"draft_id": f"STR-{d.intent_id}",
 		"status": "DRAFT: review, complete and file through your financial intelligence unit's channel (e.g. goAML)",
@@ -99,7 +111,11 @@ def _str_draft(d: Decision, flags: list[dict], outcome: Outcome | None, anchor_s
 			"transaction_hash": None,
 			"platform_reference": d.idempotency_key or d.intent_id,
 		},
-		"subject": {"wallet": d.wallet_address, "phone_hash": d.phone_hash, "name": None, "identification": None},
+		"subject": {
+			"wallet": d.wallet_address, "phone_hash": d.phone_hash, "name": None, "identification": None,
+			"kyc_provider": customer.get("kyc_provider"), "kyc_reference": customer.get("kyc_reference"),
+			"verification_level": customer.get("verification_level"),
+		},
 		"grounds_for_suspicion": grounds,
 		"indicators": indicators,
 		"action_taken": f"{action} (Provd recommended: {d.recommended_action}, score {d.score}).",
@@ -112,7 +128,7 @@ def _str_draft(d: Decision, flags: list[dict], outcome: Outcome | None, anchor_s
 			"anchor_status": anchor_status,
 			"verify": "https://provd.tech/verify",
 		},
-		"to_complete": ["reporting entity details", "subject name and identification (from your KYC)", "on-chain transaction hash, if funds moved"],
+		"to_complete": ["reporting entity details", identity, "on-chain transaction hash, if funds moved"],
 	}
 
 
@@ -175,6 +191,7 @@ async def build_pack(
 			"score": d.score,
 			"flags": [{"code": f.get("code"), "severity": f.get("severity"), "reason": f.get("reason")} for f in flags],
 			"outcome_reported": outcome.outcome if outcome else None,
+			"kyc_reference": _customer(d).get("kyc_reference"),
 			"record_hash": d.record_hash,
 		})
 	for d in decisions:
@@ -285,6 +302,7 @@ def render_html(pack: dict) -> str:
 		f"<dt>Amount</dt><dd>{e(str(s['transaction']['amount']) + ' ' + (s['transaction']['asset'] or '') if s['transaction']['amount'] is not None else 'not sent')}</dd>"
 		f"<dt>Grounds for suspicion</dt><dd>{e(s['grounds_for_suspicion'])}</dd><dt>Indicators</dt><dd class='mono'>{e(', '.join(filter(None, s['indicators'])))}</dd>"
 		f"<dt>Action taken</dt><dd>{e(s['action_taken'])}</dd><dt>Outcome reported</dt><dd>{e(s['outcome_reported'] or 'none')}</dd>"
+		f"<dt>KYC case</dt><dd class='mono'>{e(' / '.join(filter(None, [s['subject']['kyc_provider'], s['subject']['kyc_reference']])) or 'not sent')}</dd>"
 		f"<dt>Evidence</dt><dd class='mono'>record {e(s['supporting_evidence']['record_hash'])}</dd>"
 		f"<dt>To complete</dt><dd>{e('; '.join(s['to_complete']))}</dd></dl></div>"
 		for s in pack["str_drafts"][:200]

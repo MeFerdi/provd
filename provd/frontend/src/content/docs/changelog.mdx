@@ -3,6 +3,10 @@ title: Changelog
 description: Product and API updates.
 ---
 
+## 2026-10-06
+
+- `customer` on checks: send your KYC provider and case id (never personal data). It's stored in the signed record and links holds, rejects and draft suspicious-transaction reports in evidence packs to the right customer file. New guide: Using Provd with your KYC provider.
+
 ## 2026-10-05
 
 - Compliance evidence packs: `GET /v1/evidence` returns screening coverage, every hold and reject with its reasons and outcome, draft suspicious-transaction reports and a mapping to the FATF Recommendations (or a jurisdiction profile) for any period, signed, as JSON or a printable report. `GET /v1/evidence/records` exports every signed record in the period.

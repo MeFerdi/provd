@@ -73,6 +73,7 @@ Need higher limits? Monthly plans include them; [contact us](mailto:hello@provd.
 | `amounts.crypto` or `amounts.fiat` + `fiat_currency` | `amount_pattern` | The amount. Provd learns your own baselines from it: per counterparty, and your 90-day p99 per intent type. |
 | `known_counterparties` | `lookalike_destination` | Addresses you've paid or traded with (your address book, up to 500). Provd also learns them from your released checks. Catches lookalike (address-poisoning) destinations from the first call. |
 | `float_available` | `float_and_timing` | Your available float on this rail, in `amounts.fiat_currency` (payouts, OTC). |
+| `customer` | evidence packs | Your KYC reference: `kyc_provider`, `kyc_reference` (the case id, never personal data) and `verification_level`. Stored in the signed record and carried into evidence packs and draft reports; not scored. See [Using Provd with your KYC provider](/docs/kyc-providers). |
 | `account_signals` | `account_takeover_proxies` | Timestamps from your SIM-swap, device-trust or KYC provider: `sim_swap_at`, `device_changed_at`, `credentials_changed_at`, `payout_destination_added_at`, `account_created_at`, plus `provider`. Provd doesn't detect these itself; send what you have. |
 
 Signals with nothing to work on report `none` in `signal_coverage` and add no risk.

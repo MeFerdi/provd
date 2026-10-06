@@ -46,6 +46,12 @@ export const docsNav: NavItem[] = [
     category: "Getting Started",
   },
   {
+    title: "Using Provd with your KYC provider",
+    href: "/kyc-providers",
+    description: "KYC checks the customer; Provd checks each release. Link checks to KYC files and pass on their signals.",
+    category: "Getting Started",
+  },
+  {
     title: "Scores, flags and errors",
     href: "/reference",
     description: "Keys, the risk scale, every flag code, errors and limits.",

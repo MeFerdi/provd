@@ -111,3 +111,26 @@ def test_packs_only_show_your_own_account_and_admins_can_build_any(make_client):
 	pilot = client.get("/v1/admin/accounts/client-1/evidence", headers=admin).json()
 	assert pilot["coverage"]["checks"] == 4
 	assert client.get("/v1/admin/accounts/someone-else/evidence", headers=admin).json()["coverage"]["checks"] == 0
+
+
+def test_kyc_reference_links_checks_to_the_customer_file_without_personal_data(make_client):  # noqa: F811
+	client, key = _setup(make_client)
+	h = {"X-API-Key": key}
+	body = {
+		"intent_id": "po-9", "chain": "tron", "intent_type": "payout", "counterparty": {"wallet_address": FROZEN},
+		"customer": {"kyc_provider": "smile_id", "kyc_reference": "job-8812", "verification_level": "full"},
+	}
+	assert client.post("/v1/actions/evaluate", json=body, headers=h).status_code == 200
+	record = client.get("/v1/decisions/po-9", headers=h).json()["record"]
+	assert record["intent"]["customer"] == {"kyc_provider": "smile_id", "kyc_reference": "job-8812", "verification_level": "full"}  # signed with the decision
+
+	pack = client.get("/v1/evidence", headers=h).json()
+	draft = next(s for s in pack["str_drafts"] if s["supporting_evidence"]["intent_id"] == "po-9")
+	assert draft["subject"]["kyc_reference"] == "job-8812" and draft["subject"]["name"] is None
+	assert any("KYC case job-8812 (smile_id)" in item for item in draft["to_complete"])
+	assert next(x for x in pack["exceptions"] if x["intent_id"] == "po-9")["kyc_reference"] == "job-8812"
+	assert "KYC case" in client.get("/v1/evidence", params={"format": "html"}, headers=h).text
+
+	for personal in ("254712345678", "+254712345678", "jane@example.com", "Jane Doe"):
+		bad = {**body, "intent_id": "po-x", "customer": {"kyc_reference": personal}}
+		assert client.post("/v1/actions/evaluate", json=bad, headers=h).status_code == 422, personal
