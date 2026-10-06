@@ -1,0 +1,76 @@
+---
+title: Using Provd with your KYC provider
+description: KYC tells you who your customer is. Provd tells you whether this release is safe, and proves it later. How the two fit together.
+---
+
+Provd doesn't replace your KYC. Your KYC provider (Smile ID, Sumsub, Youverify, Dojah, an in-house process) checks
+**who your customer is** when they sign up and at periodic reviews: documents, liveness, and sanctions and PEP
+screening of their name. Provd checks **each release**, at the moment the money is about to leave: the destination
+wallet, who it has dealt with, whether it imitates an address the customer has paid, and whether the account looks
+taken over. Then it keeps a signed record of each decision.
+
+| When | Question | Who answers |
+|---|---|---|
+| Onboarding and reviews | Who is this customer? | Your KYC provider |
+| Every release | Is this payout, to this wallet, right now, safe? | Provd |
+| Reporting | Can you prove you did both? | Provd's [evidence packs](/docs/evidence-packs), linked to your KYC files |
+
+Provd never receives your customer's identity. It screens wallets, not names, and takes phone numbers only as hashes.
+
+## 1. Link each check to the customer's KYC file
+
+Send the customer's case or applicant id from your KYC system with each check. It's stored in the signed decision
+record, appears on every hold and reject in your evidence packs, and fills the identity line of each draft
+suspicious-transaction report ("from KYC case job-8812 (smile_id)"), so your compliance team opens the right file in
+one step.
+
+```json
+{
+  "chain": "tron",
+  "intent_type": "payout",
+  "counterparty": { "wallet_address": "T…" },
+  "amounts": { "crypto": "250" },
+  "customer": {
+    "kyc_provider": "smile_id",
+    "kyc_reference": "job-8812",
+    "verification_level": "full"
+  }
+}
+```
+
+- `kyc_reference`: the id in your KYC system (letters, digits and `. _ : -`). Names, emails and phone numbers are
+  refused.
+- `kyc_provider` and `verification_level`: your own labels. They're recorded with the decision, not scored.
+
+## 2. Pass on the signals your providers already have
+
+Account-takeover risk is highest at withdrawal. If your KYC, device or telco provider tells you about recent changes,
+send them as `account_signals` and Provd weighs them in the release decision:
+
+| Field | Typical source |
+|---|---|
+| `account_created_at` | Your onboarding record |
+| `sim_swap_at` | Your telco or SIM-swap API |
+| `device_changed_at` | Your device-trust or KYC provider (re-verification on a new device) |
+| `credentials_changed_at` | Your account system (password, PIN or email change) |
+| `payout_destination_added_at` | Your account system (when this wallet was added) |
+| `provider` | Who supplied the signals |
+
+A SIM swap in the last 72 hours, or a new device together with a new payout destination, raises the score with the
+reason spelled out. See [Scores, flags and errors](/docs/reference).
+
+## 3. Report with both
+
+When something goes wrong, your evidence pack gives your compliance officer the release side: the wallet, amount,
+indicators, the action you took and the signed record. Your KYC file gives the customer side. Together they make a
+complete suspicious-transaction report.
+
+## What stays with your KYC provider
+
+- Identity documents, liveness and biometrics.
+- Sanctions and PEP screening of customers' names, and adverse media.
+- Ongoing customer due diligence and risk ratings.
+- Travel Rule data exchange (Notabene and similar), where it applies.
+
+Provd covers what happens to the money: the destination, its counterparties, lookalikes, account-takeover signals at
+release, your own fraud history, and the evidence afterwards.

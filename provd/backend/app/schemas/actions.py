@@ -84,6 +84,38 @@ class Amounts(BaseModel):
 	crypto: Decimal | None = Field(default=None, ge=0)
 
 
+_KYC_REFERENCE = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
+_PHONE_LIKE = re.compile(r"^\+?\d{9,15}$")
+
+
+class CustomerRef(BaseModel):
+	"""Which customer file this check belongs to, in your KYC system. A reference only: Provd never receives the
+	customer's identity. It's stored in the signed decision record and carried into evidence packs, so your compliance
+	team can match each case to the right file in one step."""
+
+	kyc_provider: str | None = Field(default=None, max_length=40, description="Your KYC vendor, e.g. smile_id, sumsub, in_house")
+	kyc_reference: str | None = Field(default=None, max_length=128, description="The customer's case or applicant id in that system (letters, digits, . _ : -)")
+	verification_level: str | None = Field(default=None, max_length=32, description="Your own tier name, e.g. basic, full, enhanced. Recorded, not scored")
+
+	@field_validator("kyc_provider", "verification_level")
+	@classmethod
+	def _label(cls, value: str | None) -> str | None:
+		if value is not None and not _KYC_REFERENCE.match(value):
+			raise ValueError("use letters, digits and . _ : - only")
+		return value
+
+	@field_validator("kyc_reference")
+	@classmethod
+	def _reference(cls, value: str | None) -> str | None:
+		if value is None:
+			return value
+		if not _KYC_REFERENCE.match(value):
+			raise ValueError("use your KYC case id (letters, digits and . _ : -), not personal details")
+		if _PHONE_LIKE.match(value):
+			raise ValueError("this looks like a phone number; send your KYC case id instead (Provd never takes raw phone numbers)")
+		return value
+
+
 class AccountSignals(BaseModel):
 	"""Account-takeover inputs from your device-trust or telco provider (Provd doesn't detect these itself).
 
@@ -112,6 +144,7 @@ class ActionIntent(BaseModel):
 		"(address-poisoning) destinations. Provd also learns them from your released checks.",
 	)
 	account_signals: AccountSignals | None = None
+	customer: CustomerRef | None = Field(default=None, description="Your KYC reference for the customer (an id only, never personal data)")
 	float_available: Decimal | None = Field(default=None, ge=0, description="Your available float for this rail, in amounts.fiat_currency (payout/OTC)")
 	venue: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")
 	asset: dict | None = Field(default=None, description="Reserved; up to 4 KB of JSON")

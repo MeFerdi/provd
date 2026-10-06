@@ -176,9 +176,10 @@ def test_usdt_topup_is_auto_matched_by_indexer(env):
 	client, tron, who, sessions, portal = env
 	topup = client.post("/v1/topups", json={"bundle": "10k", "method": "usdt_tron"}).json()
 	assert topup["pay_to"] == DEPOSIT and Decimal(topup["amount_due"]) > 150
+	paid_at = datetime.now(timezone.utc)  # after the top-up was created, however long the suite has been running
 	tron.deposits = [
-		NormalizedTransfer("tron", "wrong-amount", NOW + timedelta(seconds=5), "PAYER", DEPOSIT, "USDT_TRC20", Decimal("150")),
-		NormalizedTransfer("tron", "right-amount", NOW + timedelta(seconds=6), "PAYER", DEPOSIT, "USDT_TRC20", Decimal(topup["amount_due"])),
+		NormalizedTransfer("tron", "wrong-amount", paid_at + timedelta(seconds=5), "PAYER", DEPOSIT, "USDT_TRC20", Decimal("150")),
+		NormalizedTransfer("tron", "right-amount", paid_at + timedelta(seconds=6), "PAYER", DEPOSIT, "USDT_TRC20", Decimal(topup["amount_due"])),
 	]
 
 	async def match():

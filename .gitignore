@@ -41,3 +41,7 @@ provd/frontend/sites/*/public/provd.svg
 provd/frontend/sites/*/public/og-image.png
 provd/frontend/sites/docs/public/search-index.json
 provd/frontend/sites/*/tsconfig.tsbuildinfo
+
+# Retro-scan inputs and reports hold customers' data: never commit them
+provd/backend/reports/
+provd/scans/

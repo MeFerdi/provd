@@ -1,3 +1,5 @@
+import { docsUrl } from "@/lib/sites";
+
 const STEPS = [
   {
     title: "Intent",
@@ -25,6 +27,12 @@ export default function HowItWorks() {
         </h2>
         <p className="mx-auto max-w-2xl text-[16px] leading-relaxed text-text-secondary">
           Intent in, decision out. Every signal that moved the score is listed with its reason.
+        </p>
+        <p className="mx-auto mt-3 max-w-2xl text-[16px] leading-relaxed text-text-primary">
+          Works alongside your KYC: it checks the person, we check the release.{" "}
+          <a href={docsUrl("/kyc-providers")} className="text-accent-secondary hover:underline">
+            How they fit
+          </a>
         </p>
         <ol className="mt-10 flex flex-col divide-y divide-bg-border md:flex-row md:divide-x md:divide-y-0">
           {STEPS.map(({ title, icon, body }) => (
