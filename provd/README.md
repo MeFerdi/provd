@@ -112,4 +112,4 @@ publishes a new key id, old records stay verifiable with the old public key).
 A wedge (this) → B signed decisions + merkle anchoring → C payouts/OTC, subscriptions for global platforms,
 SIM-swap and timing signals → D Solana/EVM → E tokenized-asset verification.
 
-Research behind the decision is in `research/`.
+Technical research (the Kelp exploit replay and the Solana measurement) is in `research/`.

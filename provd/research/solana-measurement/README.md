@@ -90,7 +90,6 @@ API key).
 
 1. Get a free Helius or Alchemy API key and re-run the user scan over 90 days to measure losses
    (how often victims later send real money to a lookalike, and how much).
-2. Ask 5 Solana payout and P2P teams whether they've sent funds to a lookalike address, using
-   `research/p2p-payouts/outreach.md`.
+2. Ask 5 Solana payout and P2P teams whether they've sent funds to a lookalike address.
 3. Check what wallets already warn about (Phantom and others flag some poisoning) so the pitch is
    about the platform's payout flow, not the end user's wallet.

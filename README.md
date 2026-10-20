@@ -2,6 +2,8 @@
 
 Pre-release risk checks for stablecoin money movement: P2P trades, ramps, payouts and escrow releases, on Tron and Solana, for any local payment rail. Built in Kenya.
 
+> This repository is the public engineering snapshot of Provd: the product code, tests and technical research. Business strategy, go-to-market and market-validation material are not included. Live product: https://provd.tech
+
 ## Monorepo Structure
 
 See the full project structure and setup instructions in this README.
